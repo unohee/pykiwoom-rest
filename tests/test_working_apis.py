@@ -23,7 +23,7 @@ def _test_stock_basic_info(kiwoom: KiwoomRest) -> None:
     print("-" * 40)
     
     try:
-        result = kiwoom.make_request('stock_info', 'stock_basic_info', data={'stk_cd': '005930'})
+        result = kiwoom.stock_api.make_tr_request('ka10001', 'stock_info', params={'FID_INPUT_ISCD': '005930'}, method='GET')
         
         if result and 'stk_nm' in result:
             print(f"종목명: {result['stk_nm']}")
@@ -43,7 +43,7 @@ def _test_stock_orderbook(kiwoom: KiwoomRest) -> None:
     print("-" * 40)
     
     try:
-        result = kiwoom.make_request('market_condition', 'stock_quote', data={'stk_cd': '005930'})
+        result = kiwoom.stock_api.make_tr_request('ka10004', 'stock_info', params={'FID_INPUT_ISCD': '005930'}, method='GET')
         
         if result:
             print("호가정보 수신")
@@ -68,7 +68,7 @@ def _test_minute_chart(kiwoom: KiwoomRest) -> None:
             'upd_stkpc_tp': '1'
         }
         
-        result = kiwoom.make_request('chart', 'minute_chart', data=params)
+        result = kiwoom.chart_api.make_tr_request('ka10080', 'chart', data=params)
         
         if result and 'stk_min_pole_chart_qry' in result:
             chart_data = result['stk_min_pole_chart_qry']
@@ -96,7 +96,7 @@ def test_working_apis() -> None:
     _test_minute_chart(kiwoom)
     
     print(f"\n{'='*60}")
-    print("테스트 완료")
+    pass
     print(f"{'='*60}")
 
 if __name__ == "__main__":

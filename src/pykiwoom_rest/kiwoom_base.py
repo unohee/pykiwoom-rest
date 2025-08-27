@@ -7,9 +7,11 @@ Kiwoom Securities REST API Base Client
 import os
 import json
 import hashlib
+import time
 from datetime import datetime, timedelta
 from typing import Dict, Any, Optional
 from .base_api import BaseAPIClient, APIError
+from .response_model import APIResponse
 
 
 class KiwoomAPIError(APIError):
@@ -119,6 +121,7 @@ class KiwoomAPIBase(BaseAPIClient):
                         os.environ[key.strip()] = value.strip()
         except (FileNotFoundError, PermissionError):
             # .env 파일 없음 - 환경변수에서 직접 로드 진행
+            # 의도적으로 예외 무시 (선택적 기능)
             pass
             
     def _setup_credentials(self, account_no: str = None, appkey: str = None, appsecret: str = None) -> None:
@@ -147,8 +150,15 @@ class KiwoomAPIBase(BaseAPIClient):
             
         return base_headers
         
-    def _process_response(self, response) -> Dict[str, Any]:
-        """키움 API 응답 처리"""
+    def _process_response(self, response) -> APIResponse:
+        """키움 API 응답 처리 - APIResponse 객체로 래핑"""
+        start_time = getattr(self, '_request_start_time', time.time())
+        processing_time = time.time() - start_time
+        
+        # 요청 정보 추출
+        tr_code = getattr(self, '_current_tr_code', None)
+        endpoint = getattr(self, '_current_endpoint', None)
+        
         try:
             data = response.json()
             
@@ -157,17 +167,33 @@ class KiwoomAPIBase(BaseAPIClient):
                 error_code = data.get('rt_cd')
                 if error_code and error_code != '0':
                     error_msg = data.get('msg1', '알 수 없는 오류')
-                    raise KiwoomAPIError(
-                        f"키움 API 오류: {error_msg}",
+                    return APIResponse.create_error(
+                        error_message=f"키움 API 오류: {error_msg}",
                         error_code=error_code,
-                        error_msg=error_msg
+                        error_details={'raw_response': data},
+                        tr_code=tr_code,
+                        endpoint=endpoint,
+                        processing_time=processing_time
                     )
-                    
-            return data
+            
+            # 성공 응답
+            return APIResponse.create_success(
+                data=data,
+                tr_code=tr_code,
+                endpoint=endpoint,
+                processing_time=processing_time
+            )
             
         except json.JSONDecodeError:
-            # JSON이 아닌 응답
-            return {'raw_response': response.text}
+            # JSON이 아닌 응답 - 에러로 처리
+            return APIResponse.create_error(
+                error_message="Invalid JSON response",
+                error_code="INVALID_JSON",
+                error_details={'raw_response': response.text},
+                tr_code=tr_code,
+                endpoint=endpoint,
+                processing_time=processing_time
+            )
             
     def _get_access_token(self, force_refresh: bool = False) -> str:
         """OAuth2 액세스 토큰 발급/갱신"""
@@ -238,7 +264,7 @@ class KiwoomAPIBase(BaseAPIClient):
         data: Dict[str, Any] = None,
         params: Dict[str, Any] = None,
         method: str = 'POST'
-    ) -> Dict[str, Any]:
+    ) -> APIResponse:
         """
         TR 코드를 사용한 API 요청
         
@@ -250,43 +276,55 @@ class KiwoomAPIBase(BaseAPIClient):
             method: HTTP 메서드
             
         Returns:
-            API 응답 데이터
+            APIResponse 객체
         """
-        # 토큰 확보
-        token = self._get_access_token()
+        # 요청 컨텍스트 설정 (응답 처리에서 사용)
+        self._current_tr_code = tr_code
+        self._current_endpoint = endpoint
+        self._request_start_time = time.time()
         
-        # 엔드포인트 URL 가져오기
-        endpoint_url = self.ENDPOINTS.get(endpoint)
-        if not endpoint_url:
-            raise ValueError(f"알 수 없는 엔드포인트: {endpoint}")
+        try:
+            # 토큰 확보
+            token = self._get_access_token()
             
-        # 헤더 준비
-        headers = {
-            'Authorization': f'Bearer {token}',
-            'Content-Type': 'application/json; charset=UTF-8',
-            'tr_id': tr_code,
-            'tr_cont': ' ',  # 연속조회 여부
-            'custtype': 'P',  # 고객타입 (P: 개인)
-            'custnum': self.account_no[:8] if self.account_no else ''  # 고객번호
-        }
-        
-        # POST 요청의 경우 해시키 추가
-        if method.upper() == 'POST' and data:
-            try:
-                hashkey = self._get_hashkey(data)
-                if hashkey:
-                    headers['hashkey'] = hashkey
-            except Exception as e:
-                self.logger.warning(f"해시키 생성 실패: {e}")
+            # 엔드포인트 URL 가져오기
+            endpoint_url = self.ENDPOINTS.get(endpoint)
+            if not endpoint_url:
+                raise ValueError(f"알 수 없는 엔드포인트: {endpoint}")
                 
-        # API 요청 실행
-        return self.request(
-            method=method,
-            endpoint=endpoint_url,
-            headers=headers,
-            params=params,
-            json_data=data if method.upper() == 'POST' else None
-        )
+            # 헤더 준비
+            headers = {
+                'Authorization': f'Bearer {token}',
+                'Content-Type': 'application/json; charset=UTF-8',
+                'tr_id': tr_code,
+                'tr_cont': ' ',  # 연속조회 여부
+                'custtype': 'P',  # 고객타입 (P: 개인)
+                'custnum': self.account_no[:8] if self.account_no else ''  # 고객번호
+            }
+            
+            # POST 요청의 경우 해시키 추가
+            if method.upper() == 'POST' and data:
+                try:
+                    hashkey = self._get_hashkey(data)
+                    if hashkey:
+                        headers['hashkey'] = hashkey
+                except Exception as e:
+                    self.logger.warning(f"해시키 생성 실패: {e}")
+                    
+            # API 요청 실행
+            return self.request(
+                method=method,
+                endpoint=endpoint_url,
+                headers=headers,
+                params=params,
+                json_data=data if method.upper() == 'POST' else None
+            )
+        
+        finally:
+            # 컨텍스트 정리
+            self._current_tr_code = None
+            self._current_endpoint = None
+            self._request_start_time = None
         
     def health_check(self) -> Dict[str, Any]:
         """
@@ -340,12 +378,12 @@ class KiwoomAPIBase(BaseAPIClient):
         else:
             return {"stk_cd": stock_code}
             
-    def to_dataframe(self, response: Dict[str, Any], output_key: str = None, numeric_fields: list = None):
+    def to_dataframe(self, response, output_key: str = None, numeric_fields: list = None):
         """
         API 응답을 DataFrame으로 변환
         
         Args:
-            response: API 응답
+            response: APIResponse 객체 또는 dict
             output_key: 데이터 추출할 키
             numeric_fields: 숫자형으로 변환할 필드 목록
             
@@ -357,24 +395,34 @@ class KiwoomAPIBase(BaseAPIClient):
         except ImportError:
             self.logger.warning("pandas가 설치되지 않음. DataFrame 변환 불가")
             return None
-            
-        # 유효성 검증
-        if not response or not isinstance(response, dict):
+        
+        # APIResponse 객체 처리
+        if isinstance(response, APIResponse):
+            if not response.success:
+                return None
+            response_data = response.data
+        elif isinstance(response, dict):
+            response_data = response
+        else:
             return None
             
-        # 성공 응답 체크
-        if response.get('rt_cd') != '0':
+        # 유효성 검증
+        if not response_data:
+            return None
+            
+        # 키움 API 성공 응답 체크 (rt_cd == '0')
+        if response_data.get('rt_cd') != '0':
             return None
             
         # 데이터 추출
         data = None
         if output_key:
-            data = response.get(output_key)
+            data = response_data.get(output_key)
         else:
             # 자동 감지
             for key in ['output', 'output1', 'output2']:
-                if key in response:
-                    data = response[key]
+                if key in response_data:
+                    data = response_data[key]
                     break
                     
         if not data:

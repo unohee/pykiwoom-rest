@@ -245,7 +245,7 @@ def main():
     test_program_trading(kiwoom, test_stock_code)
     
     print("=" * 50)
-    print("테스트 완료")
+    pass
     print("=" * 50)
 
 

@@ -66,7 +66,7 @@ def test_all_endpoints():
     
     # 결과 요약
     print(f"\n{'='*60}")
-    print("📊 테스트 결과 요약")
+    print(" 테스트 결과 요약")
     print(f"{'='*60}")
     
     success_count = sum(1 for r in results if r['success'])
@@ -94,14 +94,14 @@ def test_minute_chart(kiwoom):
         
         if result and 'stk_min_pole_chart_qry' in result:
             data_count = len(result['stk_min_pole_chart_qry'])
-            print(f"   📊 데이터 {data_count}개 수신")
+            print(f"    데이터 {data_count}개 수신")
             return True
         else:
-            print(f"   ⚠️ 예상과 다른 응답: {list(result.keys()) if result else 'None'}")
+            print(f"    예상과 다른 응답: {list(result.keys()) if result else 'None'}")
             return False
             
     except Exception as e:
-        print(f"   ❌ 오류: {e}")
+        print(f"    오류: {e}")
         return False
 
 def test_stock_basic_info(kiwoom):
@@ -126,7 +126,7 @@ def test_stock_basic_info(kiwoom):
             return False
             
     except Exception as e:
-        print(f"   ❌ 오류: {e}")
+        print(f"    오류: {e}")
         return False
 
 def test_daily_chart(kiwoom):
@@ -140,13 +140,13 @@ def test_daily_chart(kiwoom):
         result = kiwoom.make_request('chart', 'daily_chart', data=params)
         
         if result:
-            print(f"   📊 응답 키: {list(result.keys())}")
+            print(f"    응답 키: {list(result.keys())}")
             return True
         else:
             return False
             
     except Exception as e:
-        print(f"   ❌ 오류: {e}")
+        print(f"    오류: {e}")
         return False
 
 def test_stock_orderbook(kiwoom):
@@ -165,7 +165,7 @@ def test_stock_orderbook(kiwoom):
             return False
             
     except Exception as e:
-        print(f"   ❌ 오류: {e}")
+        print(f"    오류: {e}")
         return False
 
 if __name__ == "__main__":

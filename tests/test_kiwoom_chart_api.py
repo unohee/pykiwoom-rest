@@ -61,7 +61,7 @@ if __name__ == '__main__':
     print("=" * 60)
     
     # 1. 토큰 발급
-    print("\n1️⃣ 토큰 발급")
+    print("\n1. 토큰 발급")
     token_params = {
         'grant_type': 'client_credentials',
         'appkey': 'Px3ffmslMwr3qWVkwzW9yFbuEkbIKkwwiwoo4UWICYg',
@@ -71,14 +71,14 @@ if __name__ == '__main__':
     token_result = fn_au10001(data=token_params)
     
     if token_result.get('return_code') != 0:
-        print("❌ 토큰 발급 실패")
+        print(" 토큰 발급 실패")
         exit(1)
     
     access_token = token_result.get('token')
-    print(f"✅ 토큰 발급 성공: {access_token[:30]}...")
+    print(f" 토큰 발급 성공: {access_token[:30]}...")
     
     # 2. 분봉차트 조회
-    print("\n2️⃣ 주식분봉차트조회 (삼성전자 5분봉)")
+    print("\n2. 주식분봉차트조회 (삼성전자 5분봉)")
     chart_params = {
         'stk_cd': '005930', # 종목코드 거래소별 종목코드 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
         'tic_scope': '5', # 틱범위 1:1분, 3:3분, 5:5분, 10:10분, 15:15분, 30:30분, 45:45분, 60:60분
@@ -93,24 +93,24 @@ if __name__ == '__main__':
     chart_result = fn_ka10080(token=access_token, data=chart_params)
     
     # 4. 결과 분석
-    print("\n3️⃣ 결과 분석")
+    print("\n3. 결과 분석")
     if chart_result:
         if 'output' in chart_result:
             output_data = chart_result['output']
-            print(f"✅ 차트 데이터 수신 성공!")
+            print(f" 차트 데이터 수신 성공!")
             print(f"데이터 개수: {len(output_data)}개")
             
             if len(output_data) > 0:
-                print("\n📊 최근 5개 데이터:")
+                print("\n 최근 5개 데이터:")
                 for i, item in enumerate(output_data[:5]):
                     print(f"{i+1}. 시간: {item.get('dt', '')}, 종가: {item.get('close', '')}, 거래량: {item.get('vol', '')}")
         else:
-            print("⚠️ 예상과 다른 응답 구조")
+            print(" 예상과 다른 응답 구조")
     else:
-        print("❌ API 호출 실패")
+        print(" API 호출 실패")
     
     # 다른 종목도 테스트
-    print("\n4️⃣ 추가 테스트 - SK하이닉스 1분봉")
+    print("\n4. 추가 테스트 - SK하이닉스 1분봉")
     chart_params2 = {
         'stk_cd': '000660',  # SK하이닉스
         'tic_scope': '1',    # 1분봉
@@ -120,6 +120,6 @@ if __name__ == '__main__':
     chart_result2 = fn_ka10080(token=access_token, data=chart_params2)
     
     if chart_result2 and 'output' in chart_result2:
-        print(f"✅ SK하이닉스 1분봉 데이터: {len(chart_result2['output'])}개")
+        print(f" SK하이닉스 1분봉 데이터: {len(chart_result2['output'])}개")
     else:
-        print("⚠️ SK하이닉스 데이터 조회 실패")
+        print(" SK하이닉스 데이터 조회 실패")

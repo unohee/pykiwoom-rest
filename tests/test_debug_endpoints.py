@@ -25,7 +25,7 @@ def debug_api_responses():
     kiwoom = KiwoomRest()
     
     # 1. 분봉차트 (성공한 것)
-    print("\n1️⃣ 분봉차트 API (성공 사례)")
+    print("\n1. 분봉차트 API (성공 사례)")
     print("-" * 40)
     
     try:
@@ -38,22 +38,22 @@ def debug_api_responses():
         result = kiwoom.make_request('chart', 'minute_chart', data=params)
         
         if result:
-            print("✅ 응답 수신")
+            print(" 응답 수신")
             print(f"응답 키: {list(result.keys())}")
             print(f"응답 타입: {type(result)}")
             
             if 'stk_min_pole_chart_qry' in result:
                 print(f"차트 데이터: {len(result['stk_min_pole_chart_qry'])}개")
         else:
-            print("❌ 응답 없음")
+            print(" 응답 없음")
             
     except Exception as e:
-        print(f"❌ 오류: {e}")
+        print(f" 오류: {e}")
         import traceback
         traceback.print_exc()
     
     # 2. 주식기본정보 (다른 엔드포인트)
-    print("\n2️⃣ 주식기본정보 API 테스트")
+    print("\n2. 주식기본정보 API 테스트")
     print("-" * 40)
     
     try:
@@ -86,10 +86,10 @@ def debug_api_responses():
             print(f"Response Text: {response.text[:500]}...")
             
     except Exception as e:
-        print(f"❌ 오류: {e}")
+        print(f" 오류: {e}")
     
     # 3. 다른 API도 테스트
-    print("\n3️⃣ 다른 API 엔드포인트 확인")
+    print("\n3. 다른 API 엔드포인트 확인")
     print("-" * 40)
     
     other_apis = [

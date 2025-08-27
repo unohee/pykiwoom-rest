@@ -19,25 +19,25 @@ def test_token_only():
     try:
         # 인스턴스 생성
         kiwoom = KiwoomRest()
-        print("✅ KiwoomRest 인스턴스 생성 완료")
+        print(" KiwoomRest 인스턴스 생성 완료")
         
         # 토큰 발급
         token = kiwoom._get_access_token()
-        print(f"✅ 토큰 발급 성공!")
+        print(f" 토큰 발급 성공!")
         print(f"   토큰: {token[:20]}...")
         print(f"   만료시간: {kiwoom.token_expires}")
         
         return True
         
     except Exception as e:
-        print(f"❌ 오류: {e}")
+        print(f" 오류: {e}")
         return False
 
 if __name__ == "__main__":
     success = test_token_only()
     if success:
-        print("\n🎉 API 키가 정상 작동합니다!")
+        print("\n API 키가 정상 작동합니다!")
     else:
-        print("\n❌ API 키에 문제가 있습니다.")
+        print("\n API 키에 문제가 있습니다.")
     
     sys.exit(0 if success else 1)

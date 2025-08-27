@@ -199,7 +199,7 @@ def main():
     # example_realtime_monitoring()  # 시간이 걸리므로 주석 처리
     
     print("\n" + "=" * 60)
-    print("예제 실행 완료")
+    pass
     print("=" * 60)
 
 

@@ -5,7 +5,7 @@ Enhanced version with modular architecture, rate limiting, and error handling
 
 __version__ = "2.1.0"
 __author__ = "Your Name"
-__email__ = "your.email@example.com"
+__email__ = "contact@pykiwoom-rest.org"
 
 # Main API classes (Enhanced with new architecture)
 from .kiwoom_rest import KiwoomRest
@@ -17,6 +17,7 @@ from .stock_api import StockAPI
 from .chart_api import ChartAPI
 from .ranking_api import RankingAPI
 from .base_api import BaseAPIClient, RateLimitExceeded, APIError, TokenBucketRateLimiter
+from .response_model import APIResponse
 
 __all__ = [
     # Main API classes (Enhanced)
@@ -32,6 +33,7 @@ __all__ = [
     # Base classes
     "BaseAPIClient",
     "TokenBucketRateLimiter",
+    "APIResponse",
     
     # Exceptions
     "KiwoomAPIError",

@@ -8,7 +8,7 @@ import time
 import logging
 import threading
 from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any, Callable
+from typing import Optional, Dict, Any, Callable, Union
 from collections import deque
 from datetime import datetime, timedelta
 import requests
@@ -304,7 +304,7 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
         json_data: Dict[str, Any] = None,
         use_retry: bool = True,
         use_rate_limit: bool = True
-    ) -> Dict[str, Any]:
+    ) -> Union[Dict[str, Any], Any]:
         """
         API 요청 실행 (공개 메서드)
         
@@ -364,7 +364,7 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
         pass
         
     @abstractmethod
-    def _process_response(self, response: requests.Response) -> Dict[str, Any]:
+    def _process_response(self, response: requests.Response) -> Union[Dict[str, Any], Any]:
         """
         응답 처리 (하위 클래스에서 구현)
         
@@ -372,7 +372,7 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
             response: HTTP 응답
             
         Returns:
-            처리된 응답 데이터
+            처리된 응답 데이터 (Dict 또는 다른 타입)
         """
         pass
         

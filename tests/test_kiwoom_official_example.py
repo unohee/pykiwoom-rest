@@ -50,9 +50,9 @@ if __name__ == '__main__':
     
     print("\n분석:")
     if result.get('return_code') == 0:
-        print("✅ 토큰 발급 성공!")
+        print(" 토큰 발급 성공!")
         print(f"토큰: {result.get('token', '')[:30]}...")
         print(f"만료일시: {result.get('expires_dt', '')}")
     else:
-        print("❌ 토큰 발급 실패")
+        print(" 토큰 발급 실패")
         print(f"오류: {result.get('return_msg', '')}")

@@ -40,9 +40,9 @@ def test_parameter_consistency():
             "expected_keys": ['stk_min_pole_chart_qry']
         },
         {
-            "name": "저레벨 메서드 - make_request (stk_cd)",
-            "method": lambda: kiwoom.make_request('stock_info', 'stock_basic_info', data={'stk_cd': '005930'}),
-            "expected_keys": ['stk_nm', 'cur_prc']
+            "name": "저레벨 메서드 - make_tr_request (FID_INPUT_ISCD)",
+            "method": lambda: kiwoom.stock_api.make_tr_request('ka10001', 'stock_info', params={'FID_INPUT_ISCD': '005930'}, method='GET'),
+            "expected_keys": ['stck_shrn_iscd', 'stck_prpr']
         }
     ]
     

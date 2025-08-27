@@ -20,7 +20,7 @@ sys.path.insert(0, str(project_root))
 
 def run_demo():
     """데모 실행"""
-    print("🚀 PyKiwoom REST API 데모 실행")
+    print("PyKiwoom REST API 데모 실행")
     print("-" * 40)
     
     try:
@@ -29,24 +29,24 @@ def run_demo():
         if demo_path.exists():
             exec(open(demo_path).read())
         else:
-            print("❌ example.py 파일을 찾을 수 없습니다.")
+            print("example.py 파일을 찾을 수 없습니다.")
             return False
     except Exception as e:
-        print(f"❌ 데모 실행 오류: {e}")
+        print(f"데모 실행 오류: {e}")
         return False
     
     return True
 
 def run_tests():
     """테스트 실행"""
-    print("🧪 PyKiwoom REST API 테스트 실행")
+    print("PyKiwoom REST API 테스트 실행")
     print("-" * 40)
     
     import subprocess
     
     tests_dir = project_root / "tests"
     if not tests_dir.exists():
-        print("❌ tests 디렉토리를 찾을 수 없습니다.")
+        print("tests 디렉토리를 찾을 수 없습니다.")
         return False
     
     try:
@@ -57,12 +57,12 @@ def run_tests():
         ], cwd=project_root)
         return result.returncode == 0
     except Exception as e:
-        print(f"❌ 테스트 실행 오류: {e}")
+        print(f"테스트 실행 오류: {e}")
         return False
 
 def show_info():
     """프로젝트 정보 표시"""
-    print("📦 PyKiwoom REST API")
+    print("PyKiwoom REST API")
     print("=" * 40)
     print("키움증권 REST API Python 클라이언트")
     print()
