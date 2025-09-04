@@ -7,7 +7,7 @@ import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from src.pykiwoom_rest.kiwoom_rest import KiwoomRest
+from pykiwoom_rest.kiwoom_rest import KiwoomRest
 import json
 import os
 

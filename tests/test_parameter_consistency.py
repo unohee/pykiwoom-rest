@@ -3,24 +3,22 @@
 키움증권 API 매개변수 일관성 검증 테스트
 """
 
+import pytest
 import os
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from src.pykiwoom_rest.kiwoom_rest import KiwoomRest
+from pykiwoom_rest.kiwoom_rest import KiwoomRest
 import requests
 
+@pytest.mark.integration  # 실제 API 키가 필요하므로 integration으로 변경
 def test_parameter_consistency():
     """매개변수 일관성 테스트"""
     
     print("키움증권 API 매개변수 일관성 검증")
     print("=" * 50)
     
-    # 환경변수 설정
-    os.environ['ACCOUNT_NO'] = '63513804'
-    os.environ['KIWOOM_APPKEY'] = 'Px3ffmslMwr3qWVkwzW9yFbuEkbIKkwwiwoo4UWICYg'
-    os.environ['KIWOOM_APPSECRET'] = 'bV4Dpr-5u9T3zWoRHbGOkU5O0uPxF3VPMJfyfrs08Uc'
-    
+    # .env 파일에서 환경변수 자동 로드
     kiwoom = KiwoomRest()
     
     test_cases = [

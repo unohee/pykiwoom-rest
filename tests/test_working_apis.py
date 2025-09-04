@@ -3,18 +3,20 @@
 키움증권 REST API 작동하는 엔드포인트들 테스트
 """
 
+import pytest
 import sys
 import os
+from unittest.mock import patch, MagicMock
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from src.pykiwoom_rest.kiwoom_rest import KiwoomRest
+from pykiwoom_rest.kiwoom_rest import KiwoomRest
 import requests
 
+
+@pytest.mark.integration
 def _setup_test_environment() -> KiwoomRest:
-    """테스트 환경 설정"""
-    os.environ['ACCOUNT_NO'] = '63513804'
-    os.environ['KIWOOM_APPKEY'] = 'Px3ffmslMwr3qWVkwzW9yFbuEkbIKkwwiwoo4UWICYg'
-    os.environ['KIWOOM_APPSECRET'] = 'bV4Dpr-5u9T3zWoRHbGOkU5O0uPxF3VPMJfyfrs08Uc'
+    """테스트 환경 설정 - 실제 API 키는 .env 파일 사용"""
+    # 환경변수는 .env 파일에서 자동으로 로드됨
     return KiwoomRest()
 
 def _test_stock_basic_info(kiwoom: KiwoomRest) -> None:
@@ -84,6 +86,7 @@ def _test_minute_chart(kiwoom: KiwoomRest) -> None:
     except (requests.RequestException, ValueError, KeyError) as e:
         print(f"오류: {e}")
 
+@pytest.mark.integration
 def test_working_apis() -> None:
     """작동하는 키움 API들 테스트"""
     print("키움증권 REST API 엔드포인트 테스트")

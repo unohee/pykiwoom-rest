@@ -12,8 +12,8 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 try:
-    from src.pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceeded
-    from src.pykiwoom_rest import (
+    from pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceeded
+    from pykiwoom_rest import (
         KiwoomAPIBase, 
         StockAPI, 
         ChartAPI, 
@@ -110,7 +110,7 @@ class TestExceptionHierarchy(unittest.TestCase):
     def test_exception_inheritance(self):
         """예외 클래스 상속 구조 확인"""
         # KiwoomAPIError는 APIError를 상속해야 함
-        from src.pykiwoom_rest.base_api import APIError
+        from pykiwoom_rest.base_api import APIError
         self.assertTrue(issubclass(KiwoomAPIError, APIError))
         
         # 모든 예외는 Exception을 상속해야 함

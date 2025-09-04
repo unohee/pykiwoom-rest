@@ -393,3 +393,75 @@ class StockAPI(KiwoomAPIBase):
             params=params,
             method='GET'
         )
+    
+    def get_foreign_trading(self, stock_code: str) -> Dict[str, Any]:
+        """
+        주식외국인종목별매매동향 조회 (ka10008)
+        
+        Args:
+            stock_code: 종목코드 (6자리)
+            
+        Returns:
+            외국인 매매동향 데이터
+        """
+        # 직접 API 호출 (TR 코드 방식이 아님)
+        headers = {
+            "api-id": "ka10008",
+            "cont-yn": "N",
+            "next-key": ""
+        }
+        
+        data = {
+            "stk_cd": stock_code
+        }
+        
+        # 토큰 확보
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+        
+        # 직접 요청
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/frgnistt",
+            json_data=data,
+            headers=headers
+        )
+        
+        return response
+    
+    def get_program_trading_daily(self, stock_code: str) -> Dict[str, Any]:
+        """
+        종목일별프로그램매매추이요청 (ka90013)
+        
+        Args:
+            stock_code: 종목코드 (6자리)
+            
+        Returns:
+            프로그램 매매 추이 데이터
+        """
+        # 직접 API 호출
+        headers = {
+            "api-id": "ka90013",
+            "cont-yn": "N",
+            "next-key": ""
+        }
+        
+        data = {
+            "stk_cd": stock_code
+        }
+        
+        # 토큰 확보
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+        
+        # 직접 요청
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/mrkcond",
+            json_data=data,
+            headers=headers
+        )
+        
+        return response

@@ -8,6 +8,9 @@ from typing import Dict, Any, Optional
 from .stock_api import StockAPI
 from .chart_api import ChartAPI
 from .ranking_api import RankingAPI
+from .account_api import AccountAPI
+from .order_api import OrderAPI
+from .sector_api import SectorAPI
 
 
 class KiwoomRest:
@@ -53,6 +56,9 @@ class KiwoomRest:
         self.stock_api = StockAPI(**common_config)
         self.chart_api = ChartAPI(**common_config)
         self.ranking_api = RankingAPI(**common_config)
+        self.account_api = AccountAPI(**common_config)
+        self.order_api = OrderAPI(**common_config)
+        self.sector_api = SectorAPI(**common_config)
         
         # 인증 정보 공유
         self._sync_authentication()
@@ -64,7 +70,7 @@ class KiwoomRest:
         if hasattr(self.stock_api, 'access_token') and self.stock_api.access_token:
             base_token = self.stock_api.access_token
             
-        for api in [self.chart_api, self.ranking_api]:
+        for api in [self.chart_api, self.ranking_api, self.account_api, self.order_api, self.sector_api]:
             if base_token:
                 api.access_token = base_token
                 api.token_expires = self.stock_api.token_expires
@@ -82,6 +88,14 @@ class KiwoomRest:
     def get_execution_info(self, stock_code: str) -> Dict[str, Any]:
         """체결 정보 조회"""
         return self.stock_api.get_execution_info(stock_code)
+    
+    def get_foreign_trading(self, stock_code: str) -> Dict[str, Any]:
+        """주식외국인종목별매매동향 조회 (ka10008)"""
+        return self.stock_api.get_foreign_trading(stock_code)
+    
+    def get_program_trading_daily(self, stock_code: str) -> Dict[str, Any]:
+        """종목일별프로그램매매추이요청 (ka90013)"""
+        return self.stock_api.get_program_trading_daily(stock_code)
     
     # ========== 차트 데이터 메서드 (Legacy Compatible) ==========
     
@@ -160,6 +174,68 @@ class KiwoomRest:
     def get_trading_amount_top(self, market: str = "ALL") -> Dict[str, Any]:
         """거래대금 상위 조회"""
         return self.ranking_api.get_trading_amount_top(market)
+    
+    # ========== 계좌 관련 메서드 (Account API) ==========
+    
+    def get_deposit_detail(self) -> Dict[str, Any]:
+        """예수금상세현황요청"""
+        return self.account_api.get_deposit_detail()
+    
+    def get_account_evaluation(self) -> Dict[str, Any]:
+        """계좌평가현황요청"""
+        return self.account_api.get_account_evaluation()
+    
+    def get_balance_detail(self) -> Dict[str, Any]:
+        """계좌평가잔고내역요청"""
+        return self.account_api.get_balance_detail()
+    
+    def get_unfilled_orders(self) -> Dict[str, Any]:
+        """미체결요청"""
+        return self.account_api.get_unfilled_orders()
+    
+    def get_executed_orders(self) -> Dict[str, Any]:
+        """체결요청"""
+        return self.account_api.get_executed_orders()
+    
+    def get_account_return(self, start_date: Optional[str] = None, end_date: Optional[str] = None) -> Dict[str, Any]:
+        """계좌수익률요청"""
+        return self.account_api.get_account_return(start_date, end_date)
+    
+    # ========== 주문 관련 메서드 (Order API) ==========
+    
+    def buy_stock(self, stock_code: str, quantity: int, price: int = 0, 
+                  order_type: str = "00", price_type: str = "00") -> Dict[str, Any]:
+        """주식 매수주문"""
+        return self.order_api.buy_stock(stock_code, quantity, price, order_type, price_type)
+    
+    def sell_stock(self, stock_code: str, quantity: int, price: int = 0,
+                   order_type: str = "00", price_type: str = "00") -> Dict[str, Any]:
+        """주식 매도주문"""
+        return self.order_api.sell_stock(stock_code, quantity, price, order_type, price_type)
+    
+    def modify_order(self, original_order_no: str, stock_code: str, 
+                     quantity: int, price: int = 0, order_type: str = "00") -> Dict[str, Any]:
+        """주식 정정주문"""
+        return self.order_api.modify_order(original_order_no, stock_code, quantity, price, order_type)
+    
+    def cancel_order(self, original_order_no: str, stock_code: str, quantity: int) -> Dict[str, Any]:
+        """주식 취소주문"""
+        return self.order_api.cancel_order(original_order_no, stock_code, quantity)
+    
+    # ========== 업종 관련 메서드 (Sector API) ==========
+    
+    def get_sector_current_price(self, sector_code: str = "0001") -> Dict[str, Any]:
+        """업종현재가요청"""
+        return self.sector_api.get_sector_current_price(sector_code)
+    
+    def get_all_sector_index(self) -> Dict[str, Any]:
+        """전업종지수요청"""
+        return self.sector_api.get_all_sector_index()
+    
+    def get_sector_daily_chart(self, sector_code: str, start_date: Optional[str] = None, 
+                                end_date: Optional[str] = None) -> Dict[str, Any]:
+        """업종일봉조회요청"""
+        return self.sector_api.get_sector_daily_chart(sector_code, start_date, end_date)
     
     # ========== 새로운 고급 기능 ==========
     

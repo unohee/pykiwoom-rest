@@ -11,7 +11,7 @@ import os
 # 프로젝트 루트를 Python path에 추가
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
-from src.pykiwoom_rest import APIResponse, KiwoomAPIBase
+from pykiwoom_rest import APIResponse, KiwoomAPIBase
 
 
 class TestAPIResponseDictCompatibility(unittest.TestCase):

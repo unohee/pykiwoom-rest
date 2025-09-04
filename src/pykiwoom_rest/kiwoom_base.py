@@ -30,8 +30,8 @@ class KiwoomAPIBase(BaseAPIClient):
     """
     
     # 키움증권 REST API URL
-    BASE_URL = "https://api.kiwoom.com"
-    # MOCK_BASE_URL = "https://mockapi.kiwoom.com"  # 모의투자용
+    BASE_URL = "https://api.kiwoom.com"  # 실전투자
+    MOCK_BASE_URL = "https://mockapi.kiwoom.com"  # 모의투자
     
     # API 엔드포인트 매핑
     ENDPOINTS = {
@@ -77,7 +77,7 @@ class KiwoomAPIBase(BaseAPIClient):
         """
         base_url = self.BASE_URL
         if use_mock:
-            base_url = "https://mockapi.kiwoom.com"
+            base_url = self.MOCK_BASE_URL
             
         # 키움 API는 초당 20회 제한
         kwargs.setdefault('rate_limit', 20)
@@ -206,27 +206,28 @@ class KiwoomAPIBase(BaseAPIClient):
         token_data = {
             'grant_type': 'client_credentials',
             'appkey': self.appkey,
-            'appsecret': self.appsecret
+            'secretkey': self.appsecret  # 키움은 secretkey 사용
         }
         
         try:
             response = self.request(
                 method='POST',
-                endpoint='/oauth2/token',
+                endpoint='/oauth2/token',  # 키움증권 토큰 엔드포인트
                 json_data=token_data,
                 use_rate_limit=False  # 인증 요청은 rate limit 제외
             )
             
-            if response.get('access_token'):
-                self.access_token = response['access_token']
+            # 키움증권은 'token' 키 사용 (access_token 아님)
+            if response.get('token'):
+                self.access_token = response['token']
                 # 토큰 만료 시간 설정 (24시간 - 5분 여유)
                 self.token_expires = datetime.now() + timedelta(hours=23, minutes=55)
                 return self.access_token
             else:
                 raise KiwoomAPIError(
                     "토큰 발급 실패",
-                    error_code=response.get('error'),
-                    error_msg=response.get('error_description')
+                    error_code=response.get('return_code'),
+                    error_msg=response.get('return_msg')
                 )
                 
         except Exception as e:
@@ -297,7 +298,7 @@ class KiwoomAPIBase(BaseAPIClient):
                 'Authorization': f'Bearer {token}',
                 'Content-Type': 'application/json; charset=UTF-8',
                 'tr_id': tr_code,
-                'tr_cont': ' ',  # 연속조회 여부
+                'tr_cont': '',  # 연속조회 여부 (공백 제거)
                 'custtype': 'P',  # 고객타입 (P: 개인)
                 'custnum': self.account_no[:8] if self.account_no else ''  # 고객번호
             }
