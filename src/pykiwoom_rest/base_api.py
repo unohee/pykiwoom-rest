@@ -8,9 +8,8 @@ import time
 import logging
 import threading
 from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any, Callable, Union
-from collections import deque
-from datetime import datetime, timedelta
+from typing import Dict, Any, Callable, Union
+from datetime import datetime
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -152,12 +151,25 @@ class ErrorHandlerMixin:
                 
             except requests.exceptions.HTTPError as e:
                 # 4xx 에러는 재시도하지 않음
-                if e.response and 400 <= e.response.status_code < 500:
+                # 에러 메시지에서 상태 코드 추출 시도
+                status_code = None
+                if hasattr(e, 'response') and e.response:
+                    status_code = e.response.status_code
+                elif '404' in str(e):
+                    status_code = 404
+                elif '400' in str(e):
+                    status_code = 400
+                elif '401' in str(e):
+                    status_code = 401
+                elif '403' in str(e):
+                    status_code = 403
+                    
+                if status_code and 400 <= status_code < 500:
                     self.logger.error(f"클라이언트 에러: {e}")
                     raise APIError(
                         str(e),
-                        status_code=e.response.status_code,
-                        response=e.response.json() if e.response else None
+                        status_code=status_code,
+                        response=e.response.json() if hasattr(e, 'response') and e.response else None
                     )
                     
                 # 5xx 에러는 재시도
@@ -175,6 +187,14 @@ class ErrorHandlerMixin:
                 
         # 모든 재시도 실패
         self.logger.error(f"모든 재시도 실패: {last_exception}")
+        
+        # Timeout과 ConnectionError는 APIError로 래핑
+        if isinstance(last_exception, (requests.exceptions.Timeout, requests.exceptions.ConnectionError)):
+            raise APIError(
+                str(last_exception),
+                status_code=None,
+                response=None
+            )
         raise last_exception
 
 
@@ -213,6 +233,14 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
         self.request_count = 0
         self.error_count = 0
         self.last_request_time = None
+        
+        # stats 속성 추가 (테스트 호환성)
+        self.stats = {
+            'total_requests': 0,
+            'total_errors': 0,
+            'success_rate': 0.0,
+            'last_request_time': None
+        }
         
         # Logger 설정
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -288,10 +316,22 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
             )
             
             response.raise_for_status()
+            
+            # 통계 업데이트
+            self.request_count += 1
+            self.stats['total_requests'] += 1
+            self.stats['last_request_time'] = time.time()
+            if self.stats['total_requests'] > 0:
+                self.stats['success_rate'] = 1 - (self.stats['total_errors'] / self.stats['total_requests'])
+            
             return response
             
-        except Exception as e:
+        except Exception:
             self.error_count += 1
+            self.stats['total_errors'] += 1
+            self.stats['total_requests'] += 1
+            if self.stats['total_requests'] > 0:
+                self.stats['success_rate'] = 1 - (self.stats['total_errors'] / self.stats['total_requests'])
             raise
             
     def request(

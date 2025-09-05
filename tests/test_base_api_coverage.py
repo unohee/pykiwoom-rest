@@ -98,7 +98,9 @@ class TestBaseAPIClient:
         with pytest.raises(APIError):
             api.request('GET', '/slow')
         
-        assert api.stats['total_errors'] == 1
+        # 3번 재시도하므로 총 3번의 에러
+        assert api.stats['total_errors'] == 3
+        assert api.stats['total_requests'] == 3
 
     @patch('requests.Session.request') 
     def test_request_connection_error(self, mock_request):
@@ -109,6 +111,10 @@ class TestBaseAPIClient:
         
         with pytest.raises(APIError):
             api.request('GET', '/test')
+        
+        # 3번 재시도하므로 총 3번의 에러
+        assert api.stats['total_errors'] == 3
+        assert api.stats['total_requests'] == 3
 
     @patch('requests.Session.request')
     def test_request_with_retry(self, mock_request):
@@ -125,7 +131,7 @@ class TestBaseAPIClient:
         
         mock_request.side_effect = [mock_response_fail, mock_response_fail, mock_response_success]
         
-        api = ConcreteAPIClient("https://api.test.com", max_retries=3, retry_delay=0.01)
+        api = ConcreteAPIClient("https://api.test.com", max_retries=3, backoff_factor=0.01)
         result = api.request('GET', '/test')
         
         assert result == {'result': 'success'}

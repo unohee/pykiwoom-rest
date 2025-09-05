@@ -4,7 +4,7 @@ Chart Data API
 작성일: 2025-01-27
 """
 
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from datetime import datetime, timedelta
 from .kiwoom_base import KiwoomAPIBase
 
@@ -41,8 +41,8 @@ class ChartAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['tick_chart'],
             endpoint='chart',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_minute_chart(
@@ -159,8 +159,8 @@ class ChartAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['weekly_chart'],
             endpoint='chart',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_monthly_chart(
@@ -195,8 +195,8 @@ class ChartAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['monthly_chart'],
             endpoint='chart',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_yearly_chart(
@@ -231,8 +231,8 @@ class ChartAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['yearly_chart'],
             endpoint='chart',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_minute_chart_paginated(
@@ -308,3 +308,109 @@ class ChartAPI(KiwoomAPIBase):
             result['total_records'] = len(all_data)
             
         return result
+    
+    def get_minute_chart_with_date(
+        self, 
+        stock_code: str, 
+        interval: int = 5, 
+        target_date: str = None, 
+        max_pages: int = 20
+    ) -> Dict[str, Any]:
+        """특정 날짜의 분봉 데이터 조회 (연속조회 사용)
+        
+        Args:
+            stock_code: 종목코드
+            interval: 분봉 간격 (1, 3, 5, 10, 15, 30, 60)
+            target_date: 대상 날짜 (YYYYMMDD)
+            max_pages: 최대 연속조회 페이지 수
+            
+        Returns:
+            대상 날짜의 분봉 데이터
+        """
+        all_data = []
+        target_data = []
+        cont_yn = 'N'
+        next_key = ''
+        
+        for page in range(max_pages):
+            # 연속조회 실행
+            response = self.make_tr_request_continuous(
+                tr_code=self.TR_CODES['minute_chart'],
+                endpoint='chart',
+                data={
+                    'stk_cd': stock_code, 
+                    'tic_scope': str(interval), 
+                    'upd_stkpc_tp': '1'
+                },
+                cont_yn=cont_yn,
+                next_key=next_key
+            )
+            
+            if not response or 'data' not in response:
+                break
+                
+            result_data = response['data']
+            cont_yn = response.get('cont_yn', 'N')
+            next_key = response.get('next_key', '')
+            
+            # 분봉 데이터 추출
+            chart_data = result_data.get('stk_min_pole_chart_qry', [])
+            if not chart_data:
+                break
+            
+            # 대상 날짜 데이터 필터링
+            if target_date:
+                found_target = False
+                for record in chart_data:
+                    time_str = record.get('cntr_tm', '')
+                    if len(time_str) >= 8:
+                        record_date = time_str[:8]
+                        if record_date == target_date:
+                            target_data.append(record)
+                            found_target = True
+                        elif record_date < target_date:
+                            # 대상 날짜를 지나쳤음
+                            cont_yn = 'N'
+                            break
+                
+                # 대상 날짜 발견 시 계속 수집
+                if found_target and cont_yn == 'Y':
+                    continue
+                    
+                # 대상 날짜를 완전히 지나친 경우 중단
+                if chart_data and len(chart_data[-1].get('cntr_tm', '')) >= 8:
+                    if chart_data[-1].get('cntr_tm', '')[:8] < target_date:
+                        break
+            else:
+                all_data.extend(chart_data)
+            
+            # 연속조회 불가능 시 중단
+            if cont_yn != 'Y' or not next_key:
+                break
+        
+        # 최종 데이터 정리
+        final_data = target_data if target_date else all_data
+        final_data.sort(key=lambda x: x.get('cntr_tm', ''))
+        
+        # 날짜 범위 계산
+        date_range = None
+        if final_data:
+            first_time = final_data[0].get('cntr_tm', '')
+            last_time = final_data[-1].get('cntr_tm', '')
+            if len(first_time) >= 8 and len(last_time) >= 8:
+                date_range = {
+                    'start': first_time[:8],
+                    'end': last_time[:8],
+                    'start_time': first_time,
+                    'end_time': last_time
+                }
+        
+        return {
+            'success': len(final_data) > 0,
+            'data': final_data,
+            'output2': final_data,  # 하위 호환성
+            'total': len(final_data),
+            'target_date': target_date,
+            'date_range': date_range,
+            'pages': page + 1
+        }

@@ -67,8 +67,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['quote_volume_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_volume_surge(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -92,8 +92,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['quote_volume_surge'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_volume_rate_surge(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -116,8 +116,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['volume_rate_surge'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_trading_volume_surge(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -140,8 +140,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['trading_volume_surge'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_previous_day_rate_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -164,8 +164,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['previous_day_rate_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_expected_rate_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -188,8 +188,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['expected_rate_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_daily_volume_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -212,8 +212,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['daily_volume_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_trading_amount_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -236,8 +236,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['trading_amount_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_credit_ratio_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -260,8 +260,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['credit_ratio_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_foreign_period_trading_top(self, market: str = "ALL", period: str = "1", count: int = 50) -> Dict[str, Any]:
@@ -286,8 +286,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['foreign_period_trading_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_foreign_continuous_trading_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -310,8 +310,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['foreign_continuous_trading_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_foreign_limit_exhaustion_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -334,8 +334,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['foreign_limit_exhaustion_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_securities_trading_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -358,8 +358,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['securities_trading_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_daily_major_traders(self, stock_code: str) -> Dict[str, Any]:
@@ -379,8 +379,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['daily_major_trader'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_net_buy_trader_ranking(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -403,8 +403,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['net_buy_trader_ranking'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_investor_trading_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -427,8 +427,8 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['investor_trading_top'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_overtime_rate_ranking(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
@@ -451,6 +451,6 @@ class RankingAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['overtime_rate_ranking'],
             endpoint='ranking',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )

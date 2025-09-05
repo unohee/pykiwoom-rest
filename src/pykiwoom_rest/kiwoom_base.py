@@ -6,12 +6,12 @@ Kiwoom Securities REST API Base Client
 
 import os
 import json
-import hashlib
 import time
 from datetime import datetime, timedelta
-from typing import Dict, Any, Optional
+from typing import Dict, Any, List, Optional
 from .base_api import BaseAPIClient, APIError
 from .response_model import APIResponse
+from .rate_limit_optimizer import RateLimitOptimizer, SmartRetryStrategy
 
 
 class KiwoomAPIError(APIError):
@@ -62,6 +62,8 @@ class KiwoomAPIBase(BaseAPIClient):
         appsecret: str = None,
         env_path: str = None,
         use_mock: bool = False,
+        enable_rate_optimizer: bool = False,
+        credentials_list: List[Dict[str, str]] = None,
         **kwargs
     ):
         """
@@ -73,6 +75,8 @@ class KiwoomAPIBase(BaseAPIClient):
             appsecret: 앱시크릿
             env_path: .env 파일 경로
             use_mock: 모의투자 API 사용 여부
+            enable_rate_optimizer: 고급 rate limiting 최적화 활성화
+            credentials_list: 크레덴셜 리스트 (다중 토큰 로테이션)
             **kwargs: BaseAPIClient 추가 인자
         """
         base_url = self.BASE_URL
@@ -82,7 +86,11 @@ class KiwoomAPIBase(BaseAPIClient):
         # 키움 API는 초당 20회 제한
         kwargs.setdefault('rate_limit', 20)
         
-        super().__init__(base_url=base_url, **kwargs)
+        # BaseAPIClient에 전달하지 않을 매개변수 제거
+        filtered_kwargs = {k: v for k, v in kwargs.items() 
+                         if k not in ['enable_rate_optimizer', 'credentials_list']}
+        
+        super().__init__(base_url=base_url, **filtered_kwargs)
         
         # 환경변수 로드
         self._load_env_file(env_path)
@@ -93,6 +101,17 @@ class KiwoomAPIBase(BaseAPIClient):
         # 토큰 상태 초기화
         self.access_token = None
         self.token_expires = None
+        
+        # Rate Limiting 최적화 설정
+        self.enable_rate_optimizer = enable_rate_optimizer
+        self.rate_optimizer = None
+        self.retry_strategy = SmartRetryStrategy()
+        
+        # API base 참조 (KiwoomRest에서 접근용)
+        self.api_base = self
+        
+        if enable_rate_optimizer:
+            self._setup_rate_optimizer(credentials_list)
         
     def _load_env_file(self, env_path: str = None) -> None:
         """환경 파일 로드"""
@@ -194,6 +213,46 @@ class KiwoomAPIBase(BaseAPIClient):
                 endpoint=endpoint,
                 processing_time=processing_time
             )
+    
+    def _setup_rate_optimizer(self, additional_credentials_list: List[Dict[str, str]] = None):
+        """Rate Limiting 최적화 설정"""
+        all_credentials = []
+        
+        # 기본 크레덴셜
+        main_cred = {
+            'APPKEY': self.appkey,
+            'APPSECRET': self.appsecret,
+            'ACCOUNT_NO': self.account_no
+        }
+        all_credentials.append(main_cred)
+        
+        # 추가 크레덴셜
+        if additional_credentials_list:
+            all_credentials.extend(additional_credentials_list)
+        else:
+            # 환경변수에서 추가 크레덴셜 검색
+            for i in range(2, 5):  # 최대 4개까지 지원
+                appkey = os.getenv(f'KIWOOM_APPKEY_{i}')
+                appsecret = os.getenv(f'KIWOOM_APPSECRET_{i}')
+                account = os.getenv(f'ACCOUNT_NO_{i}')
+                
+                if appkey and appsecret:
+                    all_credentials.append({
+                        'APPKEY': appkey,
+                        'APPSECRET': appsecret,
+                        'ACCOUNT_NO': account or self.account_no
+                    })
+        
+        # Rate Optimizer 초기화
+        self.rate_optimizer = RateLimitOptimizer(
+            credentials_list=all_credentials,
+            base_rate_limit=20,
+            burst_capacity=50,
+            recovery_time=60,
+            enable_rotation=len(all_credentials) > 1
+        )
+        
+        self.logger.info(f"Rate Optimizer 활성화: {len(all_credentials)}개 크레덴셜")
             
     def _get_access_token(self, force_refresh: bool = False) -> str:
         """OAuth2 액세스 토큰 발급/갱신"""
@@ -285,8 +344,31 @@ class KiwoomAPIBase(BaseAPIClient):
         self._request_start_time = time.time()
         
         try:
-            # 토큰 확보
-            token = self._get_access_token()
+            # Rate Optimizer가 활성화된 경우 토큰 획득 대기
+            if self.enable_rate_optimizer and self.rate_optimizer:
+                # 최적 크레덴셜 선택 및 토큰 획득
+                cred_idx, credential = self.rate_optimizer.get_optimal_credential()
+                
+                # 선택된 크레덴셜로 임시 전환 (필요시)
+                if credential and credential.get('APPKEY') != self.appkey:
+                    # 다른 크레덴셜 사용 시 토큰 재발급
+                    temp_appkey = self.appkey
+                    temp_appsecret = self.appsecret
+                    self.appkey = credential['APPKEY']
+                    self.appsecret = credential['APPSECRET']
+                    token = self._get_access_token(force_refresh=True)
+                    # 원래 크레덴셜로 복구
+                    self.appkey = temp_appkey
+                    self.appsecret = temp_appsecret
+                else:
+                    token = self._get_access_token()
+                
+                # Rate limiting 토큰 획득
+                if not self.rate_optimizer.acquire_token(cred_idx):
+                    self.logger.warning("Rate limit 토큰 획득 실패")
+            else:
+                # 기본 rate limiting 사용
+                token = self._get_access_token()
             
             # 엔드포인트 URL 가져오기
             endpoint_url = self.ENDPOINTS.get(endpoint)
@@ -295,37 +377,116 @@ class KiwoomAPIBase(BaseAPIClient):
                 
             # 헤더 준비
             headers = {
-                'Authorization': f'Bearer {token}',
-                'Content-Type': 'application/json; charset=UTF-8',
-                'tr_id': tr_code,
-                'tr_cont': '',  # 연속조회 여부 (공백 제거)
-                'custtype': 'P',  # 고객타입 (P: 개인)
-                'custnum': self.account_no[:8] if self.account_no else ''  # 고객번호
+                'authorization': f'Bearer {token}',
+                'Content-Type': 'application/json;charset=UTF-8',
+                'api-id': tr_code,
+                'cont-yn': 'N',
+                'next-key': ''
             }
             
-            # POST 요청의 경우 해시키 추가
-            if method.upper() == 'POST' and data:
-                try:
-                    hashkey = self._get_hashkey(data)
-                    if hashkey:
-                        headers['hashkey'] = hashkey
-                except Exception as e:
-                    self.logger.warning(f"해시키 생성 실패: {e}")
+            # 해시키는 필요시에만 추가 (현재는 불필요)
+            
+            # API 요청 실행 (지능형 재시도 포함)
+            try:
+                response = self.request(
+                    method=method,
+                    endpoint=endpoint_url,
+                    headers=headers,
+                    params=params,
+                    json_data=data if method.upper() == 'POST' else None
+                )
+                
+                # 성공 시 에러 카운트 리셋
+                if self.enable_rate_optimizer and self.rate_optimizer:
+                    self.rate_optimizer.reset_error_count(cred_idx if 'cred_idx' in locals() else 0)
+                
+                return response
+                
+            except APIError as e:
+                # 429 에러 특별 처리
+                if e.status_code == 429 and self.enable_rate_optimizer and self.rate_optimizer:
+                    self.rate_optimizer.handle_429_error(cred_idx if 'cred_idx' in locals() else 0)
                     
-            # API 요청 실행
-            return self.request(
-                method=method,
-                endpoint=endpoint_url,
-                headers=headers,
-                params=params,
-                json_data=data if method.upper() == 'POST' else None
-            )
+                    # 지능형 재시도
+                    retry_delay = self.retry_strategy.calculate_retry_delay(429, 1)
+                    self.logger.warning(f"429 에러 - {retry_delay:.1f}초 후 재시도")
+                    time.sleep(retry_delay)
+                    
+                    # 다른 크레덴셜로 재시도
+                    return self.make_tr_request(tr_code, endpoint, data, params, method)
+                raise
         
         finally:
             # 컨텍스트 정리
             self._current_tr_code = None
             self._current_endpoint = None
             self._request_start_time = None
+    
+    def make_tr_request_continuous(
+        self,
+        tr_code: str,
+        endpoint: str,
+        data: Dict[str, Any] = None,
+        cont_yn: str = 'N',
+        next_key: str = '',
+        method: str = 'POST'
+    ) -> Dict[str, Any]:
+        """
+        연속조회를 지원하는 TR 요청
+        
+        Args:
+            tr_code: 키움 TR 코드
+            endpoint: API 엔드포인트 키
+            data: POST 요청 데이터
+            cont_yn: 연속조회 여부 ('Y' or 'N')
+            next_key: 연속조회 키
+            method: HTTP 메서드
+            
+        Returns:
+            응답 딕셔너리 (data, cont_yn, next_key 포함)
+        """
+        try:
+            # 토큰 확보
+            token = self._get_access_token()
+            
+            # 엔드포인트 URL 가져오기
+            endpoint_url = self.ENDPOINTS.get(endpoint)
+            if not endpoint_url:
+                raise ValueError(f"알 수 없는 엔드포인트: {endpoint}")
+                
+            # 헤더 준비 (연속조회 지원)
+            headers = {
+                'authorization': f'Bearer {token}',
+                'Content-Type': 'application/json;charset=UTF-8',
+                'api-id': tr_code,
+                'cont-yn': cont_yn,
+                'next-key': next_key
+            }
+            
+            # API 요청 실행 (base_api의 request 직접 사용)
+            response = self._make_request(
+                method=method,
+                endpoint=endpoint_url,
+                headers=headers,
+                json_data=data if method.upper() == 'POST' else None,
+                use_rate_limit=True
+            )
+            
+            # 응답 처리
+            result = response.json() if hasattr(response, 'json') else {}
+            
+            # 연속조회 정보 추출
+            response_headers = response.headers if hasattr(response, 'headers') else {}
+            
+            return {
+                'data': result,
+                'cont_yn': response_headers.get('cont-yn', 'N'),
+                'next_key': response_headers.get('next-key', '')
+            }
+            
+        except Exception as e:
+            self.logger.error(f"연속조회 요청 실패: {e}")
+            raise
         
     def health_check(self) -> Dict[str, Any]:
         """
@@ -342,8 +503,8 @@ class KiwoomAPIBase(BaseAPIClient):
             result = self.make_tr_request(
                 tr_code='ka10001',  # 주식기본정보요청
                 endpoint='stock_info',
-                params=test_params,
-                method='GET'
+                data=test_params,
+                method='POST'
             )
             
             if result and result.get('rt_cd') == '0':

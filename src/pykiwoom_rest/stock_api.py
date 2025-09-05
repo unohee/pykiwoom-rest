@@ -4,7 +4,7 @@ Stock Information API
 작성일: 2025-01-27
 """
 
-from typing import Dict, Any, Optional
+from typing import Dict, Any
 from .kiwoom_base import KiwoomAPIBase
 
 
@@ -50,8 +50,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['stock_basic_info'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_stock_quote(self, stock_code: str) -> Dict[str, Any]:
@@ -68,8 +68,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['stock_quote'],
             endpoint='market_condition',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_execution_info(self, stock_code: str) -> Dict[str, Any]:
@@ -86,8 +86,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['execution_info'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_stock_member_info(self, stock_code: str) -> Dict[str, Any]:
@@ -107,8 +107,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['stock_member_info'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_credit_trend(self, stock_code: str) -> Dict[str, Any]:
@@ -128,8 +128,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['credit_trend'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_daily_trading_detail(self, stock_code: str) -> Dict[str, Any]:
@@ -149,8 +149,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['daily_trading_detail'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_new_high_low(self, market: str = "ALL") -> Dict[str, Any]:
@@ -176,8 +176,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['new_high_low'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_upper_lower_limit(self, market: str = "ALL") -> Dict[str, Any]:
@@ -203,8 +203,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['upper_lower_limit'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_price_fluctuation(self, market: str = "ALL") -> Dict[str, Any]:
@@ -231,8 +231,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['price_fluctuation'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_high_low_approach(self, stock_code: str) -> Dict[str, Any]:
@@ -252,8 +252,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['high_low_approach'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_volume_concentration(self, stock_code: str) -> Dict[str, Any]:
@@ -273,8 +273,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['supply_concentration'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_high_low_per(self, market: str = "ALL") -> Dict[str, Any]:
@@ -300,8 +300,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['high_low_per'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_current_previous_execution(self, stock_code: str) -> Dict[str, Any]:
@@ -321,8 +321,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['current_previous_execution'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_watchlist_info(self, watchlist_code: str = "1") -> Dict[str, Any]:
@@ -342,8 +342,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['watchlist_info'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_stock_list(self, market: str = "ALL") -> Dict[str, Any]:
@@ -369,8 +369,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['stock_info_list'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_stock_info_detail(self, stock_code: str) -> Dict[str, Any]:
@@ -390,8 +390,8 @@ class StockAPI(KiwoomAPIBase):
         return self.make_tr_request(
             tr_code=self.TR_CODES['stock_info_inquiry'],
             endpoint='stock_info',
-            params=params,
-            method='GET'
+            data=params,
+            method='POST'
         )
     
     def get_foreign_trading(self, stock_code: str) -> Dict[str, Any]:

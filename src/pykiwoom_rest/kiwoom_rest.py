@@ -27,7 +27,9 @@ class KiwoomRest:
         env_path: str = None,
         use_mock: bool = False,
         rate_limit: int = 20,
-        max_retries: int = 3
+        max_retries: int = 3,
+        enable_rate_optimizer: bool = False,
+        credentials_list: list = None
     ):
         """
         초기화
@@ -40,6 +42,8 @@ class KiwoomRest:
             use_mock: 모의투자 API 사용 여부
             rate_limit: 초당 최대 요청 수
             max_retries: 최대 재시도 횟수
+            enable_rate_optimizer: Rate limiting 최적화 활성화
+            credentials_list: 다중 크레덴셜 리스트
         """
         # 공통 설정
         common_config = {
@@ -49,7 +53,9 @@ class KiwoomRest:
             'env_path': env_path,
             'use_mock': use_mock,
             'rate_limit': rate_limit,
-            'max_retries': max_retries
+            'max_retries': max_retries,
+            'enable_rate_optimizer': enable_rate_optimizer,
+            'credentials_list': credentials_list
         }
         
         # 모듈러 API 클래스들 초기화
@@ -62,6 +68,9 @@ class KiwoomRest:
         
         # 인증 정보 공유
         self._sync_authentication()
+        
+        # Rate optimizer 접근을 위한 참조
+        self.api_base = self.stock_api.api_base
         
     def _sync_authentication(self):
         """인증 정보 동기화 (토큰 공유)"""
@@ -108,10 +117,11 @@ class KiwoomRest:
         stock_code: str,
         interval: int = 1,
         start_date: str = None,
-        end_date: str = None
+        end_date: str = None,
+        count: int = 100
     ) -> Dict[str, Any]:
         """분봉 차트 조회"""
-        return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date)
+        return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date, count)
     
     def get_daily_chart(
         self,
@@ -250,6 +260,18 @@ class KiwoomRest:
         """분봉 차트 대량 조회 (페이지네이션)"""
         return self.chart_api.get_minute_chart_paginated(
             stock_code, interval, start_date, end_date, max_records
+        )
+    
+    def get_minute_chart_with_date(
+        self,
+        stock_code: str,
+        interval: int = 5,
+        target_date: str = None,
+        max_pages: int = 20
+    ) -> Dict[str, Any]:
+        """특정 날짜의 분봉 데이터 조회 (연속조회 사용)"""
+        return self.chart_api.get_minute_chart_with_date(
+            stock_code, interval, target_date, max_pages
         )
     
     # ========== 유틸리티 메서드 ==========

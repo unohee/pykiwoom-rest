@@ -4,7 +4,6 @@ PyKiwoom-Rest v2: Kiwoom증권 REST API Python Wrapper (Unified Architecture)
 """
 
 import os
-import json
 import requests
 from datetime import datetime, timedelta
 
