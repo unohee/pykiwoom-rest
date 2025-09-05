@@ -1,0 +1,854 @@
+{
+  "info": {
+    "name": "Kiwoom REST API Collection",
+    "description": "키움증권 REST API 테스트용 Postman Collection\n\n## 사용법\n1. 환경변수 설정: ACCOUNT_NO, KIWOOM_APPKEY, KIWOOM_APPSECRET\n2. Authorization 탭에서 토큰 발급 후 사용\n3. Rate Limit: 초당 20회 제한\n\n## 주의사항\n- 일부 API는 장시간에만 작동\n- 토큰 유효기간: 24시간\n- 모든 날짜 형식: YYYYMMDD",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "https://openapi.kiwoom.com",
+      "type": "string"
+    },
+    {
+      "key": "access_token",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "account_no",
+      "value": "{{ACCOUNT_NO}}",
+      "type": "string"
+    },
+    {
+      "key": "app_key",
+      "value": "{{KIWOOM_APPKEY}}",
+      "type": "string"
+    },
+    {
+      "key": "app_secret",
+      "value": "{{KIWOOM_APPSECRET}}",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "description": "인증 관련 API",
+      "item": [
+        {
+          "name": "Get Access Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"grant_type\": \"client_credentials\",\n  \"appkey\": \"{{app_key}}\",\n  \"secretkey\": \"{{app_secret}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/oauth2/tokenP",
+              "host": ["{{base_url}}"],
+              "path": ["oauth2", "tokenP"]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const response = pm.response.json();",
+                  "    pm.collectionVariables.set('access_token', response.access_token);",
+                  "    console.log('Access token saved:', response.access_token);",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Revoke Access Token",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/oauth2/revokeP",
+              "host": ["{{base_url}}"],
+              "path": ["oauth2", "revokeP"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Stock Quotation",
+      "description": "주식 시세 조회 API",
+      "item": [
+        {
+          "name": "Get Stock Basic Info (주식기본정보)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "FHKST01010100"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/quotations/inquire-price?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=005930",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "quotations", "inquire-price"],
+              "query": [
+                {
+                  "key": "FID_COND_MRKT_DIV_CODE",
+                  "value": "J",
+                  "description": "시장구분코드 (J:주식, ETF, ETN)"
+                },
+                {
+                  "key": "FID_INPUT_ISCD",
+                  "value": "005930",
+                  "description": "종목코드 (삼성전자 예시)"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Stock Orderbook (주식호가)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "FHKST01010200"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/quotations/inquire-asking-price-exp-ccn?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=005930",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "quotations", "inquire-asking-price-exp-ccn"],
+              "query": [
+                {
+                  "key": "FID_COND_MRKT_DIV_CODE",
+                  "value": "J"
+                },
+                {
+                  "key": "FID_INPUT_ISCD",
+                  "value": "005930"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chart Data",
+      "description": "차트 데이터 조회 API",
+      "item": [
+        {
+          "name": "Get Minute Chart (분봉차트)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "FHKST03010200"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=005930&FID_INPUT_HOUR_1=30&FID_PW_DATA_INCU_YN=Y",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "quotations", "inquire-time-itemchartprice"],
+              "query": [
+                {
+                  "key": "FID_COND_MRKT_DIV_CODE",
+                  "value": "J"
+                },
+                {
+                  "key": "FID_INPUT_ISCD",
+                  "value": "005930"
+                },
+                {
+                  "key": "FID_INPUT_HOUR_1",
+                  "value": "30",
+                  "description": "분봉 단위 (1,3,5,10,15,30,60)"
+                },
+                {
+                  "key": "FID_PW_DATA_INCU_YN",
+                  "value": "Y",
+                  "description": "과거 데이터 포함여부"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Daily Chart (일봉차트)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "FHKST03010100"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/quotations/inquire-daily-itemchartprice?FID_COND_MRKT_DIV_CODE=J&FID_INPUT_ISCD=005930&FID_INPUT_DATE_1=20250101&FID_INPUT_DATE_2=20250131&FID_PERIOD_DIV_CODE=D",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "quotations", "inquire-daily-itemchartprice"],
+              "query": [
+                {
+                  "key": "FID_COND_MRKT_DIV_CODE",
+                  "value": "J"
+                },
+                {
+                  "key": "FID_INPUT_ISCD",
+                  "value": "005930"
+                },
+                {
+                  "key": "FID_INPUT_DATE_1",
+                  "value": "20250101",
+                  "description": "조회 시작일자"
+                },
+                {
+                  "key": "FID_INPUT_DATE_2",
+                  "value": "20250131",
+                  "description": "조회 종료일자"
+                },
+                {
+                  "key": "FID_PERIOD_DIV_CODE",
+                  "value": "D",
+                  "description": "기간분류코드 (D:일봉, W:주봉, M:월봉)"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Account",
+      "description": "계좌 관련 API",
+      "item": [
+        {
+          "name": "Get Account Balance (예수금)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "TTTC8434R"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/trading/inquire-psbl-order?CANO={{account_no}}&ACNT_PRDT_CD=01&PDNO=&ORD_UNPR=&ORD_DVSN=01&CMA_EVLU_AMT_ICLD_YN=Y&OVRS_ICLD_YN=N",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "trading", "inquire-psbl-order"],
+              "query": [
+                {
+                  "key": "CANO",
+                  "value": "{{account_no}}"
+                },
+                {
+                  "key": "ACNT_PRDT_CD",
+                  "value": "01"
+                },
+                {
+                  "key": "PDNO",
+                  "value": ""
+                },
+                {
+                  "key": "ORD_UNPR",
+                  "value": ""
+                },
+                {
+                  "key": "ORD_DVSN",
+                  "value": "01"
+                },
+                {
+                  "key": "CMA_EVLU_AMT_ICLD_YN",
+                  "value": "Y"
+                },
+                {
+                  "key": "OVRS_ICLD_YN",
+                  "value": "N"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Portfolio (잔고조회)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "TTTC8434R"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/trading/inquire-balance?CANO={{account_no}}&ACNT_PRDT_CD=01&AFHR_FLPR_YN=N&OFL_YN=&INQR_DVSN=02&UNPR_DVSN=01&FUND_STTL_ICLD_YN=N&FNCG_AMT_AUTO_RDPT_YN=N&PRCS_DVSN=01&CTX_AREA_FK100=&CTX_AREA_NK100=",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "trading", "inquire-balance"],
+              "query": [
+                {
+                  "key": "CANO",
+                  "value": "{{account_no}}"
+                },
+                {
+                  "key": "ACNT_PRDT_CD",
+                  "value": "01"
+                },
+                {
+                  "key": "AFHR_FLPR_YN",
+                  "value": "N"
+                },
+                {
+                  "key": "OFL_YN",
+                  "value": ""
+                },
+                {
+                  "key": "INQR_DVSN",
+                  "value": "02"
+                },
+                {
+                  "key": "UNPR_DVSN",
+                  "value": "01"
+                },
+                {
+                  "key": "FUND_STTL_ICLD_YN",
+                  "value": "N"
+                },
+                {
+                  "key": "FNCG_AMT_AUTO_RDPT_YN",
+                  "value": "N"
+                },
+                {
+                  "key": "PRCS_DVSN",
+                  "value": "01"
+                },
+                {
+                  "key": "CTX_AREA_FK100",
+                  "value": ""
+                },
+                {
+                  "key": "CTX_AREA_NK100",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Trading",
+      "description": "주문 관련 API",
+      "item": [
+        {
+          "name": "Buy Order (매수주문)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "TTTC0802U"
+              },
+              {
+                "key": "hashkey",
+                "value": "{{hashkey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"CANO\": \"{{account_no}}\",\n  \"ACNT_PRDT_CD\": \"01\",\n  \"PDNO\": \"005930\",\n  \"ORD_DVSN\": \"01\",\n  \"ORD_QTY\": \"1\",\n  \"ORD_UNPR\": \"70000\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/trading/order-cash",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "trading", "order-cash"]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Hashkey 생성을 위한 사전 요청",
+                  "const hashKeyRequest = {",
+                  "  url: pm.collectionVariables.get('base_url') + '/uapi/hashkey',",
+                  "  method: 'POST',",
+                  "  header: {",
+                  "    'Authorization': 'Bearer ' + pm.collectionVariables.get('access_token'),",
+                  "    'appkey': pm.collectionVariables.get('app_key'),",
+                  "    'appsecret': pm.collectionVariables.get('app_secret'),",
+                  "    'Content-Type': 'application/json'",
+                  "  },",
+                  "  body: {",
+                  "    mode: 'raw',",
+                  "    raw: JSON.stringify({",
+                  "      'CANO': pm.collectionVariables.get('account_no'),",
+                  "      'ACNT_PRDT_CD': '01',",
+                  "      'PDNO': '005930',",
+                  "      'ORD_DVSN': '01',",
+                  "      'ORD_QTY': '1',",
+                  "      'ORD_UNPR': '70000'",
+                  "    })",
+                  "  }",
+                  "};",
+                  "",
+                  "pm.sendRequest(hashKeyRequest, (error, response) => {",
+                  "  if (error) {",
+                  "    console.log('Hashkey request error:', error);",
+                  "  } else {",
+                  "    const hashkey = response.json().HASH;",
+                  "    pm.collectionVariables.set('hashkey', hashkey);",
+                  "  }",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Sell Order (매도주문)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "TTTC0801U"
+              },
+              {
+                "key": "hashkey",
+                "value": "{{hashkey}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"CANO\": \"{{account_no}}\",\n  \"ACNT_PRDT_CD\": \"01\",\n  \"PDNO\": \"005930\",\n  \"ORD_DVSN\": \"01\",\n  \"ORD_QTY\": \"1\",\n  \"ORD_UNPR\": \"70000\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/trading/order-cash",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "trading", "order-cash"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Ranking & Statistics",
+      "description": "순위 및 통계 API",
+      "item": [
+        {
+          "name": "Get Volume Ranking (거래량순위)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "FHPST01710000"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/quotations/volume-rank?FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=20171&FID_INPUT_ISCD=0000&FID_DIV_CLS_CODE=0&FID_BLNG_CLS_CODE=0&FID_TRGT_CLS_CODE=111111111&FID_TRGT_EXLS_CLS_CODE=0000000000&FID_INPUT_PRICE_1=&FID_INPUT_PRICE_2=&FID_VOL_CNT=&FID_INPUT_DATE_1=",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "quotations", "volume-rank"],
+              "query": [
+                {
+                  "key": "FID_COND_MRKT_DIV_CODE",
+                  "value": "J"
+                },
+                {
+                  "key": "FID_COND_SCR_DIV_CODE",
+                  "value": "20171"
+                },
+                {
+                  "key": "FID_INPUT_ISCD",
+                  "value": "0000"
+                },
+                {
+                  "key": "FID_DIV_CLS_CODE",
+                  "value": "0"
+                },
+                {
+                  "key": "FID_BLNG_CLS_CODE",
+                  "value": "0"
+                },
+                {
+                  "key": "FID_TRGT_CLS_CODE",
+                  "value": "111111111"
+                },
+                {
+                  "key": "FID_TRGT_EXLS_CLS_CODE",
+                  "value": "0000000000"
+                },
+                {
+                  "key": "FID_INPUT_PRICE_1",
+                  "value": ""
+                },
+                {
+                  "key": "FID_INPUT_PRICE_2",
+                  "value": ""
+                },
+                {
+                  "key": "FID_VOL_CNT",
+                  "value": ""
+                },
+                {
+                  "key": "FID_INPUT_DATE_1",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Price Change Ranking (등락률순위)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "FHPST01700000"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/quotations/psearch-title?FID_COND_MRKT_DIV_CODE=J&FID_COND_SCR_DIV_CODE=20170&FID_INPUT_ISCD=0000&FID_DIV_CLS_CODE=0&FID_BLNG_CLS_CODE=0&FID_TRGT_CLS_CODE=111111111&FID_TRGT_EXLS_CLS_CODE=0000000000&FID_INPUT_PRICE_1=&FID_INPUT_PRICE_2=&FID_VOL_CNT=&FID_INPUT_DATE_1=",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "quotations", "psearch-title"],
+              "query": [
+                {
+                  "key": "FID_COND_MRKT_DIV_CODE",
+                  "value": "J"
+                },
+                {
+                  "key": "FID_COND_SCR_DIV_CODE",
+                  "value": "20170"
+                },
+                {
+                  "key": "FID_INPUT_ISCD",
+                  "value": "0000"
+                },
+                {
+                  "key": "FID_DIV_CLS_CODE",
+                  "value": "0"
+                },
+                {
+                  "key": "FID_BLNG_CLS_CODE",
+                  "value": "0"
+                },
+                {
+                  "key": "FID_TRGT_CLS_CODE",
+                  "value": "111111111"
+                },
+                {
+                  "key": "FID_TRGT_EXLS_CLS_CODE",
+                  "value": "0000000000"
+                },
+                {
+                  "key": "FID_INPUT_PRICE_1",
+                  "value": ""
+                },
+                {
+                  "key": "FID_INPUT_PRICE_2",
+                  "value": ""
+                },
+                {
+                  "key": "FID_VOL_CNT",
+                  "value": ""
+                },
+                {
+                  "key": "FID_INPUT_DATE_1",
+                  "value": ""
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Sector & Market",
+      "description": "업종 및 시장지수 API",
+      "item": [
+        {
+          "name": "Get Sector Index (업종지수)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "appkey",
+                "value": "{{app_key}}"
+              },
+              {
+                "key": "appsecret",
+                "value": "{{app_secret}}"
+              },
+              {
+                "key": "tr_id",
+                "value": "FHPUP02100000"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/uapi/domestic-stock/v1/quotations/inquire-index-price?FID_COND_MRKT_DIV_CODE=U&FID_INPUT_ISCD=0001",
+              "host": ["{{base_url}}"],
+              "path": ["uapi", "domestic-stock", "v1", "quotations", "inquire-index-price"],
+              "query": [
+                {
+                  "key": "FID_COND_MRKT_DIV_CODE",
+                  "value": "U"
+                },
+                {
+                  "key": "FID_INPUT_ISCD",
+                  "value": "0001",
+                  "description": "업종코드 (0001:코스피, 1001:코스닥 등)"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "WebSocket Real-time",
+      "description": "실시간 데이터 수신을 위한 WebSocket 연결 정보",
+      "item": [
+        {
+          "name": "WebSocket Connection Info",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "",
+              "host": [""]
+            },
+            "description": "## WebSocket 실시간 데이터\n\n### 연결 정보\n- **URL**: wss://openapi.kiwoom.com/ws-domestic-stock\n- **Protocol**: WebSocket\n\n### 실시간 TR 코드\n- `00`: 주문체결\n- `04`: 잔고\n- `0A`: 주식기세\n- `0B`: 주식체결\n- `0C`: 주식우선호가\n- `0D`: 주식호가잔량\n- `0E`: 주식시간외호가\n- `0F`: 주식당일거래원\n- `0G`: ETF NAV\n- `0H`: 주식예상체결\n- `0J`: 업종지수\n- `0U`: 업종등락\n- `0g`: 주식종목정보\n- `0m`: ELW 이론가\n- `0s`: 장시작시간\n- `0u`: ELW 지표\n- `0w`: 종목프로그램매매\n- `1h`: VI발동|해제\n\n### 연결 예시 (JavaScript)\n```javascript\nconst ws = new WebSocket('wss://openapi.kiwoom.com/ws-domestic-stock');\n\n// 인증\nws.onopen = function() {\n  const authMessage = {\n    header: {\n      approval_key: 'YOUR_APPROVAL_KEY',\n      custtype: 'P',\n      tr_type: '1',\n      content_type: 'utf-8'\n    },\n    body: {\n      input: {\n        tr_id: '0A',\n        tr_key: '005930'  // 종목코드\n      }\n    }\n  };\n  ws.send(JSON.stringify(authMessage));\n};\n\nws.onmessage = function(event) {\n  console.log('실시간 데이터:', JSON.parse(event.data));\n};\n```"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "global-prerequest",
+        "exec": [
+          "// 글로벌 사전 스크립트",
+          "console.log('Request to:', pm.request.url.toString());",
+          "",
+          "// Rate Limit 체크 (간단한 구현)",
+          "const now = Date.now();",
+          "const lastRequest = pm.collectionVariables.get('last_request_time') || 0;",
+          "const timeDiff = now - lastRequest;",
+          "",
+          "if (timeDiff < 50) {  // 50ms = 20 requests per second",
+          "  const waitTime = 50 - timeDiff;",
+          "  console.log(`Rate limit: waiting ${waitTime}ms`);",
+          "  setTimeout(() => {}, waitTime);",
+          "}",
+          "",
+          "pm.collectionVariables.set('last_request_time', now);"
+        ],
+        "type": "text/javascript"
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "global-test",
+        "exec": [
+          "// 글로벌 테스트 스크립트",
+          "pm.test('Status code is 200', function () {",
+          "    pm.response.to.have.status(200);",
+          "});",
+          "",
+          "pm.test('Response has required structure', function () {",
+          "    const response = pm.response.json();",
+          "    pm.expect(response).to.have.property('rt_cd');",
+          "    pm.expect(response).to.have.property('msg_cd');",
+          "});",
+          "",
+          "// 에러 처리",
+          "if (pm.response.code !== 200) {",
+          "    console.error('API Error:', pm.response.json());",
+          "}"
+        ],
+        "type": "text/javascript"
+      }
+    }
+  ]
+}
