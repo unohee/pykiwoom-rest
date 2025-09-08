@@ -271,22 +271,28 @@ class ChartAPI(KiwoomAPIBase):
                 count=remaining
             )
             
-            if not result or result.get('rt_cd') != '0':
+            if not result or result.get('return_code') != 0:
                 break
                 
-            # 데이터 추출
-            chart_data = result.get('output2', [])
+            # 데이터 추출 - 실제 응답 필드명 사용
+            chart_data = result.get('stk_min_pole_chart_qry', [])
             if not chart_data:
-                break
+                # output2 필드 체크 (호환성)
+                chart_data = result.get('output2', [])
+                if not chart_data:
+                    break
                 
             all_data.extend(chart_data)
             total_collected += len(chart_data)
             
             # 시작일 조건 체크
             if start_date:
-                last_date = chart_data[-1].get('stck_bsop_date', '')
-                if last_date <= start_date:
-                    break
+                # cntr_tm 필드에서 날짜 추출 (YYYYMMDDHHMMSS 형식)
+                last_time = chart_data[-1].get('cntr_tm', '')
+                if last_time:
+                    last_date = last_time[:8]  # YYYYMMDD 부분만 추출
+                    if last_date <= start_date:
+                        break
                     
             # 다음 페이지를 위한 날짜 업데이트
             if len(chart_data) < remaining:
@@ -294,15 +300,17 @@ class ChartAPI(KiwoomAPIBase):
                 break
                 
             # 마지막 데이터의 날짜를 다음 요청의 종료일로 사용
-            last_date = chart_data[-1].get('stck_bsop_date', '')
-            if last_date == current_end_date:
-                # 같은 날짜면 하루 전으로
-                last_dt = datetime.strptime(last_date, "%Y%m%d")
-                current_end_date = (last_dt - timedelta(days=1)).strftime("%Y%m%d")
-            else:
-                current_end_date = last_date
+            last_time = chart_data[-1].get('cntr_tm', '')
+            if last_time:
+                last_date = last_time[:8]
+                if last_date == current_end_date:
+                    # 같은 날짜면 하루 전으로
+                    last_dt = datetime.strptime(last_date, "%Y%m%d")
+                    current_end_date = (last_dt - timedelta(days=1)).strftime("%Y%m%d")
+                else:
+                    current_end_date = last_date
                 
-        # 결과 구성
+        # 결과 구성 - output2로 통일하여 반환 (하위 호환성)
         if all_data:
             result['output2'] = all_data
             result['total_records'] = len(all_data)
