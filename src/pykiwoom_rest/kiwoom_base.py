@@ -40,6 +40,7 @@ class KiwoomAPIBase(BaseAPIClient):
         'hashkey': '/uapi/hashkey',
         'stock_info': '/api/dostk/stkinfo',
         'market_condition': '/api/dostk/mrkcond',
+        'mrkcond': '/api/dostk/mrkcond',  # 종목시간별프로그램매매추이 등
         'chart': '/api/dostk/chart',
         'foreign_institution': '/api/dostk/frgnistt',
         'ranking': '/api/dostk/rkinfo',
@@ -323,7 +324,9 @@ class KiwoomAPIBase(BaseAPIClient):
         endpoint: str,
         data: Dict[str, Any] = None,
         params: Dict[str, Any] = None,
-        method: str = 'POST'
+        method: str = 'POST',
+        cont_yn: str = 'N',
+        next_key: str = ''
     ) -> APIResponse:
         """
         TR 코드를 사용한 API 요청
@@ -380,8 +383,8 @@ class KiwoomAPIBase(BaseAPIClient):
                 'authorization': f'Bearer {token}',
                 'Content-Type': 'application/json;charset=UTF-8',
                 'api-id': tr_code,
-                'cont-yn': 'N',
-                'next-key': ''
+                'cont-yn': cont_yn,
+                'next-key': next_key
             }
             
             # 해시키는 필요시에만 추가 (현재는 불필요)
@@ -399,6 +402,16 @@ class KiwoomAPIBase(BaseAPIClient):
                 # 성공 시 에러 카운트 리셋
                 if self.enable_rate_optimizer and self.rate_optimizer:
                     self.rate_optimizer.reset_error_count(cred_idx if 'cred_idx' in locals() else 0)
+                
+                # 헤더 정보 추가
+                if isinstance(response, dict):
+                    response['header'] = {
+                        'cont-yn': headers.get('cont-yn', 'N'),
+                        'next-key': headers.get('next-key', '')
+                    }
+                    # 응답 헤더에서 실제 값 가져오기 (나중에 구현 필요)
+                    # response['header']['cont-yn'] = response_headers.get('cont-yn', 'N')
+                    # response['header']['next-key'] = response_headers.get('next-key', '')
                 
                 return response
                 

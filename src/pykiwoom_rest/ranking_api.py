@@ -34,6 +34,7 @@ class RankingAPI(KiwoomAPIBase):
         'daily_top_departure': 'ka10053',
         'same_net_trading_ranking': 'ka10062',
         'investor_trading_top': 'ka10065',
+        'hourly_program_trading': 'ka90008',
         'overtime_rate_ranking': 'ka10098'
     }
     
@@ -430,6 +431,99 @@ class RankingAPI(KiwoomAPIBase):
             data=params,
             method='POST'
         )
+    
+    def get_hourly_program_trading(self, stock_code: str, date: str, amount_or_quantity: str = "1") -> Dict[str, Any]:
+        """
+        종목시간별 프로그램매매 추이요청 (ka90008)
+        
+        Args:
+            stock_code: 종목코드
+            date: 날짜 (YYYYMMDD)
+            amount_or_quantity: 금액수량구분 (1:금액, 2:수량)
+            
+        Returns:
+            종목시간별 프로그램매매 추이 데이터
+        """
+        params = {
+            "amt_qty_tp": amount_or_quantity,
+            "stk_cd": stock_code,
+            "date": date
+        }
+        return self.make_tr_request(
+            tr_code=self.TR_CODES['hourly_program_trading'],
+            endpoint='mrkcond',
+            data=params,
+            method='POST'
+        )
+    
+    def get_hourly_program_trading_paginated(
+        self,
+        stock_code: str,
+        date: str,
+        amount_or_quantity: str = "1",
+        max_records: int = None
+    ) -> Dict[str, Any]:
+        """
+        종목시간별 프로그램매매 추이요청 (페이지네이션 지원) (ka90008)
+        
+        Args:
+            stock_code: 종목코드
+            date: 날짜 (YYYYMMDD)
+            amount_or_quantity: 금액수량구분 (1:금액, 2:수량)
+            max_records: 최대 조회 레코드 수 (None이면 모든 데이터 조회)
+            
+        Returns:
+            종목시간별 프로그램매매 추이 전체 데이터
+        """
+        import time
+        
+        all_data = []
+        params = {
+            "amt_qty_tp": amount_or_quantity,
+            "stk_cd": stock_code,
+            "date": date
+        }
+        
+        cont_yn = "N"
+        next_key = ""
+        records_collected = 0
+        
+        while True:
+            result = self.make_tr_request(
+                tr_code=self.TR_CODES['hourly_program_trading'],
+                endpoint='mrkcond',
+                data=params,
+                method='POST',
+                cont_yn=cont_yn,
+                next_key=next_key
+            )
+            
+            if 'output' in result and result['output']:
+                data = result['output']
+                if isinstance(data, list):
+                    all_data.extend(data)
+                    records_collected += len(data)
+                elif isinstance(data, dict):
+                    all_data.append(data)
+                    records_collected += 1
+            
+            cont_yn = result.get('header', {}).get('cont-yn', 'N')
+            next_key = result.get('header', {}).get('next-key', '')
+            
+            if max_records and records_collected >= max_records:
+                all_data = all_data[:max_records]
+                break
+            
+            if cont_yn != 'Y' or not next_key:
+                break
+            
+            time.sleep(0.05)
+        
+        return {
+            "msg1": result.get("msg1", ""),
+            "output": all_data,
+            "total_records": len(all_data)
+        }
     
     def get_overtime_rate_ranking(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """

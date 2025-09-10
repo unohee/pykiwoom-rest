@@ -106,6 +106,10 @@ class KiwoomRest:
         """종목일별프로그램매매추이요청 (ka90013)"""
         return self.stock_api.get_program_trading_daily(stock_code)
     
+    def get_institutional_trading_trend(self, stock_code: str, start_date: str = None, end_date: str = None) -> Dict[str, Any]:
+        """종목별기관매매추이요청 (ka10045)"""
+        return self.stock_api.get_institutional_trading_trend(stock_code, start_date, end_date)
+    
     # ========== 차트 데이터 메서드 (Legacy Compatible) ==========
     
     def get_tick_chart(self, stock_code: str, count: int = 100) -> Dict[str, Any]:
@@ -164,6 +168,22 @@ class KiwoomRest:
     def get_volume_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """호가잔량 상위 조회"""
         return self.ranking_api.get_volume_top(market, count)
+    
+    def get_hourly_program_trading(self, stock_code: str, date: str, amount_or_quantity: str = "1") -> Dict[str, Any]:
+        """종목시간별 프로그램매매 추이요청 (ka90008)"""
+        return self.ranking_api.get_hourly_program_trading(stock_code, date, amount_or_quantity)
+    
+    def get_hourly_program_trading_paginated(
+        self,
+        stock_code: str,
+        date: str,
+        amount_or_quantity: str = "1",
+        max_records: int = None
+    ) -> Dict[str, Any]:
+        """종목시간별 프로그램매매 추이요청 (페이지네이션 지원)"""
+        return self.ranking_api.get_hourly_program_trading_paginated(
+            stock_code, date, amount_or_quantity, max_records
+        )
     
     def get_foreign_top_buy(self, period: str = "1") -> Dict[str, Any]:
         """외인 기간별 매매 상위 조회"""
