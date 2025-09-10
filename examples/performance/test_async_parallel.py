@@ -13,8 +13,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from src.pykiwoom_rest import KiwoomRest
-from src.pykiwoom_rest.async_api import AsyncKiwoomAPI, ParallelKiwoomAPI
+import sys
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+
+from pykiwoom_rest import KiwoomRest
+from pykiwoom_rest.async_api import AsyncKiwoomAPI, ParallelKiwoomAPI
 
 
 # 테스트할 종목 코드들
