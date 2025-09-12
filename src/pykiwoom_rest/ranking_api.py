@@ -35,7 +35,8 @@ class RankingAPI(KiwoomAPIBase):
         'same_net_trading_ranking': 'ka10062',
         'investor_trading_top': 'ka10065',
         'hourly_program_trading': 'ka90008',
-        'overtime_rate_ranking': 'ka10098'
+        'overtime_rate_ranking': 'ka10098',
+        'foreign_institution_trading_top': 'ka90009'
     }
     
     def _get_market_code(self, market: str) -> str:
@@ -544,6 +545,182 @@ class RankingAPI(KiwoomAPIBase):
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES['overtime_rate_ranking'],
+            endpoint='ranking',
+            data=params,
+            method='POST'
+        )
+
+    def get_previous_volume_top(
+        self, 
+        market: str = "ALL", 
+        data_count: str = "50"
+    ) -> Dict[str, Any]:
+        """
+        전일거래량상위요청 (ka10031)
+        전일 대비 거래량이 큰 종목들을 조회합니다.
+        
+        Args:
+            market: 시장구분 (ALL=전체, KOSPI=코스피, KOSDAQ=코스닥)
+            data_count: 조회건수 (기본: 50)
+            
+        Returns:
+            전일 거래량 상위 종목 데이터
+        """
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": self._get_market_code(market),
+            "FID_RANK_SORT_CLS_CODE": "0",
+            "FID_INPUT_CNT_1": data_count
+        }
+        return self.make_tr_request(
+            tr_code=self.TR_CODES['previous_volume_top'],
+            endpoint='ranking',
+            data=params,
+            method='POST'
+        )
+
+    def get_foreign_window_trading_top(
+        self, 
+        market: str = "ALL",
+        data_count: str = "50"
+    ) -> Dict[str, Any]:
+        """
+        외국계창구매매상위요청 (ka10037)
+        외국계 창구 매매 활동이 활발한 종목을 조회합니다.
+        
+        Args:
+            market: 시장구분 (ALL=전체, KOSPI=코스피, KOSDAQ=코스닥)  
+            data_count: 조회건수 (기본: 50)
+            
+        Returns:
+            외국계 창구 매매 상위 종목 데이터
+        """
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": self._get_market_code(market),
+            "FID_RANK_SORT_CLS_CODE": "0",
+            "FID_INPUT_CNT_1": data_count
+        }
+        return self.make_tr_request(
+            tr_code=self.TR_CODES['foreign_window_trading_top'],
+            endpoint='ranking',
+            data=params,
+            method='POST'
+        )
+
+    def get_stock_securities_ranking(
+        self, 
+        stock_code: str,
+        data_count: str = "20"
+    ) -> Dict[str, Any]:
+        """
+        종목별증권사순위요청 (ka10038)
+        특정 종목의 증권사별 매매 순위를 조회합니다.
+        
+        Args:
+            stock_code: 종목코드 (6자리)
+            data_count: 조회건수 (기본: 20)
+            
+        Returns:
+            종목별 증권사 순위 데이터
+        """
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": stock_code,
+            "FID_RANK_SORT_CLS_CODE": "0",
+            "FID_INPUT_CNT_1": data_count
+        }
+        return self.make_tr_request(
+            tr_code=self.TR_CODES['stock_securities_ranking'],
+            endpoint='ranking',
+            data=params,
+            method='POST'
+        )
+
+    def get_daily_top_departure(
+        self, 
+        market: str = "ALL",
+        data_count: str = "50"
+    ) -> Dict[str, Any]:
+        """
+        당일상위이탈원요청 (ka10053)
+        당일 상위권에서 이탈한 종목들을 조회합니다.
+        
+        Args:
+            market: 시장구분 (ALL=전체, KOSPI=코스피, KOSDAQ=코스닥)
+            data_count: 조회건수 (기본: 50)
+            
+        Returns:
+            당일 상위 이탈 종목 데이터
+        """
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": self._get_market_code(market),
+            "FID_RANK_SORT_CLS_CODE": "0",
+            "FID_INPUT_CNT_1": data_count
+        }
+        return self.make_tr_request(
+            tr_code=self.TR_CODES['daily_top_departure'],
+            endpoint='ranking',
+            data=params,
+            method='POST'
+        )
+
+    def get_same_net_trading_ranking(
+        self, 
+        market: str = "ALL",
+        data_count: str = "50"
+    ) -> Dict[str, Any]:
+        """
+        동일순매매순위요청 (ka10062)
+        동일인의 순매매 거래 순위를 조회합니다.
+        
+        Args:
+            market: 시장구분 (ALL=전체, KOSPI=코스피, KOSDAQ=코스닥)
+            data_count: 조회건수 (기본: 50)
+            
+        Returns:
+            동일인 순매매 순위 데이터
+        """
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": self._get_market_code(market),
+            "FID_RANK_SORT_CLS_CODE": "0",
+            "FID_INPUT_CNT_1": data_count
+        }
+        return self.make_tr_request(
+            tr_code=self.TR_CODES['same_net_trading_ranking'],
+            endpoint='ranking',
+            data=params,
+            method='POST'
+        )
+
+    def get_foreign_institution_trading_top(
+        self, 
+        market: str = "ALL",
+        data_count: str = "50",
+        sort_type: str = "1"
+    ) -> Dict[str, Any]:
+        """
+        외국인기관매매상위요청 (ka90009)
+        외국인과 기관의 매매 상위 종목을 조회합니다.
+        
+        Args:
+            market: 시장구분 (ALL=전체, KOSPI=코스피, KOSDAQ=코스닥)
+            data_count: 조회건수 (기본: 50)
+            sort_type: 정렬구분 (1=순매수금액, 2=순매수수량)
+            
+        Returns:
+            외국인/기관 매매 상위 종목 데이터
+        """
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": self._get_market_code(market),
+            "FID_RANK_SORT_CLS_CODE": sort_type,
+            "FID_INPUT_CNT_1": data_count
+        }
+        return self.make_tr_request(
+            tr_code=self.TR_CODES['foreign_institution_trading_top'],
             endpoint='ranking',
             data=params,
             method='POST'

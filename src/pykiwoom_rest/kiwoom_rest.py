@@ -205,6 +205,30 @@ class KiwoomRest:
         """거래대금 상위 조회"""
         return self.ranking_api.get_trading_amount_top(market)
     
+    def get_previous_volume_top(self, market: str = "ALL", data_count: str = "50") -> Dict[str, Any]:
+        """전일거래량상위요청 (ka10031)"""
+        return self.ranking_api.get_previous_volume_top(market, data_count)
+    
+    def get_foreign_window_trading_top(self, market: str = "ALL", data_count: str = "50") -> Dict[str, Any]:
+        """외국계창구매매상위요청 (ka10037)"""
+        return self.ranking_api.get_foreign_window_trading_top(market, data_count)
+    
+    def get_stock_securities_ranking(self, stock_code: str, data_count: str = "20") -> Dict[str, Any]:
+        """종목별증권사순위요청 (ka10038)"""
+        return self.ranking_api.get_stock_securities_ranking(stock_code, data_count)
+    
+    def get_daily_top_departure(self, market: str = "ALL", data_count: str = "50") -> Dict[str, Any]:
+        """당일상위이탈원요청 (ka10053)"""
+        return self.ranking_api.get_daily_top_departure(market, data_count)
+    
+    def get_same_net_trading_ranking(self, market: str = "ALL", data_count: str = "50") -> Dict[str, Any]:
+        """동일순매매순위요청 (ka10062)"""
+        return self.ranking_api.get_same_net_trading_ranking(market, data_count)
+    
+    def get_foreign_institution_trading_top(self, market: str = "ALL", data_count: str = "50", sort_type: str = "1") -> Dict[str, Any]:
+        """외국인기관매매상위요청 (ka90009)"""
+        return self.ranking_api.get_foreign_institution_trading_top(market, data_count, sort_type)
+    
     # ========== 계좌 관련 메서드 (Account API) ==========
     
     def get_deposit_detail(self) -> Dict[str, Any]:
