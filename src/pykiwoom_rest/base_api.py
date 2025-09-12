@@ -182,7 +182,8 @@ class ErrorHandlerMixin:
                 time.sleep(wait_time)
                 
             except Exception as e:
-                self.logger.error(f"예상치 못한 에러: {e}")
+                import traceback
+                self.logger.error(f"예상치 못한 에러: {e}\n{traceback.format_exc()}")
                 raise
                 
         # 모든 재시도 실패
@@ -326,12 +327,14 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
             
             return response
             
-        except Exception:
+        except Exception as e:
+            import traceback
             self.error_count += 1
             self.stats['total_errors'] += 1
             self.stats['total_requests'] += 1
             if self.stats['total_requests'] > 0:
                 self.stats['success_rate'] = 1 - (self.stats['total_errors'] / self.stats['total_requests'])
+            self.logger.error(f"요청 처리 실패: {e}\n{traceback.format_exc()}")
             raise
             
     def request(

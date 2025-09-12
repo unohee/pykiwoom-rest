@@ -291,7 +291,8 @@ class KiwoomAPIBase(BaseAPIClient):
                 )
                 
         except Exception as e:
-            self.logger.error(f"토큰 발급 중 오류: {e}")
+            import traceback
+            self.logger.error(f"토큰 발급 중 오류: {e}\n{traceback.format_exc()}")
             raise
             
     def _get_hashkey(self, data: Dict[str, Any]) -> str:
@@ -315,7 +316,8 @@ class KiwoomAPIBase(BaseAPIClient):
             return hash_response.get('HASH')
             
         except Exception as e:
-            self.logger.error(f"해시키 생성 중 오류: {e}")
+            import traceback
+            self.logger.error(f"해시키 생성 중 오류: {e}\n{traceback.format_exc()}")
             raise
             
     def make_tr_request(
@@ -498,7 +500,8 @@ class KiwoomAPIBase(BaseAPIClient):
             }
             
         except Exception as e:
-            self.logger.error(f"연속조회 요청 실패: {e}")
+            import traceback
+            self.logger.error(f"연속조회 요청 실패: {e}\n{traceback.format_exc()}")
             raise
         
     def health_check(self) -> Dict[str, Any]:
@@ -539,11 +542,14 @@ class KiwoomAPIBase(BaseAPIClient):
                 }
                 
         except Exception as e:
+            import traceback
+            self.logger.error(f"Health check 실패: {e}\n{traceback.format_exc()}")
             return {
                 'status': 'unhealthy',
                 'connected': False,
                 'error': str(e),
-                'exception_type': type(e).__name__
+                'exception_type': type(e).__name__,
+                'traceback': traceback.format_exc()
             }
             
     def convert_stock_code_param(self, stock_code: str, legacy_format: bool = False) -> Dict[str, str]:
@@ -624,5 +630,6 @@ class KiwoomAPIBase(BaseAPIClient):
             return df
             
         except Exception as e:
-            self.logger.error(f"DataFrame 변환 중 오류: {e}")
-            return None
+            import traceback
+            self.logger.error(f"DataFrame 변환 중 오류: {e}\n{traceback.format_exc()}")
+            raise

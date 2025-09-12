@@ -174,8 +174,10 @@ class ConcurrentKiwoomAPI:
                     results.append(result)
                     self.stats['total_requests'] += 1
                 except Exception as e:
-                    errors.append((i, e))
+                    import traceback
+                    errors.append((i, e, traceback.format_exc()))
                     self.stats['total_errors'] += 1
+                    self._write_log("ERROR", f"주가 조회 실패 - {code}: {e}\n{traceback.format_exc()}")
         finally:
             self._return_api_client(api)
         
@@ -197,7 +199,8 @@ class ConcurrentKiwoomAPI:
                 result = api.get_stock_price(code)
                 return ('success', result)
             except Exception as e:
-                return ('error', e)
+                import traceback
+                return ('error', e, traceback.format_exc())
             finally:
                 self._return_api_client(api)
         
