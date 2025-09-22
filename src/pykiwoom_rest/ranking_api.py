@@ -509,8 +509,10 @@ class RankingAPI(KiwoomAPIBase):
         next_key = ''
         records_collected = 0
 
-        # 간단한 백오프 파라미터
-        sleep_sec = 0.05
+        # 백오프 파라미터 개선
+        sleep_sec = 0.1  # 기본 대기 시간 증가
+        retry_count = 0
+        max_retries = 3
 
         while True:
             try:
@@ -522,17 +524,28 @@ class RankingAPI(KiwoomAPIBase):
                     next_key=next_key,
                     method='POST',
                 )
-            except Exception:
-                # 일시적 오류(예: 429) 대비 소폭 대기 후 1회 더 시도
-                time.sleep(min(1.0, sleep_sec * 4))
-                res = self.make_tr_request_continuous(
-                    tr_code=self.TR_CODES['hourly_program_trading'],
-                    endpoint='mrkcond',
-                    data=params,
-                    cont_yn=cont_yn,
-                    next_key=next_key,
-                    method='POST',
-                )
+                retry_count = 0  # 성공 시 재시도 카운트 리셋
+
+            except Exception as e:
+                retry_count += 1
+
+                # 429 에러인지 확인
+                is_rate_limit = "429" in str(e) or "rate" in str(e).lower()
+
+                if retry_count <= max_retries:
+                    # 429 에러면 더 긴 대기, 아니면 기본 대기
+                    wait_time = (2.0 if is_rate_limit else 0.5) * retry_count
+
+                    # 조용히 재시도 (429 에러는 로그 레벨 낮춤)
+                    if not is_rate_limit:
+                        print(f"API 요청 재시도 중... ({retry_count}/{max_retries})")
+
+                    time.sleep(wait_time)
+                    continue
+                else:
+                    # 최대 재시도 초과 시 현재까지 수집된 데이터 반환
+                    print(f"최대 재시도 초과. 현재까지 수집된 {len(all_data)}개 데이터 반환")
+                    break
 
             if not res or 'data' not in res:
                 break
@@ -555,6 +568,7 @@ class RankingAPI(KiwoomAPIBase):
             if cont_yn != 'Y' or not next_key:
                 break
 
+            # 429 에러 발생 빈도를 줄이기 위해 대기 시간 증가
             time.sleep(sleep_sec)
 
         return {

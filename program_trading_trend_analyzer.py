@@ -64,6 +64,8 @@ class ProgramTradingTrendAnalyzer:
             date = datetime.now().strftime("%Y%m%d")
 
         print(f"전체 데이터 조회 중... [{stock_code}] {date}")
+        print("  (Rate limiting으로 인해 시간이 걸릴 수 있습니다)")
+
         try:
             result = self.agent.get_hourly_program_trading_paginated(
                 stock_code, date, "1"  # 1: 금액 기준
@@ -83,7 +85,11 @@ class ProgramTradingTrendAnalyzer:
                 return []
 
         except Exception as e:
-            print(f"  → 오류: {e}")
+            # 일반적이지 않은 오류만 출력
+            if "429" not in str(e) and "rate" not in str(e).lower():
+                print(f"  → 오류: {e}")
+            else:
+                print("  → Rate limiting으로 인한 일시적 지연 발생")
             return []
 
     def analyze_trend_smart(self, data: List[Dict]) -> Dict:
