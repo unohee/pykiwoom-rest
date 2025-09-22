@@ -94,9 +94,9 @@ class TestKiwoomAPIBase(unittest.TestCase):
         # Mock 응답 설정
         mock_response = MagicMock()
         mock_response.json.return_value = {
-            'access_token': 'test_access_token',
-            'token_type': 'Bearer',
-            'expires_in': 86400
+            'token': 'test_access_token',
+            'return_code': 0,
+            'expires_dt': '20990101T000000'
         }
         mock_response.raise_for_status = MagicMock()
         

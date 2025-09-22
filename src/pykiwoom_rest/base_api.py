@@ -134,19 +134,16 @@ class ErrorHandlerMixin:
             except requests.exceptions.Timeout as e:
                 last_exception = e
                 wait_time = self.backoff_factor * (2 ** attempt)
-                self.logger.warning(
-                    f"Timeout 발생 (시도 {attempt + 1}/{self.max_retries}). "
-                    f"{wait_time}초 후 재시도..."
-                )
+                # 전체 traceback 기록 후 재시도
+                self.logger.exception(
+                    f"Timeout 발생 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도...")
                 time.sleep(wait_time)
                 
             except requests.exceptions.ConnectionError as e:
                 last_exception = e
                 wait_time = self.backoff_factor * (2 ** attempt)
-                self.logger.warning(
-                    f"연결 오류 (시도 {attempt + 1}/{self.max_retries}). "
-                    f"{wait_time}초 후 재시도..."
-                )
+                self.logger.exception(
+                    f"연결 오류 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도...")
                 time.sleep(wait_time)
                 
             except requests.exceptions.HTTPError as e:
@@ -165,7 +162,8 @@ class ErrorHandlerMixin:
                     status_code = 403
                     
                 if status_code and 400 <= status_code < 500:
-                    self.logger.error(f"클라이언트 에러: {e}")
+                    # 전체 traceback 포함 로깅 후 APIError로 재발생
+                    self.logger.exception("클라이언트 에러")
                     raise APIError(
                         str(e),
                         status_code=status_code,
@@ -175,26 +173,22 @@ class ErrorHandlerMixin:
                 # 5xx 에러는 재시도
                 last_exception = e
                 wait_time = self.backoff_factor * (2 ** attempt)
-                self.logger.warning(
-                    f"서버 에러 (시도 {attempt + 1}/{self.max_retries}). "
-                    f"{wait_time}초 후 재시도..."
-                )
+                self.logger.exception(
+                    f"서버 에러 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도...")
                 time.sleep(wait_time)
                 
             except Exception as e:
-                self.logger.error(f"예상치 못한 에러: {e}")
+                # 예외 삼킴 없이 전체 traceback 로깅 후 재발생
+                self.logger.exception("예상치 못한 에러")
                 raise
                 
         # 모든 재시도 실패
-        self.logger.error(f"모든 재시도 실패: {last_exception}")
+        self.logger.exception(f"모든 재시도 실패: {last_exception}")
         
         # Timeout과 ConnectionError는 APIError로 래핑
         if isinstance(last_exception, (requests.exceptions.Timeout, requests.exceptions.ConnectionError)):
-            raise APIError(
-                str(last_exception),
-                status_code=None,
-                response=None
-            )
+            # 전체 traceback은 위에서 기록됨. APIError로 래핑하여 재발생
+            raise APIError(str(last_exception), status_code=None, response=None)
         raise last_exception
 
 
@@ -326,12 +320,14 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
             
             return response
             
-        except Exception:
+        except Exception as e:
+            # 예외 삼킴 없이 전체 traceback 로깅 후 재발생
             self.error_count += 1
             self.stats['total_errors'] += 1
             self.stats['total_requests'] += 1
             if self.stats['total_requests'] > 0:
                 self.stats['success_rate'] = 1 - (self.stats['total_errors'] / self.stats['total_requests'])
+            self.logger.exception("요청 처리 실패")
             raise
             
     def request(

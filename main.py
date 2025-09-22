@@ -32,8 +32,9 @@ def run_demo():
             print("example.py 파일을 찾을 수 없습니다.")
             return False
     except Exception as e:
-        print(f"데모 실행 오류: {e}")
-        return False
+        import traceback
+        print(f"데모 실행 오류: {e}\n{traceback.format_exc()}")
+        raise  # Fail-fast 원칙
     
     return True
 
@@ -57,8 +58,9 @@ def run_tests():
         ], cwd=project_root)
         return result.returncode == 0
     except Exception as e:
-        print(f"테스트 실행 오류: {e}")
-        return False
+        import traceback
+        print(f"테스트 실행 오류: {e}\n{traceback.format_exc()}")
+        raise  # Fail-fast 원칙
 
 def show_info():
     """프로젝트 정보 표시"""

@@ -28,6 +28,7 @@ class StockAPI(KiwoomAPIBase):
         'high_low_per': 'ka10026',
         'open_price_rate': 'ka10028',
         'member_supply_analysis': 'ka10043',
+        'institutional_trading_trend': 'ka10045',
         'new_previous_execution': 'ka10055',
         'current_previous_execution': 'ka10084',
         'watchlist_info': 'ka10095',
@@ -461,6 +462,55 @@ class StockAPI(KiwoomAPIBase):
             method="POST",
             endpoint="/api/dostk/mrkcond",
             json_data=data,
+            headers=headers
+        )
+        
+        return response
+    
+    def get_institutional_trading_trend(self, stock_code: str, start_date: str = None, end_date: str = None) -> Dict[str, Any]:
+        """
+        종목별기관매매추이요청 (ka10045)
+        
+        Args:
+            stock_code: 종목코드 (6자리)
+            start_date: 조회 시작일 (YYYYMMDD, 기본값: 30일 전)
+            end_date: 조회 종료일 (YYYYMMDD, 기본값: 오늘)
+            
+        Returns:
+            기관 매매 추이 데이터
+        """
+        from datetime import datetime, timedelta
+        
+        if not end_date:
+            end_date = datetime.now().strftime("%Y%m%d")
+        if not start_date:
+            start_date = (datetime.now() - timedelta(days=30)).strftime("%Y%m%d")
+        
+        # API v2 형식의 매개변수 구조
+        params = {
+            "stk_cd": stock_code,
+            "strt_dt": start_date,
+            "end_dt": end_date,
+            "orgn_prsm_unp_tp": "01",  # 기관법인단위유형 (01: 기본값)
+            "for_prsm_unp_tp": "01"    # 외국인법인단위유형 (01: 기본값)
+        }
+        
+        headers = {
+            "api-id": "ka10045",
+            "cont-yn": "N",
+            "next-key": ""
+        }
+        
+        # 토큰 확보
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+        
+        # 직접 요청
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/mrkcond",
+            json_data=params,
             headers=headers
         )
         

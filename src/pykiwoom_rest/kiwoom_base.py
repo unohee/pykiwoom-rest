@@ -10,8 +10,10 @@ import time
 from datetime import datetime, timedelta
 from typing import Dict, Any, List, Optional
 from .base_api import BaseAPIClient, APIError
-from .response_model import APIResponse
+from typing import Dict
+from .exception_utils import rethrow_with_trace, RaiseWithTraceMixin
 from .rate_limit_optimizer import RateLimitOptimizer, SmartRetryStrategy
+from .response_utils import normalize_response
 
 
 class KiwoomAPIError(APIError):
@@ -23,7 +25,7 @@ class KiwoomAPIError(APIError):
         self.error_msg = error_msg
 
 
-class KiwoomAPIBase(BaseAPIClient):
+class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
     """
     키움증권 REST API 기본 클래스
     OAuth 인증, 해시키 생성, TR 코드 매핑 등 키움 특화 기능 제공
@@ -40,6 +42,7 @@ class KiwoomAPIBase(BaseAPIClient):
         'hashkey': '/uapi/hashkey',
         'stock_info': '/api/dostk/stkinfo',
         'market_condition': '/api/dostk/mrkcond',
+        'mrkcond': '/api/dostk/mrkcond',  # 종목시간별프로그램매매추이 등
         'chart': '/api/dostk/chart',
         'foreign_institution': '/api/dostk/frgnistt',
         'ranking': '/api/dostk/rkinfo',
@@ -169,8 +172,9 @@ class KiwoomAPIBase(BaseAPIClient):
             
         return base_headers
         
-    def _process_response(self, response) -> APIResponse:
-        """키움 API 응답 처리 - APIResponse 객체로 래핑"""
+    @rethrow_with_trace()
+    def _process_response(self, response) -> Dict[str, Any]:
+        """키움 API 응답 처리 - 원시 JSON(dict) 반환"""
         start_time = getattr(self, '_request_start_time', time.time())
         processing_time = time.time() - start_time
         
@@ -180,39 +184,22 @@ class KiwoomAPIBase(BaseAPIClient):
         
         try:
             data = response.json()
-            
-            # 키움 API 에러 체크
-            if isinstance(data, dict):
-                error_code = data.get('rt_cd')
-                if error_code and error_code != '0':
-                    error_msg = data.get('msg1', '알 수 없는 오류')
-                    return APIResponse.create_error(
-                        error_message=f"키움 API 오류: {error_msg}",
-                        error_code=error_code,
-                        error_details={'raw_response': data},
-                        tr_code=tr_code,
-                        endpoint=endpoint,
-                        processing_time=processing_time
-                    )
-            
-            # 성공 응답
-            return APIResponse.create_success(
-                data=data,
+            # 응답 구조 일원화: 기본 키/메타데이터를 부여하고 원본은 보존
+            return normalize_response(
+                data,
                 tr_code=tr_code,
                 endpoint=endpoint,
-                processing_time=processing_time
+                processing_time=processing_time,
             )
             
         except json.JSONDecodeError:
             # JSON이 아닌 응답 - 에러로 처리
-            return APIResponse.create_error(
-                error_message="Invalid JSON response",
-                error_code="INVALID_JSON",
-                error_details={'raw_response': response.text},
-                tr_code=tr_code,
-                endpoint=endpoint,
-                processing_time=processing_time
-            )
+            return {
+                'rt_cd': '1',
+                'msg1': 'INVALID_JSON',
+                'error': 'Invalid JSON response',
+                'raw_response': response.text
+            }
     
     def _setup_rate_optimizer(self, additional_credentials_list: List[Dict[str, str]] = None):
         """Rate Limiting 최적화 설정"""
@@ -254,6 +241,7 @@ class KiwoomAPIBase(BaseAPIClient):
         
         self.logger.info(f"Rate Optimizer 활성화: {len(all_credentials)}개 크레덴셜")
             
+    @rethrow_with_trace()
     def _get_access_token(self, force_refresh: bool = False) -> str:
         """OAuth2 액세스 토큰 발급/갱신"""
         # 토큰이 유효하고 강제 갱신이 아니면 기존 토큰 사용
@@ -290,9 +278,9 @@ class KiwoomAPIBase(BaseAPIClient):
                 )
                 
         except Exception as e:
-            self.logger.error(f"토큰 발급 중 오류: {e}")
-            raise
+            self.raise_with_trace(e, "토큰 발급 중 오류")
             
+    @rethrow_with_trace()
     def _get_hashkey(self, data: Dict[str, Any]) -> str:
         """
         POST 요청용 해시키 생성
@@ -314,17 +302,19 @@ class KiwoomAPIBase(BaseAPIClient):
             return hash_response.get('HASH')
             
         except Exception as e:
-            self.logger.error(f"해시키 생성 중 오류: {e}")
-            raise
+            self.raise_with_trace(e, "해시키 생성 중 오류")
             
+    @rethrow_with_trace()
     def make_tr_request(
         self,
         tr_code: str,
         endpoint: str,
         data: Dict[str, Any] = None,
         params: Dict[str, Any] = None,
-        method: str = 'POST'
-    ) -> APIResponse:
+        method: str = 'POST',
+        cont_yn: str = 'N',
+        next_key: str = ''
+    ) -> Dict[str, Any]:
         """
         TR 코드를 사용한 API 요청
         
@@ -380,8 +370,8 @@ class KiwoomAPIBase(BaseAPIClient):
                 'authorization': f'Bearer {token}',
                 'Content-Type': 'application/json;charset=UTF-8',
                 'api-id': tr_code,
-                'cont-yn': 'N',
-                'next-key': ''
+                'cont-yn': cont_yn,
+                'next-key': next_key
             }
             
             # 해시키는 필요시에만 추가 (현재는 불필요)
@@ -399,6 +389,16 @@ class KiwoomAPIBase(BaseAPIClient):
                 # 성공 시 에러 카운트 리셋
                 if self.enable_rate_optimizer and self.rate_optimizer:
                     self.rate_optimizer.reset_error_count(cred_idx if 'cred_idx' in locals() else 0)
+                
+                # 헤더 정보 추가
+                if isinstance(response, dict):
+                    response['header'] = {
+                        'cont-yn': headers.get('cont-yn', 'N'),
+                        'next-key': headers.get('next-key', '')
+                    }
+                    # 응답 헤더에서 실제 값 가져오기 (나중에 구현 필요)
+                    # response['header']['cont-yn'] = response_headers.get('cont-yn', 'N')
+                    # response['header']['next-key'] = response_headers.get('next-key', '')
                 
                 return response
                 
@@ -485,8 +485,7 @@ class KiwoomAPIBase(BaseAPIClient):
             }
             
         except Exception as e:
-            self.logger.error(f"연속조회 요청 실패: {e}")
-            raise
+            self.raise_with_trace(e, "연속조회 요청 실패")
         
     def health_check(self) -> Dict[str, Any]:
         """
@@ -526,11 +525,13 @@ class KiwoomAPIBase(BaseAPIClient):
                 }
                 
         except Exception as e:
+            self.logger.exception("Health check 실패")
             return {
                 'status': 'unhealthy',
                 'connected': False,
                 'error': str(e),
-                'exception_type': type(e).__name__
+                'exception_type': type(e).__name__,
+                'traceback': __import__('traceback').format_exc()
             }
             
     def convert_stock_code_param(self, stock_code: str, legacy_format: bool = False) -> Dict[str, str]:
@@ -540,76 +541,4 @@ class KiwoomAPIBase(BaseAPIClient):
         else:
             return {"stk_cd": stock_code}
             
-    def to_dataframe(self, response, output_key: str = None, numeric_fields: list = None):
-        """
-        API 응답을 DataFrame으로 변환
-        
-        Args:
-            response: APIResponse 객체 또는 dict
-            output_key: 데이터 추출할 키
-            numeric_fields: 숫자형으로 변환할 필드 목록
-            
-        Returns:
-            DataFrame 또는 None
-        """
-        try:
-            import pandas as pd
-        except ImportError:
-            self.logger.warning("pandas가 설치되지 않음. DataFrame 변환 불가")
-            return None
-        
-        # APIResponse 객체 처리
-        if isinstance(response, APIResponse):
-            if not response.success:
-                return None
-            response_data = response.data
-        elif isinstance(response, dict):
-            response_data = response
-        else:
-            return None
-            
-        # 유효성 검증
-        if not response_data:
-            return None
-            
-        # 키움 API 성공 응답 체크 (rt_cd == '0')
-        if response_data.get('rt_cd') != '0':
-            return None
-            
-        # 데이터 추출
-        data = None
-        if output_key:
-            data = response_data.get(output_key)
-        else:
-            # 자동 감지
-            for key in ['output', 'output1', 'output2']:
-                if key in response_data:
-                    data = response_data[key]
-                    break
-                    
-        if not data:
-            return None
-            
-        # DataFrame 생성
-        try:
-            if isinstance(data, list):
-                df = pd.DataFrame(data)
-            elif isinstance(data, dict):
-                df = pd.DataFrame([data])
-            else:
-                return None
-                
-            # 숫자형 필드 변환
-            if numeric_fields:
-                for field in numeric_fields:
-                    if field in df.columns:
-                        try:
-                            df[field] = pd.to_numeric(df[field], errors='coerce')
-                        except (ValueError, TypeError):
-                            continue
-                            
-            return df
-            
-        except Exception as e:
-            self.logger.error(f"DataFrame 변환 중 오류: {e}")
-            return None
+    # to_dataframe 폐기: 더 이상 지원하지 않음 (사용자 변환 권장)

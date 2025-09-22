@@ -5,6 +5,7 @@
 """
 
 import os
+import pytest
 import sys
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -15,8 +16,9 @@ from typing import Dict, Any
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from pykiwoom_rest.kiwoom_rest import KiwoomRest
-from pykiwoom_rest.response_model import APIResponse
 import time
+
+pytestmark = pytest.mark.integration
 
 
 def test_account_apis(kiwoom: KiwoomRest):

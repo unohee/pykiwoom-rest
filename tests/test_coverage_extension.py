@@ -12,7 +12,6 @@ from datetime import datetime, timedelta
 
 from pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceeded, APIError
 from pykiwoom_rest.kiwoom_base import KiwoomAPIError
-from pykiwoom_rest.response_model import APIResponse
 
 
 class TestTokenBucketRateLimiter:
@@ -100,129 +99,9 @@ class TestKiwoomAPIError:
 
 
 class TestAPIResponseEdgeCases:
-    """APIResponse 엣지 케이스 테스트"""
-
-    def test_empty_data_handling(self):
-        """빈 데이터 처리 테스트"""
-        response = APIResponse.create_success(data={})
-        
-        assert response.success == True
-        assert len(response) == 0
-        assert list(response.keys()) == []
-        assert list(response.values()) == []
-
-    def test_complex_data_structures(self):
-        """복잡한 데이터 구조 테스트"""
-        complex_data = {
-            'nested': {'level1': {'level2': 'value'}},
-            'list_data': [1, 2, 3, {'inner': 'value'}],
-            'mixed': {'numbers': 123, 'strings': 'abc'}
-        }
-        
-        response = APIResponse.create_success(complex_data)
-        
-        assert response['nested']['level1']['level2'] == 'value'
-        assert response['list_data'][3]['inner'] == 'value'
-        assert len(response['list_data']) == 4
-
-    def test_dict_interface_completeness(self):
-        """dict 인터페이스 완전성 테스트"""
-        data = {'key1': 'value1', 'key2': 'value2', 'key3': 123}
-        response = APIResponse.create_success(data)
-        
-        # keys(), values(), items() 테스트
-        assert set(response.keys()) == {'key1', 'key2', 'key3'}
-        assert set(response.values()) == {'value1', 'value2', 123}
-        assert ('key1', 'value1') in response.items()
-        
-        # update() 메서드 테스트
-        response.update({'key4': 'value4'})
-        assert response['key4'] == 'value4'
-        
-        # setitem 테스트
-        response['key5'] = 'value5'
-        assert response['key5'] == 'value5'
-
-    def test_kiwoom_specific_methods(self):
-        """키움 API 특화 메서드 테스트"""
-        # 성공 응답
-        success_data = {'rt_cd': '0', 'msg1': 'SUCCESS', 'output': [1, 2, 3]}
-        success_response = APIResponse.create_success(success_data)
-        
-        assert success_response.is_kiwoom_success() == True
-        assert success_response.get_kiwoom_message() == 'SUCCESS'
-        assert success_response.has_output_data('output') == True
-        assert success_response.get_output_data('output') == [1, 2, 3]
-        
-        # 실패 응답
-        fail_data = {'rt_cd': '1', 'msg1': 'FAIL'}
-        fail_response = APIResponse.create_success(fail_data)
-        
-        assert fail_response.is_kiwoom_success() == False
-        assert fail_response.get_kiwoom_message() == 'FAIL'
-
-    def test_string_representations(self):
-        """문자열 표현 테스트"""
-        response = APIResponse.create_success(
-            {'test': 'data'}, 
-            tr_code='ka10001',
-            endpoint='test_endpoint'
-        )
-        
-        str_repr = str(response)
-        assert 'SUCCESS' in str_repr
-        assert 'ka10001' in str_repr
-        assert response.__repr__() == str_repr
-
-    def test_boolean_evaluation(self):
-        """Boolean 평가 테스트"""
-        success_response = APIResponse.create_success({'test': 'data'})
-        error_response = APIResponse.create_error('Test error')
-        
-        assert bool(success_response) == True
-        assert bool(error_response) == False
-        
-        # if문에서 사용
-        if success_response:
-            result = "success"
-        else:
-            result = "fail"
-        assert result == "success"
-
-    def test_error_response_details(self):
-        """에러 응답 상세 정보 테스트"""
-        error_details = {'stack_trace': 'line 123', 'request_id': 'req_001'}
-        error_response = APIResponse.create_error(
-            error_message="상세 에러",
-            error_code="E999",
-            error_details=error_details,
-            tr_code="ka99999",
-            endpoint="error_test"
-        )
-        
-        assert error_response.success == False
-        assert error_response.error['message'] == "상세 에러"
-        assert error_response.error['code'] == "E999"
-        assert error_response.error['details']['stack_trace'] == 'line 123'
-        assert error_response.metadata['tr_code'] == "ka99999"
-
-    def test_legacy_compatibility(self):
-        """하위 호환성 테스트"""
-        response = APIResponse.create_success({'rt_cd': '0', 'data_field': 'value'})
-        
-        # 기존 코드 패턴 동작 확인
-        if response.get('rt_cd') == '0':
-            success = True
-        else:
-            success = False
-            
-        assert success == True
-        
-        # to_legacy_dict() 메서드
-        legacy_dict = response.to_legacy_dict()
-        assert isinstance(legacy_dict, dict)
-        assert legacy_dict['rt_cd'] == '0'
-        assert legacy_dict['data_field'] == 'value'
+    """원시 JSON 전환에 따라 APIResponse 관련 테스트 제거됨"""
+    def test_placeholder(self):
+        assert True
 
 
 class TestEnvironmentHandling:
@@ -232,8 +111,16 @@ class TestEnvironmentHandling:
         """dotenv 임포트 실패 시 수동 파싱 테스트"""
         from pykiwoom_rest.kiwoom_base import KiwoomAPIBase
         
-        with patch('importlib.import_module') as mock_import:
-            mock_import.side_effect = ImportError("No module named 'dotenv'")
+        # dotenv 모듈에 대해서만 ImportError를 유도
+        import importlib as _orig_importlib
+        _real_import = _orig_importlib.import_module
+
+        def _import_side_effect(name, *args, **kwargs):
+            if name == 'dotenv':
+                raise ImportError("No module named 'dotenv'")
+            return _real_import(name)
+
+        with patch('importlib.import_module', side_effect=_import_side_effect):
             
             # .env 파일 생성
             env_content = "TEST_KEY=test_value\nACCOUNT_NO=12345\n# 주석\nEMPTY_LINE=\n"
