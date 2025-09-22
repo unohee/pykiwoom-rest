@@ -115,7 +115,7 @@ class GlobalRateLimiter:
             }
 
 
-class SimpleKiwoomAPIFacade:
+class KiwoomAPI:
     """키움증권 API 통합 파사드 클래스 (싱글턴) - 간단한 버전"""
 
     _instance = None
@@ -170,10 +170,10 @@ class SimpleKiwoomAPIFacade:
 
         self._initialized = True
 
-        self.logger.info("SimpleKiwoomAPIFacade 초기화 완료 (싱글턴)")
+        self.logger.info("KiwoomAPI 초기화 완료 (싱글턴)")
 
     @classmethod
-    def get_instance(cls, **kwargs) -> 'SimpleKiwoomAPIFacade':
+    def get_instance(cls, **kwargs) -> 'KiwoomAPI':
         """싱글턴 인스턴스 반환"""
         if cls._instance is None:
             cls._instance = cls(**kwargs)
@@ -344,7 +344,7 @@ class SimpleKiwoomAPIFacade:
             if hasattr(self, 'session'):
                 self.session.close()
 
-            self.logger.info("SimpleKiwoomAPIFacade 정리 완료")
+            self.logger.info("KiwoomAPI 정리 완료")
         except Exception as e:
             self.logger.error(f"SimpleKiwoomAPIFacade 정리 중 오류: {e}")
 
