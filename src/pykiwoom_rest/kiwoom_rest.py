@@ -320,10 +320,7 @@ class KiwoomRest:
     
     # ========== 유틸리티 메서드 ==========
     
-    def to_dataframe(self, response: Dict[str, Any], output_key: str = None, numeric_fields: list = None):
-        """API 응답을 DataFrame으로 변환"""
-        # 첫 번째 API 객체의 메서드 사용
-        return self.stock_api.to_dataframe(response, output_key, numeric_fields)
+    # to_dataframe 폐기: 원시 JSON만 제공 (DataFrame 변환은 사용자 책임)
     
     def verify_connection(self) -> Dict[str, Any]:
         """API 연결 상태 확인"""

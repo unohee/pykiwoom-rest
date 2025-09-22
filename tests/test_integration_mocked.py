@@ -6,9 +6,7 @@ Mock을 사용한 통합 테스트
 
 import pytest
 from unittest.mock import patch, MagicMock, Mock
-import pandas as pd
-
-from pykiwoom_rest.response_model import APIResponse
+# 원시 JSON(dict) 응답 기반 테스트
 
 
 class TestIntegrationWithMocks:
@@ -33,21 +31,21 @@ class TestIntegrationWithMocks:
         }
         
         with patch.object(kiwoom.stock_api, 'make_tr_request') as mock_request:
-            mock_request.return_value = APIResponse.create_success(mock_response)
+            mock_request.return_value = mock_response
             
             # 실제 API 호출
             result = kiwoom.get_stock_price('005930')
             
             # 검증
-            assert result.success
-            assert result['rt_cd'] == '0'
+            assert result.get('rt_cd') == '0'
             assert result['output']['stck_prpr'] == '75000'
             assert result['output']['prdt_abrv_name'] == '삼성전자'
             
-            # 호출 파라미터 검증
+            # 호출 파라미터 검증 (POST + data에 stk_cd 사용)
             mock_request.assert_called_once()
             call_args = mock_request.call_args
-            assert call_args[1]['params']['FID_INPUT_ISCD'] == '005930'
+            assert call_args[1]['data']['stk_cd'] == '005930'
+            assert call_args[1]['method'] == 'POST'
 
     def test_minute_chart_with_dataframe(self, kiwoom):
         """분봉 차트 조회 및 DataFrame 변환 테스트"""
@@ -77,28 +75,13 @@ class TestIntegrationWithMocks:
         }
         
         with patch.object(kiwoom.chart_api, 'make_tr_request') as mock_request:
-            mock_request.return_value = APIResponse.create_success(chart_data)
+            mock_request.return_value = chart_data
             
             # 차트 데이터 조회
             result = kiwoom.get_minute_chart('005930', interval=5)
-            
-            # DataFrame 변환 테스트
-            df = kiwoom.to_dataframe(
-                result, 
-                output_key='output2',
-                numeric_fields=['stck_prpr', 'acml_vol']
-            )
-            
-            # 검증
-            assert result.success
-            assert len(result['output2']) == 2
-            assert isinstance(df, pd.DataFrame) or df is None  # pandas 없을 수도 있음
-            
-            if df is not None:
-                assert len(df) == 2
-                assert 'stck_prpr' in df.columns
-                # 숫자형 변환 확인
-                assert df['stck_prpr'].dtype in ['int64', 'float64', 'object']
+            # 검증: 원시 JSON과 데이터 길이
+            assert result.get('rt_cd') == '0'
+            assert len(result.get('output2', [])) == 2
 
     def test_orderbook_detailed(self, kiwoom):
         """호가 정보 상세 테스트"""
@@ -122,12 +105,12 @@ class TestIntegrationWithMocks:
         }
         
         with patch.object(kiwoom.stock_api, 'make_tr_request') as mock_request:
-            mock_request.return_value = APIResponse.create_success(orderbook_data)
+            mock_request.return_value = orderbook_data
             
             result = kiwoom.get_stock_orderbook('005930')
             
             # 검증
-            assert result.success
+            assert result.get('rt_cd') == '0'
             output = result['output1']
             
             # 매도호가 검증
@@ -168,11 +151,11 @@ class TestIntegrationWithMocks:
         }
         
         with patch.object(kiwoom.ranking_api, 'make_tr_request') as mock_request:
-            mock_request.return_value = APIResponse.create_success(ranking_data)
+            mock_request.return_value = ranking_data
             
             # 거래량 순위
             volume_result = kiwoom.get_volume_top()
-            assert volume_result.success
+            assert volume_result.get('rt_cd') == '0'
             assert len(volume_result['output']) == 2
             
             # 첫 번째 종목 검증
@@ -191,14 +174,12 @@ class TestIntegrationWithMocks:
         }
         
         with patch.object(kiwoom.stock_api, 'make_tr_request') as mock_request:
-            mock_request.return_value = APIResponse.create_success(kiwoom_error_data)
+            mock_request.return_value = kiwoom_error_data
             
             result = kiwoom.get_stock_price('INVALID')
-            
-            # APIResponse는 성공이지만 키움 API 결과는 실패
-            assert result.success  # APIResponse 자체는 성공
-            assert not result.is_kiwoom_success()  # 키움 API는 실패
-            assert result.get_kiwoom_message() == 'APBK0013 : 주식 단축코드 오류'
+            # 원시 JSON 기준: rt_cd로 성공/실패 판정
+            assert result.get('rt_cd') != '0'
+            assert result.get('msg1') == 'APBK0013 : 주식 단축코드 오류'
 
     def test_health_check_mocked(self, kiwoom_api_base):
         """헬스 체크 Mock 테스트"""
@@ -212,7 +193,7 @@ class TestIntegrationWithMocks:
         }
         
         with patch.object(kiwoom_api_base, 'make_tr_request') as mock_request:
-            mock_request.return_value = APIResponse.create_success(health_response)
+            mock_request.return_value = health_response
             
             health_status = kiwoom_api_base.health_check()
             
@@ -230,35 +211,20 @@ class TestIntegrationWithMocks:
                 with KiwoomRest() as kiwoom:
                     # Context 내에서 API 사용
                     with patch.object(kiwoom.stock_api, 'make_tr_request') as mock_request:
-                        mock_request.return_value = APIResponse.create_success({
+                        mock_request.return_value = {
                             'rt_cd': '0',
                             'msg1': 'SUCCESS',
                             'output': {'test': 'data'}
-                        })
+                        }
                         
                         result = kiwoom.get_stock_price('005930')
-                        assert result.success
+                        assert result.get('rt_cd') == '0'
                         
                         # 통계 확인
                         stats = kiwoom.get_stats()
                         assert 'total_requests' in stats
 
-    def test_to_dataframe_edge_cases(self, kiwoom):
-        """DataFrame 변환 엣지 케이스 테스트"""
-        # pandas 없는 경우 시뮬레이션
-        with patch('pandas.DataFrame', side_effect=ImportError("No module named 'pandas'")):
-            result = kiwoom.to_dataframe({'output': [{'test': 'data'}]}, 'output')
-            assert result is None
-        
-        # 빈 데이터
-        empty_response = APIResponse.create_success({'rt_cd': '1', 'msg1': 'No data'})
-        df = kiwoom.to_dataframe(empty_response)
-        assert df is None
-        
-        # 잘못된 output_key
-        valid_response = APIResponse.create_success({'rt_cd': '0', 'other_key': [{'data': '1'}]})
-        df = kiwoom.to_dataframe(valid_response, 'nonexistent_key')
-        assert df is None
+    # to_dataframe 관련 테스트는 원시 JSON 전환에 따라 제거됨
 
     def test_stock_code_conversion(self, ranking_api):
         """종목코드 변환 헬퍼 테스트"""

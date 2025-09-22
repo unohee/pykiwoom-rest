@@ -3,10 +3,11 @@ PyKiwoom-Rest 테스트 코드
 작성일: 2025-01-15
 """
 
+import pytest
 from pykiwoom_rest import KiwoomRest
 from datetime import datetime, timedelta
 import json
-
+pytestmark = pytest.mark.integration
 
 def test_basic_connection():
     """기본 연결 테스트"""

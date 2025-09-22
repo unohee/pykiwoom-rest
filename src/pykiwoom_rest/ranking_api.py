@@ -4,7 +4,7 @@ Ranking Information API
 작성일: 2025-01-27
 """
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 from .kiwoom_base import KiwoomAPIBase
 
 
@@ -477,53 +477,90 @@ class RankingAPI(KiwoomAPIBase):
             종목시간별 프로그램매매 추이 전체 데이터
         """
         import time
-        
-        all_data = []
+
+        def _extract_records(payload: Dict[str, Any]) -> List[Dict[str, Any]]:
+            """페이지 payload에서 레코드 리스트를 추출 (키 다양성 대응).
+            - 우선 'output' 키를 사용
+            - 없으면 최상위 dict의 첫 번째 리스트 값을 사용
+            - 리스트가 없으면 빈 리스트
+            """
+            if not isinstance(payload, dict):
+                return []
+            if 'output' in payload:
+                value = payload['output']
+                if isinstance(value, list):
+                    return value
+                if isinstance(value, dict):
+                    return [value]
+            for _, value in payload.items():
+                if isinstance(value, list):
+                    return value
+            return []
+
+        all_data: List[Dict[str, Any]] = []
         params = {
             "amt_qty_tp": amount_or_quantity,
             "stk_cd": stock_code,
-            "date": date
+            "date": date,
         }
-        
-        cont_yn = "N"
-        next_key = ""
+
+        # 연속조회는 최초 호출 시 cont_yn='N', next_key=''로 시작
+        cont_yn = 'N'
+        next_key = ''
         records_collected = 0
-        
+
+        # 간단한 백오프 파라미터
+        sleep_sec = 0.05
+
         while True:
-            result = self.make_tr_request(
-                tr_code=self.TR_CODES['hourly_program_trading'],
-                endpoint='mrkcond',
-                data=params,
-                method='POST',
-                cont_yn=cont_yn,
-                next_key=next_key
-            )
-            
-            if 'output' in result and result['output']:
-                data = result['output']
-                if isinstance(data, list):
-                    all_data.extend(data)
-                    records_collected += len(data)
-                elif isinstance(data, dict):
-                    all_data.append(data)
-                    records_collected += 1
-            
-            cont_yn = result.get('header', {}).get('cont-yn', 'N')
-            next_key = result.get('header', {}).get('next-key', '')
-            
+            try:
+                res = self.make_tr_request_continuous(
+                    tr_code=self.TR_CODES['hourly_program_trading'],
+                    endpoint='mrkcond',
+                    data=params,
+                    cont_yn=cont_yn,
+                    next_key=next_key,
+                    method='POST',
+                )
+            except Exception:
+                # 일시적 오류(예: 429) 대비 소폭 대기 후 1회 더 시도
+                time.sleep(min(1.0, sleep_sec * 4))
+                res = self.make_tr_request_continuous(
+                    tr_code=self.TR_CODES['hourly_program_trading'],
+                    endpoint='mrkcond',
+                    data=params,
+                    cont_yn=cont_yn,
+                    next_key=next_key,
+                    method='POST',
+                )
+
+            if not res or 'data' not in res:
+                break
+
+            page_payload = res['data']
+            page_records = _extract_records(page_payload)
+
+            if page_records:
+                all_data.extend(page_records)
+                records_collected += len(page_records)
+
+            # 응답 헤더에서 연속조회 정보
+            cont_yn = res.get('cont_yn', 'N')
+            next_key = res.get('next_key', '')
+
             if max_records and records_collected >= max_records:
                 all_data = all_data[:max_records]
                 break
-            
+
             if cont_yn != 'Y' or not next_key:
                 break
-            
-            time.sleep(0.05)
-        
+
+            time.sleep(sleep_sec)
+
         return {
-            "msg1": result.get("msg1", ""),
+            "msg1": "SUCCESS" if all_data else "NO_DATA",
             "output": all_data,
-            "total_records": len(all_data)
+            "total_records": len(all_data),
         }
     
     def get_overtime_rate_ranking(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:

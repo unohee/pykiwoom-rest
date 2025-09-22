@@ -12,7 +12,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from pykiwoom_rest import KiwoomRest, StockAPI, ChartAPI, RankingAPI
 from pykiwoom_rest.kiwoom_base import KiwoomAPIBase
-from pykiwoom_rest.response_model import APIResponse
 
 
 @pytest.fixture
@@ -101,21 +100,12 @@ def ranking_api(mock_env_vars, mock_session):
 
 
 @pytest.fixture
-def api_response_success():
-    """성공 APIResponse fixture"""
-    return APIResponse.create_success(
-        data={'test': 'data', 'rt_cd': '0', 'msg1': 'SUCCESS'},
-        tr_code='ka10001',
-        endpoint='test'
-    )
+def api_response_success_dict():
+    """성공 원시 JSON 응답 fixture"""
+    return {'test': 'data', 'rt_cd': '0', 'msg1': 'SUCCESS'}
 
 
 @pytest.fixture
-def api_response_error():
-    """실패 APIResponse fixture"""
-    return APIResponse.create_error(
-        error_message='Test error',
-        error_code='E001',
-        tr_code='ka10001',
-        endpoint='test'
-    )
+def api_response_error_dict():
+    """실패 원시 JSON 응답 fixture"""
+    return {'rt_cd': '1', 'msg1': 'ERROR', 'error': {'code': 'E001', 'message': 'Test error'}}
