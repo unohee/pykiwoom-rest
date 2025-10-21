@@ -9,7 +9,7 @@ PyKiwoom-REST v2.0: 고성능 키움증권 REST API Python 라이브러리
 
 📊 Performance:
 - 순차 처리: ~48 req/s
-- 병렬 처리: ~25 req/s (ThreadPool)  
+- 병렬 처리: ~25 req/s (ThreadPool)
 - 비동기 처리: ~70 req/s (AsyncIO)
 - Rate limiting 최적화: 429 에러 0%
 
@@ -31,35 +31,34 @@ __author__ = "Your Name"
 __email__ = "contact@pykiwoom-rest.org"
 
 # Main API classes (Enhanced with new architecture)
-from .kiwoom_rest import KiwoomRest
-from .kiwoom_rest_base import KiwoomRestBase
+from .base_api import APIError, BaseAPIClient, RateLimitExceededError, TokenBucketRateLimiter
+from .auth_api import AuthAPI
+from .chart_api import ChartAPI
 
 # New modular API classes (for direct access)
 from .kiwoom_base import KiwoomAPIBase, KiwoomAPIError
-from .stock_api import StockAPI
-from .chart_api import ChartAPI
+from .kiwoom_rest import KiwoomRest
+from .kiwoom_rest_base import KiwoomRestBase
 from .ranking_api import RankingAPI
-from .base_api import BaseAPIClient, RateLimitExceeded, APIError, TokenBucketRateLimiter
 from .response_model import APIResponse
+from .stock_api import StockAPI
 
 __all__ = [
     # Main API classes (Enhanced)
     "KiwoomRest",
     "KiwoomRestBase",
-    
     # Modular classes (for direct access)
     "KiwoomAPIBase",
+    "AuthAPI",
     "StockAPI",
-    "ChartAPI", 
+    "ChartAPI",
     "RankingAPI",
-    
     # Base classes
     "BaseAPIClient",
     "TokenBucketRateLimiter",
     "APIResponse",
-    
     # Exceptions
     "KiwoomAPIError",
     "APIError",
-    "RateLimitExceeded"
+    "RateLimitExceededError",
 ]
