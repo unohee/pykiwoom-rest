@@ -10,15 +10,15 @@
 - 싱글턴 패턴으로 인스턴스 관리
 """
 
-from typing import Dict, Any, Optional
-from .unified_kiwoom_base import UnifiedKiwoomAPIBase
-from .api_facade import RequestPriority
-from .stock_api import StockAPI
-from .chart_api import ChartAPI
-from .ranking_api import RankingAPI
+from typing import Any, Dict, Optional
+
 from .account_api import AccountAPI
+from .chart_api import ChartAPI
 from .order_api import OrderAPI
+from .ranking_api import RankingAPI
 from .sector_api import SectorAPI
+from .stock_api import StockAPI
+from .unified_kiwoom_base import UnifiedKiwoomAPIBase
 
 
 class UnifiedKiwoomRest:
@@ -37,7 +37,7 @@ class UnifiedKiwoomRest:
         rate_limit: int = 20,
         max_retries: int = 3,
         enable_rate_optimizer: bool = False,
-        credentials_list: list = None
+        credentials_list: list = None,
     ):
         """
         초기화
@@ -64,20 +64,20 @@ class UnifiedKiwoomRest:
             rate_limit=rate_limit,
             max_retries=max_retries,
             enable_rate_optimizer=enable_rate_optimizer,
-            credentials_list=credentials_list
+            credentials_list=credentials_list,
         )
 
         # 공통 설정 준비
         common_config = {
-            'account_no': account_no,
-            'appkey': appkey,
-            'appsecret': appsecret,
-            'env_path': env_path,
-            'use_mock': use_mock,
-            'rate_limit': rate_limit,
-            'max_retries': max_retries,
-            'enable_rate_optimizer': enable_rate_optimizer,
-            'credentials_list': credentials_list
+            "account_no": account_no,
+            "appkey": appkey,
+            "appsecret": appsecret,
+            "env_path": env_path,
+            "use_mock": use_mock,
+            "rate_limit": rate_limit,
+            "max_retries": max_retries,
+            "enable_rate_optimizer": enable_rate_optimizer,
+            "credentials_list": credentials_list,
         }
 
         # 기존 API 클래스들 초기화 (Facade 공유)
@@ -118,7 +118,9 @@ class UnifiedKiwoomRest:
         """종목일별프로그램매매추이요청"""
         return self.stock_api.get_program_trading_daily(stock_code)
 
-    def get_institutional_trading_trend(self, stock_code: str, start_date: str = None, end_date: str = None) -> Dict[str, Any]:
+    def get_institutional_trading_trend(
+        self, stock_code: str, start_date: str = None, end_date: str = None
+    ) -> Dict[str, Any]:
         """종목별기관매매추이요청"""
         return self.stock_api.get_institutional_trading_trend(stock_code, start_date, end_date)
 
@@ -134,43 +136,31 @@ class UnifiedKiwoomRest:
         interval: int = 1,
         start_date: str = None,
         end_date: str = None,
-        count: int = 100
+        count: int = 100,
     ) -> Dict[str, Any]:
         """분봉 차트 조회"""
         return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date, count)
 
     def get_daily_chart(
-        self,
-        stock_code: str,
-        start_date: str = None,
-        end_date: str = None
+        self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """일봉 차트 조회"""
         return self.chart_api.get_daily_chart(stock_code, start_date, end_date)
 
     def get_weekly_chart(
-        self,
-        stock_code: str,
-        start_date: str = None,
-        end_date: str = None
+        self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """주봉 차트 조회"""
         return self.chart_api.get_weekly_chart(stock_code, start_date, end_date)
 
     def get_monthly_chart(
-        self,
-        stock_code: str,
-        start_date: str = None,
-        end_date: str = None
+        self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """월봉 차트 조회"""
         return self.chart_api.get_monthly_chart(stock_code, start_date, end_date)
 
     def get_yearly_chart(
-        self,
-        stock_code: str,
-        start_date: str = None,
-        end_date: str = None
+        self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """년봉 차트 조회"""
         return self.chart_api.get_yearly_chart(stock_code, start_date, end_date)
@@ -181,16 +171,14 @@ class UnifiedKiwoomRest:
         """호가잔량 상위 조회"""
         return self.ranking_api.get_volume_top(market, count)
 
-    def get_hourly_program_trading(self, stock_code: str, date: str, amount_or_quantity: str = "1") -> Dict[str, Any]:
+    def get_hourly_program_trading(
+        self, stock_code: str, date: str, amount_or_quantity: str = "1"
+    ) -> Dict[str, Any]:
         """종목시간별 프로그램매매 추이요청"""
         return self.ranking_api.get_hourly_program_trading(stock_code, date, amount_or_quantity)
 
     def get_hourly_program_trading_paginated(
-        self,
-        stock_code: str,
-        date: str,
-        amount_or_quantity: str = "1",
-        max_records: int = None
+        self, stock_code: str, date: str, amount_or_quantity: str = "1", max_records: int = None
     ) -> Dict[str, Any]:
         """종목시간별 프로그램매매 추이요청 (페이지네이션)"""
         return self.ranking_api.get_hourly_program_trading_paginated(
@@ -239,28 +227,52 @@ class UnifiedKiwoomRest:
         """체결요청"""
         return self.account_api.get_executed_orders()
 
-    def get_account_return(self, start_date: Optional[str] = None, end_date: Optional[str] = None) -> Dict[str, Any]:
+    def get_account_return(
+        self, start_date: Optional[str] = None, end_date: Optional[str] = None
+    ) -> Dict[str, Any]:
         """계좌수익률요청"""
         return self.account_api.get_account_return(start_date, end_date)
 
     # ========== 주문 관련 메서드 ==========
 
-    def buy_stock(self, stock_code: str, quantity: int, price: int = 0,
-                  order_type: str = "00", price_type: str = "00") -> Dict[str, Any]:
+    def buy_stock(
+        self,
+        stock_code: str,
+        quantity: int,
+        price: int = 0,
+        order_type: str = "00",
+        price_type: str = "00",
+    ) -> Dict[str, Any]:
         """주식 매수주문"""
         return self.order_api.buy_stock(stock_code, quantity, price, order_type, price_type)
 
-    def sell_stock(self, stock_code: str, quantity: int, price: int = 0,
-                   order_type: str = "00", price_type: str = "00") -> Dict[str, Any]:
+    def sell_stock(
+        self,
+        stock_code: str,
+        quantity: int,
+        price: int = 0,
+        order_type: str = "00",
+        price_type: str = "00",
+    ) -> Dict[str, Any]:
         """주식 매도주문"""
         return self.order_api.sell_stock(stock_code, quantity, price, order_type, price_type)
 
-    def modify_order(self, original_order_no: str, stock_code: str,
-                     quantity: int, price: int = 0, order_type: str = "00") -> Dict[str, Any]:
+    def modify_order(
+        self,
+        original_order_no: str,
+        stock_code: str,
+        quantity: int,
+        price: int = 0,
+        order_type: str = "00",
+    ) -> Dict[str, Any]:
         """주식 정정주문"""
-        return self.order_api.modify_order(original_order_no, stock_code, quantity, price, order_type)
+        return self.order_api.modify_order(
+            original_order_no, stock_code, quantity, price, order_type
+        )
 
-    def cancel_order(self, original_order_no: str, stock_code: str, quantity: int) -> Dict[str, Any]:
+    def cancel_order(
+        self, original_order_no: str, stock_code: str, quantity: int
+    ) -> Dict[str, Any]:
         """주식 취소주문"""
         return self.order_api.cancel_order(original_order_no, stock_code, quantity)
 
@@ -274,8 +286,9 @@ class UnifiedKiwoomRest:
         """전업종지수요청"""
         return self.sector_api.get_all_sector_index()
 
-    def get_sector_daily_chart(self, sector_code: str, start_date: Optional[str] = None,
-                               end_date: Optional[str] = None) -> Dict[str, Any]:
+    def get_sector_daily_chart(
+        self, sector_code: str, start_date: Optional[str] = None, end_date: Optional[str] = None
+    ) -> Dict[str, Any]:
         """업종일봉조회요청"""
         return self.sector_api.get_sector_daily_chart(sector_code, start_date, end_date)
 
@@ -287,7 +300,7 @@ class UnifiedKiwoomRest:
         interval: int = 1,
         start_date: str = None,
         end_date: str = None,
-        max_records: int = 1000
+        max_records: int = 1000,
     ) -> Dict[str, Any]:
         """분봉 차트 대량 조회 (페이지네이션)"""
         return self.chart_api.get_minute_chart_paginated(
@@ -295,11 +308,7 @@ class UnifiedKiwoomRest:
         )
 
     def get_minute_chart_with_date(
-        self,
-        stock_code: str,
-        interval: int = 5,
-        target_date: str = None,
-        max_pages: int = 20
+        self, stock_code: str, interval: int = 5, target_date: str = None, max_pages: int = 20
     ) -> Dict[str, Any]:
         """특정 날짜의 분봉 데이터 조회"""
         return self.chart_api.get_minute_chart_with_date(
@@ -317,20 +326,20 @@ class UnifiedKiwoomRest:
         base_stats = self.api_base.get_stats()
 
         return {
-            'unified_kiwoom_rest': {
-                'version': '2.0-facade',
-                'total_api_modules': 6,
-                'facade_enabled': True
+            "unified_kiwoom_rest": {
+                "version": "2.0-facade",
+                "total_api_modules": 6,
+                "facade_enabled": True,
             },
             **base_stats,
-            'individual_api_stats': {
-                'stock_api_stats': self.stock_api.get_stats(),
-                'chart_api_stats': self.chart_api.get_stats(),
-                'ranking_api_stats': self.ranking_api.get_stats(),
-                'account_api_stats': self.account_api.get_stats(),
-                'order_api_stats': self.order_api.get_stats(),
-                'sector_api_stats': self.sector_api.get_stats()
-            }
+            "individual_api_stats": {
+                "stock_api_stats": self.stock_api.get_stats(),
+                "chart_api_stats": self.chart_api.get_stats(),
+                "ranking_api_stats": self.ranking_api.get_stats(),
+                "account_api_stats": self.account_api.get_stats(),
+                "order_api_stats": self.order_api.get_stats(),
+                "sector_api_stats": self.sector_api.get_stats(),
+            },
         }
 
     def get_facade_stats(self) -> Dict[str, Any]:
@@ -340,7 +349,7 @@ class UnifiedKiwoomRest:
     def reset_rate_limiter(self):
         """Rate limiter 초기화"""
         # Facade의 rate limiter 리셋 기능이 있다면 사용
-        if hasattr(self.api_base.facade, 'global_rate_limiter'):
+        if hasattr(self.api_base.facade, "global_rate_limiter"):
             self.api_base.facade.global_rate_limiter.request_times.clear()
 
     def close(self):
