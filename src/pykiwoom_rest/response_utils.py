@@ -5,18 +5,18 @@ Response normalization utilities to unify returned structures.
 
 from __future__ import annotations
 
-from typing import Any, Dict, Optional
 from datetime import datetime
+from typing import Any
 
 
 def normalize_response(
-    data: Dict[str, Any],
+    data: dict[str, Any],
     *,
-    tr_code: Optional[str] = None,
-    endpoint: Optional[str] = None,
-    processing_time: Optional[float] = None,
-    headers: Optional[Dict[str, Any]] = None,
-) -> Dict[str, Any]:
+    tr_code: str | None = None,
+    endpoint: str | None = None,
+    processing_time: float | None = None,
+    headers: dict[str, Any] | None = None,
+) -> dict[str, Any]:
     """
     Ensure unified response structure while preserving original payload.
 
@@ -29,28 +29,27 @@ def normalize_response(
         data = {"data": data}
 
     # Preserve original payload
-    out: Dict[str, Any] = dict(data)
+    out: dict[str, Any] = dict(data)
 
     # Provide defaults if missing
-    if 'rt_cd' not in out:
+    if "rt_cd" not in out:
         # If server returned explicit error field, set failure, else success
-        out['rt_cd'] = '1' if 'error' in out else '0'
-    if 'msg1' not in out:
-        out['msg1'] = 'SUCCESS' if out.get('rt_cd') == '0' else out.get('msg', 'ERROR')
+        out["rt_cd"] = "1" if "error" in out else "0"
+    if "msg1" not in out:
+        out["msg1"] = "SUCCESS" if out.get("rt_cd") == "0" else out.get("msg", "ERROR")
 
     # Attach metadata non-destructively
-    meta = out.get('metadata', {}) if isinstance(out.get('metadata'), dict) else {}
+    meta = out.get("metadata", {}) if isinstance(out.get("metadata"), dict) else {}
     meta_update = {
-        'timestamp': datetime.now().isoformat(),
-        'tr_code': tr_code,
-        'endpoint': endpoint,
-        'processing_time': processing_time,
+        "timestamp": datetime.now().isoformat(),
+        "tr_code": tr_code,
+        "endpoint": endpoint,
+        "processing_time": processing_time,
     }
     # Only set missing metadata fields
     for k, v in meta_update.items():
         if k not in meta or meta[k] is None:
             meta[k] = v
-    out['metadata'] = meta
+    out["metadata"] = meta
 
     return out
-

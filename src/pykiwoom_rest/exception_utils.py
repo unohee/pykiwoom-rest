@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import logging
 from contextlib import contextmanager
-from typing import Callable, TypeVar, Any, Generator
+from typing import Any, Callable, Generator, TypeVar
 
 F = TypeVar("F", bound=Callable[..., Any])
 
@@ -28,7 +28,7 @@ def rethrow_with_trace(logger: logging.Logger | None = None) -> Callable[[F], F]
         def _wrapped(*args: Any, **kwargs: Any):  # type: ignore[misc]
             try:
                 return func(*args, **kwargs)
-            except Exception as e:
+            except Exception:
                 log.exception("Unhandled exception in %s", func.__qualname__)
                 raise
 
@@ -69,4 +69,3 @@ class RaiseWithTraceMixin:
         else:
             log.exception("Unhandled exception")
         raise e
-
