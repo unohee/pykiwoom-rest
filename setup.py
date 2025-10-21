@@ -1,74 +1,59 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-PyKiwoom-REST Setup Configuration
-고성능 키움증권 REST API Python 라이브러리 v2.0
-"""
+"""PyKiwoom-REST setup script"""
 
 from setuptools import setup, find_packages
+import os
 
-# Read the README file
-with open("README.md", "r", encoding="utf-8") as fh:
-    long_description = fh.read()
+# Read the contents of README
+this_directory = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
 
-# Version
-__version__ = "2.0.0"
+# Read the contents of requirements.txt
+with open(os.path.join(this_directory, 'requirements.txt'), encoding='utf-8') as f:
+    requirements = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
 setup(
-    name="pykiwoom-rest",
-    version=__version__,
-    author="PyKiwoom Team",
-    author_email="contact@pykiwoom-rest.org",
-    description="고성능 키움증권 REST API Python 라이브러리",
+    name='pykiwoom-rest',
+    version='2.1.0',
+    description='Kiwoom Securities REST API Python Wrapper',
     long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/yourusername/pykiwoom-rest",
-    packages=find_packages(where="src"),
-    package_dir={"": "src"},
-    classifiers=[
-        "Development Status :: 4 - Beta",
-        "Intended Audience :: Financial and Insurance Industry",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-        "Topic :: Office/Business :: Financial :: Investment",
-        "Topic :: Software Development :: Libraries :: Python Modules",
-        "Typing :: Typed",
-    ],
-    python_requires=">=3.10",
-    install_requires=[
-        "requests>=2.31.0",
-        "python-dotenv>=1.0.0",
-        "openpyxl>=3.1.0",
-    ],
-    extras_require={
-        "async": [
-            "aiohttp>=3.8.0",
-        ],
-        "performance": [
-            "pandas>=2.0.0",
-            "numpy>=1.24.0",
-        ],
-        "dev": [
-            "pytest>=7.0.0",
-            "pytest-cov>=4.0.0",
-            "black>=23.0.0",
-            "flake8>=6.0.0",
-        ],
-        "all": [
-            "aiohttp>=3.8.0",
-            "pandas>=2.0.0",
-            "numpy>=1.24.0",
-        ]
+    long_description_content_type='text/markdown',
+    author='PyKiwoom-REST Development Team',
+    author_email='dev@pykiwoom-rest.io',
+    url='https://github.com/unohee/pykiwoom-rest',
+    project_urls={
+        'Bug Reports': 'https://github.com/unohee/pykiwoom-rest/issues',
+        'Source Code': 'https://github.com/unohee/pykiwoom-rest',
+        'Documentation': 'https://github.com/unohee/pykiwoom-rest/blob/master/README.md',
     },
-    keywords=[
-        "kiwoom", "securities", "api", "trading", "stock", "finance",
-        "rest", "async", "rate-limiting", "high-performance"
+    license='MIT',
+    packages=find_packages(where='src'),
+    package_dir={'': 'src'},
+    python_requires='>=3.8',
+    install_requires=requirements,
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'Intended Audience :: Financial and Insurance Industry',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Office/Business :: Financial :: Investment',
+        'License :: OSI Approved :: MIT License',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12',
+        'Operating System :: OS Independent',
     ],
-    include_package_data=True,
+    keywords=[
+        'kiwoom',
+        'trading',
+        'stock',
+        'api',
+        'korea',
+        'securities',
+    ],
     zip_safe=False,
 )

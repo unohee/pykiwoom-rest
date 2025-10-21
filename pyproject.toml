@@ -4,113 +4,71 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pykiwoom-rest"
-version = "2.0.0"
-description = "Python wrapper for Kiwoom Securities REST API"
-authors = [
-    {name = "Your Name", email = "your.email@example.com"}
-]
+version = "2.1.0"
+description = "Kiwoom Securities REST API Python Wrapper"
 readme = "README.md"
-license = {text = "MIT"}
 requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "PyKiwoom-REST Development Team", email = "dev@pykiwoom-rest.io"}
+]
+keywords = ["kiwoom", "trading", "stock", "api", "korea", "securities"]
 classifiers = [
-    "Development Status :: 4 - Beta",
+    "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Intended Audience :: Financial and Insurance Industry",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Financial :: Investment",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Topic :: Office/Business :: Financial :: Investment",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-]
-keywords = ["kiwoom", "korea", "stock", "trading", "api", "rest", "securities"]
-dependencies = [
-    "requests>=2.28.0",
-    "python-dotenv>=0.19.0",
-    "pandas>=1.5.0",
-    "openpyxl>=3.0.0",
+    "Operating System :: OS Independent",
 ]
 
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "pytest-cov>=3.0.0",
-    "ruff>=0.1.0",
-    "mypy>=0.900",
+dependencies = [
+    "requests>=2.31.0",
+    "python-dotenv>=1.0.0",
+    "pandas>=2.0.0",
+    "openpyxl>=3.1.0",
+    "numpy>=1.24.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/yourusername/pykiwoom-rest"
-Repository = "https://github.com/yourusername/pykiwoom-rest"
-Documentation = "https://github.com/yourusername/pykiwoom-rest#readme"
-"Bug Tracker" = "https://github.com/yourusername/pykiwoom-rest/issues"
+Homepage = "https://github.com/unohee/pykiwoom-rest"
+Documentation = "https://github.com/unohee/pykiwoom-rest/blob/master/README.md"
+Repository = "https://github.com/unohee/pykiwoom-rest.git"
+Issues = "https://github.com/unohee/pykiwoom-rest/issues"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
-packages = ["pykiwoom_rest"]
 
-[tool.setuptools.package-data]
-pykiwoom_rest = ["*.xlsx", "*.md"]
+[tool.setuptools.packages.find]
+where = ["src"]
 
-[tool.ruff]
+[tool.black]
 line-length = 100
-target-version = "py38"
+target-version = ['py38']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  __pycache__
+  | \.git
+  | \.venv
+  | build
+  | dist
+)/
+'''
 
-[tool.ruff.lint]
-select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # isort
-    "N",   # pep8-naming
-    "UP",  # pyupgrade
-    "B",   # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "SIM", # flake8-simplify
-]
-ignore = [
-    "E501",   # line-too-long (formatter가 처리)
-    "E722",   # bare-except (일부 try-except에서 의도적 사용)
-    "B007",   # unused-loop-control-variable (일부 for문에서 의도적)
-    "B008",   # function-call-in-default-argument
-    "B904",   # raise-without-from-inside-except
-    "SIM102", # collapsible-if (가독성을 위해 분리된 if문 사용)
-    "SIM105", # suppressible-exception (contextlib.suppress 사용 불필요)
-]
+[tool.isort]
+profile = "black"
+line_length = 100
 
-[tool.ruff.format]
-quote-style = "double"
-indent-style = "space"
-line-ending = "auto"
-
-[tool.ruff.lint.isort]
-known-first-party = ["pykiwoom_rest"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-addopts = "-v --tb=short --strict-markers"
-markers = [
-    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
-    "integration: marks tests as integration tests",
-    "unit: marks tests as unit tests",
-]
-
-[tool.coverage.run]
-source = ["src/pykiwoom_rest"]
-omit = [
-    "*/tests/*",
-    "*/testing/*",
-    "*/__pycache__/*",
-]
-
-[tool.coverage.report]
-precision = 2
-show_missing = true
-skip_covered = false
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
