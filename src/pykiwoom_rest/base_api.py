@@ -327,7 +327,12 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
             self.stats['total_requests'] += 1
             if self.stats['total_requests'] > 0:
                 self.stats['success_rate'] = 1 - (self.stats['total_errors'] / self.stats['total_requests'])
-            self.logger.exception("요청 처리 실패")
+
+            # 429 Rate Limiting 에러는 조용히 처리 (일반적인 현상)
+            if hasattr(e, 'response') and e.response is not None and e.response.status_code == 429:
+                pass  # 429 에러는 로그 출력 생략
+            else:
+                self.logger.exception("요청 처리 실패")
             raise
             
     def request(

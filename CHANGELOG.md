@@ -5,6 +5,80 @@ All notable changes to PyKiwoom-REST will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-10-21
+
+### 🚀 API Expansion & Modernization
+
+#### New Features
+- **OAuth2 Authentication API** (au10001, au10002)
+  - Token issuance and revocation
+  - Automatic token refresh
+  - Token status monitoring
+  - Complete access control management
+
+- **Stock API Extensions** (5 new methods)
+  - ka10005: Investor trading trends (투자자별 매매동향)
+  - ka10006: Member trading trends (기관별 매매동향)
+  - ka10007: Elapsed time analysis (소요시간)
+  - ka10009: Program trading trends (프로그램매매동향)
+  - ka10010: Trade volume power (거래량파동력)
+
+- **Expanded Account API** (7 new wrapper methods)
+  - Estimated asset tracking
+  - Daily asset estimation
+  - Trading history retrieval
+  - Realized profit/loss details
+
+#### Architecture Improvements
+- Unified Facade Pattern: Single `KiwoomRest` entry point
+- Mixin-based extensions for cleaner code organization
+- Dependency synchronization across API modules
+- Enhanced rate limiting with token rotation
+
+#### API Coverage
+- **Total Methods**: 50+ public methods
+- **Auth API**: 5 methods (OAuth2 management)
+- **Stock API**: 35+ methods (market data)
+- **Chart API**: 7 methods (time series data)
+- **Account API**: 18 methods (portfolio management)
+- **Order API**: 4 methods (execution)
+- **Ranking API**: 12+ methods (market trends)
+- **Sector API**: 3 methods (industry data)
+
+#### Testing & Quality
+- Comprehensive OAuth2 authentication tests
+- Integration test suite for new methods
+- Type safety verification
+- Rate limiting compliance validation
+
+#### Documentation
+- OAuth2 integration guide
+- API expansion roadmap
+- Method usage examples
+- Architecture documentation
+
+### 🔄 Module Organization
+```
+New Import Pattern:
+from pykiwoom_rest import KiwoomRest
+
+kiwoom = KiwoomRest(enable_rate_optimizer=True)
+
+# OAuth2 Token Management
+token_info = kiwoom.get_access_token()
+status = kiwoom.get_token_status()
+
+# Extended Stock Analysis
+investor_trend = kiwoom.get_stock_investor_trading("005930")
+member_trend = kiwoom.get_stock_member_trading("005930")
+
+# Enhanced Account Info
+asset = kiwoom.get_estimated_asset()
+history = kiwoom.get_trading_history()
+```
+
+---
+
 ## [2.0.0] - 2025-01-05
 
 ### 🎯 Major Features Added

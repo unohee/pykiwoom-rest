@@ -485,7 +485,11 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
             }
             
         except Exception as e:
-            self.raise_with_trace(e, "연속조회 요청 실패")
+            # 429 Rate Limiting 에러는 조용히 처리
+            if "429" in str(e) or "rate" in str(e).lower():
+                raise e  # 에러 메시지 출력 없이 예외만 재발생
+            else:
+                self.raise_with_trace(e, "연속조회 요청 실패")
         
     def health_check(self) -> Dict[str, Any]:
         """
