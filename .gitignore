@@ -98,3 +98,4 @@ node_modules/
 # tasks.json
 # tasks/ 
 .github/workflows/ci.yml
+pykiwoom-adapter/
