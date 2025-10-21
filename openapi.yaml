@@ -1,0 +1,405 @@
+openapi: 3.0.0
+info:
+  title: PyKiwoom-REST API
+  description: 키움증권 REST API Python Wrapper with Swagger UI
+  version: 2.1.0
+  contact:
+    name: PyKiwoom-REST Team
+    url: https://github.com/unohee/pykiwoom-rest
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:5000
+    description: Local Development Server
+  - url: https://api.kiwoom.com
+    description: Kiwoom Production Server
+
+tags:
+  - name: Authentication
+    description: OAuth2 인증 관련 API
+  - name: Stock
+    description: 주식 시세 및 매매동향 API
+  - name: Chart
+    description: 차트 데이터 API
+  - name: Account
+    description: 계좌 관련 API
+  - name: Ranking
+    description: 순위 및 통계 API
+
+paths:
+  /api/auth/token:
+    post:
+      tags:
+        - Authentication
+      summary: OAuth2 토큰 발급
+      description: 앱키와 시크릿키를 사용하여 액세스 토큰을 발급받습니다
+      operationId: getAccessToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                appkey:
+                  type: string
+                  example: "Ayr_sSVO7m520bOTg1KtrCGm-SWkHUX13LwF-z4ePf4"
+                appsecret:
+                  type: string
+                  example: "sI_jzlZYUVReTm1sSQivynZgO8puSDfMUEO4EkR6iB0"
+              required:
+                - appkey
+                - appsecret
+      responses:
+        '200':
+          description: 토큰 발급 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                    description: Bearer 토큰
+                  token_type:
+                    type: string
+                    example: Bearer
+                  expires_in:
+                    type: integer
+                    example: 86400
+                    description: 토큰 유효 시간 (초)
+                  issued_at:
+                    type: string
+                    format: date-time
+                    description: 토큰 발급 시간
+                  expires_at:
+                    type: string
+                    format: date-time
+                    description: 토큰 만료 시간
+                  status:
+                    type: string
+                    example: valid
+
+  /api/stock/price:
+    get:
+      tags:
+        - Stock
+      summary: 주식 현재가 조회
+      description: 주식 종목코드를 사용하여 현재 시세 정보를 조회합니다
+      operationId: getStockPrice
+      parameters:
+        - name: stock_code
+          in: query
+          required: true
+          description: 종목코드 (예: 005930 - 삼성전자)
+          schema:
+            type: string
+            example: "005930"
+      responses:
+        '200':
+          description: 주식 정보 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  output:
+                    type: object
+                    properties:
+                      hts_kor_isnm:
+                        type: string
+                        example: 삼성전자
+                        description: 한글 종목명
+                      stck_prpr:
+                        type: string
+                        example: "73000"
+                        description: 현재가
+                      prdy_vrss:
+                        type: string
+                        description: 전일대비
+                      prdy_ctrt:
+                        type: string
+                        description: 등락률
+
+  /api/stock/investor-trading:
+    get:
+      tags:
+        - Stock
+      summary: 투자자별 매매동향
+      description: 개인, 외국인, 기관 등 투자자별 매매동향을 조회합니다
+      operationId: getStockInvestorTrading
+      parameters:
+        - name: stock_code
+          in: query
+          required: true
+          description: 종목코드 (예: 005930)
+          schema:
+            type: string
+            example: "005930"
+      responses:
+        '200':
+          description: 투자자별 매매동향 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  output:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        date:
+                          type: string
+                          description: 날짜
+                        investor_type:
+                          type: string
+                          description: 투자자 유형
+
+  /api/stock/member-trading:
+    get:
+      tags:
+        - Stock
+      summary: 기관별 매매동향
+      description: 증권사별 기관 매매동향을 조회합니다
+      operationId: getStockMemberTrading
+      parameters:
+        - name: stock_code
+          in: query
+          required: true
+          description: 종목코드
+          schema:
+            type: string
+            example: "005930"
+      responses:
+        '200':
+          description: 기관별 매매동향 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/stock/program-trading:
+    get:
+      tags:
+        - Stock
+      summary: 프로그램매매동향
+      description: 프로그램 매매의 추이를 조회합니다
+      operationId: getStockProgramTrading
+      parameters:
+        - name: stock_code
+          in: query
+          required: true
+          description: 종목코드
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 프로그램매매동향 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/chart/minute:
+    get:
+      tags:
+        - Chart
+      summary: 분봉 차트 데이터
+      description: 분봉 단위의 차트 데이터를 조회합니다
+      operationId: getMinuteChart
+      parameters:
+        - name: stock_code
+          in: query
+          required: true
+          description: 종목코드
+          schema:
+            type: string
+            example: "005930"
+        - name: interval
+          in: query
+          required: false
+          description: 분봉 간격 (1, 5, 10, 15, 30, 60)
+          schema:
+            type: integer
+            default: 5
+        - name: count
+          in: query
+          required: false
+          description: 조회 개수
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: 차트 데이터 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  output1:
+                    type: array
+                    items:
+                      type: object
+
+  /api/chart/daily:
+    get:
+      tags:
+        - Chart
+      summary: 일봉 차트 데이터
+      description: 일봉 단위의 차트 데이터를 조회합니다
+      operationId: getDailyChart
+      parameters:
+        - name: stock_code
+          in: query
+          required: true
+          description: 종목코드
+          schema:
+            type: string
+        - name: count
+          in: query
+          required: false
+          description: 조회 개수
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: 일봉 차트 데이터 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/account/balance:
+    get:
+      tags:
+        - Account
+      summary: 계좌 잔고 조회
+      description: 계좌의 현재 잔고를 조회합니다
+      operationId: getAccountBalance
+      responses:
+        '200':
+          description: 계좌 잔고 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  output1:
+                    type: object
+                    properties:
+                      tot_evlu_pfls_amt:
+                        type: string
+                        description: 평가금액
+                      scts_substamt:
+                        type: string
+                        description: 예수금
+
+  /api/account/estimated-asset:
+    get:
+      tags:
+        - Account
+      summary: 추정자산 조회
+      description: 계좌의 추정자산 현황을 조회합니다
+      operationId: getEstimatedAsset
+      responses:
+        '200':
+          description: 추정자산 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/account/deposit-detail:
+    get:
+      tags:
+        - Account
+      summary: 예수금 상세 조회
+      description: 계좌의 예수금 상세 현황을 조회합니다
+      operationId: getDepositDetail
+      responses:
+        '200':
+          description: 예수금 상세 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/account/realized-profit:
+    get:
+      tags:
+        - Account
+      summary: 실현손익 조회
+      description: 당일 실현손익 상세 내역을 조회합니다
+      operationId: getRealizedProfit
+      responses:
+        '200':
+          description: 실현손익 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/ranking/volume:
+    get:
+      tags:
+        - Ranking
+      summary: 거래량 상위 종목
+      description: 거래량이 많은 상위 종목들을 조회합니다
+      operationId: getVolumeTop
+      parameters:
+        - name: market
+          in: query
+          required: false
+          description: 시장 구분 (ALL, KOSPI, KOSDAQ)
+          schema:
+            type: string
+            default: ALL
+        - name: count
+          in: query
+          required: false
+          description: 조회 개수
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: 거래량 상위 종목 조회 성공
+          content:
+            application/json:
+              schema:
+                type: object
+
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+    ApiResponse:
+      type: object
+      properties:
+        return_code:
+          type: integer
+        return_msg:
+          type: string
+        output:
+          type: object
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth2 Bearer Token (Authorization header)
+
+security:
+  - BearerAuth: []
