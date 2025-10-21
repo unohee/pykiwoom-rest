@@ -123,6 +123,26 @@ class KiwoomRest:
         """종목별기관매매추이요청 (ka10045)"""
         return self.stock_api.get_institutional_trading_trend(stock_code, start_date, end_date)
 
+    def get_stock_investor_trading(self, stock_code: str) -> Dict[str, Any]:
+        """투자자별 매매동향 조회 (ka10005)"""
+        return self.stock_api.get_stock_investor_trading(stock_code)
+
+    def get_stock_member_trading(self, stock_code: str) -> Dict[str, Any]:
+        """기관별 매매동향 조회 (ka10006)"""
+        return self.stock_api.get_stock_member_trading(stock_code)
+
+    def get_stock_elapsed_time(self, stock_code: str) -> Dict[str, Any]:
+        """소요시간 조회 (ka10007)"""
+        return self.stock_api.get_stock_elapsed_time(stock_code)
+
+    def get_stock_program_trading(self, stock_code: str) -> Dict[str, Any]:
+        """프로그램매매동향 조회 (ka10009)"""
+        return self.stock_api.get_stock_program_trading(stock_code)
+
+    def get_stock_trade_volume_power(self, stock_code: str) -> Dict[str, Any]:
+        """거래량파동력 조회 (ka10010)"""
+        return self.stock_api.get_stock_trade_volume_power(stock_code)
+
     # ========== 차트 데이터 메서드 (Legacy Compatible) ==========
 
     def get_tick_chart(self, stock_code: str, count: int = 100) -> Dict[str, Any]:
@@ -267,6 +287,32 @@ class KiwoomRest:
     ) -> Dict[str, Any]:
         """계좌수익률요청"""
         return self.account_api.get_account_return(start_date, end_date)
+
+    def get_estimated_asset(self) -> Dict[str, Any]:
+        """추정자산조회요청"""
+        return self.account_api.get_estimated_asset()
+
+    def get_execution_balance(self) -> Dict[str, Any]:
+        """체결잔고요청"""
+        return self.account_api.get_execution_balance()
+
+    def get_daily_estimated_asset(self, base_date: Optional[str] = None) -> Dict[str, Any]:
+        """일별추정예탁자산현황요청"""
+        return self.account_api.get_daily_estimated_asset(base_date)
+
+    def get_realized_profit_detail(self) -> Dict[str, Any]:
+        """당일실현손익상세요청"""
+        return self.account_api.get_realized_profit_detail()
+
+    def get_daily_trading_diary(self, base_date: Optional[str] = None) -> Dict[str, Any]:
+        """당일매매일지요청"""
+        return self.account_api.get_daily_trading_diary(base_date)
+
+    def get_trading_history(
+        self, start_date: Optional[str] = None, end_date: Optional[str] = None
+    ) -> Dict[str, Any]:
+        """위탁종합거래내역요청"""
+        return self.account_api.get_trading_history(start_date, end_date)
 
     # ========== 주문 관련 메서드 (Order API) ==========
 
