@@ -971,7 +971,50 @@ class KiwoomRest(KiwoomRestBase):
     def get_stock_daily_weekly_monthly(
         self, stock_code: str, period: str = "D"
     ) -> dict:
-        """주식일주월시분요청 (ka10005)"""
+        """
+        주식일주월시분요청 (ka10005)
+
+        일/주/월/분 단위 OHLC 데이터를 조회합니다.
+
+        Args:
+            stock_code: 종목코드 (예: "005930")
+            period: 기간 구분
+                - "D": 일봉 (기본값)
+                - "W": 주봉
+                - "M": 월봉
+                - "T": 분봉
+
+        Returns:
+            Dict[str, Any]: 일/주/월/분 차트 데이터
+            - Response Body: stk_ddwkmm (LIST)
+                - date: 날짜
+                - open_pric: 시가
+                - high_pric: 고가
+                - low_pric: 저가
+                - close_pric: 종가
+                - volume: 거래량
+
+        Note:
+            **페이지네이션 지원**: 이 API는 연속조회를 지원합니다.
+
+            - Response Header의 `cont-yn`이 "Y"인 경우 다음 데이터가 존재
+            - 다음 페이지 조회 시 Request Header에 다음 값을 설정:
+                - `cont-yn`: Response Header의 `cont-yn` 값
+                - `next-key`: Response Header의 `next-key` 값
+
+            대량 데이터 조회 시 페이지네이션을 활용하여 여러 번 호출해야 합니다.
+
+            Example:
+                >>> # 첫 번째 요청
+                >>> result = kiwoom.get_stock_daily_weekly_monthly("005930", "D")
+                >>> data = result['output']
+                >>>
+                >>> # 연속조회가 필요한 경우 (cont-yn == "Y")
+                >>> if result.get('cont-yn') == 'Y':
+                >>>     # 다음 페이지 요청 시 cont-yn, next-key 헤더 설정 필요
+                >>>     # (현재 구현은 자동 페이지네이션 미지원, 수동 헤더 설정 필요)
+                >>>     pass
+        """
         params = {
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": stock_code,
