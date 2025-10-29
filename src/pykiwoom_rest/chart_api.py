@@ -40,7 +40,10 @@ class ChartAPI(KiwoomAPIBase):
             "FID_INPUT_CNT_1": str(count),
         }
         return self.make_tr_request(
-            tr_code=self.TR_CODES["tick_chart"], endpoint="chart", data=params, method="POST"
+            tr_code=self.TR_CODES["tick_chart"],
+            endpoint="chart",
+            data=params,
+            method="POST",
         )
 
     def get_minute_chart(
@@ -80,11 +83,18 @@ class ChartAPI(KiwoomAPIBase):
             data["start_dt"] = start_date
 
         return self.make_tr_request(
-            tr_code=self.TR_CODES["minute_chart"], endpoint="chart", data=data, method="POST"
+            tr_code=self.TR_CODES["minute_chart"],
+            endpoint="chart",
+            data=data,
+            method="POST",
         )
 
     def get_daily_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None, count: int = 100
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """
         주식 일봉 차트 조회 (ka10081)
@@ -112,7 +122,10 @@ class ChartAPI(KiwoomAPIBase):
             data["start_dt"] = start_date
 
         return self.make_tr_request(
-            tr_code=self.TR_CODES["daily_chart"], endpoint="chart", data=data, method="POST"
+            tr_code=self.TR_CODES["daily_chart"],
+            endpoint="chart",
+            data=data,
+            method="POST",
         )
 
     def get_weekly_chart(
@@ -142,7 +155,10 @@ class ChartAPI(KiwoomAPIBase):
             "FID_INPUT_DATE_2": end_date,
         }
         return self.make_tr_request(
-            tr_code=self.TR_CODES["weekly_chart"], endpoint="chart", data=params, method="POST"
+            tr_code=self.TR_CODES["weekly_chart"],
+            endpoint="chart",
+            data=params,
+            method="POST",
         )
 
     def get_monthly_chart(
@@ -172,7 +188,10 @@ class ChartAPI(KiwoomAPIBase):
             "FID_INPUT_DATE_2": end_date,
         }
         return self.make_tr_request(
-            tr_code=self.TR_CODES["monthly_chart"], endpoint="chart", data=params, method="POST"
+            tr_code=self.TR_CODES["monthly_chart"],
+            endpoint="chart",
+            data=params,
+            method="POST",
         )
 
     def get_yearly_chart(
@@ -202,7 +221,10 @@ class ChartAPI(KiwoomAPIBase):
             "FID_INPUT_DATE_2": end_date,
         }
         return self.make_tr_request(
-            tr_code=self.TR_CODES["yearly_chart"], endpoint="chart", data=params, method="POST"
+            tr_code=self.TR_CODES["yearly_chart"],
+            endpoint="chart",
+            data=params,
+            method="POST",
         )
 
     def get_minute_chart_paginated(
@@ -235,7 +257,10 @@ class ChartAPI(KiwoomAPIBase):
             remaining = min(per_request, max_records - total_collected)
 
             result = self.get_minute_chart(
-                stock_code=stock_code, interval=interval, end_date=current_end_date, count=remaining
+                stock_code=stock_code,
+                interval=interval,
+                end_date=current_end_date,
+                count=remaining,
             )
 
             if not result or result.get("return_code") != 0:
@@ -285,7 +310,11 @@ class ChartAPI(KiwoomAPIBase):
         return result
 
     def get_minute_chart_with_date(
-        self, stock_code: str, interval: int = 5, target_date: str = None, max_pages: int = 20
+        self,
+        stock_code: str,
+        interval: int = 5,
+        target_date: str = None,
+        max_pages: int = 20,
     ) -> Dict[str, Any]:
         """특정 날짜의 분봉 데이터 조회 (연속조회 사용)
 
@@ -308,7 +337,11 @@ class ChartAPI(KiwoomAPIBase):
             response = self.make_tr_request_continuous(
                 tr_code=self.TR_CODES["minute_chart"],
                 endpoint="chart",
-                data={"stk_cd": stock_code, "tic_scope": str(interval), "upd_stkpc_tp": "1"},
+                data={
+                    "stk_cd": stock_code,
+                    "tic_scope": str(interval),
+                    "upd_stkpc_tp": "1",
+                },
                 cont_yn=cont_yn,
                 next_key=next_key,
             )

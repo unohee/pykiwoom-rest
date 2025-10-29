@@ -234,15 +234,21 @@ class RateLimitOptimizer:
             bucket["tokens"] = 0  # 토큰 고갈
 
             # 지수 백오프
-            backoff_time = min(300, self.recovery_time * (2 ** bucket["consecutive_errors"]))
+            backoff_time = min(
+                300, self.recovery_time * (2 ** bucket["consecutive_errors"])
+            )
             bucket["is_blocked"] = True
             bucket["block_until"] = time.time() + backoff_time
 
-            logger.warning(f"429 에러 - 크레덴셜 {credential_idx} 차단 ({backoff_time:.1f}초)")
+            logger.warning(
+                f"429 에러 - 크레덴셜 {credential_idx} 차단 ({backoff_time:.1f}초)"
+            )
 
             # 다른 크레덴셜로 자동 전환
             if self.enable_rotation:
-                self.current_credential_idx = (credential_idx + 1) % len(self.credentials_list)
+                self.current_credential_idx = (credential_idx + 1) % len(
+                    self.credentials_list
+                )
 
     def reset_error_count(self, credential_idx: int):
         """에러 카운트 리셋 (성공 시 호출)"""
@@ -261,10 +267,14 @@ class RateLimitOptimizer:
             1 for bucket in self.token_buckets.values() if not bucket.get("is_blocked")
         )
 
-        total_tokens = sum(bucket.get("tokens", 0) for bucket in self.token_buckets.values())
+        total_tokens = sum(
+            bucket.get("tokens", 0) for bucket in self.token_buckets.values()
+        )
 
         avg_error_rate = (
-            self.total_429_errors / self.total_requests * 100 if self.total_requests > 0 else 0
+            self.total_429_errors / self.total_requests * 100
+            if self.total_requests > 0
+            else 0
         )
 
         return {

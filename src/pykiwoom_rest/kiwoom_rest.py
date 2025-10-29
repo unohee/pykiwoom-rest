@@ -13,6 +13,7 @@ from .order_api import OrderAPI
 from .ranking_api import RankingAPI
 from .sector_api import SectorAPI
 from .stock_api import StockAPI
+from .websocket_api import WebSocketAPI
 
 
 class KiwoomRest:
@@ -103,6 +104,10 @@ class KiwoomRest:
         # Rate optimizer 접근을 위한 참조
         self.api_base = self.stock_api.api_base
 
+        # WebSocket API (lazy initialization)
+        self._websocket_api: Optional[WebSocketAPI] = None
+        self._websocket_enabled = False
+
     def _sync_authentication(self):
         """인증 정보 동기화 (토큰 공유)"""
         # 인증 API 객체를 기준으로 토큰 공유
@@ -149,7 +154,9 @@ class KiwoomRest:
         self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """종목별기관매매추이요청 (ka10045)"""
-        return self.stock_api.get_institutional_trading_trend(stock_code, start_date, end_date)
+        return self.stock_api.get_institutional_trading_trend(
+            stock_code, start_date, end_date
+        )
 
     def get_stock_investor_trading(self, stock_code: str) -> Dict[str, Any]:
         """투자자별 매매동향 조회 (ka10005)"""
@@ -186,7 +193,9 @@ class KiwoomRest:
         count: int = 100,
     ) -> Dict[str, Any]:
         """분봉 차트 조회"""
-        return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date, count)
+        return self.chart_api.get_minute_chart(
+            stock_code, interval, start_date, end_date, count
+        )
 
     def get_daily_chart(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -222,10 +231,16 @@ class KiwoomRest:
         self, stock_code: str, date: str, amount_or_quantity: str = "1"
     ) -> Dict[str, Any]:
         """종목시간별 프로그램매매 추이요청 (ka90008)"""
-        return self.ranking_api.get_hourly_program_trading(stock_code, date, amount_or_quantity)
+        return self.ranking_api.get_hourly_program_trading(
+            stock_code, date, amount_or_quantity
+        )
 
     def get_hourly_program_trading_paginated(
-        self, stock_code: str, date: str, amount_or_quantity: str = "1", max_records: int = None
+        self,
+        stock_code: str,
+        date: str,
+        amount_or_quantity: str = "1",
+        max_records: int = None,
     ) -> Dict[str, Any]:
         """종목시간별 프로그램매매 추이요청 (페이지네이션 지원)"""
         return self.ranking_api.get_hourly_program_trading_paginated(
@@ -286,7 +301,9 @@ class KiwoomRest:
         self, market: str = "ALL", data_count: str = "50", sort_type: str = "1"
     ) -> Dict[str, Any]:
         """외국인기관매매상위요청 (ka90009)"""
-        return self.ranking_api.get_foreign_institution_trading_top(market, data_count, sort_type)
+        return self.ranking_api.get_foreign_institution_trading_top(
+            market, data_count, sort_type
+        )
 
     # ========== 계좌 관련 메서드 (Account API) ==========
 
@@ -324,7 +341,9 @@ class KiwoomRest:
         """체결잔고요청"""
         return self.account_api.get_execution_balance()
 
-    def get_daily_estimated_asset(self, base_date: Optional[str] = None) -> Dict[str, Any]:
+    def get_daily_estimated_asset(
+        self, base_date: Optional[str] = None
+    ) -> Dict[str, Any]:
         """일별추정예탁자산현황요청"""
         return self.account_api.get_daily_estimated_asset(base_date)
 
@@ -332,7 +351,9 @@ class KiwoomRest:
         """당일실현손익상세요청"""
         return self.account_api.get_realized_profit_detail()
 
-    def get_daily_trading_diary(self, base_date: Optional[str] = None) -> Dict[str, Any]:
+    def get_daily_trading_diary(
+        self, base_date: Optional[str] = None
+    ) -> Dict[str, Any]:
         """당일매매일지요청"""
         return self.account_api.get_daily_trading_diary(base_date)
 
@@ -353,7 +374,9 @@ class KiwoomRest:
         price_type: str = "00",
     ) -> Dict[str, Any]:
         """주식 매수주문"""
-        return self.order_api.buy_stock(stock_code, quantity, price, order_type, price_type)
+        return self.order_api.buy_stock(
+            stock_code, quantity, price, order_type, price_type
+        )
 
     def sell_stock(
         self,
@@ -364,7 +387,9 @@ class KiwoomRest:
         price_type: str = "00",
     ) -> Dict[str, Any]:
         """주식 매도주문"""
-        return self.order_api.sell_stock(stock_code, quantity, price, order_type, price_type)
+        return self.order_api.sell_stock(
+            stock_code, quantity, price, order_type, price_type
+        )
 
     def modify_order(
         self,
@@ -396,7 +421,10 @@ class KiwoomRest:
         return self.sector_api.get_all_sector_index()
 
     def get_sector_daily_chart(
-        self, sector_code: str, start_date: Optional[str] = None, end_date: Optional[str] = None
+        self,
+        sector_code: str,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """업종일봉조회요청"""
         return self.sector_api.get_sector_daily_chart(sector_code, start_date, end_date)
@@ -445,7 +473,11 @@ class KiwoomRest:
         )
 
     def get_minute_chart_with_date(
-        self, stock_code: str, interval: int = 5, target_date: str = None, max_pages: int = 20
+        self,
+        stock_code: str,
+        interval: int = 5,
+        target_date: str = None,
+        max_pages: int = 20,
     ) -> Dict[str, Any]:
         """특정 날짜의 분봉 데이터 조회 (연속조회 사용)"""
         return self.chart_api.get_minute_chart_with_date(
@@ -523,3 +555,149 @@ class KiwoomRest:
     def ranking(self) -> RankingAPI:
         """순위 정보 API 직접 접근"""
         return self.ranking_api
+
+    @property
+    def websocket(self) -> WebSocketAPI:
+        """WebSocket API 직접 접근 (실시간 시세)"""
+        if not self._websocket_api:
+            # Lazy initialization - api_base에서 인증 정보 가져옴
+            api_base = self.stock_api.api_base
+            self._websocket_api = WebSocketAPI(
+                access_token=self.auth_api.access_token or "",
+                appkey=api_base.appkey,
+                appsecret=api_base.appsecret,
+            )
+        return self._websocket_api
+
+    # ========== 실시간 시세 (WebSocket) 메서드 ==========
+
+    def enable_websocket(self) -> bool:
+        """
+        WebSocket 실시간 시세 활성화
+
+        Returns:
+            활성화 성공 여부
+
+        Examples:
+            >>> kiwoom = KiwoomRest(...)
+            >>> kiwoom.enable_websocket()
+            >>> # 이제 실시간 시세 구독 가능
+        """
+        try:
+            import asyncio
+
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        self._websocket_enabled = loop.run_until_complete(self.websocket.connect())
+        return self._websocket_enabled
+
+    def disable_websocket(self):
+        """WebSocket 실시간 시세 비활성화"""
+        if self._websocket_api:
+            try:
+                import asyncio
+
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+            loop.run_until_complete(self._websocket_api.disconnect())
+            self._websocket_enabled = False
+
+    def subscribe_realtime_quote(self, stock_code: str, callback=None) -> bool:
+        """
+        실시간 시세 구독
+
+        Args:
+            stock_code: 종목코드 (예: "005930")
+            callback: 데이터 수신 콜백 함수
+
+        Returns:
+            구독 성공 여부
+
+        Examples:
+            >>> def on_quote(quote):
+            ...     print(f"현재가: {quote.current_price}")
+            >>> kiwoom.subscribe_realtime_quote("005930", on_quote)
+        """
+        if not self._websocket_enabled:
+            raise RuntimeError(
+                "WebSocket이 활성화되지 않았습니다. enable_websocket()을 먼저 호출하세요."
+            )
+
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(
+            self.websocket.subscribe_quote(stock_code, callback)
+        )
+
+    def subscribe_realtime_orderbook(self, stock_code: str, callback=None) -> bool:
+        """
+        실시간 호가 구독
+
+        Args:
+            stock_code: 종목코드
+            callback: 데이터 수신 콜백 함수
+
+        Returns:
+            구독 성공 여부
+
+        Examples:
+            >>> def on_orderbook(orderbook):
+            ...     print(f"매수 1호가: {orderbook.bid_prices[0]}")
+            >>> kiwoom.subscribe_realtime_orderbook("005930", on_orderbook)
+        """
+        if not self._websocket_enabled:
+            raise RuntimeError(
+                "WebSocket이 활성화되지 않았습니다. enable_websocket()을 먼저 호출하세요."
+            )
+
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(
+            self.websocket.subscribe_orderbook(stock_code, callback)
+        )
+
+    def subscribe_realtime_trade(self, stock_code: str, callback=None) -> bool:
+        """
+        실시간 체결 구독
+
+        Args:
+            stock_code: 종목코드
+            callback: 데이터 수신 콜백 함수
+
+        Returns:
+            구독 성공 여부
+
+        Examples:
+            >>> def on_trade(trade):
+            ...     print(f"체결가: {trade.trade_price}, 체결량: {trade.trade_volume}")
+            >>> kiwoom.subscribe_realtime_trade("005930", on_trade)
+        """
+        if not self._websocket_enabled:
+            raise RuntimeError(
+                "WebSocket이 활성화되지 않았습니다. enable_websocket()을 먼저 호출하세요."
+            )
+
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(
+            self.websocket.subscribe_trade(stock_code, callback)
+        )
+
+    def unsubscribe_realtime_all(self):
+        """모든 실시간 구독 해제"""
+        if not self._websocket_enabled:
+            return
+
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.websocket.unsubscribe_all())

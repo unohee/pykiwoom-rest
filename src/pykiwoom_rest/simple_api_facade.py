@@ -157,7 +157,9 @@ class KiwoomAPI:
 
         # 설정
         self.request_timeout = request_timeout
-        self.base_url = "https://mockapi.kiwoom.com" if use_mock else "https://api.kiwoom.com"
+        self.base_url = (
+            "https://mockapi.kiwoom.com" if use_mock else "https://api.kiwoom.com"
+        )
 
         # 통계
         self.facade_stats = {
@@ -193,7 +195,11 @@ class KiwoomAPI:
             cls._instance = None
 
     def _record_request_history(
-        self, request: APIRequest, response_time: float, success: bool, error: str = None
+        self,
+        request: APIRequest,
+        response_time: float,
+        success: bool,
+        error: str = None,
     ):
         """요청 히스토리 기록"""
         with self.history_lock:
@@ -227,7 +233,11 @@ class KiwoomAPI:
 
         # 요청 객체 생성
         api_request = APIRequest(
-            method=method, endpoint=endpoint, headers=headers or {}, data=data, priority=priority
+            method=method,
+            endpoint=endpoint,
+            headers=headers or {},
+            data=data,
+            priority=priority,
         )
 
         start_time = time.time()
@@ -238,7 +248,9 @@ class KiwoomAPI:
 
             # Rate Limiting 적용
             if use_rate_limit:
-                if not self.global_rate_limiter.wait_for_slot(timeout=self.request_timeout):
+                if not self.global_rate_limiter.wait_for_slot(
+                    timeout=self.request_timeout
+                ):
                     self.facade_stats["rate_limited_requests"] += 1
                     self.global_rate_limiter.record_block()
                     raise Exception(f"Rate limit timeout after {self.request_timeout}s")
@@ -250,7 +262,11 @@ class KiwoomAPI:
 
             # 실제 HTTP 요청
             response = self.session.request(
-                method=method, url=url, headers=headers, json=data, timeout=self.request_timeout
+                method=method,
+                url=url,
+                headers=headers,
+                json=data,
+                timeout=self.request_timeout,
             )
 
             # 성공 처리
@@ -285,7 +301,9 @@ class KiwoomAPI:
                 self.logger.debug(
                     f"API 요청 재시도 {api_request.retries}/{api_request.max_retries}: {endpoint}"
                 )
-                return self.make_request(method, endpoint, headers, data, priority, use_rate_limit)
+                return self.make_request(
+                    method, endpoint, headers, data, priority, use_rate_limit
+                )
 
             # 히스토리 기록
             response_time = time.time() - start_time
@@ -301,7 +319,8 @@ class KiwoomAPI:
             "facade_stats": {
                 **self.facade_stats,
                 "uptime_seconds": uptime,
-                "requests_per_second": self.facade_stats["total_facade_requests"] / max(1, uptime),
+                "requests_per_second": self.facade_stats["total_facade_requests"]
+                / max(1, uptime),
                 "success_rate": self.facade_stats["successful_requests"]
                 / max(1, self.facade_stats["total_facade_requests"]),
             },
@@ -328,7 +347,9 @@ class KiwoomAPI:
                 "stats_summary": {
                     "total_requests": stats["facade_stats"]["total_facade_requests"],
                     "success_rate": stats["facade_stats"]["success_rate"],
-                    "current_rate_limit_queue": stats["rate_limiter_stats"]["current_queue_size"],
+                    "current_rate_limit_queue": stats["rate_limiter_stats"][
+                        "current_queue_size"
+                    ],
                 },
             }
         except Exception as e:

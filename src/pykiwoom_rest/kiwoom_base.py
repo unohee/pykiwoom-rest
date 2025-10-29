@@ -124,7 +124,9 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         if env_path is None:
             # 프로젝트 루트에서 .env 파일 찾기
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
+            project_root = os.path.dirname(
+                os.path.dirname(os.path.dirname(current_dir))
+            )
             env_path = os.path.join(project_root, ".env")
 
         if os.path.exists(env_path):
@@ -184,7 +186,9 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
             if not self.appkey:
                 missing.append("appkey (또는 환경변수 APPKEY/KIWOOM_APPKEY)")
             if not self.appsecret:
-                missing.append("appsecret (또는 환경변수 APPSECRET/KIWOOM_SECRETKEY/KIWOOM_APPSECRET)")
+                missing.append(
+                    "appsecret (또는 환경변수 APPSECRET/KIWOOM_SECRETKEY/KIWOOM_APPSECRET)"
+                )
 
             raise ValueError(
                 f"필수 인증 정보가 누락되었습니다: {', '.join(missing)}\n"
@@ -241,7 +245,9 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
                 "raw_response": response.text,
             }
 
-    def _setup_rate_optimizer(self, additional_credentials_list: List[Dict[str, str]] = None):
+    def _setup_rate_optimizer(
+        self, additional_credentials_list: List[Dict[str, str]] = None
+    ):
         """Rate Limiting 최적화 설정"""
         all_credentials = []
 
@@ -430,7 +436,9 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
                 # 성공 시 에러 카운트 리셋
                 if self.enable_rate_optimizer and self.rate_optimizer:
-                    self.rate_optimizer.reset_error_count(cred_idx if "cred_idx" in locals() else 0)
+                    self.rate_optimizer.reset_error_count(
+                        cred_idx if "cred_idx" in locals() else 0
+                    )
 
                 # 헤더 정보 추가
                 if isinstance(response, dict):
@@ -446,8 +454,14 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
             except APIError as e:
                 # 429 에러 특별 처리
-                if e.status_code == 429 and self.enable_rate_optimizer and self.rate_optimizer:
-                    self.rate_optimizer.handle_429_error(cred_idx if "cred_idx" in locals() else 0)
+                if (
+                    e.status_code == 429
+                    and self.enable_rate_optimizer
+                    and self.rate_optimizer
+                ):
+                    self.rate_optimizer.handle_429_error(
+                        cred_idx if "cred_idx" in locals() else 0
+                    )
 
                     # 지능형 재시도
                     retry_delay = self.retry_strategy.calculate_retry_delay(429, 1)

@@ -277,7 +277,9 @@ class KiwoomRestBase:
         """환경파일 경로 찾기"""
         if env_path is None:
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
+            project_root = os.path.dirname(
+                os.path.dirname(os.path.dirname(current_dir))
+            )
             env_path = os.path.join(project_root, ".env")
         return env_path
 
@@ -320,14 +322,18 @@ class KiwoomRestBase:
         )
 
         if not all([self.account_no, self.appkey, self.secretkey]):
-            raise ValueError("계좌번호, APPKEY, SECRETKEY가 필요합니다. .env 파일을 확인하세요.")
+            raise ValueError(
+                "계좌번호, APPKEY, SECRETKEY가 필요합니다. .env 파일을 확인하세요."
+            )
 
     def _initialize_token_state(self) -> None:
         """토큰 상태 초기화"""
         self.access_token = None
         self.token_expires = None
 
-    def _convert_stock_code_param(self, stock_code: str, legacy_format: bool = False) -> dict:
+    def _convert_stock_code_param(
+        self, stock_code: str, legacy_format: bool = False
+    ) -> dict:
         """
         종목코드 매개변수 변환 헬퍼
 
@@ -350,7 +356,11 @@ class KiwoomRestBase:
 
     def _get_access_token(self) -> str:
         """접근토큰 발급/갱신"""
-        if self.access_token and self.token_expires and datetime.now() < self.token_expires:
+        if (
+            self.access_token
+            and self.token_expires
+            and datetime.now() < self.token_expires
+        ):
             return self.access_token
 
         url = f"{self.BASE_URL}{self.ENDPOINTS['auth_token']}"
@@ -382,7 +392,9 @@ class KiwoomRestBase:
                     expires_dt = datetime.strptime(expires_dt_str, "%Y%m%d%H%M%S")
                     self.token_expires = expires_dt - timedelta(minutes=1)  # 1분 여유
                 except ValueError:
-                    self.token_expires = datetime.now() + timedelta(hours=23)  # 기본 23시간
+                    self.token_expires = datetime.now() + timedelta(
+                        hours=23
+                    )  # 기본 23시간
             else:
                 self.token_expires = datetime.now() + timedelta(hours=23)
             return self.access_token
@@ -456,7 +468,9 @@ class KiwoomRestBase:
 
         return response.json()
 
-    def to_dataframe(self, response: dict, output_key: str = None, numeric_fields: list = None):
+    def to_dataframe(
+        self, response: dict, output_key: str = None, numeric_fields: list = None
+    ):
         """
         API 응답을 DataFrame으로 변환
 
@@ -558,7 +572,9 @@ class KiwoomRestBase:
                 "FID_INPUT_ISCD": "005930",  # 삼성전자
             }
 
-            result = self.make_request("stock_info", "stock_basic_info", params=test_params)
+            result = self.make_request(
+                "stock_info", "stock_basic_info", params=test_params
+            )
 
             if result and result.get("rt_cd") == "0":
                 return {
@@ -577,7 +593,11 @@ class KiwoomRestBase:
                 }
 
         except (requests.RequestException, ConnectionError) as e:
-            return {"connected": False, "error": str(e), "exception_type": type(e).__name__}
+            return {
+                "connected": False,
+                "error": str(e),
+                "exception_type": type(e).__name__,
+            }
         except (KeyError, ValueError) as e:
             return {
                 "connected": False,
@@ -618,7 +638,11 @@ class KiwoomRest(KiwoomRestBase):
         return self.make_request("chart", "tick_chart", params=params)
 
     def get_minute_chart(
-        self, stock_code: str, interval: int = 1, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        interval: int = 1,
+        start_date: str = None,
+        end_date: str = None,
     ) -> dict:
         """주식분봉차트조회요청 (ka10080)"""
         params = {"stk_cd": stock_code, "tic_scope": str(interval), "upd_stkpc_tp": "1"}
@@ -693,7 +717,9 @@ class KiwoomRest(KiwoomRestBase):
     def get_foreign_trading(self, stock_code: str) -> dict:
         """주식외국인종목별매매동향 (ka10008)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_request("foreign_institution", "foreign_trading_by_stock", params=params)
+        return self.make_request(
+            "foreign_institution", "foreign_trading_by_stock", params=params
+        )
 
     def get_institutional_daily_trading(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -710,7 +736,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("market_condition", "daily_institution_trading", params=params)
+        return self.make_request(
+            "market_condition", "daily_institution_trading", params=params
+        )
 
     def get_institutional_trading_trend(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -727,7 +755,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("market_condition", "institution_trading_trend", params=params)
+        return self.make_request(
+            "market_condition", "institution_trading_trend", params=params
+        )
 
     # ========== 순위 정보 메서드 ==========
 
@@ -838,13 +868,17 @@ class KiwoomRest(KiwoomRestBase):
         records_collected = 0
 
         while records_collected < max_records:
-            result = self._fetch_minute_chart_page(stock_code, interval, start_date, current_end)
+            result = self._fetch_minute_chart_page(
+                stock_code, interval, start_date, current_end
+            )
 
             if not result:
                 break
 
             # 데이터 포매팅 및 수집
-            new_records = self._format_chart_data(result, max_records - records_collected)
+            new_records = self._format_chart_data(
+                result, max_records - records_collected
+            )
             all_data.extend(new_records)
             records_collected += len(new_records)
 
@@ -934,19 +968,25 @@ class KiwoomRest(KiwoomRestBase):
 
     # ========== 추가 시세 메서드 ==========
 
-    def get_stock_daily_weekly_monthly(self, stock_code: str, period: str = "D") -> dict:
+    def get_stock_daily_weekly_monthly(
+        self, stock_code: str, period: str = "D"
+    ) -> dict:
         """주식일주월시분요청 (ka10005)"""
         params = {
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": stock_code,
             "FID_PERIOD_DIV_CODE": period,
         }
-        return self.make_request("market_condition", "stock_daily_weekly_monthly", params=params)
+        return self.make_request(
+            "market_condition", "stock_daily_weekly_monthly", params=params
+        )
 
     def get_overtime_single_price(self, stock_code: str) -> dict:
         """시간외단일가요청 (ka10087)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_request("market_condition", "overtime_single_price", params=params)
+        return self.make_request(
+            "market_condition", "overtime_single_price", params=params
+        )
 
     # ========== 추가 순위정보 메서드 ==========
 
@@ -1153,12 +1193,16 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("stock_info", "investor_institutional_summary", params=params)
+        return self.make_request(
+            "stock_info", "investor_institutional_summary", params=params
+        )
 
     def get_current_previous_execution(self, stock_code: str) -> dict:
         """당일전일체결요청 (ka10084)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_request("stock_info", "current_previous_execution", params=params)
+        return self.make_request(
+            "stock_info", "current_previous_execution", params=params
+        )
 
     def get_watchlist_info(self, watchlist_code: str = "1") -> dict:
         """관심종목정보요청 (ka10095)"""
@@ -1233,7 +1277,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_DIV_CLS_CODE": "0",
             "FID_INPUT_ISCD": "0000",
         }
-        return self.make_request("ranking", "expected_execution_rate_top", params=params)
+        return self.make_request(
+            "ranking", "expected_execution_rate_top", params=params
+        )
 
     def get_credit_ratio_top(self, market: str = "ALL") -> dict:
         """신용비율상위요청 (ka10033)"""
@@ -1253,7 +1299,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_DIV_CLS_CODE": "0",
             "FID_INPUT_ISCD": "0000",
         }
-        return self.make_request("ranking", "foreign_consecutive_buy_top", params=params)
+        return self.make_request(
+            "ranking", "foreign_consecutive_buy_top", params=params
+        )
 
     def get_foreign_limit_exhaustion_top(self, market: str = "ALL") -> dict:
         """외인한도소진율증가상위 (ka10036)"""
@@ -1263,7 +1311,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_DIV_CLS_CODE": "0",
             "FID_INPUT_ISCD": "0000",
         }
-        return self.make_request("ranking", "foreign_limit_exhaustion_top", params=params)
+        return self.make_request(
+            "ranking", "foreign_limit_exhaustion_top", params=params
+        )
 
     def get_foreign_bank_trading_top(self, market: str = "ALL") -> dict:
         """외국계창구매매상위요청 (ka10037)"""
@@ -1333,7 +1383,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_DIV_CLS_CODE": "0",
             "FID_INPUT_ISCD": "0000",
         }
-        return self.make_request("ranking", "intraday_investor_trading_top", params=params)
+        return self.make_request(
+            "ranking", "intraday_investor_trading_top", params=params
+        )
 
     def get_overtime_single_price_rate_ranking(self, market: str = "ALL") -> dict:
         """시간외단일가등락율순위요청 (ka10098)"""
@@ -1343,7 +1395,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_DIV_CLS_CODE": "0",
             "FID_INPUT_ISCD": "0000",
         }
-        return self.make_request("ranking", "overtime_single_price_rate_ranking", params=params)
+        return self.make_request(
+            "ranking", "overtime_single_price_rate_ranking", params=params
+        )
 
     def get_foreign_institutional_trading_top(self, market: str = "ALL") -> dict:
         """외국인기관매매상위요청 (ka90009)"""
@@ -1353,14 +1407,18 @@ class KiwoomRest(KiwoomRestBase):
             "FID_DIV_CLS_CODE": "0",
             "FID_INPUT_ISCD": "0000",
         }
-        return self.make_request("ranking", "foreign_institutional_trading_top", params=params)
+        return self.make_request(
+            "ranking", "foreign_institutional_trading_top", params=params
+        )
 
     # ========== 시세 관련 추가 메서드 ==========
 
     def get_stock_minute_price(self, stock_code: str) -> dict:
         """주식시분요청 (ka10006)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_request("market_condition", "stock_minute_price", params=params)
+        return self.make_request(
+            "market_condition", "stock_minute_price", params=params
+        )
 
     def get_market_condition_info(self, market: str = "ALL") -> dict:
         """시세표성정보요청 (ka10007)"""
@@ -1368,12 +1426,16 @@ class KiwoomRest(KiwoomRestBase):
             "FID_COND_MRKT_DIV_CODE": "J" if market == "ALL" else "Q",
             "FID_INPUT_ISCD": "0000",
         }
-        return self.make_request("market_condition", "market_condition_info", params=params)
+        return self.make_request(
+            "market_condition", "market_condition_info", params=params
+        )
 
     def get_subscription_rights_market(self) -> dict:
         """신주인수권전체시세요청 (ka10011)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": "0000"}
-        return self.make_request("market_condition", "subscription_rights_market", params=params)
+        return self.make_request(
+            "market_condition", "subscription_rights_market", params=params
+        )
 
     def get_execution_strength_time(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -1389,7 +1451,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("market_condition", "execution_strength_time", params=params)
+        return self.make_request(
+            "market_condition", "execution_strength_time", params=params
+        )
 
     def get_execution_strength_daily(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -1405,17 +1469,23 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("market_condition", "execution_strength_daily", params=params)
+        return self.make_request(
+            "market_condition", "execution_strength_daily", params=params
+        )
 
     def get_intraday_investor_trading(self, stock_code: str) -> dict:
         """장중투자자별매매요청 (ka10063)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_request("market_condition", "intraday_investor_trading", params=params)
+        return self.make_request(
+            "market_condition", "intraday_investor_trading", params=params
+        )
 
     def get_after_market_investor_trading(self, stock_code: str) -> dict:
         """장마감후투자자별매매요청 (ka10066)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_request("market_condition", "after_market_investor_trading", params=params)
+        return self.make_request(
+            "market_condition", "after_market_investor_trading", params=params
+        )
 
     def get_securities_stock_trading_trend(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -1435,7 +1505,9 @@ class KiwoomRest(KiwoomRestBase):
             "market_condition", "securities_stock_trading_trend", params=params
         )
 
-    def get_program_trading_time(self, start_date: str = None, end_date: str = None) -> dict:
+    def get_program_trading_time(
+        self, start_date: str = None, end_date: str = None
+    ) -> dict:
         """프로그램매매추이요청 시간대별 (ka90005)"""
         if not end_date:
             end_date = datetime.now().strftime("%Y%m%d")
@@ -1446,7 +1518,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("market_condition", "program_trading_time", params=params)
+        return self.make_request(
+            "market_condition", "program_trading_time", params=params
+        )
 
     def get_program_trading_balance_trend(
         self, start_date: str = None, end_date: str = None
@@ -1461,7 +1535,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("market_condition", "program_trading_balance_trend", params=params)
+        return self.make_request(
+            "market_condition", "program_trading_balance_trend", params=params
+        )
 
     def get_program_trading_cumulative_trend(
         self, start_date: str = None, end_date: str = None
@@ -1532,14 +1608,20 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("chart", "stock_investor_institutional_chart", params=params)
+        return self.make_request(
+            "chart", "stock_investor_institutional_chart", params=params
+        )
 
     def get_intraday_investor_trading_chart(self, stock_code: str) -> dict:
         """장중투자자별매매차트요청 (ka10064)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_request("chart", "intraday_investor_trading_chart", params=params)
+        return self.make_request(
+            "chart", "intraday_investor_trading_chart", params=params
+        )
 
-    def get_sector_tick_chart(self, sector_code: str = "0001", count: int = 100) -> dict:
+    def get_sector_tick_chart(
+        self, sector_code: str = "0001", count: int = 100
+    ) -> dict:
         """업종틱차트조회요청 (ka20004)"""
         params = {
             "FID_COND_MRKT_DIV_CODE": "J",
@@ -1548,7 +1630,9 @@ class KiwoomRest(KiwoomRestBase):
         }
         return self.make_request("chart", "sector_tick_chart", params=params)
 
-    def get_sector_minute_chart(self, sector_code: str = "0001", interval: int = 1) -> dict:
+    def get_sector_minute_chart(
+        self, sector_code: str = "0001", interval: int = 1
+    ) -> dict:
         """업종분봉조회요청 (ka20005)"""
         params = {
             "FID_COND_MRKT_DIV_CODE": "J",
@@ -1670,7 +1754,9 @@ class KiwoomRest(KiwoomRestBase):
     def get_institutional_request(self, stock_code: str) -> dict:
         """주식기관요청 (ka10009)"""
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_request("foreign_institution", "institutional_request", params=params)
+        return self.make_request(
+            "foreign_institution", "institutional_request", params=params
+        )
 
     def get_institutional_foreign_consecutive_trading(
         self, market: str = "ALL", start_date: str = None, end_date: str = None
@@ -1686,7 +1772,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_2": end_date,
         }
         return self.make_request(
-            "foreign_institution", "institutional_foreign_consecutive_trading", params=params
+            "foreign_institution",
+            "institutional_foreign_consecutive_trading",
+            params=params,
         )
 
     # ========== 대차거래 관련 메서드 ==========
@@ -1729,7 +1817,9 @@ class KiwoomRest(KiwoomRestBase):
             "FID_INPUT_DATE_1": start_date,
             "FID_INPUT_DATE_2": end_date,
         }
-        return self.make_request("lending", "lending_trading_trend_by_stock", params=params)
+        return self.make_request(
+            "lending", "lending_trading_trend_by_stock", params=params
+        )
 
     def get_lending_trading_details(
         self, market: str = "ALL", start_date: str = None, end_date: str = None

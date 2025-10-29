@@ -4,6 +4,9 @@ pandas>=2.0.0
 openpyxl>=3.1.0
 numpy>=1.24.0
 
+# WebSocket 실시간 시세
+websockets>=12.0
+
 # Swagger UI 및 API 문서화
 flask>=2.3.0
 flasgger>=0.9.7.1
