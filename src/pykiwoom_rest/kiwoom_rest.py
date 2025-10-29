@@ -109,24 +109,43 @@ class KiwoomRest:
         self._websocket_enabled = False
 
     def _sync_authentication(self):
-        """인증 정보 동기화 (토큰 공유)"""
-        # 인증 API 객체를 기준으로 토큰 공유
-        base_token = None
-        if hasattr(self.auth_api, "access_token") and self.auth_api.access_token:
-            base_token = self.auth_api.access_token
+        """
+        인증 정보 동기화 (토큰 공유)
 
-        # 모든 API 객체에 토큰 동기화
-        for api in [
+        모든 API 클래스 중 가장 최신 토큰을 찾아서 전체 동기화
+        """
+        # 모든 API 객체에서 토큰 수집
+        all_apis = [
+            self.auth_api,
             self.stock_api,
             self.chart_api,
             self.ranking_api,
             self.account_api,
             self.order_api,
             self.sector_api,
-        ]:
-            if base_token:
-                api.access_token = base_token
-                api.token_expires = self.auth_api.token_expires
+        ]
+
+        # 가장 최신 토큰 찾기
+        latest_token = None
+        latest_expires = None
+
+        for api in all_apis:
+            if hasattr(api, "access_token") and api.access_token:
+                if hasattr(api, "token_expires") and api.token_expires:
+                    # 기존 토큰보다 만료 시간이 더 늦으면 업데이트
+                    if latest_expires is None or api.token_expires > latest_expires:
+                        latest_token = api.access_token
+                        latest_expires = api.token_expires
+                elif latest_token is None:
+                    # 만료 시간이 없어도 토큰이 있으면 사용
+                    latest_token = api.access_token
+                    latest_expires = api.token_expires
+
+        # 모든 API 객체에 최신 토큰 동기화
+        if latest_token:
+            for api in all_apis:
+                api.access_token = latest_token
+                api.token_expires = latest_expires
 
     # ========== 주식 정보 관련 메서드 (Legacy Compatible) ==========
 
@@ -443,8 +462,79 @@ class KiwoomRest:
         return self.auth_api.revoke_token(token)
 
     def get_token_status(self) -> Dict[str, Any]:
-        """현재 토큰 상태 조회"""
-        return self.auth_api.get_token_status()
+        """
+        현재 토큰 상태 조회
+
+        모든 API 클래스를 확인하여 실제 사용 중인 토큰의 상태 반환
+
+        Returns:
+            토큰 상태 정보
+            {
+                'has_token': bool,
+                'is_valid': bool,
+                'token_prefix': str,
+                'expires_at': str (ISO format),
+                'time_to_expiry': int (초),
+                'needs_refresh': bool
+            }
+        """
+        # 먼저 토큰 동기화
+        self._sync_authentication()
+
+        # 모든 API 중 유효한 토큰 찾기
+        all_apis = [
+            self.stock_api,
+            self.chart_api,
+            self.auth_api,
+            self.ranking_api,
+            self.account_api,
+            self.order_api,
+            self.sector_api,
+        ]
+
+        # 가장 최신 토큰 정보 찾기
+        best_token = None
+        best_expires = None
+
+        for api in all_apis:
+            if hasattr(api, "access_token") and api.access_token:
+                if hasattr(api, "token_expires") and api.token_expires:
+                    if best_expires is None or api.token_expires > best_expires:
+                        best_token = api.access_token
+                        best_expires = api.token_expires
+                elif best_token is None:
+                    best_token = api.access_token
+                    best_expires = api.token_expires
+
+        # 토큰 상태 계산
+        from datetime import datetime
+
+        has_token = bool(best_token)
+        is_valid = False
+        time_to_expiry = 0
+        needs_refresh = False
+
+        if has_token and best_expires:
+            now = datetime.now()
+            is_valid = now < best_expires
+            time_to_expiry = int((best_expires - now).total_seconds())
+            # 5분 미만 남으면 갱신 필요
+            needs_refresh = 0 < time_to_expiry < 300
+
+        token_prefix = (
+            f"{best_token[:20]}..."
+            if best_token and len(best_token) > 20
+            else best_token
+        )
+
+        return {
+            "has_token": has_token,
+            "is_valid": is_valid,
+            "token_prefix": token_prefix or "None",
+            "expires_at": best_expires.isoformat() if best_expires else None,
+            "time_to_expiry": time_to_expiry,
+            "needs_refresh": needs_refresh,
+        }
 
     def refresh_token(self) -> Dict[str, Any]:
         """토큰 갱신"""
