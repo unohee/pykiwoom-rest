@@ -153,7 +153,21 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
     def _setup_credentials(
         self, account_no: str = None, appkey: str = None, appsecret: str = None
     ) -> None:
-        """인증 정보 설정"""
+        """
+        인증 정보 설정
+
+        우선순위:
+        1. 직접 전달된 파라미터 (account_no, appkey, appsecret)
+        2. 환경변수 (ACC_NO/ACCOUNT_NO, APPKEY/KIWOOM_APPKEY, APPSECRET/KIWOOM_SECRETKEY/KIWOOM_APPSECRET)
+
+        Args:
+            account_no: 계좌번호 (선택)
+            appkey: 앱키 (선택)
+            appsecret: 앱시크릿 (선택)
+
+        Raises:
+            ValueError: 필수 인증 정보가 없을 경우
+        """
         self.account_no = account_no or os.getenv("ACC_NO") or os.getenv("ACCOUNT_NO")
         self.appkey = appkey or os.getenv("APPKEY") or os.getenv("KIWOOM_APPKEY")
         self.appsecret = (
@@ -164,7 +178,19 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         )
 
         if not all([self.account_no, self.appkey, self.appsecret]):
-            raise ValueError("계좌번호, APPKEY, SECRETKEY가 필요합니다. .env 파일을 확인하세요.")
+            missing = []
+            if not self.account_no:
+                missing.append("account_no (또는 환경변수 ACC_NO/ACCOUNT_NO)")
+            if not self.appkey:
+                missing.append("appkey (또는 환경변수 APPKEY/KIWOOM_APPKEY)")
+            if not self.appsecret:
+                missing.append("appsecret (또는 환경변수 APPSECRET/KIWOOM_SECRETKEY/KIWOOM_APPSECRET)")
+
+            raise ValueError(
+                f"필수 인증 정보가 누락되었습니다: {', '.join(missing)}\n"
+                "클래스 초기화 시 직접 전달하거나 환경변수로 설정하세요.\n"
+                "예: KiwoomRest(account_no='...', appkey='...', appsecret='...')"
+            )
 
     def _prepare_headers(self, headers: Dict[str, str] = None) -> Dict[str, str]:
         """키움 API 요청 헤더 준비"""
@@ -186,7 +212,10 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
     @rethrow_with_trace()
     def _process_response(self, response) -> Dict[str, Any]:
         """키움 API 응답 처리 - 원시 JSON(dict) 반환"""
-        start_time = getattr(self, "_request_start_time", time.time())
+        start_time = getattr(self, "_request_start_time", None)
+        # start_time이 None이면 현재 시각 사용 (동시성 이슈 방지)
+        if start_time is None:
+            start_time = time.time()
         processing_time = time.time() - start_time
 
         # 요청 정보 추출

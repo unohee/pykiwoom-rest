@@ -34,18 +34,46 @@ class KiwoomRest:
         credentials_list: list = None,
     ):
         """
-        초기화
+        키움증권 REST API 클라이언트 초기화
+
+        인증 정보는 다음 우선순위로 로드됩니다:
+        1. 직접 전달된 파라미터 (account_no, appkey, appsecret)
+        2. 환경변수 (.env 파일 또는 시스템 환경변수)
+           - ACC_NO 또는 ACCOUNT_NO
+           - APPKEY 또는 KIWOOM_APPKEY
+           - APPSECRET, KIWOOM_SECRETKEY 또는 KIWOOM_APPSECRET
 
         Args:
-            account_no: 계좌번호
-            appkey: 앱키
-            appsecret: 앱시크릿
-            env_path: .env 파일 경로
+            account_no: 계좌번호 (직접 주입 가능, 선택)
+            appkey: 앱키 (직접 주입 가능, 선택)
+            appsecret: 앱시크릿 (직접 주입 가능, 선택)
+            env_path: .env 파일 경로 (기본: 프로젝트 루트)
             use_mock: 모의투자 API 사용 여부
-            rate_limit: 초당 최대 요청 수
-            max_retries: 최대 재시도 횟수
+            rate_limit: 초당 최대 요청 수 (기본: 20)
+            max_retries: 최대 재시도 횟수 (기본: 3)
             enable_rate_optimizer: Rate limiting 최적화 활성화
-            credentials_list: 다중 크레덴셜 리스트
+            credentials_list: 다중 크레덴셜 리스트 (로테이션용)
+
+        Examples:
+            # 방법 1: 환경변수 사용 (.env 파일)
+            >>> kiwoom = KiwoomRest()
+
+            # 방법 2: 직접 주입
+            >>> kiwoom = KiwoomRest(
+            ...     account_no="12345678",
+            ...     appkey="your-app-key",
+            ...     appsecret="your-app-secret"
+            ... )
+
+            # 방법 3: 혼합 (일부만 직접 주입)
+            >>> kiwoom = KiwoomRest(
+            ...     appkey="your-app-key",
+            ...     appsecret="your-app-secret"
+            ...     # account_no는 환경변수에서 로드
+            ... )
+
+        Raises:
+            ValueError: 필수 인증 정보가 누락된 경우
         """
         # 공통 설정
         common_config = {

@@ -39,6 +39,10 @@ pip install pykiwoom-rest
 
 ### Configuration
 
+You can configure credentials in **two ways**: environment variables or direct injection.
+
+#### Option 1: Environment Variables (Recommended for Local Development)
+
 Create a `.env` file in your project directory:
 
 ```bash
@@ -47,12 +51,47 @@ KIWOOM_APPSECRET=your-app-secret
 ACCOUNT_NO=your-account-number
 ```
 
+```python
+from pykiwoom_rest import KiwoomRest
+
+# Automatically loads from .env or system environment
+kiwoom = KiwoomRest()
+```
+
+#### Option 2: Direct Injection (Recommended for Production/Libraries)
+
+Pass credentials directly when initializing:
+
+```python
+from pykiwoom_rest import KiwoomRest
+
+# Direct credential injection
+kiwoom = KiwoomRest(
+    account_no="your-account-number",
+    appkey="your-app-key",
+    appsecret="your-app-secret"
+)
+```
+
+#### Mixed Approach
+
+You can also mix both methods:
+
+```python
+# Use environment for account, but override API keys
+kiwoom = KiwoomRest(
+    appkey="your-app-key",
+    appsecret="your-app-secret"
+    # account_no will be loaded from environment
+)
+```
+
 ### Basic Usage
 
 ```python
 from pykiwoom_rest import KiwoomRest
 
-# Initialize
+# Initialize with direct credentials
 kiwoom = KiwoomRest(
     account_no="your-account-number",
     appkey="your-app-key",
