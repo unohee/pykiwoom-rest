@@ -28,6 +28,21 @@
   - `for_poss`: 외인보유
   - `for_wght`: 외인비중
 
+## ka10008 (주식외국인종목별매매동향)
+- 응답 키: `stk_frgnr` (리스트)
+- 필드:
+  - `dt`: 일자 (YYYYMMDD)
+  - `close_pric`: 종가
+  - `pred_pre`: 전일대비
+  - `trde_qty`: 거래량
+  - `chg_qty`: 변동수량 (순매수량) ⭐
+  - `poss_stkcnt`: 보유주식수
+  - `wght`: 비중 (%)
+  - `gain_pos_stkcnt`: 취득가능주식수
+  - `frgnr_limit`: 외국인한도
+  - `frgnr_limit_irds`: 외국인한도증감
+  - `limit_exh_rt`: 한도소진률
+
 ## ka10080 (주식분봉차트조회요청)
 - `cntr_tm`: 체결시간 (YYYYMMDDHHMMSS)
 - `cur_prc`: 현재가
