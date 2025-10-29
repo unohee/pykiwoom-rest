@@ -461,22 +461,24 @@ class ChartAPI(KiwoomAPIBase):
             **참고**: 이 TR 코드는 이전에 stock_api.py에서 잘못 사용되었습니다.
             ka10005는 차트 데이터 조회 API이며, 투자자 매매동향 조회가 아닙니다.
         """
+        # ka10005 Request parameters (from PDF docs)
         params = {
-            "FID_COND_MRKT_DIV_CODE": "J",
-            "FID_INPUT_ISCD": stock_code,
-            "FID_PERIOD_DIV_CODE": period,
+            "stk_cd": stock_code,  # 종목코드 (KRX:039490, NXT:039490_NX, SOR:039490_AL)
         }
 
+        # Optional parameters
         if start_date:
-            params["FID_INPUT_DATE_1"] = start_date
+            params["start_date"] = start_date
         if end_date:
-            params["FID_INPUT_DATE_2"] = end_date
-        if period == "T":
-            params["FID_INPUT_HOUR_1"] = str(interval)
+            params["end_date"] = end_date
+        if period:
+            params["period"] = period  # D=일, W=주, M=월, T=분
+        if period == "T" and interval:
+            params["interval"] = str(interval)
 
         return self.make_tr_request(
             tr_code=self.TR_CODES["daily_weekly_monthly_minute"],
-            endpoint="chart",
+            endpoint="mrkcond",  # ka10005 uses /api/dostk/mrkcond endpoint
             data=params,
             method="POST",
         )
