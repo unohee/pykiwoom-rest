@@ -894,35 +894,101 @@ class KiwoomRest(KiwoomRestBase):
     ) -> dict:
         """분봉 차트 페이지 조회"""
         result = self.get_minute_chart(stock_code, interval, start_date, end_date)
-        if result and "output2" in result and result["output2"]:
-            return result["output2"]
+        # ka10080 응답은 stk_min_pole_chart_qry 키에 있음
+        if (
+            result
+            and "stk_min_pole_chart_qry" in result
+            and result["stk_min_pole_chart_qry"]
+        ):
+            return result["stk_min_pole_chart_qry"]
         return None
 
     def _format_chart_data(self, data: list, limit: int) -> list:
-        """차트 데이터 포매팅"""
+        """
+        차트 데이터 포매팅
+
+        Kiwoom REST API 실제 응답 키 사용:
+        - cntr_tm: 체결시간 (YYYYMMDDHHMMSS)
+        - cur_prc: 현재가/종가
+        - open_pric: 시가
+        - high_pric: 고가
+        - low_pric: 저가
+        - trde_qty: 거래량
+
+        Raises:
+            KeyError: 필수 필드가 없는 경우
+            ValueError: 필드값이 비어있거나 변환 불가능한 경우
+        """
         formatted = []
         for i, item in enumerate(data):
             if i >= limit:
                 break
-            formatted.append(
-                {
-                    "date": item.get("stck_bsop_date", ""),
-                    "time": item.get("stck_cntg_hour", ""),
-                    "open": float(item.get("stck_oprc", 0)),
-                    "high": float(item.get("stck_hgpr", 0)),
-                    "low": float(item.get("stck_lwpr", 0)),
-                    "close": float(item.get("stck_prpr", 0)),
-                    "volume": int(item.get("acml_vol", 0)),
-                }
-            )
+
+            try:
+                # 필수 필드 검증 (KeyError 발생 가능)
+                cntr_tm = item["cntr_tm"]
+                if len(cntr_tm) < 12:
+                    raise ValueError(
+                        f"Invalid cntr_tm format: '{cntr_tm}' (expected YYYYMMDDHHMMSS)"
+                    )
+
+                date_str = cntr_tm[:8]
+                time_str = cntr_tm[8:12]
+
+                # 가격 필드는 +/- 기호가 포함된 문자열이므로 정제
+                # 필드가 없으면 KeyError, 비어있으면 ValueError 발생
+                cur_prc = item["cur_prc"].replace("+", "").replace("-", "").strip()
+                open_pric = item["open_pric"].replace("+", "").replace("-", "").strip()
+                high_pric = item["high_pric"].replace("+", "").replace("-", "").strip()
+                low_pric = item["low_pric"].replace("+", "").replace("-", "").strip()
+                trde_qty = item["trde_qty"].replace(",", "").strip()
+
+                # 빈 문자열 체크 (fail-fast)
+                if not cur_prc:
+                    raise ValueError(f"Empty cur_prc at index {i}")
+                if not open_pric:
+                    raise ValueError(f"Empty open_pric at index {i}")
+                if not high_pric:
+                    raise ValueError(f"Empty high_pric at index {i}")
+                if not low_pric:
+                    raise ValueError(f"Empty low_pric at index {i}")
+                if not trde_qty:
+                    raise ValueError(f"Empty trde_qty at index {i}")
+
+                formatted.append(
+                    {
+                        "date": date_str,
+                        "time": time_str,
+                        "open": float(open_pric),
+                        "high": float(high_pric),
+                        "low": float(low_pric),
+                        "close": float(cur_prc),
+                        "volume": int(trde_qty),
+                    }
+                )
+
+            except KeyError as e:
+                raise KeyError(
+                    f"Missing required field {e} in chart data at index {i}: {item}"
+                ) from e
+            except ValueError as e:
+                raise ValueError(f"Invalid chart data at index {i}: {e}") from e
+
         return formatted
 
     def _get_next_page_date(self, data: list, current_end: str) -> str:
-        """다음 페이지 날짜 계산"""
+        """
+        다음 페이지 날짜 계산
+
+        cntr_tm (YYYYMMDDHHMMSS)에서 날짜(YYYYMMDD) 부분 추출
+        """
         if len(data) < 100:  # 더 이상 데이터 없음
             return None
 
-        last_date = data[-1].get("stck_bsop_date", "")
+        # cntr_tm에서 날짜 추출 (YYYYMMDDHHMMSS 형식의 앞 8자리)
+        cntr_tm = data[-1].get("cntr_tm", "")
+        last_date = cntr_tm[:8] if len(cntr_tm) >= 8 else ""
+
         if last_date and last_date != current_end:
             return last_date
         return None
