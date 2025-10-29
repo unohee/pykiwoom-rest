@@ -18,9 +18,9 @@ class StockAPI(KiwoomAPIBase):
         "stock_member_info": "ka10002",
         "execution_info": "ka10003",
         "stock_quote": "ka10004",
-        "stock_investor_trading": "ka10005",
         "stock_member_trading": "ka10006",
         "stock_elapsed_time": "ka10007",
+        "foreign_investor_trading": "ka10008",  # 주식외국인종목별매매동향
         "stock_program_trading": "ka10009",
         "stock_trade_volume_power": "ka10010",
         "credit_trend": "ka10013",
@@ -36,6 +36,8 @@ class StockAPI(KiwoomAPIBase):
         "member_supply_analysis": "ka10043",
         "institutional_trading_trend": "ka10045",
         "new_previous_execution": "ka10055",
+        "investor_daily_trading": "ka10058",  # 투자자별일별매매종목요청
+        "investor_intraday_trading": "ka10063",  # 장중투자자별매매요청
         "current_previous_execution": "ka10084",
         "watchlist_info": "ka10095",
         "stock_info_list": "ka10099",
@@ -417,17 +419,22 @@ class StockAPI(KiwoomAPIBase):
 
     def get_stock_investor_trading(self, stock_code: str) -> Dict[str, Any]:
         """
-        투자자별 매매동향 조회 (ka10005)
+        투자자별 일별 매매동향 조회 (ka10058)
 
         Args:
             stock_code: 종목코드
 
         Returns:
-            투자자별 매매동향 정보
+            투자자별 일별 매매동향 정보 (개인, 기관, 외국인 등)
+
+        Note:
+            이전에 잘못된 TR 코드 ka10005가 사용되었습니다.
+            ka10005는 '주식일주월시분요청'으로 차트 데이터 조회 API입니다.
+            현재는 정확한 TR 코드 ka10058(투자자별일별매매종목요청)을 사용합니다.
         """
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
         return self.make_tr_request(
-            tr_code=self.TR_CODES["stock_investor_trading"],
+            tr_code=self.TR_CODES["investor_daily_trading"],
             endpoint="stock_info",
             data=params,
             method="POST",

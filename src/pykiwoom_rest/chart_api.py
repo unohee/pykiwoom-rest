@@ -15,6 +15,7 @@ class ChartAPI(KiwoomAPIBase):
 
     # TR 코드 매핑
     TR_CODES = {
+        "daily_weekly_monthly_minute": "ka10005",  # 주식일주월시분요청 (통합 차트)
         "tick_chart": "ka10079",
         "minute_chart": "ka10080",
         "daily_chart": "ka10081",
@@ -414,3 +415,68 @@ class ChartAPI(KiwoomAPIBase):
             "date_range": date_range,
             "pages": page + 1,
         }
+
+    def get_daily_weekly_monthly_minute_chart(
+        self,
+        stock_code: str,
+        period: str = "D",
+        start_date: str = None,
+        end_date: str = None,
+        interval: int = 1,
+    ) -> Dict[str, Any]:
+        """
+        주식 일/주/월/시분 통합 차트 조회 (ka10005)
+
+        Args:
+            stock_code: 종목코드
+            period: 기간 구분
+                - "D": 일봉 (기본값)
+                - "W": 주봉
+                - "M": 월봉
+                - "T": 분봉
+            start_date: 시작일 (YYYYMMDD, 선택사항)
+            end_date: 종료일 (YYYYMMDD, 선택사항)
+            interval: 분봉 간격 (period="T"일 때만 사용, 1/3/5/10/15/30/45/60)
+
+        Returns:
+            Dict[str, Any]: 차트 데이터
+            - Response Body: stk_ddwkmm (LIST)
+                - date: 날짜
+                - open_pric: 시가
+                - high_pric: 고가
+                - low_pric: 저가
+                - close_pric: 종가
+                - volume: 거래량
+
+        Note:
+            **페이지네이션 지원**: 이 API는 연속조회를 지원합니다.
+
+            - Response Header의 `cont-yn`이 "Y"인 경우 다음 데이터가 존재
+            - 다음 페이지 조회 시 Request Header에 다음 값을 설정:
+                - `cont-yn`: Response Header의 `cont-yn` 값
+                - `next-key`: Response Header의 `next-key` 값
+
+            대량 데이터 조회 시 페이지네이션을 활용하여 여러 번 호출해야 합니다.
+
+            **참고**: 이 TR 코드는 이전에 stock_api.py에서 잘못 사용되었습니다.
+            ka10005는 차트 데이터 조회 API이며, 투자자 매매동향 조회가 아닙니다.
+        """
+        params = {
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_INPUT_ISCD": stock_code,
+            "FID_PERIOD_DIV_CODE": period,
+        }
+
+        if start_date:
+            params["FID_INPUT_DATE_1"] = start_date
+        if end_date:
+            params["FID_INPUT_DATE_2"] = end_date
+        if period == "T":
+            params["FID_INPUT_HOUR_1"] = str(interval)
+
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["daily_weekly_monthly_minute"],
+            endpoint="chart",
+            data=params,
+            method="POST",
+        )
