@@ -1,0 +1,1490 @@
+[
+  {
+    "no": "1",
+    "api_id": "au10001",
+    "api_name": "접근토큰 발급",
+    "category1": "OAuth",
+    "category2": "인증 접근토큰발급",
+    "page": 7
+  },
+  {
+    "no": "2",
+    "api_id": "au10002",
+    "api_name": "접근토큰폐기",
+    "category1": "OAuth",
+    "category2": "인증 접근토큰폐기",
+    "page": 9
+  },
+  {
+    "no": "3",
+    "api_id": "ka00198",
+    "api_name": "실시간종목조회순위",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 10
+  },
+  {
+    "no": "4",
+    "api_id": "ka01690",
+    "api_name": "일별잔고수익률",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 12
+  },
+  {
+    "no": "5",
+    "api_id": "ka10001",
+    "api_name": "주식기본정보요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 14
+  },
+  {
+    "no": "6",
+    "api_id": "ka10002",
+    "api_name": "주식거래원요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 17
+  },
+  {
+    "no": "7",
+    "api_id": "ka10003",
+    "api_name": "체결정보요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 20
+  },
+  {
+    "no": "8",
+    "api_id": "ka10004",
+    "api_name": "주식호가요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 23
+  },
+  {
+    "no": "9",
+    "api_id": "ka10005",
+    "api_name": "주식일주월시분요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 27
+  },
+  {
+    "no": "10",
+    "api_id": "ka10006",
+    "api_name": "주식시분요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 30
+  },
+  {
+    "no": "11",
+    "api_id": "ka10007",
+    "api_name": "시세표성정보요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 32
+  },
+  {
+    "no": "12",
+    "api_id": "ka10008",
+    "api_name": "주식외국인종목별매매동향",
+    "category1": "국내주식",
+    "category2": "기관/외국인",
+    "page": 38
+  },
+  {
+    "no": "13",
+    "api_id": "ka10009",
+    "api_name": "주식기관요청",
+    "category1": "국내주식",
+    "category2": "기관/외국인",
+    "page": 41
+  },
+  {
+    "no": "14",
+    "api_id": "ka10010",
+    "api_name": "업종프로그램요청",
+    "category1": "국내주식",
+    "category2": "업종",
+    "page": 43
+  },
+  {
+    "no": "15",
+    "api_id": "ka10011",
+    "api_name": "신주인수권전체시세요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 45
+  },
+  {
+    "no": "16",
+    "api_id": "ka10013",
+    "api_name": "신용매매동향요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 47
+  },
+  {
+    "no": "17",
+    "api_id": "ka10014",
+    "api_name": "공매도추이요청",
+    "category1": "국내주식",
+    "category2": "공매도",
+    "page": 50
+  },
+  {
+    "no": "18",
+    "api_id": "ka10015",
+    "api_name": "일별거래상세요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 53
+  },
+  {
+    "no": "19",
+    "api_id": "ka10016",
+    "api_name": "신고저가요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 57
+  },
+  {
+    "no": "20",
+    "api_id": "ka10017",
+    "api_name": "상하한가요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 60
+  },
+  {
+    "no": "21",
+    "api_id": "ka10018",
+    "api_name": "고저가근접요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 63
+  },
+  {
+    "no": "22",
+    "api_id": "ka10019",
+    "api_name": "가격급등락요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 66
+  },
+  {
+    "no": "23",
+    "api_id": "ka10020",
+    "api_name": "호가잔량상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 69
+  },
+  {
+    "no": "24",
+    "api_id": "ka10021",
+    "api_name": "호가잔량급증요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 72
+  },
+  {
+    "no": "25",
+    "api_id": "ka10022",
+    "api_name": "잔량율급증요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 74
+  },
+  {
+    "no": "26",
+    "api_id": "ka10023",
+    "api_name": "거래량급증요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 76
+  },
+  {
+    "no": "27",
+    "api_id": "ka10024",
+    "api_name": "거래량갱신요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 79
+  },
+  {
+    "no": "28",
+    "api_id": "ka10025",
+    "api_name": "매물대집중요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 81
+  },
+  {
+    "no": "29",
+    "api_id": "ka10026",
+    "api_name": "고저PER요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 84
+  },
+  {
+    "no": "30",
+    "api_id": "ka10027",
+    "api_name": "전일대비등락률상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 86
+  },
+  {
+    "no": "31",
+    "api_id": "ka10028",
+    "api_name": "시가대비등락률요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 89
+  },
+  {
+    "no": "32",
+    "api_id": "ka10029",
+    "api_name": "예상체결등락률상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 92
+  },
+  {
+    "no": "33",
+    "api_id": "ka10030",
+    "api_name": "당일거래량상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 95
+  },
+  {
+    "no": "34",
+    "api_id": "ka10031",
+    "api_name": "전일거래량상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 98
+  },
+  {
+    "no": "35",
+    "api_id": "ka10032",
+    "api_name": "거래대금상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 101
+  },
+  {
+    "no": "36",
+    "api_id": "ka10033",
+    "api_name": "신용비율상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 103
+  },
+  {
+    "no": "37",
+    "api_id": "ka10034",
+    "api_name": "외인기간별매매상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 106
+  },
+  {
+    "no": "38",
+    "api_id": "ka10035",
+    "api_name": "외인연속순매매상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 108
+  },
+  {
+    "no": "39",
+    "api_id": "ka10036",
+    "api_name": "외인한도소진율증가상위",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 111
+  },
+  {
+    "no": "40",
+    "api_id": "ka10037",
+    "api_name": "외국계창구매매상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 113
+  },
+  {
+    "no": "41",
+    "api_id": "ka10038",
+    "api_name": "종목별증권사순위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 116
+  },
+  {
+    "no": "42",
+    "api_id": "ka10039",
+    "api_name": "증권사별매매상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 118
+  },
+  {
+    "no": "43",
+    "api_id": "ka10040",
+    "api_name": "당일주요거래원요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 120
+  },
+  {
+    "no": "44",
+    "api_id": "ka10042",
+    "api_name": "순매수거래원순위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 123
+  },
+  {
+    "no": "45",
+    "api_id": "ka10043",
+    "api_name": "거래원매물대분석요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 125
+  },
+  {
+    "no": "46",
+    "api_id": "ka10044",
+    "api_name": "일별기관매매종목요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 128
+  },
+  {
+    "no": "47",
+    "api_id": "ka10045",
+    "api_name": "종목별기관매매추이요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 130
+  },
+  {
+    "no": "48",
+    "api_id": "ka10046",
+    "api_name": "체결강도추이시간별요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 132
+  },
+  {
+    "no": "49",
+    "api_id": "ka10047",
+    "api_name": "체결강도추이일별요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 134
+  },
+  {
+    "no": "50",
+    "api_id": "ka10048",
+    "api_name": "ELW일별민감도지표요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 136
+  },
+  {
+    "no": "51",
+    "api_id": "ka10050",
+    "api_name": "ELW민감도지표요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 139
+  },
+  {
+    "no": "52",
+    "api_id": "ka10051",
+    "api_name": "업종별투자자순매수요청",
+    "category1": "국내주식",
+    "category2": "업종",
+    "page": 141
+  },
+  {
+    "no": "53",
+    "api_id": "ka10052",
+    "api_name": "거래원순간거래량요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 144
+  },
+  {
+    "no": "54",
+    "api_id": "ka10053",
+    "api_name": "당일상위이탈원요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 146
+  },
+  {
+    "no": "55",
+    "api_id": "ka10054",
+    "api_name": "변동성완화장치발동종목요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 148
+  },
+  {
+    "no": "56",
+    "api_id": "ka10055",
+    "api_name": "당일전일체결량요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 151
+  },
+  {
+    "no": "57",
+    "api_id": "ka10058",
+    "api_name": "투자자별일별매매종목요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 153
+  },
+  {
+    "no": "58",
+    "api_id": "ka10059",
+    "api_name": "종목별투자자기관별요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 155
+  },
+  {
+    "no": "59",
+    "api_id": "ka10060",
+    "api_name": "종목별투자자기관별차트요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 158
+  },
+  {
+    "no": "60",
+    "api_id": "ka10061",
+    "api_name": "종목별투자자기관별합계요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 161
+  },
+  {
+    "no": "61",
+    "api_id": "ka10062",
+    "api_name": "동일순매매순위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 163
+  },
+  {
+    "no": "62",
+    "api_id": "ka10063",
+    "api_name": "장중투자자별매매요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 165
+  },
+  {
+    "no": "63",
+    "api_id": "ka10064",
+    "api_name": "장중투자자별매매차트요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 168
+  },
+  {
+    "no": "64",
+    "api_id": "ka10065",
+    "api_name": "장중투자자별매매상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 170
+  },
+  {
+    "no": "65",
+    "api_id": "ka10066",
+    "api_name": "장마감후투자자별매매요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 172
+  },
+  {
+    "no": "66",
+    "api_id": "ka10068",
+    "api_name": "대차거래추이요청",
+    "category1": "국내주식",
+    "category2": "대차거래",
+    "page": 175
+  },
+  {
+    "no": "67",
+    "api_id": "ka10069",
+    "api_name": "대차거래상위10종목요청",
+    "category1": "국내주식",
+    "category2": "대차거래",
+    "page": 177
+  },
+  {
+    "no": "68",
+    "api_id": "ka10072",
+    "api_name": "일자별종목별실현손익요청_일자",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 179
+  },
+  {
+    "no": "69",
+    "api_id": "ka10073",
+    "api_name": "일자별종목별실현손익요청_기간",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 181
+  },
+  {
+    "no": "70",
+    "api_id": "ka10074",
+    "api_name": "일자별실현손익요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 184
+  },
+  {
+    "no": "71",
+    "api_id": "ka10075",
+    "api_name": "미체결요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 186
+  },
+  {
+    "no": "72",
+    "api_id": "ka10076",
+    "api_name": "체결요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 189
+  },
+  {
+    "no": "73",
+    "api_id": "ka10077",
+    "api_name": "당일실현손익상세요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 192
+  },
+  {
+    "no": "74",
+    "api_id": "ka10078",
+    "api_name": "증권사별종목매매동향요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 194
+  },
+  {
+    "no": "75",
+    "api_id": "ka10079",
+    "api_name": "주식틱차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 196
+  },
+  {
+    "no": "76",
+    "api_id": "ka10080",
+    "api_name": "주식분봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 198
+  },
+  {
+    "no": "77",
+    "api_id": "ka10081",
+    "api_name": "주식일봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 200
+  },
+  {
+    "no": "78",
+    "api_id": "ka10082",
+    "api_name": "주식주봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 202
+  },
+  {
+    "no": "79",
+    "api_id": "ka10083",
+    "api_name": "주식월봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 204
+  },
+  {
+    "no": "80",
+    "api_id": "ka10084",
+    "api_name": "당일전일체결요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 206
+  },
+  {
+    "no": "81",
+    "api_id": "ka10085",
+    "api_name": "계좌수익률요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 208
+  },
+  {
+    "no": "82",
+    "api_id": "ka10086",
+    "api_name": "일별주가요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 211
+  },
+  {
+    "no": "83",
+    "api_id": "ka10087",
+    "api_name": "시간외단일가요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 214
+  },
+  {
+    "no": "84",
+    "api_id": "ka10088",
+    "api_name": "미체결 분할주문 상세",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 218
+  },
+  {
+    "no": "85",
+    "api_id": "ka10094",
+    "api_name": "주식년봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 220
+  },
+  {
+    "no": "86",
+    "api_id": "ka10095",
+    "api_name": "관심종목정보요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 222
+  },
+  {
+    "no": "87",
+    "api_id": "ka10098",
+    "api_name": "시간외단일가등락율순위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 226
+  },
+  {
+    "no": "88",
+    "api_id": "ka10099",
+    "api_name": "종목정보 리스트",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 228
+  },
+  {
+    "no": "89",
+    "api_id": "ka10100",
+    "api_name": "종목정보 조회",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 231
+  },
+  {
+    "no": "90",
+    "api_id": "ka10101",
+    "api_name": "업종코드 리스트",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 233
+  },
+  {
+    "no": "91",
+    "api_id": "ka10102",
+    "api_name": "회원사 리스트",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 235
+  },
+  {
+    "no": "92",
+    "api_id": "ka10131",
+    "api_name": "기관외국인연속매매현황요청",
+    "category1": "국내주식",
+    "category2": "기관/외국인",
+    "page": 237
+  },
+  {
+    "no": "93",
+    "api_id": "ka10170",
+    "api_name": "당일매매일지요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 240
+  },
+  {
+    "no": "94",
+    "api_id": "ka10171",
+    "api_name": "조건검색 목록조회",
+    "category1": "국내주식",
+    "category2": "조건검색",
+    "page": 242
+  },
+  {
+    "no": "95",
+    "api_id": "ka10172",
+    "api_name": "조건검색 요청 일반",
+    "category1": "국내주식",
+    "category2": "조건검색",
+    "page": 244
+  },
+  {
+    "no": "96",
+    "api_id": "ka10173",
+    "api_name": "조건검색 요청 실시간",
+    "category1": "국내주식",
+    "category2": "조건검색",
+    "page": 247
+  },
+  {
+    "no": "97",
+    "api_id": "ka10174",
+    "api_name": "조건검색 실시간 해제",
+    "category1": "국내주식",
+    "category2": "조건검색",
+    "page": 250
+  },
+  {
+    "no": "98",
+    "api_id": "ka20001",
+    "api_name": "업종현재가요청",
+    "category1": "국내주식",
+    "category2": "업종",
+    "page": 252
+  },
+  {
+    "no": "99",
+    "api_id": "ka20002",
+    "api_name": "업종별주가요청",
+    "category1": "국내주식",
+    "category2": "업종",
+    "page": 255
+  },
+  {
+    "no": "100",
+    "api_id": "ka20003",
+    "api_name": "전업종지수요청",
+    "category1": "국내주식",
+    "category2": "업종",
+    "page": 258
+  },
+  {
+    "no": "101",
+    "api_id": "ka20004",
+    "api_name": "업종틱차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 260
+  },
+  {
+    "no": "102",
+    "api_id": "ka20005",
+    "api_name": "업종분봉조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 262
+  },
+  {
+    "no": "103",
+    "api_id": "ka20006",
+    "api_name": "업종일봉조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 264
+  },
+  {
+    "no": "104",
+    "api_id": "ka20007",
+    "api_name": "업종주봉조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 266
+  },
+  {
+    "no": "105",
+    "api_id": "ka20008",
+    "api_name": "업종월봉조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 268
+  },
+  {
+    "no": "106",
+    "api_id": "ka20009",
+    "api_name": "업종현재가일별요청",
+    "category1": "국내주식",
+    "category2": "업종",
+    "page": 270
+  },
+  {
+    "no": "107",
+    "api_id": "ka20019",
+    "api_name": "업종년봉조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 273
+  },
+  {
+    "no": "108",
+    "api_id": "ka20068",
+    "api_name": "대차거래추이요청(종목별)",
+    "category1": "국내주식",
+    "category2": "대차거래",
+    "page": 275
+  },
+  {
+    "no": "109",
+    "api_id": "ka30001",
+    "api_name": "ELW가격급등락요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 277
+  },
+  {
+    "no": "110",
+    "api_id": "ka30002",
+    "api_name": "거래원별ELW순매매상위요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 279
+  },
+  {
+    "no": "111",
+    "api_id": "ka30003",
+    "api_name": "ELWLP보유일별추이요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 281
+  },
+  {
+    "no": "112",
+    "api_id": "ka30004",
+    "api_name": "ELW괴리율요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 283
+  },
+  {
+    "no": "113",
+    "api_id": "ka30005",
+    "api_name": "ELW조건검색요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 286
+  },
+  {
+    "no": "114",
+    "api_id": "ka30009",
+    "api_name": "ELW등락율순위요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 289
+  },
+  {
+    "no": "115",
+    "api_id": "ka30010",
+    "api_name": "ELW잔량순위요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 291
+  },
+  {
+    "no": "116",
+    "api_id": "ka30011",
+    "api_name": "ELW근접율요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 293
+  },
+  {
+    "no": "117",
+    "api_id": "ka30012",
+    "api_name": "ELW종목상세정보요청",
+    "category1": "국내주식",
+    "category2": "ELW",
+    "page": 295
+  },
+  {
+    "no": "118",
+    "api_id": "ka40001",
+    "api_name": "ETF수익율요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 299
+  },
+  {
+    "no": "119",
+    "api_id": "ka40002",
+    "api_name": "ETF종목정보요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 301
+  },
+  {
+    "no": "120",
+    "api_id": "ka40003",
+    "api_name": "ETF일별추이요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 303
+  },
+  {
+    "no": "121",
+    "api_id": "ka40004",
+    "api_name": "ETF전체시세요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 305
+  },
+  {
+    "no": "122",
+    "api_id": "ka40006",
+    "api_name": "ETF시간대별추이요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 308
+  },
+  {
+    "no": "123",
+    "api_id": "ka40007",
+    "api_name": "ETF시간대별체결요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 310
+  },
+  {
+    "no": "124",
+    "api_id": "ka40008",
+    "api_name": "ETF일자별체결요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 312
+  },
+  {
+    "no": "125",
+    "api_id": "ka40009",
+    "api_name": "ETF시간대별체결요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 314
+  },
+  {
+    "no": "126",
+    "api_id": "ka40010",
+    "api_name": "ETF시간대별추이요청",
+    "category1": "국내주식",
+    "category2": "ETF",
+    "page": 316
+  },
+  {
+    "no": "127",
+    "api_id": "ka50010",
+    "api_name": "금현물체결추이",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 318
+  },
+  {
+    "no": "128",
+    "api_id": "ka50012",
+    "api_name": "금현물일별추이",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 320
+  },
+  {
+    "no": "129",
+    "api_id": "ka50079",
+    "api_name": "금현물틱차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 322
+  },
+  {
+    "no": "130",
+    "api_id": "ka50080",
+    "api_name": "금현물분봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 324
+  },
+  {
+    "no": "131",
+    "api_id": "ka50081",
+    "api_name": "금현물일봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 326
+  },
+  {
+    "no": "132",
+    "api_id": "ka50082",
+    "api_name": "금현물주봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 328
+  },
+  {
+    "no": "133",
+    "api_id": "ka50083",
+    "api_name": "금현물월봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 330
+  },
+  {
+    "no": "134",
+    "api_id": "ka50087",
+    "api_name": "금현물예상체결",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 332
+  },
+  {
+    "no": "135",
+    "api_id": "ka50091",
+    "api_name": "금현물당일틱차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 334
+  },
+  {
+    "no": "136",
+    "api_id": "ka50092",
+    "api_name": "금현물당일분봉차트조회요청",
+    "category1": "국내주식",
+    "category2": "차트",
+    "page": 336
+  },
+  {
+    "no": "137",
+    "api_id": "ka50100",
+    "api_name": "금현물 시세정보",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 338
+  },
+  {
+    "no": "138",
+    "api_id": "ka50101",
+    "api_name": "금현물 호가",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 340
+  },
+  {
+    "no": "139",
+    "api_id": "ka52301",
+    "api_name": "금현물투자자현황",
+    "category1": "국내주식",
+    "category2": "기관/외국인",
+    "page": 342
+  },
+  {
+    "no": "140",
+    "api_id": "ka90001",
+    "api_name": "테마그룹별요청",
+    "category1": "국내주식",
+    "category2": "테마",
+    "page": 345
+  },
+  {
+    "no": "141",
+    "api_id": "ka90002",
+    "api_name": "테마구성종목요청",
+    "category1": "국내주식",
+    "category2": "테마",
+    "page": 347
+  },
+  {
+    "no": "142",
+    "api_id": "ka90003",
+    "api_name": "프로그램순매수상위50요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 350
+  },
+  {
+    "no": "143",
+    "api_id": "ka90004",
+    "api_name": "종목별프로그램매매현황요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 352
+  },
+  {
+    "no": "144",
+    "api_id": "ka90005",
+    "api_name": "프로그램매매추이요청 시간대별",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 355
+  },
+  {
+    "no": "145",
+    "api_id": "ka90006",
+    "api_name": "프로그램매매차익잔고추이요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 358
+  },
+  {
+    "no": "146",
+    "api_id": "ka90007",
+    "api_name": "프로그램매매누적추이요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 360
+  },
+  {
+    "no": "147",
+    "api_id": "ka90008",
+    "api_name": "종목시간별프로그램매매추이요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 362
+  },
+  {
+    "no": "148",
+    "api_id": "ka90009",
+    "api_name": "외국인기관매매상위요청",
+    "category1": "국내주식",
+    "category2": "순위정보",
+    "page": 365
+  },
+  {
+    "no": "149",
+    "api_id": "ka90010",
+    "api_name": "프로그램매매추이요청 일자별",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 368
+  },
+  {
+    "no": "150",
+    "api_id": "ka90012",
+    "api_name": "대차거래내역요청",
+    "category1": "국내주식",
+    "category2": "대차거래",
+    "page": 371
+  },
+  {
+    "no": "151",
+    "api_id": "ka90013",
+    "api_name": "종목일별프로그램매매추이요청",
+    "category1": "국내주식",
+    "category2": "시세",
+    "page": 373
+  },
+  {
+    "no": "152",
+    "api_id": "kt00001",
+    "api_name": "예수금상세현황요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 376
+  },
+  {
+    "no": "153",
+    "api_id": "kt00002",
+    "api_name": "일별추정예탁자산현황요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 381
+  },
+  {
+    "no": "154",
+    "api_id": "kt00003",
+    "api_name": "추정자산조회요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 383
+  },
+  {
+    "no": "155",
+    "api_id": "kt00004",
+    "api_name": "계좌평가현황요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 384
+  },
+  {
+    "no": "156",
+    "api_id": "kt00005",
+    "api_name": "체결잔고요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 387
+  },
+  {
+    "no": "157",
+    "api_id": "kt00007",
+    "api_name": "계좌별주문체결내역상세요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 390
+  },
+  {
+    "no": "158",
+    "api_id": "kt00008",
+    "api_name": "계좌별익일결제예정내역요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 393
+  },
+  {
+    "no": "159",
+    "api_id": "kt00009",
+    "api_name": "계좌별주문체결현황요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 395
+  },
+  {
+    "no": "160",
+    "api_id": "kt00010",
+    "api_name": "주문인출가능금액요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 398
+  },
+  {
+    "no": "161",
+    "api_id": "kt00011",
+    "api_name": "증거금율별주문가능수량조회요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 401
+  },
+  {
+    "no": "162",
+    "api_id": "kt00012",
+    "api_name": "신용보증금율별주문가능수량조회요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 404
+  },
+  {
+    "no": "163",
+    "api_id": "kt00013",
+    "api_name": "증거금세부내역조회요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 407
+  },
+  {
+    "no": "164",
+    "api_id": "kt00015",
+    "api_name": "위탁종합거래내역요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 410
+  },
+  {
+    "no": "165",
+    "api_id": "kt00016",
+    "api_name": "일별계좌수익률상세현황요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 414
+  },
+  {
+    "no": "166",
+    "api_id": "kt00017",
+    "api_name": "계좌별당일현황요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 417
+  },
+  {
+    "no": "167",
+    "api_id": "kt00018",
+    "api_name": "계좌평가잔고내역요청",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 419
+  },
+  {
+    "no": "168",
+    "api_id": "kt10000",
+    "api_name": "주식 매수주문",
+    "category1": "국내주식",
+    "category2": "주문",
+    "page": 422
+  },
+  {
+    "no": "169",
+    "api_id": "kt10001",
+    "api_name": "주식 매도주문",
+    "category1": "국내주식",
+    "category2": "주문",
+    "page": 424
+  },
+  {
+    "no": "170",
+    "api_id": "kt10002",
+    "api_name": "주식 정정주문",
+    "category1": "국내주식",
+    "category2": "주문",
+    "page": 426
+  },
+  {
+    "no": "171",
+    "api_id": "kt10003",
+    "api_name": "주식 취소주문",
+    "category1": "국내주식",
+    "category2": "주문",
+    "page": 428
+  },
+  {
+    "no": "172",
+    "api_id": "kt10006",
+    "api_name": "신용 매수주문",
+    "category1": "국내주식",
+    "category2": "신용주문",
+    "page": 430
+  },
+  {
+    "no": "173",
+    "api_id": "kt10007",
+    "api_name": "신용 매도주문",
+    "category1": "국내주식",
+    "category2": "신용주문",
+    "page": 432
+  },
+  {
+    "no": "174",
+    "api_id": "kt10008",
+    "api_name": "신용 정정주문",
+    "category1": "국내주식",
+    "category2": "신용주문",
+    "page": 434
+  },
+  {
+    "no": "175",
+    "api_id": "kt10009",
+    "api_name": "신용 취소주문",
+    "category1": "국내주식",
+    "category2": "신용주문",
+    "page": 436
+  },
+  {
+    "no": "176",
+    "api_id": "kt20016",
+    "api_name": "신용융자 가능종목요청",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 438
+  },
+  {
+    "no": "177",
+    "api_id": "kt20017",
+    "api_name": "신용융자 가능문의",
+    "category1": "국내주식",
+    "category2": "종목정보",
+    "page": 440
+  },
+  {
+    "no": "178",
+    "api_id": "kt50000",
+    "api_name": "금현물 매수주문",
+    "category1": "국내주식",
+    "category2": "주문",
+    "page": 441
+  },
+  {
+    "no": "179",
+    "api_id": "kt50001",
+    "api_name": "금현물 매도주문",
+    "category1": "국내주식",
+    "category2": "주문",
+    "page": 443
+  },
+  {
+    "no": "180",
+    "api_id": "kt50002",
+    "api_name": "금현물 정정주문",
+    "category1": "국내주식",
+    "category2": "주문",
+    "page": 445
+  },
+  {
+    "no": "181",
+    "api_id": "kt50003",
+    "api_name": "금현물 취소주문",
+    "category1": "국내주식",
+    "category2": "주문",
+    "page": 447
+  },
+  {
+    "no": "182",
+    "api_id": "kt50020",
+    "api_name": "금현물 잔고확인",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 449
+  },
+  {
+    "no": "183",
+    "api_id": "kt50021",
+    "api_name": "금현물 예수금",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 452
+  },
+  {
+    "no": "184",
+    "api_id": "kt50030",
+    "api_name": "금현물 주문체결전체조회",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 454
+  },
+  {
+    "no": "185",
+    "api_id": "kt50031",
+    "api_name": "금현물 주문체결조회",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 457
+  },
+  {
+    "no": "186",
+    "api_id": "kt50032",
+    "api_name": "금현물 거래내역조회",
+    "category1": "국내주식",
+    "category2": "계좌",
+    "page": 460
+  }
+]
