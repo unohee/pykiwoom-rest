@@ -1,101 +1,21 @@
-# Environment variables
 .env
 .env.local
 .env.*.local
-
-# Python cache
+*.pyc
 __pycache__/
-*.py[cod]
-*$py.class
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
 *.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# PyInstaller
-*.manifest
-*.spec
-
-# Unit test / coverage reports
-htmlcov/
-.tox/
-.nox/
-.coverage
-.coverage.*
-.cache
-nosetests.xml
-coverage.xml
-*.cover
-*.py,cover
-.hypothesis/
+dist/
+build/
 .pytest_cache/
-cover/
-
-# Virtual environments
+.coverage
+htmlcov/
+.venv
 venv/
-ENV/
 env/
-.venv/
-
-# IDE
-.vscode/
-.idea/
+.DS_Store
 *.swp
 *.swo
-
-# OS
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Logs
+*~
+.idea/
+.vscode/
 *.log
-logs/
-
-# Testing
-testing/
-*.tmp
-*.temp
-
-logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-dev-debug.log
-# Dependency directories
-node_modules/
-# Editor directories and files
-.idea
-.vscode
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
-# OS specific
-
-# Task files
-# tasks.json
-# tasks/ 
-.github/workflows/ci.yml
-pykiwoom-adapter/

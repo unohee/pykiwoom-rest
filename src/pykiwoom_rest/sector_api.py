@@ -38,7 +38,9 @@ class SectorAPI(KiwoomAPIBase):
             Dict[str, Any]: 업종 현재가 정보
         """
         params = {"sect_cd": sector_code}
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_current_price"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_current_price"], data=params
+        )
 
     def get_sector_stock_price(self, sector_code: str = "0001") -> Dict[str, Any]:
         """
@@ -51,7 +53,9 @@ class SectorAPI(KiwoomAPIBase):
             Dict[str, Any]: 업종별 주가 정보
         """
         params = {"sect_cd": sector_code}
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_stock_price"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_stock_price"], data=params
+        )
 
     def get_all_sector_index(self) -> Dict[str, Any]:
         """
@@ -61,9 +65,13 @@ class SectorAPI(KiwoomAPIBase):
             Dict[str, Any]: 전체 업종 지수
         """
         params = {}
-        return self.make_tr_request(tr_id=self.TR_CODES["all_sector_index"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["all_sector_index"], data=params
+        )
 
-    def get_sector_tick_chart(self, sector_code: str, count: int = 100) -> Dict[str, Any]:
+    def get_sector_tick_chart(
+        self, sector_code: str, count: int = 100
+    ) -> Dict[str, Any]:
         """
         업종틱차트조회요청 (ka20004)
 
@@ -75,7 +83,9 @@ class SectorAPI(KiwoomAPIBase):
             Dict[str, Any]: 업종 틱차트 데이터
         """
         params = {"sect_cd": sector_code, "count": str(count)}
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_tick_chart"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_tick_chart"], data=params
+        )
 
     def get_sector_minute_chart(
         self,
@@ -103,10 +113,15 @@ class SectorAPI(KiwoomAPIBase):
         if end_date:
             params["end_dt"] = end_date
 
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_minute_chart"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_minute_chart"], data=params
+        )
 
     def get_sector_daily_chart(
-        self, sector_code: str, start_date: Optional[str] = None, end_date: Optional[str] = None
+        self,
+        sector_code: str,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         업종일봉조회요청 (ka20006)
@@ -126,10 +141,15 @@ class SectorAPI(KiwoomAPIBase):
         if end_date:
             params["end_dt"] = end_date
 
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_daily_chart"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_daily_chart"], data=params
+        )
 
     def get_sector_weekly_chart(
-        self, sector_code: str, start_date: Optional[str] = None, end_date: Optional[str] = None
+        self,
+        sector_code: str,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         업종주봉조회요청 (ka20007)
@@ -149,10 +169,15 @@ class SectorAPI(KiwoomAPIBase):
         if end_date:
             params["end_dt"] = end_date
 
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_weekly_chart"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_weekly_chart"], data=params
+        )
 
     def get_sector_monthly_chart(
-        self, sector_code: str, start_date: Optional[str] = None, end_date: Optional[str] = None
+        self,
+        sector_code: str,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         업종월봉조회요청 (ka20008)
@@ -172,7 +197,9 @@ class SectorAPI(KiwoomAPIBase):
         if end_date:
             params["end_dt"] = end_date
 
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_monthly_chart"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_monthly_chart"], data=params
+        )
 
     def get_sector_daily_current(self, sector_code: str) -> Dict[str, Any]:
         """
@@ -185,10 +212,15 @@ class SectorAPI(KiwoomAPIBase):
             Dict[str, Any]: 업종 현재가 일별 데이터
         """
         params = {"sect_cd": sector_code}
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_daily_current"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_daily_current"], data=params
+        )
 
     def get_sector_yearly_chart(
-        self, sector_code: str, start_year: Optional[str] = None, end_year: Optional[str] = None
+        self,
+        sector_code: str,
+        start_year: Optional[str] = None,
+        end_year: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         업종년봉조회요청 (ka20019)
@@ -208,7 +240,9 @@ class SectorAPI(KiwoomAPIBase):
         if end_year:
             params["end_year"] = end_year
 
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_yearly_chart"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_yearly_chart"], data=params
+        )
 
     def get_sector_investor_trading(self, sector_code: str) -> Dict[str, Any]:
         """
@@ -221,7 +255,9 @@ class SectorAPI(KiwoomAPIBase):
             Dict[str, Any]: 업종별 투자자 순매수 정보
         """
         params = {"sect_cd": sector_code}
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_investor_trading"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_investor_trading"], data=params
+        )
 
     def get_sector_program_trading(self, sector_code: str) -> Dict[str, Any]:
         """
@@ -234,4 +270,6 @@ class SectorAPI(KiwoomAPIBase):
             Dict[str, Any]: 업종 프로그램 매매 정보
         """
         params = {"sect_cd": sector_code}
-        return self.make_tr_request(tr_id=self.TR_CODES["sector_program_trading"], data=params)
+        return self.make_tr_request(
+            tr_id=self.TR_CODES["sector_program_trading"], data=params
+        )

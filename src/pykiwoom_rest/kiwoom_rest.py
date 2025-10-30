@@ -13,6 +13,7 @@ from .order_api import OrderAPI
 from .ranking_api import RankingAPI
 from .sector_api import SectorAPI
 from .stock_api import StockAPI
+from .websocket_api import WebSocketAPI
 
 
 class KiwoomRest:
@@ -34,18 +35,46 @@ class KiwoomRest:
         credentials_list: list = None,
     ):
         """
-        초기화
+        키움증권 REST API 클라이언트 초기화
+
+        인증 정보는 다음 우선순위로 로드됩니다:
+        1. 직접 전달된 파라미터 (account_no, appkey, appsecret)
+        2. 환경변수 (.env 파일 또는 시스템 환경변수)
+           - ACC_NO 또는 ACCOUNT_NO
+           - APPKEY 또는 KIWOOM_APPKEY
+           - APPSECRET, KIWOOM_SECRETKEY 또는 KIWOOM_APPSECRET
 
         Args:
-            account_no: 계좌번호
-            appkey: 앱키
-            appsecret: 앱시크릿
-            env_path: .env 파일 경로
+            account_no: 계좌번호 (직접 주입 가능, 선택)
+            appkey: 앱키 (직접 주입 가능, 선택)
+            appsecret: 앱시크릿 (직접 주입 가능, 선택)
+            env_path: .env 파일 경로 (기본: 프로젝트 루트)
             use_mock: 모의투자 API 사용 여부
-            rate_limit: 초당 최대 요청 수
-            max_retries: 최대 재시도 횟수
+            rate_limit: 초당 최대 요청 수 (기본: 20)
+            max_retries: 최대 재시도 횟수 (기본: 3)
             enable_rate_optimizer: Rate limiting 최적화 활성화
-            credentials_list: 다중 크레덴셜 리스트
+            credentials_list: 다중 크레덴셜 리스트 (로테이션용)
+
+        Examples:
+            # 방법 1: 환경변수 사용 (.env 파일)
+            >>> kiwoom = KiwoomRest()
+
+            # 방법 2: 직접 주입
+            >>> kiwoom = KiwoomRest(
+            ...     account_no="12345678",
+            ...     appkey="your-app-key",
+            ...     appsecret="your-app-secret"
+            ... )
+
+            # 방법 3: 혼합 (일부만 직접 주입)
+            >>> kiwoom = KiwoomRest(
+            ...     appkey="your-app-key",
+            ...     appsecret="your-app-secret"
+            ...     # account_no는 환경변수에서 로드
+            ... )
+
+        Raises:
+            ValueError: 필수 인증 정보가 누락된 경우
         """
         # 공통 설정
         common_config = {
@@ -75,25 +104,48 @@ class KiwoomRest:
         # Rate optimizer 접근을 위한 참조
         self.api_base = self.stock_api.api_base
 
-    def _sync_authentication(self):
-        """인증 정보 동기화 (토큰 공유)"""
-        # 인증 API 객체를 기준으로 토큰 공유
-        base_token = None
-        if hasattr(self.auth_api, "access_token") and self.auth_api.access_token:
-            base_token = self.auth_api.access_token
+        # WebSocket API (lazy initialization)
+        self._websocket_api: Optional[WebSocketAPI] = None
+        self._websocket_enabled = False
 
-        # 모든 API 객체에 토큰 동기화
-        for api in [
+    def _sync_authentication(self):
+        """
+        인증 정보 동기화 (토큰 공유)
+
+        모든 API 클래스 중 가장 최신 토큰을 찾아서 전체 동기화
+        """
+        # 모든 API 객체에서 토큰 수집
+        all_apis = [
+            self.auth_api,
             self.stock_api,
             self.chart_api,
             self.ranking_api,
             self.account_api,
             self.order_api,
             self.sector_api,
-        ]:
-            if base_token:
-                api.access_token = base_token
-                api.token_expires = self.auth_api.token_expires
+        ]
+
+        # 가장 최신 토큰 찾기
+        latest_token = None
+        latest_expires = None
+
+        for api in all_apis:
+            if hasattr(api, "access_token") and api.access_token:
+                if hasattr(api, "token_expires") and api.token_expires:
+                    # 기존 토큰보다 만료 시간이 더 늦으면 업데이트
+                    if latest_expires is None or api.token_expires > latest_expires:
+                        latest_token = api.access_token
+                        latest_expires = api.token_expires
+                elif latest_token is None:
+                    # 만료 시간이 없어도 토큰이 있으면 사용
+                    latest_token = api.access_token
+                    latest_expires = api.token_expires
+
+        # 모든 API 객체에 최신 토큰 동기화
+        if latest_token:
+            for api in all_apis:
+                api.access_token = latest_token
+                api.token_expires = latest_expires
 
     # ========== 주식 정보 관련 메서드 (Legacy Compatible) ==========
 
@@ -121,7 +173,9 @@ class KiwoomRest:
         self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """종목별기관매매추이요청 (ka10045)"""
-        return self.stock_api.get_institutional_trading_trend(stock_code, start_date, end_date)
+        return self.stock_api.get_institutional_trading_trend(
+            stock_code, start_date, end_date
+        )
 
     def get_stock_investor_trading(self, stock_code: str) -> Dict[str, Any]:
         """투자자별 매매동향 조회 (ka10005)"""
@@ -158,7 +212,9 @@ class KiwoomRest:
         count: int = 100,
     ) -> Dict[str, Any]:
         """분봉 차트 조회"""
-        return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date, count)
+        return self.chart_api.get_minute_chart(
+            stock_code, interval, start_date, end_date, count
+        )
 
     def get_daily_chart(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -194,10 +250,16 @@ class KiwoomRest:
         self, stock_code: str, date: str, amount_or_quantity: str = "1"
     ) -> Dict[str, Any]:
         """종목시간별 프로그램매매 추이요청 (ka90008)"""
-        return self.ranking_api.get_hourly_program_trading(stock_code, date, amount_or_quantity)
+        return self.ranking_api.get_hourly_program_trading(
+            stock_code, date, amount_or_quantity
+        )
 
     def get_hourly_program_trading_paginated(
-        self, stock_code: str, date: str, amount_or_quantity: str = "1", max_records: int = None
+        self,
+        stock_code: str,
+        date: str,
+        amount_or_quantity: str = "1",
+        max_records: int = None,
     ) -> Dict[str, Any]:
         """종목시간별 프로그램매매 추이요청 (페이지네이션 지원)"""
         return self.ranking_api.get_hourly_program_trading_paginated(
@@ -258,7 +320,9 @@ class KiwoomRest:
         self, market: str = "ALL", data_count: str = "50", sort_type: str = "1"
     ) -> Dict[str, Any]:
         """외국인기관매매상위요청 (ka90009)"""
-        return self.ranking_api.get_foreign_institution_trading_top(market, data_count, sort_type)
+        return self.ranking_api.get_foreign_institution_trading_top(
+            market, data_count, sort_type
+        )
 
     # ========== 계좌 관련 메서드 (Account API) ==========
 
@@ -296,7 +360,9 @@ class KiwoomRest:
         """체결잔고요청"""
         return self.account_api.get_execution_balance()
 
-    def get_daily_estimated_asset(self, base_date: Optional[str] = None) -> Dict[str, Any]:
+    def get_daily_estimated_asset(
+        self, base_date: Optional[str] = None
+    ) -> Dict[str, Any]:
         """일별추정예탁자산현황요청"""
         return self.account_api.get_daily_estimated_asset(base_date)
 
@@ -304,7 +370,9 @@ class KiwoomRest:
         """당일실현손익상세요청"""
         return self.account_api.get_realized_profit_detail()
 
-    def get_daily_trading_diary(self, base_date: Optional[str] = None) -> Dict[str, Any]:
+    def get_daily_trading_diary(
+        self, base_date: Optional[str] = None
+    ) -> Dict[str, Any]:
         """당일매매일지요청"""
         return self.account_api.get_daily_trading_diary(base_date)
 
@@ -325,7 +393,9 @@ class KiwoomRest:
         price_type: str = "00",
     ) -> Dict[str, Any]:
         """주식 매수주문"""
-        return self.order_api.buy_stock(stock_code, quantity, price, order_type, price_type)
+        return self.order_api.buy_stock(
+            stock_code, quantity, price, order_type, price_type
+        )
 
     def sell_stock(
         self,
@@ -336,7 +406,9 @@ class KiwoomRest:
         price_type: str = "00",
     ) -> Dict[str, Any]:
         """주식 매도주문"""
-        return self.order_api.sell_stock(stock_code, quantity, price, order_type, price_type)
+        return self.order_api.sell_stock(
+            stock_code, quantity, price, order_type, price_type
+        )
 
     def modify_order(
         self,
@@ -368,7 +440,10 @@ class KiwoomRest:
         return self.sector_api.get_all_sector_index()
 
     def get_sector_daily_chart(
-        self, sector_code: str, start_date: Optional[str] = None, end_date: Optional[str] = None
+        self,
+        sector_code: str,
+        start_date: Optional[str] = None,
+        end_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """업종일봉조회요청"""
         return self.sector_api.get_sector_daily_chart(sector_code, start_date, end_date)
@@ -387,8 +462,79 @@ class KiwoomRest:
         return self.auth_api.revoke_token(token)
 
     def get_token_status(self) -> Dict[str, Any]:
-        """현재 토큰 상태 조회"""
-        return self.auth_api.get_token_status()
+        """
+        현재 토큰 상태 조회
+
+        모든 API 클래스를 확인하여 실제 사용 중인 토큰의 상태 반환
+
+        Returns:
+            토큰 상태 정보
+            {
+                'has_token': bool,
+                'is_valid': bool,
+                'token_prefix': str,
+                'expires_at': str (ISO format),
+                'time_to_expiry': int (초),
+                'needs_refresh': bool
+            }
+        """
+        # 먼저 토큰 동기화
+        self._sync_authentication()
+
+        # 모든 API 중 유효한 토큰 찾기
+        all_apis = [
+            self.stock_api,
+            self.chart_api,
+            self.auth_api,
+            self.ranking_api,
+            self.account_api,
+            self.order_api,
+            self.sector_api,
+        ]
+
+        # 가장 최신 토큰 정보 찾기
+        best_token = None
+        best_expires = None
+
+        for api in all_apis:
+            if hasattr(api, "access_token") and api.access_token:
+                if hasattr(api, "token_expires") and api.token_expires:
+                    if best_expires is None or api.token_expires > best_expires:
+                        best_token = api.access_token
+                        best_expires = api.token_expires
+                elif best_token is None:
+                    best_token = api.access_token
+                    best_expires = api.token_expires
+
+        # 토큰 상태 계산
+        from datetime import datetime
+
+        has_token = bool(best_token)
+        is_valid = False
+        time_to_expiry = 0
+        needs_refresh = False
+
+        if has_token and best_expires:
+            now = datetime.now()
+            is_valid = now < best_expires
+            time_to_expiry = int((best_expires - now).total_seconds())
+            # 5분 미만 남으면 갱신 필요
+            needs_refresh = 0 < time_to_expiry < 300
+
+        token_prefix = (
+            f"{best_token[:20]}..."
+            if best_token and len(best_token) > 20
+            else best_token
+        )
+
+        return {
+            "has_token": has_token,
+            "is_valid": is_valid,
+            "token_prefix": token_prefix or "None",
+            "expires_at": best_expires.isoformat() if best_expires else None,
+            "time_to_expiry": time_to_expiry,
+            "needs_refresh": needs_refresh,
+        }
 
     def refresh_token(self) -> Dict[str, Any]:
         """토큰 갱신"""
@@ -417,7 +563,11 @@ class KiwoomRest:
         )
 
     def get_minute_chart_with_date(
-        self, stock_code: str, interval: int = 5, target_date: str = None, max_pages: int = 20
+        self,
+        stock_code: str,
+        interval: int = 5,
+        target_date: str = None,
+        max_pages: int = 20,
     ) -> Dict[str, Any]:
         """특정 날짜의 분봉 데이터 조회 (연속조회 사용)"""
         return self.chart_api.get_minute_chart_with_date(
@@ -495,3 +645,149 @@ class KiwoomRest:
     def ranking(self) -> RankingAPI:
         """순위 정보 API 직접 접근"""
         return self.ranking_api
+
+    @property
+    def websocket(self) -> WebSocketAPI:
+        """WebSocket API 직접 접근 (실시간 시세)"""
+        if not self._websocket_api:
+            # Lazy initialization - api_base에서 인증 정보 가져옴
+            api_base = self.stock_api.api_base
+            self._websocket_api = WebSocketAPI(
+                access_token=self.auth_api.access_token or "",
+                appkey=api_base.appkey,
+                appsecret=api_base.appsecret,
+            )
+        return self._websocket_api
+
+    # ========== 실시간 시세 (WebSocket) 메서드 ==========
+
+    def enable_websocket(self) -> bool:
+        """
+        WebSocket 실시간 시세 활성화
+
+        Returns:
+            활성화 성공 여부
+
+        Examples:
+            >>> kiwoom = KiwoomRest(...)
+            >>> kiwoom.enable_websocket()
+            >>> # 이제 실시간 시세 구독 가능
+        """
+        try:
+            import asyncio
+
+            loop = asyncio.get_event_loop()
+        except RuntimeError:
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+
+        self._websocket_enabled = loop.run_until_complete(self.websocket.connect())
+        return self._websocket_enabled
+
+    def disable_websocket(self):
+        """WebSocket 실시간 시세 비활성화"""
+        if self._websocket_api:
+            try:
+                import asyncio
+
+                loop = asyncio.get_event_loop()
+            except RuntimeError:
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+            loop.run_until_complete(self._websocket_api.disconnect())
+            self._websocket_enabled = False
+
+    def subscribe_realtime_quote(self, stock_code: str, callback=None) -> bool:
+        """
+        실시간 시세 구독
+
+        Args:
+            stock_code: 종목코드 (예: "005930")
+            callback: 데이터 수신 콜백 함수
+
+        Returns:
+            구독 성공 여부
+
+        Examples:
+            >>> def on_quote(quote):
+            ...     print(f"현재가: {quote.current_price}")
+            >>> kiwoom.subscribe_realtime_quote("005930", on_quote)
+        """
+        if not self._websocket_enabled:
+            raise RuntimeError(
+                "WebSocket이 활성화되지 않았습니다. enable_websocket()을 먼저 호출하세요."
+            )
+
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(
+            self.websocket.subscribe_quote(stock_code, callback)
+        )
+
+    def subscribe_realtime_orderbook(self, stock_code: str, callback=None) -> bool:
+        """
+        실시간 호가 구독
+
+        Args:
+            stock_code: 종목코드
+            callback: 데이터 수신 콜백 함수
+
+        Returns:
+            구독 성공 여부
+
+        Examples:
+            >>> def on_orderbook(orderbook):
+            ...     print(f"매수 1호가: {orderbook.bid_prices[0]}")
+            >>> kiwoom.subscribe_realtime_orderbook("005930", on_orderbook)
+        """
+        if not self._websocket_enabled:
+            raise RuntimeError(
+                "WebSocket이 활성화되지 않았습니다. enable_websocket()을 먼저 호출하세요."
+            )
+
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(
+            self.websocket.subscribe_orderbook(stock_code, callback)
+        )
+
+    def subscribe_realtime_trade(self, stock_code: str, callback=None) -> bool:
+        """
+        실시간 체결 구독
+
+        Args:
+            stock_code: 종목코드
+            callback: 데이터 수신 콜백 함수
+
+        Returns:
+            구독 성공 여부
+
+        Examples:
+            >>> def on_trade(trade):
+            ...     print(f"체결가: {trade.trade_price}, 체결량: {trade.trade_volume}")
+            >>> kiwoom.subscribe_realtime_trade("005930", on_trade)
+        """
+        if not self._websocket_enabled:
+            raise RuntimeError(
+                "WebSocket이 활성화되지 않았습니다. enable_websocket()을 먼저 호출하세요."
+            )
+
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(
+            self.websocket.subscribe_trade(stock_code, callback)
+        )
+
+    def unsubscribe_realtime_all(self):
+        """모든 실시간 구독 해제"""
+        if not self._websocket_enabled:
+            return
+
+        import asyncio
+
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self.websocket.unsubscribe_all())

@@ -31,7 +31,12 @@ __author__ = "Your Name"
 __email__ = "contact@pykiwoom-rest.org"
 
 # Main API classes (Enhanced with new architecture)
-from .base_api import APIError, BaseAPIClient, RateLimitExceededError, TokenBucketRateLimiter
+from .base_api import (
+    APIError,
+    BaseAPIClient,
+    RateLimitExceededError,
+    TokenBucketRateLimiter,
+)
 from .auth_api import AuthAPI
 from .chart_api import ChartAPI
 
@@ -43,6 +48,10 @@ from .ranking_api import RankingAPI
 from .response_model import APIResponse
 from .stock_api import StockAPI
 
+# WebSocket API (실시간 시세)
+from .websocket_api import WebSocketAPI, RealtimeQuote, RealtimeOrderbook, RealtimeTrade
+from .websocket_client import WebSocketClient
+
 __all__ = [
     # Main API classes (Enhanced)
     "KiwoomRest",
@@ -53,6 +62,12 @@ __all__ = [
     "StockAPI",
     "ChartAPI",
     "RankingAPI",
+    # WebSocket API (실시간 시세)
+    "WebSocketAPI",
+    "WebSocketClient",
+    "RealtimeQuote",
+    "RealtimeOrderbook",
+    "RealtimeTrade",
     # Base classes
     "BaseAPIClient",
     "TokenBucketRateLimiter",

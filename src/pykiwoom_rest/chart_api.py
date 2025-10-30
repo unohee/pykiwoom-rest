@@ -15,6 +15,7 @@ class ChartAPI(KiwoomAPIBase):
 
     # TR 코드 매핑
     TR_CODES = {
+        "daily_weekly_monthly_minute": "ka10005",  # 주식일주월시분요청 (통합 차트)
         "tick_chart": "ka10079",
         "minute_chart": "ka10080",
         "daily_chart": "ka10081",
@@ -40,7 +41,10 @@ class ChartAPI(KiwoomAPIBase):
             "FID_INPUT_CNT_1": str(count),
         }
         return self.make_tr_request(
-            tr_code=self.TR_CODES["tick_chart"], endpoint="chart", data=params, method="POST"
+            tr_code=self.TR_CODES["tick_chart"],
+            endpoint="chart",
+            data=params,
+            method="POST",
         )
 
     def get_minute_chart(
@@ -80,11 +84,18 @@ class ChartAPI(KiwoomAPIBase):
             data["start_dt"] = start_date
 
         return self.make_tr_request(
-            tr_code=self.TR_CODES["minute_chart"], endpoint="chart", data=data, method="POST"
+            tr_code=self.TR_CODES["minute_chart"],
+            endpoint="chart",
+            data=data,
+            method="POST",
         )
 
     def get_daily_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None, count: int = 100
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """
         주식 일봉 차트 조회 (ka10081)
@@ -112,7 +123,10 @@ class ChartAPI(KiwoomAPIBase):
             data["start_dt"] = start_date
 
         return self.make_tr_request(
-            tr_code=self.TR_CODES["daily_chart"], endpoint="chart", data=data, method="POST"
+            tr_code=self.TR_CODES["daily_chart"],
+            endpoint="chart",
+            data=data,
+            method="POST",
         )
 
     def get_weekly_chart(
@@ -142,7 +156,10 @@ class ChartAPI(KiwoomAPIBase):
             "FID_INPUT_DATE_2": end_date,
         }
         return self.make_tr_request(
-            tr_code=self.TR_CODES["weekly_chart"], endpoint="chart", data=params, method="POST"
+            tr_code=self.TR_CODES["weekly_chart"],
+            endpoint="chart",
+            data=params,
+            method="POST",
         )
 
     def get_monthly_chart(
@@ -172,7 +189,10 @@ class ChartAPI(KiwoomAPIBase):
             "FID_INPUT_DATE_2": end_date,
         }
         return self.make_tr_request(
-            tr_code=self.TR_CODES["monthly_chart"], endpoint="chart", data=params, method="POST"
+            tr_code=self.TR_CODES["monthly_chart"],
+            endpoint="chart",
+            data=params,
+            method="POST",
         )
 
     def get_yearly_chart(
@@ -202,7 +222,10 @@ class ChartAPI(KiwoomAPIBase):
             "FID_INPUT_DATE_2": end_date,
         }
         return self.make_tr_request(
-            tr_code=self.TR_CODES["yearly_chart"], endpoint="chart", data=params, method="POST"
+            tr_code=self.TR_CODES["yearly_chart"],
+            endpoint="chart",
+            data=params,
+            method="POST",
         )
 
     def get_minute_chart_paginated(
@@ -235,7 +258,10 @@ class ChartAPI(KiwoomAPIBase):
             remaining = min(per_request, max_records - total_collected)
 
             result = self.get_minute_chart(
-                stock_code=stock_code, interval=interval, end_date=current_end_date, count=remaining
+                stock_code=stock_code,
+                interval=interval,
+                end_date=current_end_date,
+                count=remaining,
             )
 
             if not result or result.get("return_code") != 0:
@@ -285,7 +311,11 @@ class ChartAPI(KiwoomAPIBase):
         return result
 
     def get_minute_chart_with_date(
-        self, stock_code: str, interval: int = 5, target_date: str = None, max_pages: int = 20
+        self,
+        stock_code: str,
+        interval: int = 5,
+        target_date: str = None,
+        max_pages: int = 20,
     ) -> Dict[str, Any]:
         """특정 날짜의 분봉 데이터 조회 (연속조회 사용)
 
@@ -308,7 +338,11 @@ class ChartAPI(KiwoomAPIBase):
             response = self.make_tr_request_continuous(
                 tr_code=self.TR_CODES["minute_chart"],
                 endpoint="chart",
-                data={"stk_cd": stock_code, "tic_scope": str(interval), "upd_stkpc_tp": "1"},
+                data={
+                    "stk_cd": stock_code,
+                    "tic_scope": str(interval),
+                    "upd_stkpc_tp": "1",
+                },
                 cont_yn=cont_yn,
                 next_key=next_key,
             )
@@ -381,3 +415,70 @@ class ChartAPI(KiwoomAPIBase):
             "date_range": date_range,
             "pages": page + 1,
         }
+
+    def get_daily_weekly_monthly_minute_chart(
+        self,
+        stock_code: str,
+        period: str = "D",
+        start_date: str = None,
+        end_date: str = None,
+        interval: int = 1,
+    ) -> Dict[str, Any]:
+        """
+        주식 일/주/월/시분 통합 차트 조회 (ka10005)
+
+        Args:
+            stock_code: 종목코드
+            period: 기간 구분
+                - "D": 일봉 (기본값)
+                - "W": 주봉
+                - "M": 월봉
+                - "T": 분봉
+            start_date: 시작일 (YYYYMMDD, 선택사항)
+            end_date: 종료일 (YYYYMMDD, 선택사항)
+            interval: 분봉 간격 (period="T"일 때만 사용, 1/3/5/10/15/30/45/60)
+
+        Returns:
+            Dict[str, Any]: 차트 데이터
+            - Response Body: stk_ddwkmm (LIST)
+                - date: 날짜
+                - open_pric: 시가
+                - high_pric: 고가
+                - low_pric: 저가
+                - close_pric: 종가
+                - volume: 거래량
+
+        Note:
+            **페이지네이션 지원**: 이 API는 연속조회를 지원합니다.
+
+            - Response Header의 `cont-yn`이 "Y"인 경우 다음 데이터가 존재
+            - 다음 페이지 조회 시 Request Header에 다음 값을 설정:
+                - `cont-yn`: Response Header의 `cont-yn` 값
+                - `next-key`: Response Header의 `next-key` 값
+
+            대량 데이터 조회 시 페이지네이션을 활용하여 여러 번 호출해야 합니다.
+
+            **참고**: 이 TR 코드는 이전에 stock_api.py에서 잘못 사용되었습니다.
+            ka10005는 차트 데이터 조회 API이며, 투자자 매매동향 조회가 아닙니다.
+        """
+        # ka10005 Request parameters (from PDF docs)
+        params = {
+            "stk_cd": stock_code,  # 종목코드 (KRX:039490, NXT:039490_NX, SOR:039490_AL)
+        }
+
+        # Optional parameters
+        if start_date:
+            params["start_date"] = start_date
+        if end_date:
+            params["end_date"] = end_date
+        if period:
+            params["period"] = period  # D=일, W=주, M=월, T=분
+        if period == "T" and interval:
+            params["interval"] = str(interval)
+
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["daily_weekly_monthly_minute"],
+            endpoint="mrkcond",  # ka10005 uses /api/dostk/mrkcond endpoint
+            data=params,
+            method="POST",
+        )

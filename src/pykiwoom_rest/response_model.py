@@ -100,7 +100,11 @@ class APIResponse:
         Returns:
             에러 APIResponse 인스턴스
         """
-        error_info = {"message": error_message, "code": error_code, "details": error_details or {}}
+        error_info = {
+            "message": error_message,
+            "code": error_code,
+            "details": error_details or {},
+        }
 
         return cls(
             success=False,

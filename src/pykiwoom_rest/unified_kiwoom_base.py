@@ -107,7 +107,9 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         self.appsecret = appsecret or self._load_from_env("KIWOOM_APPSECRET")
 
         if not all([self.account_no, self.appkey, self.appsecret]):
-            raise ValueError("계좌번호, APPKEY, SECRETKEY가 필요합니다. .env 파일을 확인하세요.")
+            raise ValueError(
+                "계좌번호, APPKEY, SECRETKEY가 필요합니다. .env 파일을 확인하세요."
+            )
 
     def _load_from_env(self, key: str) -> Optional[str]:
         """환경변수에서 값 로드"""
@@ -196,7 +198,11 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         try:
             # Facade를 통한 API 호출
             response = self.facade.make_request(
-                method=method, endpoint=endpoint_url, headers=headers, data=data, priority=priority
+                method=method,
+                endpoint=endpoint_url,
+                headers=headers,
+                data=data,
+                priority=priority,
             )
 
             return response
@@ -244,7 +250,11 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         try:
             # Facade를 통한 API 호출
             response_data = self.facade.make_request(
-                method=method, endpoint=endpoint_url, headers=headers, data=data, priority=priority
+                method=method,
+                endpoint=endpoint_url,
+                headers=headers,
+                data=data,
+                priority=priority,
             )
 
             # 연속조회 정보는 실제 HTTP 응답 헤더에서 가져와야 하지만
@@ -276,7 +286,11 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 "timestamp": datetime.now().isoformat(),
             }
         except Exception as e:
-            return {"status": "unhealthy", "error": str(e), "timestamp": datetime.now().isoformat()}
+            return {
+                "status": "unhealthy",
+                "error": str(e),
+                "timestamp": datetime.now().isoformat(),
+            }
 
     def get_stats(self) -> Dict[str, Any]:
         """통계 정보 반환 (Facade 통계 포함)"""
@@ -287,7 +301,9 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 "use_mock": self.use_mock,
                 "base_url": self.base_url,
                 "has_token": bool(self.access_token),
-                "token_expires": self.token_expires.isoformat() if self.token_expires else None,
+                "token_expires": self.token_expires.isoformat()
+                if self.token_expires
+                else None,
             },
             "facade_stats": facade_stats,
         }

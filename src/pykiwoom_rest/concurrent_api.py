@@ -133,7 +133,9 @@ class ConcurrentKiwoomAPI:
         if self._api_pool:
             self._api_pool.put(client)
 
-    def fetch_stock_prices(self, stock_codes: List[str], chunk_size: int = None) -> BatchResult:
+    def fetch_stock_prices(
+        self, stock_codes: List[str], chunk_size: int = None
+    ) -> BatchResult:
         """여러 종목 시세 동시 조회
 
         Args:
@@ -177,7 +179,8 @@ class ConcurrentKiwoomAPI:
                     errors.append((i, e, traceback.format_exc()))
                     self.stats["total_errors"] += 1
                     self._write_log(
-                        "ERROR", f"주가 조회 실패 - {code}: {e}\n{traceback.format_exc()}"
+                        "ERROR",
+                        f"주가 조회 실패 - {code}: {e}\n{traceback.format_exc()}",
                     )
         finally:
             self._return_api_client(api)
@@ -213,7 +216,8 @@ class ConcurrentKiwoomAPI:
 
         # 병렬 실행
         futures = {
-            self._executor.submit(fetch_one, code): (i, code) for i, code in enumerate(stock_codes)
+            self._executor.submit(fetch_one, code): (i, code)
+            for i, code in enumerate(stock_codes)
         }
 
         # 결과 수집
@@ -241,13 +245,18 @@ class ConcurrentKiwoomAPI:
             errors=errors,
         )
 
-    def _fetch_with_processes(self, stock_codes: List[str], chunk_size: int = None) -> BatchResult:
+    def _fetch_with_processes(
+        self, stock_codes: List[str], chunk_size: int = None
+    ) -> BatchResult:
         """프로세스 풀 병렬 처리"""
         if chunk_size is None:
             chunk_size = max(1, len(stock_codes) // self.max_workers)
 
         # 청크로 분할
-        chunks = [stock_codes[i : i + chunk_size] for i in range(0, len(stock_codes), chunk_size)]
+        chunks = [
+            stock_codes[i : i + chunk_size]
+            for i in range(0, len(stock_codes), chunk_size)
+        ]
 
         results = []
         errors = []
@@ -321,7 +330,9 @@ class ConcurrentKiwoomAPI:
             errors=errors,
         )
 
-    def process_with_pipeline(self, data: List[Any], stages: List[Callable]) -> List[Any]:
+    def process_with_pipeline(
+        self, data: List[Any], stages: List[Callable]
+    ) -> List[Any]:
         """파이프라인 처리
 
         Args:
@@ -344,7 +355,9 @@ class ConcurrentKiwoomAPI:
 
         return result
 
-    def map_reduce(self, data: List[Any], map_func: Callable, reduce_func: Callable) -> Any:
+    def map_reduce(
+        self, data: List[Any], map_func: Callable, reduce_func: Callable
+    ) -> Any:
         """Map-Reduce 패턴 구현
 
         Args:
@@ -419,7 +432,9 @@ class OptimizedBatchProcessor:
         """초기화"""
         self.benchmarks = {}
 
-    def benchmark_modes(self, stock_codes: List[str], sample_size: int = 5) -> ProcessingMode:
+    def benchmark_modes(
+        self, stock_codes: List[str], sample_size: int = 5
+    ) -> ProcessingMode:
         """각 모드 벤치마크 후 최적 모드 선택
 
         Args:
@@ -472,9 +487,13 @@ class OptimizedBatchProcessor:
 
 
 # 편의 함수들
-def fetch_stocks_parallel(stock_codes: List[str], max_workers: int = 10) -> Dict[str, Any]:
+def fetch_stocks_parallel(
+    stock_codes: List[str], max_workers: int = 10
+) -> Dict[str, Any]:
     """병렬로 여러 종목 조회 (간편 함수)"""
-    with ConcurrentKiwoomAPI(mode=ProcessingMode.THREAD_POOL, max_workers=max_workers) as api:
+    with ConcurrentKiwoomAPI(
+        mode=ProcessingMode.THREAD_POOL, max_workers=max_workers
+    ) as api:
         result = api.fetch_stock_prices(stock_codes)
 
         # 딕셔너리로 변환

@@ -273,12 +273,16 @@ kiwoom.logout()
 - `ka10001`: 주식기본정보요청 → `get_stock_price()`
 - `ka10004`: 주식호가요청 → `get_stock_orderbook()`
 - `ka10008`: 외국인종목별매매동향 → `get_foreign_trading()`
+- `ka10058`: 투자자별일별매매종목요청 → `get_stock_investor_trading()`
+- `ka10063`: 장중투자자별매매요청 (신규 추가)
 
 ### Chart API (차트 데이터) - 핵심 기능
+- `ka10005`: **주식일주월시분요청** → `get_daily_weekly_monthly_minute_chart()` ⭐ 통합 차트 (일/주/월/분)
 - `ka10080`: **주식분봉차트조회요청** → `get_minute_chart()/get_minute_chart_paginated()`
 - `ka10081`: 일봉차트 → `get_daily_chart()`
 - `ka10082`: 주봉차트 → `get_weekly_chart()`
 - `ka10083`: 월봉차트 → `get_monthly_chart()`
+- `ka10094`: 년봉차트 → `get_yearly_chart()`
 
 ### Ranking API (순위 정보)
 - `ka10031`: 거래대금 상위 종목

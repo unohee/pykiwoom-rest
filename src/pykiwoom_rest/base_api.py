@@ -50,7 +50,9 @@ class TokenBucketRateLimiter:
         self.last_update = time.monotonic()
         self.lock = threading.Lock()
 
-    def acquire(self, tokens: int = 1, blocking: bool = True, timeout: float = None) -> bool:
+    def acquire(
+        self, tokens: int = 1, blocking: bool = True, timeout: float = None
+    ) -> bool:
         """
         토큰 획득 시도
 
@@ -63,7 +65,9 @@ class TokenBucketRateLimiter:
             토큰 획득 성공 여부
         """
         if tokens > self.max_tokens:
-            raise ValueError(f"요청한 토큰 수({tokens})가 최대값({self.max_tokens})을 초과")
+            raise ValueError(
+                f"요청한 토큰 수({tokens})가 최대값({self.max_tokens})을 초과"
+            )
 
         deadline = None
         if timeout is not None:
@@ -195,7 +199,8 @@ class ErrorHandlerMixin:
 
         # Timeout과 ConnectionError는 APIError로 래핑
         if isinstance(
-            last_exception, (requests.exceptions.Timeout, requests.exceptions.ConnectionError)
+            last_exception,
+            (requests.exceptions.Timeout, requests.exceptions.ConnectionError),
         ):
             # 전체 traceback은 위에서 기록됨. APIError로 래핑하여 재발생
             raise APIError(str(last_exception), status_code=None, response=None)
@@ -338,7 +343,11 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
                 )
 
             # 429 Rate Limiting 에러는 조용히 처리 (일반적인 현상)
-            if hasattr(e, "response") and e.response is not None and e.response.status_code == 429:
+            if (
+                hasattr(e, "response")
+                and e.response is not None
+                and e.response.status_code == 429
+            ):
                 pass  # 429 에러는 로그 출력 생략
             else:
                 self.logger.exception("요청 처리 실패")
@@ -414,7 +423,9 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
         pass
 
     @abstractmethod
-    def _process_response(self, response: requests.Response) -> Union[Dict[str, Any], Any]:
+    def _process_response(
+        self, response: requests.Response
+    ) -> Union[Dict[str, Any], Any]:
         """
         응답 처리 (하위 클래스에서 구현)
 
