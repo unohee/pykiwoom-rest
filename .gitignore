@@ -19,3 +19,5 @@ env/
 .idea/
 .vscode/
 *.log
+.mcp.json
+.venv-mcp/
