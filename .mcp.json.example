@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "pykiwoom-mcp-server": {
+      "command": "/path/to/python",
+      "args": [
+        "/path/to/pykiwoom-mcp-server/src/pykiwoom_mcp_server/server.py"
+      ],
+      "env": {
+        "ACCOUNT_NO": "YOUR_ACCOUNT_NO",
+        "KIWOOM_APPKEY": "YOUR_APPKEY",
+        "KIWOOM_APPSECRET": "YOUR_APPSECRET"
+      }
+    }
+  }
+}
