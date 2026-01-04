@@ -176,9 +176,11 @@ class ErrorHandlerMixin:
                     raise APIError(
                         str(e),
                         status_code=status_code,
-                        response=e.response.json()
-                        if hasattr(e, "response") and e.response
-                        else None,
+                        response=(
+                            e.response.json()
+                            if hasattr(e, "response") and e.response
+                            else None
+                        ),
                     )
 
                 # 5xx 에러는 재시도

@@ -39,7 +39,9 @@ class SectorAPI(KiwoomAPIBase):
         """
         params = {"sect_cd": sector_code}
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_current_price"], data=params
+            tr_code=self.TR_CODES["sector_current_price"],
+            endpoint="sector",
+            data=params,
         )
 
     def get_sector_stock_price(self, sector_code: str = "0001") -> Dict[str, Any]:
@@ -54,7 +56,9 @@ class SectorAPI(KiwoomAPIBase):
         """
         params = {"sect_cd": sector_code}
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_stock_price"], data=params
+            tr_code=self.TR_CODES["sector_stock_price"],
+            endpoint="sector",
+            data=params,
         )
 
     def get_all_sector_index(self) -> Dict[str, Any]:
@@ -66,25 +70,34 @@ class SectorAPI(KiwoomAPIBase):
         """
         params = {}
         return self.make_tr_request(
-            tr_id=self.TR_CODES["all_sector_index"], data=params
+            tr_code=self.TR_CODES["all_sector_index"],
+            endpoint="sector",
+            data=params,
         )
 
     def get_sector_tick_chart(
-        self, sector_code: str, count: int = 100
+        self, sector_code: str, tick_scope: int = 1
     ) -> Dict[str, Any]:
         """
         업종틱차트조회요청 (ka20004)
 
         Args:
-            sector_code: 업종코드
-            count: 조회 건수
+            sector_code: 업종코드 (3자리, 예: "001"=KOSPI, "101"=KOSDAQ)
+                        4자리 입력 시 자동 변환 ("0001" -> "001")
+            tick_scope: 틱 범위 (1, 3, 5, 10, 30)
 
         Returns:
             Dict[str, Any]: 업종 틱차트 데이터
         """
-        params = {"sect_cd": sector_code, "count": str(count)}
+        # 4자리 코드를 3자리로 변환 (0001 -> 001)
+        if len(sector_code) == 4 and sector_code.startswith("0"):
+            sector_code = sector_code[1:]
+
+        params = {"inds_cd": sector_code, "tic_scope": str(tick_scope)}
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_tick_chart"], data=params
+            tr_code=self.TR_CODES["sector_tick_chart"],
+            endpoint="chart",
+            data=params,
         )
 
     def get_sector_minute_chart(
@@ -98,107 +111,244 @@ class SectorAPI(KiwoomAPIBase):
         업종분봉조회요청 (ka20005)
 
         Args:
-            sector_code: 업종코드
-            interval: 분봉 간격 (1, 3, 5, 10, 15, 30, 45, 60)
-            start_date: 시작일자 (YYYYMMDD)
-            end_date: 종료일자 (YYYYMMDD)
+            sector_code: 업종코드 (3자리, 예: "001"=KOSPI, "101"=KOSDAQ)
+                        4자리 입력 시 자동 변환 ("0001" -> "001")
+            interval: 분봉 간격 (1, 3, 5, 10, 30)
+            start_date: 시작일자 (YYYYMMDD) - 미사용
+            end_date: 종료일자 (YYYYMMDD) - 미사용
 
         Returns:
             Dict[str, Any]: 업종 분봉 차트
         """
-        params = {"sect_cd": sector_code, "tic_scope": str(interval)}
+        # 4자리 코드를 3자리로 변환 (0001 -> 001)
+        if len(sector_code) == 4 and sector_code.startswith("0"):
+            sector_code = sector_code[1:]
 
-        if start_date:
-            params["start_dt"] = start_date
-        if end_date:
-            params["end_dt"] = end_date
+        params = {"inds_cd": sector_code, "tic_scope": str(interval)}
 
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_minute_chart"], data=params
+            tr_code=self.TR_CODES["sector_minute_chart"],
+            endpoint="chart",  # 업종 차트는 chart 엔드포인트 사용
+            data=params,
         )
 
     def get_sector_daily_chart(
         self,
         sector_code: str,
-        start_date: Optional[str] = None,
-        end_date: Optional[str] = None,
+        base_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         업종일봉조회요청 (ka20006)
 
         Args:
-            sector_code: 업종코드
-            start_date: 시작일자 (YYYYMMDD)
-            end_date: 종료일자 (YYYYMMDD)
+            sector_code: 업종코드 (3자리, 예: "001"=KOSPI, "101"=KOSDAQ)
+                        4자리 입력 시 자동 변환 ("0001" -> "001")
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
 
         Returns:
             Dict[str, Any]: 업종 일봉 차트
         """
-        params = {"sect_cd": sector_code}
+        # 4자리 코드를 3자리로 변환 (0001 -> 001)
+        if len(sector_code) == 4 and sector_code.startswith("0"):
+            sector_code = sector_code[1:]
 
-        if start_date:
-            params["start_dt"] = start_date
-        if end_date:
-            params["end_dt"] = end_date
+        from datetime import datetime
+
+        if not base_date:
+            base_date = datetime.now().strftime("%Y%m%d")
+
+        params = {"inds_cd": sector_code, "base_dt": base_date}
 
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_daily_chart"], data=params
+            tr_code=self.TR_CODES["sector_daily_chart"],
+            endpoint="chart",
+            data=params,
         )
+
+    def get_index_daily_price(
+        self,
+        index_code: str,
+        base_date: Optional[str] = None,
+        count: int = 100,
+    ) -> Dict[str, Any]:
+        """
+        지수/업종 일별 시세 조회 (PyKIS 호환)
+
+        PyKIS의 get_index_daily_price()와 호환되는 인터페이스를 제공합니다.
+        내부적으로 ka20006 (업종일봉조회)을 사용합니다.
+
+        Args:
+            index_code: 업종/지수 코드
+                - "0001" 또는 "001": 코스피
+                - "1001" 또는 "101": 코스닥
+                - "2001" 또는 "201": 코스피200
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
+            count: 조회 개수 (기본 100)
+
+        Returns:
+            Dict[str, Any]: PyKIS 호환 응답 형식
+            {
+                "rt_cd": "0",
+                "output2": [
+                    {
+                        "stck_bsop_date": "20251226",
+                        "bstp_nmix_oprc": "2500.00",  # 시가
+                        "bstp_nmix_hgpr": "2520.00",  # 고가
+                        "bstp_nmix_lwpr": "2480.00",  # 저가
+                        "bstp_nmix_prpr": "2510.00",  # 종가
+                        "acml_vol": "123456789",      # 거래량
+                        "acml_tr_pbmn": "1234567890000",  # 거래대금
+                    },
+                    ...
+                ],
+                "_source": "ka20006"
+            }
+        """
+        try:
+            # 기존 get_sector_daily_chart 호출
+            raw_data = self.get_sector_daily_chart(index_code, base_date)
+
+            if not raw_data:
+                return {
+                    "rt_cd": "1",
+                    "msg1": "INDEX_DAILY_DATA_ERROR",
+                    "output2": [],
+                }
+
+            # 에러 응답 처리
+            rt_cd = raw_data.get("rt_cd", "1")
+            if rt_cd != "0":
+                return {
+                    "rt_cd": rt_cd,
+                    "msg1": raw_data.get("msg1", "API_ERROR"),
+                    "output2": [],
+                }
+
+            # 차트 데이터 추출 (output2 또는 output)
+            chart_data = raw_data.get("output2", raw_data.get("output", []))
+            if not isinstance(chart_data, list):
+                chart_data = [chart_data] if chart_data else []
+
+            # PyKIS 호환 형식으로 변환
+            output2 = []
+            for item in chart_data[:count]:
+                if not item:
+                    continue
+
+                # Kiwoom 필드명 -> PyKIS 필드명 매핑
+                # Kiwoom: dt, open, high, low, close, vol
+                # PyKIS: stck_bsop_date, bstp_nmix_oprc, bstp_nmix_hgpr, etc.
+                converted = {
+                    # 날짜
+                    "stck_bsop_date": str(
+                        item.get("dt", item.get("stck_bsop_date", item.get("date", "")))
+                    ),
+                    # 시가
+                    "bstp_nmix_oprc": str(
+                        item.get("open", item.get("bstp_nmix_oprc", item.get("oprc", "0")))
+                    ),
+                    # 고가
+                    "bstp_nmix_hgpr": str(
+                        item.get("high", item.get("bstp_nmix_hgpr", item.get("hgpr", "0")))
+                    ),
+                    # 저가
+                    "bstp_nmix_lwpr": str(
+                        item.get("low", item.get("bstp_nmix_lwpr", item.get("lwpr", "0")))
+                    ),
+                    # 종가
+                    "bstp_nmix_prpr": str(
+                        item.get("close", item.get("bstp_nmix_prpr", item.get("prpr", "0")))
+                    ),
+                    # 거래량
+                    "acml_vol": str(
+                        item.get("vol", item.get("acml_vol", item.get("volume", "0")))
+                    ),
+                    # 거래대금
+                    "acml_tr_pbmn": str(
+                        item.get("amt", item.get("acml_tr_pbmn", item.get("tr_pbmn", "0")))
+                    ),
+                }
+                output2.append(converted)
+
+            return {
+                "rt_cd": "0",
+                "msg1": "정상처리",
+                "output2": output2,
+                "_source": "ka20006",
+                "_note": "Kiwoom REST 업종일봉 데이터",
+            }
+
+        except Exception as e:
+            return {
+                "rt_cd": "1",
+                "msg1": str(e),
+                "output2": [],
+            }
 
     def get_sector_weekly_chart(
         self,
         sector_code: str,
-        start_date: Optional[str] = None,
-        end_date: Optional[str] = None,
+        base_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         업종주봉조회요청 (ka20007)
 
         Args:
-            sector_code: 업종코드
-            start_date: 시작일자 (YYYYMMDD)
-            end_date: 종료일자 (YYYYMMDD)
+            sector_code: 업종코드 (3자리, 예: "001"=KOSPI, "101"=KOSDAQ)
+                        4자리 입력 시 자동 변환 ("0001" -> "001")
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
 
         Returns:
             Dict[str, Any]: 업종 주봉 차트
         """
-        params = {"sect_cd": sector_code}
+        # 4자리 코드를 3자리로 변환 (0001 -> 001)
+        if len(sector_code) == 4 and sector_code.startswith("0"):
+            sector_code = sector_code[1:]
 
-        if start_date:
-            params["start_dt"] = start_date
-        if end_date:
-            params["end_dt"] = end_date
+        from datetime import datetime
+
+        if not base_date:
+            base_date = datetime.now().strftime("%Y%m%d")
+
+        params = {"inds_cd": sector_code, "base_dt": base_date}
 
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_weekly_chart"], data=params
+            tr_code=self.TR_CODES["sector_weekly_chart"],
+            endpoint="chart",
+            data=params,
         )
 
     def get_sector_monthly_chart(
         self,
         sector_code: str,
-        start_date: Optional[str] = None,
-        end_date: Optional[str] = None,
+        base_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         업종월봉조회요청 (ka20008)
 
         Args:
-            sector_code: 업종코드
-            start_date: 시작일자 (YYYYMMDD)
-            end_date: 종료일자 (YYYYMMDD)
+            sector_code: 업종코드 (3자리, 예: "001"=KOSPI, "101"=KOSDAQ)
+                        4자리 입력 시 자동 변환 ("0001" -> "001")
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
 
         Returns:
             Dict[str, Any]: 업종 월봉 차트
         """
-        params = {"sect_cd": sector_code}
+        # 4자리 코드를 3자리로 변환 (0001 -> 001)
+        if len(sector_code) == 4 and sector_code.startswith("0"):
+            sector_code = sector_code[1:]
 
-        if start_date:
-            params["start_dt"] = start_date
-        if end_date:
-            params["end_dt"] = end_date
+        from datetime import datetime
+
+        if not base_date:
+            base_date = datetime.now().strftime("%Y%m%d")
+
+        params = {"inds_cd": sector_code, "base_dt": base_date}
 
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_monthly_chart"], data=params
+            tr_code=self.TR_CODES["sector_monthly_chart"],
+            endpoint="chart",
+            data=params,
         )
 
     def get_sector_daily_current(self, sector_code: str) -> Dict[str, Any]:
@@ -213,35 +363,42 @@ class SectorAPI(KiwoomAPIBase):
         """
         params = {"sect_cd": sector_code}
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_daily_current"], data=params
+            tr_code=self.TR_CODES["sector_daily_current"],
+            endpoint="sector",
+            data=params,
         )
 
     def get_sector_yearly_chart(
         self,
         sector_code: str,
-        start_year: Optional[str] = None,
-        end_year: Optional[str] = None,
+        base_date: Optional[str] = None,
     ) -> Dict[str, Any]:
         """
         업종년봉조회요청 (ka20019)
 
         Args:
-            sector_code: 업종코드
-            start_year: 시작년도 (YYYY)
-            end_year: 종료년도 (YYYY)
+            sector_code: 업종코드 (3자리, 예: "001"=KOSPI, "101"=KOSDAQ)
+                        4자리 입력 시 자동 변환 ("0001" -> "001")
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
 
         Returns:
             Dict[str, Any]: 업종 년봉 차트
         """
-        params = {"sect_cd": sector_code}
+        # 4자리 코드를 3자리로 변환 (0001 -> 001)
+        if len(sector_code) == 4 and sector_code.startswith("0"):
+            sector_code = sector_code[1:]
 
-        if start_year:
-            params["start_year"] = start_year
-        if end_year:
-            params["end_year"] = end_year
+        from datetime import datetime
+
+        if not base_date:
+            base_date = datetime.now().strftime("%Y%m%d")
+
+        params = {"inds_cd": sector_code, "base_dt": base_date}
 
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_yearly_chart"], data=params
+            tr_code=self.TR_CODES["sector_yearly_chart"],
+            endpoint="chart",
+            data=params,
         )
 
     def get_sector_investor_trading(self, sector_code: str) -> Dict[str, Any]:
@@ -256,7 +413,9 @@ class SectorAPI(KiwoomAPIBase):
         """
         params = {"sect_cd": sector_code}
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_investor_trading"], data=params
+            tr_code=self.TR_CODES["sector_investor_trading"],
+            endpoint="sector",
+            data=params,
         )
 
     def get_sector_program_trading(self, sector_code: str) -> Dict[str, Any]:
@@ -271,5 +430,7 @@ class SectorAPI(KiwoomAPIBase):
         """
         params = {"sect_cd": sector_code}
         return self.make_tr_request(
-            tr_id=self.TR_CODES["sector_program_trading"], data=params
+            tr_code=self.TR_CODES["sector_program_trading"],
+            endpoint="sector",
+            data=params,
         )

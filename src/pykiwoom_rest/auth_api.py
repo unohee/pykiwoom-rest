@@ -183,9 +183,11 @@ class AuthAPI(KiwoomAPIBase):
                     revoke_result = {
                         "tr_code": self.TR_CODES["token_revocation"],
                         "status": "revoked",
-                        "revoked_token": f"{revoke_target[:20]}..."
-                        if len(revoke_target) > 20
-                        else revoke_target,
+                        "revoked_token": (
+                            f"{revoke_target[:20]}..."
+                            if len(revoke_target) > 20
+                            else revoke_target
+                        ),
                         "revoked_at": now.isoformat(),
                         "message": "Token successfully revoked",
                         "raw_response": response,
@@ -199,7 +201,7 @@ class AuthAPI(KiwoomAPIBase):
                         error_msg=response.get("error", "Token revocation failed"),
                     )
 
-            except Exception as e:
+            except Exception:
                 # 폐기 요청 실패 시 토큰 복구
                 self.access_token = backup_token
                 self.token_expires = backup_expires
@@ -263,9 +265,9 @@ class AuthAPI(KiwoomAPIBase):
                 "has_token": has_token,
                 "is_valid": is_valid,
                 "token_prefix": token_prefix or "None",
-                "expires_at": self.token_expires.isoformat()
-                if self.token_expires
-                else None,
+                "expires_at": (
+                    self.token_expires.isoformat() if self.token_expires else None
+                ),
                 "time_to_expiry": time_to_expiry,
                 "needs_refresh": needs_refresh,
             }

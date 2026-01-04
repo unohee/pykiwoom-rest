@@ -301,9 +301,9 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 "use_mock": self.use_mock,
                 "base_url": self.base_url,
                 "has_token": bool(self.access_token),
-                "token_expires": self.token_expires.isoformat()
-                if self.token_expires
-                else None,
+                "token_expires": (
+                    self.token_expires.isoformat() if self.token_expires else None
+                ),
             },
             "facade_stats": facade_stats,
         }
@@ -319,7 +319,7 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                     data={"token": self.access_token},
                     priority=RequestPriority.LOW,
                 )
-            except:
+            except Exception:
                 pass  # 토큰 무효화 실패는 무시
 
         # Facade는 싱글턴이므로 직접 정리하지 않음

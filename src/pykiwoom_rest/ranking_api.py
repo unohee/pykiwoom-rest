@@ -785,3 +785,184 @@ class RankingAPI(KiwoomAPIBase):
             data=params,
             method="POST",
         )
+
+    # ========== 추가 순위 정보 API (Legacy Migration) ==========
+
+    def get_bid_ask_volume_top(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        호가잔량 상위 조회 (ka10020 별칭)
+
+        Args:
+            market: 시장구분 (ALL, KOSPI, KOSDAQ)
+
+        Returns:
+            호가잔량 상위 목록
+        """
+        return self.get_volume_top(market)
+
+    def get_bid_ask_volume_surge(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        호가잔량 급증 조회 (ka10021)
+
+        Args:
+            market: 시장구분 (ALL, KOSPI, KOSDAQ)
+
+        Returns:
+            호가잔량 급증 종목 목록
+        """
+        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
+
+        params = {
+            "FID_COND_MRKT_DIV_CODE": market_code,
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": "0000",
+        }
+
+        headers = {"api-id": "ka10021", "cont-yn": "N", "next-key": ""}
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/rkinfo",
+            json_data=params,
+            headers=headers,
+        )
+
+        return response.data if response.success else {}
+
+    def get_remaining_volume_surge(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        잔량율 급증 조회 (ka10022)
+
+        Args:
+            market: 시장구분 (ALL, KOSPI, KOSDAQ)
+
+        Returns:
+            잔량율 급증 종목 목록
+        """
+        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
+
+        params = {
+            "FID_COND_MRKT_DIV_CODE": market_code,
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": "0000",
+        }
+
+        headers = {"api-id": "ka10022", "cont-yn": "N", "next-key": ""}
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/rkinfo",
+            json_data=params,
+            headers=headers,
+        )
+
+        return response.data if response.success else {}
+
+    def get_expected_execution_rate_top(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        예상체결등락률 상위 조회 (ka10029)
+
+        Args:
+            market: 시장구분 (ALL, KOSPI, KOSDAQ)
+
+        Returns:
+            예상체결등락률 상위 종목 목록
+        """
+        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
+
+        params = {
+            "FID_COND_MRKT_DIV_CODE": market_code,
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": "0000",
+        }
+
+        headers = {"api-id": "ka10029", "cont-yn": "N", "next-key": ""}
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/rkinfo",
+            json_data=params,
+            headers=headers,
+        )
+
+        return response.data if response.success else {}
+
+    def get_intraday_investor_trading_top(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        장중 투자자별 매매 상위 조회 (ka10065)
+
+        Args:
+            market: 시장구분 (ALL, KOSPI, KOSDAQ)
+
+        Returns:
+            장중 투자자별 매매 상위 종목 목록
+        """
+        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
+
+        params = {
+            "FID_COND_MRKT_DIV_CODE": market_code,
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": "0000",
+        }
+
+        headers = {"api-id": "ka10065", "cont-yn": "N", "next-key": ""}
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/rkinfo",
+            json_data=params,
+            headers=headers,
+        )
+
+        return response.data if response.success else {}
+
+    def get_overtime_single_price_rate_ranking(
+        self, market: str = "ALL"
+    ) -> Dict[str, Any]:
+        """
+        시간외단일가등락율순위 조회 (ka10098)
+
+        Args:
+            market: 시장구분 (ALL, KOSPI, KOSDAQ)
+
+        Returns:
+            시간외단일가등락율순위 종목 목록
+        """
+        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
+
+        params = {
+            "FID_COND_MRKT_DIV_CODE": market_code,
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": "0000",
+        }
+
+        headers = {"api-id": "ka10098", "cont-yn": "N", "next-key": ""}
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/rkinfo",
+            json_data=params,
+            headers=headers,
+        )
+
+        return response.data if response.success else {}

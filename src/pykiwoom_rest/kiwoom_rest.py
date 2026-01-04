@@ -177,9 +177,70 @@ class KiwoomRest:
             stock_code, start_date, end_date
         )
 
-    def get_stock_investor_trading(self, stock_code: str) -> Dict[str, Any]:
-        """투자자별 매매동향 조회 (ka10005)"""
-        return self.stock_api.get_stock_investor_trading(stock_code)
+    def get_stock_investor_trading(
+        self,
+        start_date: str = None,
+        end_date: str = None,
+        trade_type: str = "2",
+        market_type: str = "101",
+        investor_type: str = "8000",
+        exchange_type: str = "3",
+    ) -> Dict[str, Any]:
+        """
+        투자자별 일별 매매동향 조회 (ka10058)
+
+        Args:
+            start_date: 시작일자 (YYYYMMDD, 기본값: 30일 전)
+            end_date: 종료일자 (YYYYMMDD, 기본값: 오늘)
+            trade_type: 매매구분 (1=순매도, 2=순매수, 기본값: 2)
+            market_type: 시장구분 (001=코스피, 101=코스닥, 기본값: 101)
+            investor_type: 투자자구분 (8000=개인, 9000=외국인, 1000=금융투자 등)
+            exchange_type: 거래소구분 (1=KRX, 2=NXT, 3=통합, 기본값: 3)
+
+        Returns:
+            투자자별 일별 매매동향 정보
+        """
+        return self.stock_api.get_stock_investor_trading(
+            start_date=start_date,
+            end_date=end_date,
+            trade_type=trade_type,
+            market_type=market_type,
+            investor_type=investor_type,
+            exchange_type=exchange_type,
+        )
+
+    def get_credit_trend(
+        self, date: str = None, query_type: str = "1"
+    ) -> Dict[str, Any]:
+        """신용매매동향 조회 (ka10013)"""
+        return self.stock_api.get_credit_trend(date=date, query_type=query_type)
+
+    def get_daily_trading_detail(self, start_date: str = None) -> Dict[str, Any]:
+        """일별거래상세 조회 (ka10015)"""
+        return self.stock_api.get_daily_trading_detail(start_date=start_date)
+
+    def get_new_high_low(
+        self,
+        new_high_low_type: str = "1",
+        high_low_close_type: str = "1",
+        stock_condition: str = "0",
+        trade_volume_type: str = "00000",
+        credit_condition: str = "0",
+        updown_include: str = "0",
+        period: str = "5",
+        exchange_type: str = "3",
+    ) -> Dict[str, Any]:
+        """신고가/신저가 조회 (ka10016)"""
+        return self.stock_api.get_new_high_low(
+            new_high_low_type=new_high_low_type,
+            high_low_close_type=high_low_close_type,
+            stock_condition=stock_condition,
+            trade_volume_type=trade_volume_type,
+            credit_condition=credit_condition,
+            updown_include=updown_include,
+            period=period,
+            exchange_type=exchange_type,
+        )
 
     def get_stock_member_trading(self, stock_code: str) -> Dict[str, Any]:
         """기관별 매매동향 조회 (ka10006)"""
@@ -442,11 +503,87 @@ class KiwoomRest:
     def get_sector_daily_chart(
         self,
         sector_code: str,
-        start_date: Optional[str] = None,
-        end_date: Optional[str] = None,
+        base_date: Optional[str] = None,
     ) -> Dict[str, Any]:
-        """업종일봉조회요청"""
-        return self.sector_api.get_sector_daily_chart(sector_code, start_date, end_date)
+        """
+        업종일봉조회요청 (ka20006)
+
+        Args:
+            sector_code: 업종코드 (예: "0001"=코스피, "1001"=코스닥)
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
+        """
+        return self.sector_api.get_sector_daily_chart(sector_code, base_date)
+
+    def get_sector_minute_chart(
+        self,
+        sector_code: str,
+        interval: int = 1,
+    ) -> Dict[str, Any]:
+        """
+        업종분봉조회요청 (ka20005)
+
+        Args:
+            sector_code: 업종코드 (예: "0001"=코스피, "1001"=코스닥)
+            interval: 분봉 간격 (1, 3, 5, 10, 30)
+
+        Returns:
+            Dict[str, Any]: 업종 분봉 차트 데이터
+        """
+        return self.sector_api.get_sector_minute_chart(sector_code, interval)
+
+    def get_sector_weekly_chart(
+        self,
+        sector_code: str,
+        base_date: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        업종주봉조회요청 (ka20007)
+
+        Args:
+            sector_code: 업종코드 (예: "0001"=코스피, "1001"=코스닥)
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
+        """
+        return self.sector_api.get_sector_weekly_chart(sector_code, base_date)
+
+    def get_sector_monthly_chart(
+        self,
+        sector_code: str,
+        base_date: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        업종월봉조회요청 (ka20008)
+
+        Args:
+            sector_code: 업종코드 (예: "0001"=코스피, "1001"=코스닥)
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
+        """
+        return self.sector_api.get_sector_monthly_chart(sector_code, base_date)
+
+    def get_sector_yearly_chart(
+        self,
+        sector_code: str,
+        base_date: Optional[str] = None,
+    ) -> Dict[str, Any]:
+        """
+        업종년봉조회요청 (ka20019)
+
+        Args:
+            sector_code: 업종코드 (예: "0001"=코스피, "1001"=코스닥)
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
+        """
+        return self.sector_api.get_sector_yearly_chart(sector_code, base_date)
+
+    def get_sector_tick_chart(
+        self, sector_code: str, tick_scope: int = 1
+    ) -> Dict[str, Any]:
+        """
+        업종틱차트조회요청 (ka20004)
+
+        Args:
+            sector_code: 업종코드 (예: "0001"=코스피, "1001"=코스닥)
+            tick_scope: 틱 범위 (1, 3, 5, 10, 30)
+        """
+        return self.sector_api.get_sector_tick_chart(sector_code, tick_scope)
 
     # ========== 인증 관련 메서드 (Auth API) ==========
 
@@ -791,3 +928,246 @@ class KiwoomRest:
 
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self.websocket.unsubscribe_all())
+
+    # ========== 기관/외국인 관련 API (NEW) ==========
+
+    def get_institutional_foreign_consecutive_trading(
+        self,
+        market: str = "ALL",
+        start_date: str = None,
+        end_date: str = None,
+    ) -> Dict[str, Any]:
+        """기관외국인연속매매현황 조회 (ka10131)"""
+        return self.stock_api.get_institutional_foreign_consecutive_trading(
+            market, start_date, end_date
+        )
+
+    def get_institutional_request(self, stock_code: str) -> Dict[str, Any]:
+        """주식기관요청 조회 (ka10009)"""
+        return self.stock_api.get_institutional_request(stock_code)
+
+    def get_institutional_daily_trading(
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+    ) -> Dict[str, Any]:
+        """일별기관매매동향 조회 (ka10044)"""
+        return self.stock_api.get_institutional_daily_trading(
+            stock_code, start_date, end_date
+        )
+
+    def get_sector_code_list(self) -> Dict[str, Any]:
+        """업종코드 리스트 조회 (ka10101)"""
+        return self.stock_api.get_sector_code_list()
+
+    def get_member_company_list(self) -> Dict[str, Any]:
+        """회원사 리스트 조회 (ka10102)"""
+        return self.stock_api.get_member_company_list()
+    # ==================== Ranking API 메서드 (추가) ====================
+
+    def get_bid_ask_volume_top(self, market: str = "ALL") -> Dict[str, Any]:
+        """호가잔량 상위 조회 (ka10020)"""
+        return self.ranking_api.get_bid_ask_volume_top(market)
+
+    def get_bid_ask_volume_surge(self, market: str = "ALL") -> Dict[str, Any]:
+        """호가잔량 급증 조회 (ka10021)"""
+        return self.ranking_api.get_bid_ask_volume_surge(market)
+
+    def get_remaining_volume_surge(self, market: str = "ALL") -> Dict[str, Any]:
+        """잔량 급증 조회 (ka10022)"""
+        return self.ranking_api.get_remaining_volume_surge(market)
+
+    def get_expected_execution_rate_top(
+        self, market: str = "ALL"
+    ) -> Dict[str, Any]:
+        """예상체결률 상위 조회 (ka10029)"""
+        return self.ranking_api.get_expected_execution_rate_top(market)
+
+    def get_intraday_investor_trading_top(
+        self, market: str = "ALL"
+    ) -> Dict[str, Any]:
+        """장중 투자자별 매매 상위 조회 (ka10065)"""
+        return self.ranking_api.get_intraday_investor_trading_top(market)
+
+    def get_overtime_single_price_rate_ranking(
+        self, market: str = "ALL"
+    ) -> Dict[str, Any]:
+        """시간외 단일가 등락률 순위 조회 (ka10098)"""
+        return self.ranking_api.get_overtime_single_price_rate_ranking(market)
+
+    # ==================== Sector API 메서드 (추가) ====================
+
+    def get_sector_program_trading(self, sector_code: str) -> Dict[str, Any]:
+        """업종프로그램매매 조회 (ka10010)"""
+        return self.sector_api.get_sector_program_trading(sector_code)
+
+    def get_sector_investor_trading(self, sector_code: str) -> Dict[str, Any]:
+        """업종별투자자순매수 조회 (ka10051)"""
+        return self.sector_api.get_sector_investor_trading(sector_code)
+
+    def get_sector_stock_price(self, sector_code: str = "0001") -> Dict[str, Any]:
+        """업종별주가 조회 (ka20002)"""
+        return self.sector_api.get_sector_stock_price(sector_code)
+
+    def get_sector_daily_current(self, sector_code: str) -> Dict[str, Any]:
+        """업종현재가일별 조회 (ka20009)"""
+        return self.sector_api.get_sector_daily_current(sector_code)
+
+    # ==================== PyKIS 호환 API 메서드 ====================
+
+    def get_stock_financial(self, stock_code: str) -> Dict[str, Any]:
+        """
+        주식 재무 정보 조회 (PyKIS 호환)
+
+        PyKIS의 get_stock_financial()과 호환되는 인터페이스를 제공합니다.
+        키움 REST API의 ka10001 (주식기본정보)에서 재무 데이터를 추출합니다.
+
+        Args:
+            stock_code: 종목코드 (예: "005930")
+
+        Returns:
+            Dict[str, Any]: PyKIS 호환 응답 형식
+            {
+                "rt_cd": "0",
+                "output": [
+                    {
+                        "stac_yymm": "202512",
+                        "eps": "3000",
+                        "bps": "45000",
+                        "per": "12.50",
+                        "pbr": "1.20",
+                        ...
+                    }
+                ]
+            }
+
+        Note:
+            키움 REST API는 별도의 재무 데이터 TR을 제공하지 않아
+            주식기본정보(ka10001)에서 추출 가능한 항목만 반환합니다.
+        """
+        return self.stock_api.get_stock_financial(stock_code)
+
+    def get_pbar_tratio(self, stock_code: str) -> Dict[str, Any]:
+        """
+        매물대 분석 (Volume Profile) 조회 (PyKIS 호환)
+
+        PyKIS의 get_pbar_tratio()와 호환되는 인터페이스를 제공합니다.
+        일봉 데이터를 활용하여 가격대별 거래량 분포를 추정합니다.
+
+        Args:
+            stock_code: 종목코드 (예: "005930")
+
+        Returns:
+            Dict[str, Any]: PyKIS 호환 응답 형식
+            {
+                "rt_cd": "0",
+                "output1": {
+                    "stck_prpr": "71000",
+                    "stck_oprc": "70500",
+                    ...
+                },
+                "output2": [
+                    {"vol": "1000000", "prc_rng": "70000-71000", ...},
+                    ...
+                ]
+            }
+
+        Note:
+            키움 REST API는 정확한 매물대 API를 제공하지 않아
+            일봉 데이터를 가격대별로 집계하여 추정값을 반환합니다.
+        """
+        return self.stock_api.get_pbar_tratio(stock_code)
+
+    def get_index_daily_price(
+        self,
+        index_code: str,
+        base_date: Optional[str] = None,
+        count: int = 100,
+    ) -> Dict[str, Any]:
+        """
+        지수/업종 일별 시세 조회 (PyKIS 호환)
+
+        PyKIS의 get_index_daily_price()와 호환되는 인터페이스를 제공합니다.
+        내부적으로 ka20006 (업종일봉조회)을 사용합니다.
+
+        Args:
+            index_code: 업종/지수 코드
+                - "0001" 또는 "001": 코스피
+                - "1001" 또는 "101": 코스닥
+                - "2001" 또는 "201": 코스피200
+            base_date: 기준일자 (YYYYMMDD, 미입력시 오늘)
+            count: 조회 개수 (기본 100)
+
+        Returns:
+            Dict[str, Any]: PyKIS 호환 응답 형식
+            {
+                "rt_cd": "0",
+                "output2": [
+                    {
+                        "stck_bsop_date": "20251226",
+                        "bstp_nmix_oprc": "2500.00",
+                        "bstp_nmix_hgpr": "2520.00",
+                        "bstp_nmix_lwpr": "2480.00",
+                        "bstp_nmix_prpr": "2510.00",
+                        "acml_vol": "123456789",
+                        "acml_tr_pbmn": "1234567890000",
+                    },
+                    ...
+                ]
+            }
+        """
+        return self.sector_api.get_index_daily_price(index_code, base_date, count)
+
+    def get_pbar_concentration(
+        self,
+        market: str = "000",
+        concentration_rate: str = "50",
+        include_current_entry: str = "0",
+        pbar_count: str = "10",
+        cycle: str = "50",
+        exchange: str = "3",
+    ) -> Dict[str, Any]:
+        """
+        매물대집중요청 (ka10025)
+
+        시장 전체에서 매물대가 집중된 종목을 스크리닝합니다.
+
+        Args:
+            market: 시장구분 ("000"=전체, "001"=코스피, "101"=코스닥)
+            concentration_rate: 매물집중비율 (0~100, 기본값 50)
+            include_current_entry: 현재가 매물대 진입 포함 ("0"=미포함, "1"=포함)
+            pbar_count: 매물대수 (기본값 10)
+            cycle: 주기구분 ("50", "100", "150", "200", "250", "300"일)
+            exchange: 거래소구분 ("1"=KRX, "2"=NXT, "3"=통합)
+
+        Returns:
+            Dict[str, Any]: 매물대 집중 종목 목록
+            {
+                "rt_cd": "0",
+                "prps_cnctr": [
+                    {
+                        "stk_cd": "005930",
+                        "stk_nm": "삼성전자",
+                        "cur_prc": "71000",
+                        "pric_strt": "70000",  # 매물대 시작가
+                        "pric_end": "71500",   # 매물대 종료가
+                        "prps_qty": "5",       # 매물대 수
+                        "prps_rt": "+60.00"    # 매물집중비율
+                    },
+                    ...
+                ]
+            }
+
+        Note:
+            이 API는 특정 종목의 매물대가 아닌,
+            시장 전체에서 매물대 집중 조건에 부합하는 종목 목록을 반환합니다.
+        """
+        return self.stock_api.get_pbar_concentration(
+            market=market,
+            concentration_rate=concentration_rate,
+            include_current_entry=include_current_entry,
+            pbar_count=pbar_count,
+            cycle=cycle,
+            exchange=exchange,
+        )
