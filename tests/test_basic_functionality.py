@@ -12,11 +12,11 @@ import os
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 
 try:
-    from pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceeded
+    from pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceededError
     from pykiwoom_rest import (
-        KiwoomAPIBase, 
-        StockAPI, 
-        ChartAPI, 
+        KiwoomAPIBase,
+        StockAPI,
+        ChartAPI,
         RankingAPI,
         KiwoomAPIError
     )
@@ -115,7 +115,7 @@ class TestExceptionHierarchy(unittest.TestCase):
         
         # 모든 예외는 Exception을 상속해야 함
         self.assertTrue(issubclass(KiwoomAPIError, Exception))
-        self.assertTrue(issubclass(RateLimitExceeded, Exception))
+        self.assertTrue(issubclass(RateLimitExceededError, Exception))
     
     @unittest.skipUnless(IMPORTS_OK, "Import failed")
     def test_kiwoom_api_error_attributes(self):

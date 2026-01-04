@@ -27,7 +27,7 @@ class TestAuthAPIBasic(unittest.TestCase):
         "KIWOOM_APPSECRET": "TEST_APPSECRET",
         "ACCOUNT_NO": "12345678"
     })
-    @patch("src.pykiwoom_rest.auth_api.AuthAPI.request")
+    @patch("pykiwoom_rest.auth_api.AuthAPI.request")
     def test_get_access_token_success(self, mock_request):
         """토큰 발급 성공 테스트"""
         from pykiwoom_rest.auth_api import AuthAPI
@@ -116,7 +116,7 @@ class TestAuthAPIBasic(unittest.TestCase):
         "KIWOOM_APPSECRET": "TEST_APPSECRET",
         "ACCOUNT_NO": "12345678"
     })
-    @patch("src.pykiwoom_rest.auth_api.AuthAPI.request")
+    @patch("pykiwoom_rest.auth_api.AuthAPI.request")
     def test_revoke_token_success(self, mock_request):
         """토큰 폐기 성공 테스트"""
         from pykiwoom_rest.auth_api import AuthAPI

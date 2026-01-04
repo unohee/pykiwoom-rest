@@ -17,10 +17,10 @@ def debug_api_responses():
     print("키움증권 API 응답 구조 디버그")
     print("=" * 60)
     
-    # 환경변수 설정 (테스트용)
-    os.environ['ACCOUNT_NO'] = '63513804'
-    os.environ['KIWOOM_APPKEY'] = 'Px3ffmslMwr3qWVkwzW9yFbuEkbIKkwwiwoo4UWICYg'
-    os.environ['KIWOOM_APPSECRET'] = 'bV4Dpr-5u9T3zWoRHbGOkU5O0uPxF3VPMJfyfrs08Uc'
+    # 환경변수 확인 (테스트 전 .env 파일 또는 환경변수 설정 필요)
+    if not os.environ.get('ACCOUNT_NO') or not os.environ.get('KIWOOM_APPKEY'):
+        print("Error: ACCOUNT_NO, KIWOOM_APPKEY, KIWOOM_APPSECRET 환경변수를 설정해주세요.")
+        return
     
     kiwoom = KiwoomRest()
     

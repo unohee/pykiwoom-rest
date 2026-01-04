@@ -3,6 +3,7 @@
 키움증권 공식 예제 - 주식분봉차트조회 테스트
 """
 
+import os
 import requests
 import json
 
@@ -51,7 +52,7 @@ def fn_ka10080(token, data, cont_yn='N', next_key=''):
         response_json = response.json()
         print('Body:', json.dumps(response_json, indent=4, ensure_ascii=False))
         return response_json
-    except:
+    except (ValueError, json.JSONDecodeError):
         print('Body (text):', response.text)
         return None
 
@@ -62,10 +63,17 @@ if __name__ == '__main__':
     
     # 1. 토큰 발급
     print("\n1. 토큰 발급")
+    appkey = os.environ.get('KIWOOM_APPKEY')
+    appsecret = os.environ.get('KIWOOM_APPSECRET')
+
+    if not appkey or not appsecret:
+        print("Error: KIWOOM_APPKEY, KIWOOM_APPSECRET 환경변수를 설정해주세요.")
+        exit(1)
+
     token_params = {
         'grant_type': 'client_credentials',
-        'appkey': 'Px3ffmslMwr3qWVkwzW9yFbuEkbIKkwwiwoo4UWICYg',
-        'secretkey': 'bV4Dpr-5u9T3zWoRHbGOkU5O0uPxF3VPMJfyfrs08Uc',
+        'appkey': appkey,
+        'secretkey': appsecret,
     }
     
     token_result = fn_au10001(data=token_params)
