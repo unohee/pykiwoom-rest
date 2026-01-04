@@ -8,7 +8,7 @@ import unittest
 import os
 import time
 from unittest.mock import Mock, patch, MagicMock
-from pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceeded
+from pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceededError
 from pykiwoom_rest.kiwoom_base import KiwoomAPIBase, KiwoomAPIError
 from pykiwoom_rest.stock_api import StockAPI
 from pykiwoom_rest.chart_api import ChartAPI

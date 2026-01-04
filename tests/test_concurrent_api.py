@@ -14,7 +14,7 @@ from queue import Queue, PriorityQueue
 from datetime import datetime
 import json
 
-from src.pykiwoom_rest.concurrent_api import (
+from pykiwoom_rest.concurrent_api import (
     ConcurrentKiwoomAPI,
     OptimizedBatchProcessor,
     BatchResult,

@@ -30,7 +30,7 @@ class TestAuthAPIBasic(unittest.TestCase):
     @patch("src.pykiwoom_rest.auth_api.AuthAPI.request")
     def test_get_access_token_success(self, mock_request):
         """토큰 발급 성공 테스트"""
-        from src.pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.auth_api import AuthAPI
 
         # Mock 응답 설정
         mock_request.return_value = {
@@ -59,7 +59,7 @@ class TestAuthAPIBasic(unittest.TestCase):
     })
     def test_token_status_no_token(self):
         """토큰 없을 때 상태 조회 테스트"""
-        from src.pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.auth_api import AuthAPI
 
         auth = AuthAPI(use_mock=True)  # Mock 모드
 
@@ -78,7 +78,7 @@ class TestAuthAPIBasic(unittest.TestCase):
     })
     def test_get_token_status_with_valid_token(self):
         """유효한 토큰으로 상태 조회 테스트"""
-        from src.pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.auth_api import AuthAPI
 
         auth = AuthAPI(use_mock=True)
 
@@ -103,7 +103,7 @@ class TestAuthAPIBasic(unittest.TestCase):
     })
     def test_revoke_token_without_token(self):
         """토큰 없이 폐기 시도 테스트 (에러)"""
-        from src.pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.auth_api import AuthAPI
 
         auth = AuthAPI(use_mock=True)
 
@@ -119,7 +119,7 @@ class TestAuthAPIBasic(unittest.TestCase):
     @patch("src.pykiwoom_rest.auth_api.AuthAPI.request")
     def test_revoke_token_success(self, mock_request):
         """토큰 폐기 성공 테스트"""
-        from src.pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.auth_api import AuthAPI
 
         # Mock 응답
         mock_request.return_value = {
@@ -148,7 +148,7 @@ class TestAuthAPIBasic(unittest.TestCase):
     })
     def test_logout(self):
         """로그아웃 테스트"""
-        from src.pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.auth_api import AuthAPI
 
         auth = AuthAPI(use_mock=True)
 
@@ -180,7 +180,7 @@ class TestAuthAPIIntegration(unittest.TestCase):
     def test_auth_api_import(self):
         """AuthAPI 임포트 테스트"""
         try:
-            from src.pykiwoom_rest.auth_api import AuthAPI
+            from pykiwoom_rest.auth_api import AuthAPI
             auth = AuthAPI(use_mock=True)
             assert auth is not None
             print("✓ AuthAPI import successful")
@@ -194,7 +194,7 @@ class TestAuthAPIIntegration(unittest.TestCase):
     })
     def test_auth_api_tr_codes(self):
         """AuthAPI TR 코드 매핑 테스트"""
-        from src.pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.auth_api import AuthAPI
 
         auth = AuthAPI(use_mock=True)
 
@@ -209,7 +209,7 @@ class TestAuthAPIIntegration(unittest.TestCase):
     })
     def test_auth_api_methods_exist(self):
         """AuthAPI 필수 메서드 존재 테스트"""
-        from src.pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.auth_api import AuthAPI
 
         auth = AuthAPI(use_mock=True)
 

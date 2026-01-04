@@ -10,12 +10,12 @@ import pandas as pd
 from datetime import datetime, timedelta
 import json
 
-from src.pykiwoom_rest.chart_api import ChartAPI
-from src.pykiwoom_rest.stock_api import StockAPI
-from src.pykiwoom_rest.account_api import AccountAPI
-from src.pykiwoom_rest.ranking_api import RankingAPI
-from src.pykiwoom_rest.sector_api import SectorAPI
-from src.pykiwoom_rest.order_api import OrderAPI
+from pykiwoom_rest.chart_api import ChartAPI
+from pykiwoom_rest.stock_api import StockAPI
+from pykiwoom_rest.account_api import AccountAPI
+from pykiwoom_rest.ranking_api import RankingAPI
+from pykiwoom_rest.sector_api import SectorAPI
+from pykiwoom_rest.order_api import OrderAPI
 
 
 class TestChartAPICoverage:

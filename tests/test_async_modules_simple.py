@@ -10,8 +10,8 @@ from unittest.mock import MagicMock, patch, AsyncMock
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-from src.pykiwoom_rest.async_api import AsyncKiwoomAPI, ParallelKiwoomAPI
-from src.pykiwoom_rest.concurrent_api import ConcurrentKiwoomAPI, OptimizedBatchProcessor, ProcessingMode
+from pykiwoom_rest.async_api import AsyncKiwoomAPI, ParallelKiwoomAPI
+from pykiwoom_rest.concurrent_api import ConcurrentKiwoomAPI, OptimizedBatchProcessor, ProcessingMode
 
 
 class TestAsyncKiwoomAPISimple:

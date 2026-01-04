@@ -12,7 +12,7 @@ from datetime import datetime
 import time
 import json
 
-from src.pykiwoom_rest.async_api import AsyncKiwoomAPI, ParallelKiwoomAPI
+from pykiwoom_rest.async_api import AsyncKiwoomAPI, ParallelKiwoomAPI
 
 
 class TestAsyncKiwoomAPI:

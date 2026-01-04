@@ -10,7 +10,7 @@ import time
 from unittest.mock import Mock, patch, MagicMock
 from datetime import datetime, timedelta
 
-from pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceeded, APIError
+from pykiwoom_rest.base_api import TokenBucketRateLimiter, RateLimitExceededError, APIError
 from pykiwoom_rest.kiwoom_base import KiwoomAPIError
 
 
@@ -55,8 +55,8 @@ class TestTokenBucketRateLimiter:
         assert limiter.acquire(tokens=10, blocking=False) == False
 
     def test_rate_limit_exceeded_exception(self):
-        """RateLimitExceeded 예외 테스트"""
-        exception = RateLimitExceeded("Rate limit exceeded")
+        """RateLimitExceededError 예외 테스트"""
+        exception = RateLimitExceededError("Rate limit exceeded")
         assert str(exception) == "Rate limit exceeded"
         assert isinstance(exception, Exception)
 
