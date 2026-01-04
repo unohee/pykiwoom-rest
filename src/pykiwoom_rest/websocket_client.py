@@ -9,18 +9,17 @@ Kiwoom증권 REST API의 실시간 시세 WebSocket 연결을 관리합니다.
 """
 
 import asyncio
+import contextlib
 import json
 import logging
-from typing import Callable, Dict, Optional, Set
 from datetime import datetime
+from typing import Callable, Dict, Optional, Set
 
 try:
     import websockets
     from websockets.client import WebSocketClientProtocol
 except ImportError:
-    raise ImportError(
-        "websockets 라이브러리가 필요합니다. 설치하려면: pip install websockets"
-    )
+    raise ImportError("websockets 라이브러리가 필요합니다. 설치하려면: pip install websockets")
 
 
 logger = logging.getLogger(__name__)
@@ -143,17 +142,13 @@ class WebSocketClient:
         # 태스크 취소
         if self._receive_task:
             self._receive_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._receive_task
-            except asyncio.CancelledError:
-                pass
 
         if self._ping_task:
             self._ping_task.cancel()
-            try:
+            with contextlib.suppress(asyncio.CancelledError):
                 await self._ping_task
-            except asyncio.CancelledError:
-                pass
 
         # WebSocket 종료
         if self._ws:
@@ -163,9 +158,7 @@ class WebSocketClient:
         self._subscriptions.clear()
         logger.info("WebSocket 연결 종료")
 
-    async def subscribe(
-        self, tr_id: str, tr_key: str, callback: Optional[Callable] = None
-    ) -> bool:
+    async def subscribe(self, tr_id: str, tr_key: str, callback: Optional[Callable] = None) -> bool:
         """
         실시간 데이터 구독
 

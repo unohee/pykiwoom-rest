@@ -44,9 +44,7 @@ class AccountAPI(KiwoomAPIBase):
             tr_code=self.TR_CODES["deposit_detail"], endpoint="account", data=params
         )
 
-    def get_daily_estimated_asset(
-        self, base_date: Optional[str] = None
-    ) -> Dict[str, Any]:
+    def get_daily_estimated_asset(self, base_date: Optional[str] = None) -> Dict[str, Any]:
         """일별추정예탁자산현황요청 (kt00002)"""
         params = {"acnt_no": self.account_no}
         if base_date:
@@ -120,9 +118,7 @@ class AccountAPI(KiwoomAPIBase):
             data=params,
         )
 
-    def get_orderable_quantity_by_margin(
-        self, stock_code: str, order_price: int
-    ) -> Dict[str, Any]:
+    def get_orderable_quantity_by_margin(self, stock_code: str, order_price: int) -> Dict[str, Any]:
         """증거금율별주문가능수량조회요청 (kt00011)"""
         params = {
             "acnt_no": self.account_no,
@@ -135,9 +131,7 @@ class AccountAPI(KiwoomAPIBase):
             data=params,
         )
 
-    def get_orderable_quantity_by_credit(
-        self, stock_code: str, order_price: int
-    ) -> Dict[str, Any]:
+    def get_orderable_quantity_by_credit(self, stock_code: str, order_price: int) -> Dict[str, Any]:
         """신용보증금율별주문가능수량조회요청 (kt00012)"""
         params = {
             "acnt_no": self.account_no,
@@ -170,9 +164,7 @@ class AccountAPI(KiwoomAPIBase):
             tr_code=self.TR_CODES["trading_history"], endpoint="account", data=params
         )
 
-    def get_daily_return_detail(
-        self, base_date: Optional[str] = None
-    ) -> Dict[str, Any]:
+    def get_daily_return_detail(self, base_date: Optional[str] = None) -> Dict[str, Any]:
         """일별계좌수익률상세현황요청 (kt00016)"""
         params = {"acnt_no": self.account_no}
         if base_date:
@@ -242,9 +234,7 @@ class AccountAPI(KiwoomAPIBase):
             data=params,
         )
 
-    def get_daily_trading_diary(
-        self, base_date: Optional[str] = None
-    ) -> Dict[str, Any]:
+    def get_daily_trading_diary(self, base_date: Optional[str] = None) -> Dict[str, Any]:
         """당일매매일지요청 (ka10170)"""
         params = {"acnt_no": self.account_no}
         if base_date:

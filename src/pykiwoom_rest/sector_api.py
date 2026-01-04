@@ -75,9 +75,7 @@ class SectorAPI(KiwoomAPIBase):
             data=params,
         )
 
-    def get_sector_tick_chart(
-        self, sector_code: str, tick_scope: int = 1
-    ) -> Dict[str, Any]:
+    def get_sector_tick_chart(self, sector_code: str, tick_scope: int = 1) -> Dict[str, Any]:
         """
         업종틱차트조회요청 (ka20004)
 
@@ -260,9 +258,7 @@ class SectorAPI(KiwoomAPIBase):
                         item.get("close", item.get("bstp_nmix_prpr", item.get("prpr", "0")))
                     ),
                     # 거래량
-                    "acml_vol": str(
-                        item.get("vol", item.get("acml_vol", item.get("volume", "0")))
-                    ),
+                    "acml_vol": str(item.get("vol", item.get("acml_vol", item.get("volume", "0")))),
                     # 거래대금
                     "acml_tr_pbmn": str(
                         item.get("amt", item.get("acml_tr_pbmn", item.get("tr_pbmn", "0")))

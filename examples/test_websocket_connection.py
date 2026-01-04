@@ -89,7 +89,7 @@ def test_sync_websocket():
             try:
                 loop = asyncio.get_event_loop()
                 loop.run_until_complete(asyncio.sleep(0))
-            except:
+            except RuntimeError:
                 pass
 
         # 결과 요약

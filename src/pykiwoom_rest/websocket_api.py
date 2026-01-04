@@ -10,12 +10,11 @@ WebSocket API 모듈
 
 import asyncio
 import logging
-from typing import Any, Callable, Dict, List, Optional
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Any, Callable, Dict, List, Optional
 
 from .websocket_client import WebSocketClient
-
 
 logger = logging.getLogger(__name__)
 
@@ -139,9 +138,7 @@ class WebSocketAPI:
         """WebSocket 연결 종료"""
         await self._client.disconnect()
 
-    async def subscribe_quote(
-        self, stock_code: str, callback: Optional[Callable] = None
-    ) -> bool:
+    async def subscribe_quote(self, stock_code: str, callback: Optional[Callable] = None) -> bool:
         """
         실시간 시세 구독
 
@@ -205,9 +202,7 @@ class WebSocketAPI:
         self._client.register_callback(self.TR_STOCK_ORDERBOOK, internal_callback)
         return await self._client.subscribe(self.TR_STOCK_ORDERBOOK, stock_code)
 
-    async def subscribe_trade(
-        self, stock_code: str, callback: Optional[Callable] = None
-    ) -> bool:
+    async def subscribe_trade(self, stock_code: str, callback: Optional[Callable] = None) -> bool:
         """
         실시간 체결 구독
 
@@ -280,9 +275,7 @@ class WebSocketAPI:
             timestamp=datetime.now(),
         )
 
-    def _parse_orderbook(
-        self, stock_code: str, data: Dict[str, Any]
-    ) -> RealtimeOrderbook:
+    def _parse_orderbook(self, stock_code: str, data: Dict[str, Any]) -> RealtimeOrderbook:
         """실시간 호가 데이터 파싱"""
         output = data.get("body", {}).get("output", {})
 

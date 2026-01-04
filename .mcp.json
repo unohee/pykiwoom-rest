@@ -1,23 +1,15 @@
 {
-	"mcpServers": {
-		"task-master-ai": {
-			"type": "stdio",
-			"command": "npx",
-			"args": [
-				"-y",
-				"task-master-ai"
-			],
-			"env": {
-				"ANTHROPIC_API_KEY": "YOUR_ANTHROPIC_API_KEY_HERE",
-				"PERPLEXITY_API_KEY": "YOUR_PERPLEXITY_API_KEY_HERE",
-				"OPENAI_API_KEY": "YOUR_OPENAI_KEY_HERE",
-				"GOOGLE_API_KEY": "YOUR_GOOGLE_KEY_HERE",
-				"XAI_API_KEY": "YOUR_XAI_KEY_HERE",
-				"OPENROUTER_API_KEY": "YOUR_OPENROUTER_KEY_HERE",
-				"MISTRAL_API_KEY": "YOUR_MISTRAL_KEY_HERE",
-				"AZURE_OPENAI_API_KEY": "YOUR_AZURE_KEY_HERE",
-				"OLLAMA_API_KEY": "YOUR_OLLAMA_API_KEY_HERE"
-			}
-		}
-	}
+  "mcpServers": {
+    "pykiwoom-mcp-server": {
+      "command": "/home/unohee/RTX_ENV/bin/python3",
+      "args": [
+        "/home/unohee/dev/tools/pykiwoom-rest/pykiwoom-mcp-server/src/pykiwoom_mcp_server/server.py"
+      ],
+      "env": {
+        "ACCOUNT_NO": "63513804",
+        "KIWOOM_APPKEY": "Ayr_sSVO7m520bOTg1KtrCGm-SWkHUX13LwF-z4ePf4",
+        "KIWOOM_APPSECRET": "sI_jzlZYUVReTm1sSQivynZgO8puSDfMUEO4EkR6iB0"
+      }
+    }
+  }
 }

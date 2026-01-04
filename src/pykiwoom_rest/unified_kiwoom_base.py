@@ -9,6 +9,7 @@
 - 기존 인터페이스 호환성 유지
 """
 
+import contextlib
 import os
 from datetime import datetime, timedelta
 from typing import Any, Dict, Optional
@@ -107,9 +108,7 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         self.appsecret = appsecret or self._load_from_env("KIWOOM_APPSECRET")
 
         if not all([self.account_no, self.appkey, self.appsecret]):
-            raise ValueError(
-                "계좌번호, APPKEY, SECRETKEY가 필요합니다. .env 파일을 확인하세요."
-            )
+            raise ValueError("계좌번호, APPKEY, SECRETKEY가 필요합니다. .env 파일을 확인하세요.")
 
     def _load_from_env(self, key: str) -> Optional[str]:
         """환경변수에서 값 로드"""
@@ -117,9 +116,12 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
 
     def _get_access_token(self) -> str:
         """OAuth2 액세스 토큰 발급/갱신"""
-        if self.access_token and self.token_expires:
-            if datetime.now() < self.token_expires - timedelta(minutes=5):
-                return self.access_token
+        if (
+            self.access_token
+            and self.token_expires
+            and datetime.now() < self.token_expires - timedelta(minutes=5)
+        ):
+            return self.access_token
 
         # 토큰 발급 요청
         token_data = {
@@ -301,9 +303,7 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 "use_mock": self.use_mock,
                 "base_url": self.base_url,
                 "has_token": bool(self.access_token),
-                "token_expires": (
-                    self.token_expires.isoformat() if self.token_expires else None
-                ),
+                "token_expires": (self.token_expires.isoformat() if self.token_expires else None),
             },
             "facade_stats": facade_stats,
         }
@@ -312,15 +312,13 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         """리소스 정리"""
         # 토큰 무효화 (선택사항)
         if self.access_token:
-            try:
+            with contextlib.suppress(Exception):
                 self.facade.make_request(
                     method="POST",
                     endpoint=self.ENDPOINTS["auth_revoke"],
                     data={"token": self.access_token},
                     priority=RequestPriority.LOW,
                 )
-            except Exception:
-                pass  # 토큰 무효화 실패는 무시
 
         # Facade는 싱글턴이므로 직접 정리하지 않음
         self.access_token = None

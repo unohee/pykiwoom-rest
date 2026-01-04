@@ -124,9 +124,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         if env_path is None:
             # 프로젝트 루트에서 .env 파일 찾기
             current_dir = os.path.dirname(os.path.abspath(__file__))
-            project_root = os.path.dirname(
-                os.path.dirname(os.path.dirname(current_dir))
-            )
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(current_dir)))
             env_path = os.path.join(project_root, ".env")
 
         if os.path.exists(env_path):
@@ -245,9 +243,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
                 "raw_response": response.text,
             }
 
-    def _setup_rate_optimizer(
-        self, additional_credentials_list: List[Dict[str, str]] = None
-    ):
+    def _setup_rate_optimizer(self, additional_credentials_list: List[Dict[str, str]] = None):
         """Rate Limiting 최적화 설정"""
         all_credentials = []
 
@@ -293,9 +289,13 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
     def _get_access_token(self, force_refresh: bool = False) -> str:
         """OAuth2 액세스 토큰 발급/갱신"""
         # 토큰이 유효하고 강제 갱신이 아니면 기존 토큰 사용
-        if not force_refresh and self.access_token and self.token_expires:
-            if datetime.now() < self.token_expires - timedelta(minutes=5):
-                return self.access_token
+        if (
+            not force_refresh
+            and self.access_token
+            and self.token_expires
+            and datetime.now() < self.token_expires - timedelta(minutes=5)
+        ):
+            return self.access_token
 
         # 토큰 발급 요청
         token_data = {
@@ -436,9 +436,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
                 # 성공 시 에러 카운트 리셋
                 if self.enable_rate_optimizer and self.rate_optimizer:
-                    self.rate_optimizer.reset_error_count(
-                        cred_idx if "cred_idx" in locals() else 0
-                    )
+                    self.rate_optimizer.reset_error_count(cred_idx if "cred_idx" in locals() else 0)
 
                 # 헤더 정보 추가
                 if isinstance(response, dict):
@@ -454,14 +452,8 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
             except APIError as e:
                 # 429 에러 특별 처리
-                if (
-                    e.status_code == 429
-                    and self.enable_rate_optimizer
-                    and self.rate_optimizer
-                ):
-                    self.rate_optimizer.handle_429_error(
-                        cred_idx if "cred_idx" in locals() else 0
-                    )
+                if e.status_code == 429 and self.enable_rate_optimizer and self.rate_optimizer:
+                    self.rate_optimizer.handle_429_error(cred_idx if "cred_idx" in locals() else 0)
 
                     # 지능형 재시도
                     retry_delay = self.retry_strategy.calculate_retry_delay(429, 1)

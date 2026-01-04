@@ -217,7 +217,7 @@ class RateLimitOptimizer:
         error_penalty = bucket.get("consecutive_errors", 0) * 0.5
 
         # 랜덤 지터 추가 (충돌 방지)
-        jitter = random.uniform(0, 0.1)
+        jitter = random.uniform(0, 0.1)  # nosec B311 - rate limit jitter, not security
 
         return base_wait + error_penalty + jitter
 
@@ -234,21 +234,15 @@ class RateLimitOptimizer:
             bucket["tokens"] = 0  # 토큰 고갈
 
             # 지수 백오프
-            backoff_time = min(
-                300, self.recovery_time * (2 ** bucket["consecutive_errors"])
-            )
+            backoff_time = min(300, self.recovery_time * (2 ** bucket["consecutive_errors"]))
             bucket["is_blocked"] = True
             bucket["block_until"] = time.time() + backoff_time
 
-            logger.warning(
-                f"429 에러 - 크레덴셜 {credential_idx} 차단 ({backoff_time:.1f}초)"
-            )
+            logger.warning(f"429 에러 - 크레덴셜 {credential_idx} 차단 ({backoff_time:.1f}초)")
 
             # 다른 크레덴셜로 자동 전환
             if self.enable_rotation:
-                self.current_credential_idx = (credential_idx + 1) % len(
-                    self.credentials_list
-                )
+                self.current_credential_idx = (credential_idx + 1) % len(self.credentials_list)
 
     def reset_error_count(self, credential_idx: int):
         """에러 카운트 리셋 (성공 시 호출)"""
@@ -267,14 +261,10 @@ class RateLimitOptimizer:
             1 for bucket in self.token_buckets.values() if not bucket.get("is_blocked")
         )
 
-        total_tokens = sum(
-            bucket.get("tokens", 0) for bucket in self.token_buckets.values()
-        )
+        total_tokens = sum(bucket.get("tokens", 0) for bucket in self.token_buckets.values())
 
         avg_error_rate = (
-            self.total_429_errors / self.total_requests * 100
-            if self.total_requests > 0
-            else 0
+            self.total_429_errors / self.total_requests * 100 if self.total_requests > 0 else 0
         )
 
         return {
@@ -300,9 +290,9 @@ class RateLimitOptimizer:
         Returns:
             최적화된 요청 순서
         """
-        # 우선순위별 정렬
+        # 우선순위별 정렬 (nosec B311 - shuffle, not security)
         sorted_requests = sorted(
-            requests_batch, key=lambda x: (x.get("priority", 5), random.random())
+            requests_batch, key=lambda x: (x.get("priority", 5), random.random())  # nosec B311
         )
 
         # 시간 분산
@@ -317,7 +307,7 @@ class RateLimitOptimizer:
             if i > 0:
                 # 요청 간 최소 간격
                 min_interval = 1.0 / self.base_rate_limit
-                req["delay"] = min_interval * (1 + random.uniform(0, 0.2))
+                req["delay"] = min_interval * (1 + random.uniform(0, 0.2))  # nosec B311
             else:
                 req["delay"] = 0
 
@@ -428,6 +418,6 @@ class SmartRetryStrategy:
         delay = min(delay, pattern["max_delay"])
 
         # 랜덤 지터 추가
-        jitter = random.uniform(0, delay * 0.1)
+        jitter = random.uniform(0, delay * 0.1)  # nosec B311 - retry jitter, not security
 
         return delay + jitter

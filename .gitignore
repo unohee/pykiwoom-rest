@@ -21,3 +21,4 @@ env/
 *.log
 .mcp.json
 .venv-mcp/
+trash/

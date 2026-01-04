@@ -170,13 +170,9 @@ class OrderAPI(KiwoomAPIBase):
     def get_credit_available_stocks(self, market: str = "ALL") -> Dict[str, Any]:
         """신용융자 가능종목요청 (kt20016)"""
         params = {"mrkt_tp": self.convert_market_code(market)}
-        return self.make_tr_request(
-            tr_id=self.TR_CODES["credit_available_stocks"], data=params
-        )
+        return self.make_tr_request(tr_id=self.TR_CODES["credit_available_stocks"], data=params)
 
     def check_credit_available(self, stock_code: str) -> Dict[str, Any]:
         """신용융자 가능문의 (kt20017)"""
         params = {"stk_cd": self.convert_stock_code_param(stock_code)["stk_cd"]}
-        return self.make_tr_request(
-            tr_id=self.TR_CODES["credit_available_check"], data=params
-        )
+        return self.make_tr_request(tr_id=self.TR_CODES["credit_available_check"], data=params)
