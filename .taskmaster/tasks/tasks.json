@@ -204,13 +204,147 @@
         "status": "done",
         "subtasks": [],
         "updatedAt": "2025-10-21T05:45:16.462Z"
+      },
+      {
+        "id": "11",
+        "title": "stock_api.py 분할을 위한 분석 및 설계",
+        "description": "stock_api.py (1150줄)를 기능별로 3개 파일로 분할하기 위한 상세 분석 및 설계 수행",
+        "details": "1. stock_api.py의 34개 메서드를 기능별로 분류:\n   - 기본 시세/호가/재무 정보 (get_stock_price, get_stock_quote, get_stock_basic_info 등)\n   - 투자자 매매동향 (get_foreign_trading, get_institutional_*, get_stock_investor_trading 등)\n   - 프로그램 매매/매물대 분석 (get_program_*, get_pbar_* 등)\n\n2. 분할 계획 수립:\n   - stock_api.py (약 400줄): 기본 시세, 호가, 재무 정보 (10-12개 메서드)\n   - investor_api.py (약 400줄): 외국인/기관 매매동향 (10-12개 메서드)\n   - program_api.py (약 350줄): 프로그램 매매, 매물대 분석 (8-10개 메서드)\n\n3. TR 코드 매핑 재정리:\n   - 각 모듈에 필요한 TR_CODES 딕셔너리 분리\n   - 중복 TR 코드 처리 방안 수립\n\n4. 의존성 분석:\n   - KiwoomAPIBase 상속 구조 확인\n   - 공통 유틸리티 메서드 식별\n\n5. 상세 분할 명세서 작성:\n   - 각 파일에 포함될 메서드 목록\n   - Import 경로 및 __init__.py 수정 사항\n   - 테스트 영향도 분석",
+        "testStrategy": "설계 문서 검토 및 분할 계획 타당성 검증. 각 모듈의 책임 범위가 명확히 분리되었는지 확인. SRP(단일 책임 원칙) 준수 여부 평가.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-05T09:21:11.084Z"
+      },
+      {
+        "id": "12",
+        "title": "investor_api.py 생성 및 투자자 매매동향 메서드 이관",
+        "description": "stock_api.py에서 외국인/기관 매매동향 관련 메서드를 investor_api.py로 분리",
+        "details": "1. investor_api.py 파일 생성:\n   ```python\n   from typing import Any, Dict\n   from .kiwoom_base import KiwoomAPIBase\n\n   class InvestorAPI(KiwoomAPIBase):\n       \"\"\"투자자 매매동향 관련 API\"\"\"\n       TR_CODES = {\n           \"foreign_investor_trading\": \"ka10008\",\n           \"institutional_request\": \"ka10009\",\n           \"institutional_daily_trading\": \"ka10044\",\n           \"institutional_trading_trend\": \"ka10045\",\n           \"investor_daily_trading\": \"ka10058\",\n           \"investor_intraday_trading\": \"ka10063\",\n           \"institutional_foreign_consecutive\": \"ka10131\",\n       }\n   ```\n\n2. 이관 대상 메서드 (약 9개):\n   - get_foreign_trading()\n   - get_institutional_request()\n   - get_institutional_daily_trading()\n   - get_institutional_trading_trend()\n   - get_institutional_foreign_consecutive_trading()\n   - get_stock_investor_trading()\n   - get_stock_member_trading()\n\n3. 각 메서드를 stock_api.py에서 복사하여 investor_api.py로 이동\n4. Docstring 및 타입 힌팅 보존\n5. 400줄 이내 목표 준수",
+        "testStrategy": "1. investor_api.py 단독 임포트 테스트\n2. 각 메서드 시그니처 검증 (파라미터, 반환 타입)\n3. pytest tests/test_stock_api.py -k investor -v 실행\n4. LOC 체크: wc -l investor_api.py (400줄 이하 확인)",
+        "priority": "high",
+        "dependencies": [
+          "11"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-05T09:23:34.204Z"
+      },
+      {
+        "id": "13",
+        "title": "program_api.py 생성 및 프로그램 매매 메서드 이관",
+        "description": "stock_api.py에서 프로그램 매매 및 매물대 분석 관련 메서드를 program_api.py로 분리",
+        "details": "1. program_api.py 파일 생성:\n   ```python\n   from typing import Any, Dict\n   from .kiwoom_base import KiwoomAPIBase\n\n   class ProgramAPI(KiwoomAPIBase):\n       \"\"\"프로그램 매매 및 매물대 분석 API\"\"\"\n       TR_CODES = {\n           \"stock_program_trading\": \"ka10009\",\n           \"stock_trade_volume_power\": \"ka10010\",\n           \"supply_concentration\": \"ka10025\",\n           \"member_supply_analysis\": \"ka10043\",\n           \"program_trading_daily\": \"ka90013\",\n       }\n   ```\n\n2. 이관 대상 메서드 (약 8-10개):\n   - get_stock_program_trading()\n   - get_stock_trade_volume_power()\n   - get_program_trading_daily()\n   - get_volume_concentration()\n   - 기타 매물대 관련 메서드 (pbar_*, supply_* 계열)\n\n3. 각 메서드를 stock_api.py에서 복사하여 program_api.py로 이동\n4. 350줄 이내 목표 준수",
+        "testStrategy": "1. program_api.py 단독 임포트 테스트\n2. 각 메서드 시그니처 검증\n3. pytest tests/test_stock_api.py -k program -v 실행\n4. LOC 체크: wc -l program_api.py (350줄 이하 확인)",
+        "priority": "high",
+        "dependencies": [
+          "11"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-05T09:23:37.796Z"
+      },
+      {
+        "id": "14",
+        "title": "stock_api.py 리팩토링 (기본 시세/호가만 유지)",
+        "description": "stock_api.py에서 이관된 메서드 제거하고 기본 시세/호가 기능만 400줄 이내로 정리",
+        "details": "1. 이관된 메서드 제거:\n   - investor_api.py로 이동한 9개 메서드 삭제\n   - program_api.py로 이동한 8-10개 메서드 삭제\n\n2. 유지 메서드 (약 12-15개):\n   - get_stock_price()\n   - get_stock_quote()\n   - get_stock_basic_info()\n   - get_stock_orderbook() (호가)\n   - get_execution_info()\n   - get_credit_trend()\n   - get_daily_trading_detail()\n   - 기타 기본 시세 조회 메서드\n\n3. TR_CODES 정리:\n   - 이관된 TR 코드 제거\n   - 기본 시세 관련 TR만 유지\n\n4. 불필요한 공백/주석 제거\n5. 400줄 이하 목표 달성 확인",
+        "testStrategy": "1. LOC 검증: wc -l stock_api.py (400줄 이하)\n2. 남은 메서드 임포트 테스트\n3. pytest tests/test_stock_api.py -v (기존 테스트 통과)\n4. Ruff 린팅: ruff check src/pykiwoom_rest/stock_api.py",
+        "priority": "high",
+        "dependencies": [
+          "12",
+          "13"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-05T09:26:33.424Z"
+      },
+      {
+        "id": "15",
+        "title": "__init__.py 및 kiwoom_rest.py 통합 업데이트",
+        "description": "새로 생성된 investor_api.py, program_api.py를 __init__.py와 kiwoom_rest.py에 통합",
+        "details": "1. __init__.py 수정:\n   ```python\n   from .investor_api import InvestorAPI\n   from .program_api import ProgramAPI\n   from .stock_api import StockAPI\n\n   __all__ = [\n       \"StockAPI\",\n       \"InvestorAPI\",\n       \"ProgramAPI\",\n       # ... 기존 export\n   ]\n   ```\n\n2. kiwoom_rest.py Facade 업데이트:\n   ```python\n   from .investor_api import InvestorAPI\n   from .program_api import ProgramAPI\n\n   class KiwoomRest:\n       def __init__(self, ...):\n           self.stock_api = StockAPI(**common_config)\n           self.investor_api = InvestorAPI(**common_config)\n           self.program_api = ProgramAPI(**common_config)\n   ```\n\n3. Facade 메서드 위임:\n   - 기존 stock_api 호출을 적절한 모듈로 재라우팅\n   - 예: self.get_foreign_trading() → self.investor_api.get_foreign_trading()\n\n4. 기존 API 호환성 유지:\n   - from pykiwoom_rest import StockAPI 여전히 작동\n   - KiwoomRest().get_foreign_trading() 여전히 작동 (내부적으로 investor_api 호출)\n\n5. 직접 접근 패턴 추가:\n   ```python\n   kiwoom = KiwoomRest()\n   kiwoom.investor_api.get_foreign_trading(\"005930\")  # 직접 접근\n   kiwoom.get_foreign_trading(\"005930\")              # Facade 접근\n   ```",
+        "testStrategy": "1. Import 테스트:\n   - python -c \"from pykiwoom_rest import StockAPI, InvestorAPI, ProgramAPI\"\n   - python -c \"from pykiwoom_rest import KiwoomRest; k = KiwoomRest()\"\n2. Facade 위임 테스트:\n   - pytest tests/test_kiwoom_rest.py -v\n3. 하위 호환성 검증:\n   - 기존 코드 import 패턴 모두 작동 확인",
+        "priority": "high",
+        "dependencies": [
+          "14"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-01-05T09:26:36.991Z"
+      },
+      {
+        "id": "16",
+        "title": "kiwoom_rest.py Facade 메서드 최적화 (1138줄 → 800줄)",
+        "description": "kiwoom_rest.py의 중복 docstring 간소화 및 코드 정리로 800줄 이하 달성",
+        "details": "1. Docstring 간소화 전략:\n   - 현재: 각 메서드마다 전체 API 명세 복사\n   - 변경: 원본 API 참조 유도\n   ```python\n   # Before (15줄)\n   def get_stock_price(self, stock_code: str) -> Dict[str, Any]:\n       \"\"\"\n       주식 현재가 조회\n       \n       Args:\n           stock_code: 종목코드\n       \n       Returns:\n           Dict[str, Any]: 시세 정보\n           ...\n       \"\"\"\n       return self.stock_api.get_stock_price(stock_code)\n   \n   # After (3줄)\n   def get_stock_price(self, stock_code: str) -> Dict[str, Any]:\n       \"\"\"주식 현재가 조회. 상세: StockAPI.get_stock_price() 참조\"\"\"\n       return self.stock_api.get_stock_price(stock_code)\n   ```\n\n2. 그룹별 메서드 정리:\n   - # === Stock API === 같은 섹션 헤더로 구분\n   - 불필요한 줄바꿈 제거\n\n3. 동적 위임 패턴 고려 (선택사항):\n   ```python\n   def __getattr__(self, name):\n       # stock_api, chart_api 등에서 메서드 찾기\n       for api in [self.stock_api, self.chart_api, ...]:\n           if hasattr(api, name):\n               return getattr(api, name)\n       raise AttributeError(f\"메서드 없음: {name}\")\n   ```\n   → 명시적 위임이 더 안전하므로 보류 가능\n\n4. 불필요한 helper 메서드 제거\n5. 800줄 이하 목표 달성",
+        "testStrategy": "1. LOC 검증: wc -l kiwoom_rest.py (800줄 이하)\n2. 모든 public API 메서드 작동 확인\n3. pytest tests/test_kiwoom_rest.py -v\n4. Docstring 가독성 검토 (간소화되었지만 필수 정보는 유지)",
+        "priority": "high",
+        "dependencies": [
+          "15"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "17",
+        "title": "ranking_api.py 최적화 (942줄 → 800줄)",
+        "description": "ranking_api.py의 중복 패턴 추출 및 코드 정리로 800줄 이하 달성",
+        "details": "1. 중복 패턴 분석:\n   - 랭킹 조회 메서드들의 공통 구조 파악\n   - 유사한 파라미터 처리 로직 식별\n\n2. 공통 랭킹 요청 헬퍼 생성:\n   ```python\n   def _get_ranking(\n       self, \n       tr_code: str, \n       params: Dict[str, Any],\n       endpoint: str = None\n   ) -> Dict[str, Any]:\n       \"\"\"랭킹 조회 공통 로직\"\"\"\n       endpoint = endpoint or f\"/uapi/domestic-stock/v1/ranking/{tr_code}\"\n       return self.request(method=\"GET\", endpoint=endpoint, params=params)\n   ```\n\n3. 각 메서드 리팩토링:\n   ```python\n   # Before (30줄)\n   def get_volume_top(self, market: str = \"ALL\") -> Dict[str, Any]:\n       # ... 파라미터 검증\n       # ... endpoint 구성\n       # ... request 호출\n       # ... 응답 처리\n   \n   # After (10줄)\n   def get_volume_top(self, market: str = \"ALL\") -> Dict[str, Any]:\n       \"\"\"거래량 상위 종목 조회\"\"\"\n       params = {\"market\": market, \"fid_input_iscd\": \"0000\"}\n       return self._get_ranking(\"ka10038\", params)\n   ```\n\n4. Docstring 간소화\n5. 유사 메서드 그룹화 (거래량, 등락률, 시가총액 등)\n6. 800줄 이하 목표 달성",
+        "testStrategy": "1. LOC 검증: wc -l ranking_api.py (800줄 이하)\n2. 모든 랭킹 메서드 작동 확인\n3. pytest tests/test_ranking_api.py -v (존재 시)\n4. Ruff 린팅 통과\n5. 리팩토링 전후 응답 비교 (동일성 검증)",
+        "priority": "medium",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "18",
+        "title": "테스트 업데이트 및 검증",
+        "description": "분할된 API 모듈에 맞춰 테스트 코드 업데이트 및 전체 테스트 실행",
+        "details": "1. 테스트 파일 검토:\n   - tests/test_stock_api.py: StockAPI 테스트\n   - 필요 시 tests/test_investor_api.py 신규 생성\n   - 필요 시 tests/test_program_api.py 신규 생성\n\n2. Import 경로 수정:\n   ```python\n   # Before\n   from pykiwoom_rest import StockAPI\n   stock_api = StockAPI()\n   stock_api.get_foreign_trading(\"005930\")\n   \n   # After\n   from pykiwoom_rest import InvestorAPI\n   investor_api = InvestorAPI()\n   investor_api.get_foreign_trading(\"005930\")\n   ```\n\n3. Facade 테스트 추가:\n   ```python\n   def test_facade_integration():\n       kiwoom = KiwoomRest()\n       # 직접 접근\n       result1 = kiwoom.investor_api.get_foreign_trading(\"005930\")\n       # Facade 접근\n       result2 = kiwoom.get_foreign_trading(\"005930\")\n       assert result1 == result2\n   ```\n\n4. 전체 테스트 실행:\n   - pytest tests/ -v\n   - pytest tests/ --cov=src/pykiwoom_rest\n\n5. 테스트 통과율 확인 (기존 수준 유지)",
+        "testStrategy": "1. 전체 테스트 스위트 실행: pytest tests/ -v\n2. 커버리지 검증: pytest tests/ --cov=src/pykiwoom_rest --cov-report=html\n3. 특정 API 테스트:\n   - pytest tests/test_stock_api.py -v\n   - pytest tests/test_investor_api.py -v (신규)\n   - pytest tests/test_program_api.py -v (신규)\n4. 통과율 100% 목표 (기존 테스트 모두 통과)",
+        "priority": "high",
+        "dependencies": [
+          "15",
+          "16",
+          "17"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "19",
+        "title": "타입 체킹 및 린팅 검증",
+        "description": "MyPy 타입 체킹 및 Ruff 린팅으로 코드 품질 검증",
+        "details": "1. MyPy 타입 체킹:\n   ```bash\n   mypy src/pykiwoom_rest --ignore-missing-imports\n   ```\n   - 타입 힌팅 누락 확인\n   - 타입 불일치 수정\n   - Any 타입 최소화\n\n2. Ruff 린팅 및 포맷팅:\n   ```bash\n   # 자동 포맷팅\n   ruff format src/pykiwoom_rest/\n   \n   # 린팅 검사 및 자동 수정\n   ruff check src/pykiwoom_rest/ --fix\n   ```\n   - Import 순서 정렬 (isort)\n   - 코드 스타일 준수 (E, F, W)\n   - 복잡도 검사 (C4, SIM)\n\n3. LOC 게이트 검증:\n   ```bash\n   # 모든 파일 1000줄 이하 확인\n   for file in src/pykiwoom_rest/*.py; do\n       lines=$(wc -l < \"$file\")\n       if [ $lines -gt 1000 ]; then\n           echo \"FAIL: $file has $lines lines\"\n       fi\n   done\n   ```\n\n4. pyproject.toml 설정 준수:\n   - Ruff 설정 (line-length=100, py38)\n   - MyPy 설정 (python_version=3.8)\n\n5. CI/CD 로컬 시뮬레이션:\n   - GitHub Actions 워크플로우 로컬 실행",
+        "testStrategy": "1. MyPy 통과: 타입 에러 0개\n2. Ruff 통과: 린팅 에러 0개\n3. LOC 게이트 통과: 모든 파일 1000줄 이하\n4. 포맷 검증: ruff format --check src/pykiwoom_rest/\n5. CI/CD 통과 예상",
+        "priority": "high",
+        "dependencies": [
+          "18"
+        ],
+        "status": "pending",
+        "subtasks": []
+      },
+      {
+        "id": "20",
+        "title": "문서 업데이트 및 마이그레이션 가이드 작성",
+        "description": "CLAUDE.md, README.md 업데이트 및 API 변경사항 문서화",
+        "details": "1. CLAUDE.md 업데이트:\n   - 새로운 모듈 구조 반영 (StockAPI, InvestorAPI, ProgramAPI)\n   - Directory Structure 섹션 업데이트\n   - 사용 예제 추가\n\n2. README.md 업데이트:\n   - API 섹션에 InvestorAPI, ProgramAPI 추가\n   - 사용 예제 업데이트:\n   ```python\n   from pykiwoom_rest import KiwoomRest\n   \n   kiwoom = KiwoomRest()\n   \n   # 방법 1: Facade 사용 (기존 방식, 하위 호환)\n   result = kiwoom.get_foreign_trading(\"005930\")\n   \n   # 방법 2: 직접 API 접근 (권장)\n   result = kiwoom.investor_api.get_foreign_trading(\"005930\")\n   ```\n\n3. MIGRATION.md 작성:\n   - 기존 코드 마이그레이션 가이드\n   - Breaking changes 목록 (없음 - 100% 하위 호환)\n   - 권장 사항:\n     - StockAPI에서 InvestorAPI/ProgramAPI로 이동한 메서드 정리\n     - 직접 API 접근 패턴 권장 이유\n\n4. Changelog 작성:\n   - v2.1.0 릴리스 노트\n   - Refactoring: stock_api.py 분할 (1150줄 → 400줄)\n   - New: InvestorAPI, ProgramAPI 추가\n   - Optimized: kiwoom_rest.py (1138줄 → 800줄)\n   - Optimized: ranking_api.py (942줄 → 800줄)\n\n5. Docstring 예제 추가:\n   - 각 API 클래스에 사용 예제 추가",
+        "testStrategy": "1. 문서 가독성 검토\n2. 코드 예제 실행 검증 (복사-붙여넣기로 작동)\n3. 마크다운 린팅: markdownlint README.md\n4. 링크 유효성 검사\n5. 사용자 피드백 수렴 준비",
+        "priority": "medium",
+        "dependencies": [
+          "19"
+        ],
+        "status": "pending",
+        "subtasks": []
       }
     ],
     "metadata": {
       "version": "1.0.0",
-      "lastModified": "2025-10-21T05:45:16.463Z",
-      "taskCount": 10,
-      "completedCount": 5,
+      "lastModified": "2026-01-05T09:26:36.992Z",
+      "taskCount": 20,
+      "completedCount": 10,
       "tags": [
         "master"
       ]

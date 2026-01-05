@@ -9,7 +9,9 @@ from typing import Any, Dict, Optional
 from .account_api import AccountAPI
 from .auth_api import AuthAPI
 from .chart_api import ChartAPI
+from .investor_api import InvestorAPI
 from .order_api import OrderAPI
+from .program_api import ProgramAPI
 from .ranking_api import RankingAPI
 from .sector_api import SectorAPI
 from .stock_api import StockAPI
@@ -92,6 +94,8 @@ class KiwoomRest:
         # 모듈러 API 클래스들 초기화
         self.auth_api = AuthAPI(**common_config)
         self.stock_api = StockAPI(**common_config)
+        self.investor_api = InvestorAPI(**common_config)
+        self.program_api = ProgramAPI(**common_config)
         self.chart_api = ChartAPI(**common_config)
         self.ranking_api = RankingAPI(**common_config)
         self.account_api = AccountAPI(**common_config)
@@ -163,17 +167,17 @@ class KiwoomRest:
 
     def get_foreign_trading(self, stock_code: str) -> Dict[str, Any]:
         """주식외국인종목별매매동향 조회 (ka10008)"""
-        return self.stock_api.get_foreign_trading(stock_code)
+        return self.investor_api.get_foreign_trading(stock_code)
 
     def get_program_trading_daily(self, stock_code: str) -> Dict[str, Any]:
         """종목일별프로그램매매추이요청 (ka90013)"""
-        return self.stock_api.get_program_trading_daily(stock_code)
+        return self.program_api.get_program_trading_daily(stock_code)
 
     def get_institutional_trading_trend(
         self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """종목별기관매매추이요청 (ka10045)"""
-        return self.stock_api.get_institutional_trading_trend(stock_code, start_date, end_date)
+        return self.investor_api.get_institutional_trading_trend(stock_code, start_date, end_date)
 
     def get_stock_investor_trading(
         self,
@@ -198,7 +202,7 @@ class KiwoomRest:
         Returns:
             투자자별 일별 매매동향 정보
         """
-        return self.stock_api.get_stock_investor_trading(
+        return self.investor_api.get_stock_investor_trading(
             start_date=start_date,
             end_date=end_date,
             trade_type=trade_type,
@@ -240,7 +244,7 @@ class KiwoomRest:
 
     def get_stock_member_trading(self, stock_code: str) -> Dict[str, Any]:
         """기관별 매매동향 조회 (ka10006)"""
-        return self.stock_api.get_stock_member_trading(stock_code)
+        return self.investor_api.get_stock_member_trading(stock_code)
 
     def get_stock_elapsed_time(self, stock_code: str) -> Dict[str, Any]:
         """소요시간 조회 (ka10007)"""
@@ -252,7 +256,7 @@ class KiwoomRest:
 
     def get_stock_trade_volume_power(self, stock_code: str) -> Dict[str, Any]:
         """거래량파동력 조회 (ka10010)"""
-        return self.stock_api.get_stock_trade_volume_power(stock_code)
+        return self.program_api.get_stock_trade_volume_power(stock_code)
 
     # ========== 차트 데이터 메서드 (Legacy Compatible) ==========
 
@@ -910,13 +914,13 @@ class KiwoomRest:
         end_date: str = None,
     ) -> Dict[str, Any]:
         """기관외국인연속매매현황 조회 (ka10131)"""
-        return self.stock_api.get_institutional_foreign_consecutive_trading(
+        return self.investor_api.get_institutional_foreign_consecutive_trading(
             market, start_date, end_date
         )
 
     def get_institutional_request(self, stock_code: str) -> Dict[str, Any]:
         """주식기관요청 조회 (ka10009)"""
-        return self.stock_api.get_institutional_request(stock_code)
+        return self.investor_api.get_institutional_request(stock_code)
 
     def get_institutional_daily_trading(
         self,
@@ -925,15 +929,15 @@ class KiwoomRest:
         end_date: str = None,
     ) -> Dict[str, Any]:
         """일별기관매매동향 조회 (ka10044)"""
-        return self.stock_api.get_institutional_daily_trading(stock_code, start_date, end_date)
+        return self.investor_api.get_institutional_daily_trading(stock_code, start_date, end_date)
 
     def get_sector_code_list(self) -> Dict[str, Any]:
         """업종코드 리스트 조회 (ka10101)"""
-        return self.stock_api.get_sector_code_list()
+        return self.investor_api.get_sector_code_list()
 
     def get_member_company_list(self) -> Dict[str, Any]:
         """회원사 리스트 조회 (ka10102)"""
-        return self.stock_api.get_member_company_list()
+        return self.investor_api.get_member_company_list()
 
     # ==================== Ranking API 메서드 (추가) ====================
 
@@ -1042,7 +1046,7 @@ class KiwoomRest:
             키움 REST API는 정확한 매물대 API를 제공하지 않아
             일봉 데이터를 가격대별로 집계하여 추정값을 반환합니다.
         """
-        return self.stock_api.get_pbar_tratio(stock_code)
+        return self.program_api.get_pbar_tratio(stock_code)
 
     def get_index_daily_price(
         self,
@@ -1128,7 +1132,7 @@ class KiwoomRest:
             이 API는 특정 종목의 매물대가 아닌,
             시장 전체에서 매물대 집중 조건에 부합하는 종목 목록을 반환합니다.
         """
-        return self.stock_api.get_pbar_concentration(
+        return self.program_api.get_pbar_concentration(
             market=market,
             concentration_rate=concentration_rate,
             include_current_entry=include_current_entry,
