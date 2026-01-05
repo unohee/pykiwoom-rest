@@ -2,6 +2,7 @@
 """MCP 서버 연결 테스트"""
 import asyncio
 import json
+import os
 import subprocess
 from mcp.client.stdio import stdio_client, ClientSession
 
@@ -13,9 +14,9 @@ async def test_mcp():
             "/home/unohee/dev/tools/pykiwoom-rest/pykiwoom-mcp-server/src/pykiwoom_mcp_server/server.py"
         ],
         "env": {
-            "ACCOUNT_NO": "63513804",
-            "KIWOOM_APPKEY": "Ayr_sSVO7m520bOTg1KtrCGm-SWkHUX13LwF-z4ePf4",
-            "KIWOOM_APPSECRET": "sI_jzlZYUVReTm1sSQivynZgO8puSDfMUEO4EkR6iB0"
+            "ACCOUNT_NO": os.environ.get("ACCOUNT_NO", ""),
+            "KIWOOM_APPKEY": os.environ.get("KIWOOM_APPKEY", ""),
+            "KIWOOM_APPSECRET": os.environ.get("KIWOOM_APPSECRET", "")
         }
     }
     

@@ -109,9 +109,7 @@ class AsyncKiwoomAPI:
     async def __aenter__(self):
         """Context manager 진입"""
         self.session = aiohttp.ClientSession(
-            connector=aiohttp.TCPConnector(
-                limit=100, limit_per_host=30, ttl_dns_cache=300
-            ),
+            connector=aiohttp.TCPConnector(limit=100, limit_per_host=30, ttl_dns_cache=300),
             timeout=aiohttp.ClientTimeout(total=30),
         )
         return self
@@ -125,9 +123,8 @@ class AsyncKiwoomAPI:
         """비동기 토큰 발급"""
         async with self.token_lock:
             # 토큰이 유효하면 재사용
-            if self.access_token and self.token_expires:
-                if time.time() < self.token_expires:
-                    return self.access_token
+            if self.access_token and self.token_expires and time.time() < self.token_expires:
+                return self.access_token
 
             # 토큰 발급
             url = f"{self.base_url}/oauth2/token"
@@ -180,14 +177,10 @@ class AsyncKiwoomAPI:
 
                 # 요청 실행
                 if method == "GET":
-                    async with self.session.get(
-                        url, headers=headers, params=params
-                    ) as response:
+                    async with self.session.get(url, headers=headers, params=params) as response:
                         return await response.json()
                 else:
-                    async with self.session.post(
-                        url, headers=headers, json=params
-                    ) as response:
+                    async with self.session.post(url, headers=headers, json=params) as response:
                         return await response.json()
 
     async def get_stock_price(self, stock_code: str) -> Dict[str, Any]:
@@ -200,9 +193,7 @@ class AsyncKiwoomAPI:
 
         return APIResponse.create_success(result)
 
-    async def get_multiple_stock_prices(
-        self, stock_codes: List[str]
-    ) -> List[Dict[str, Any]]:
+    async def get_multiple_stock_prices(self, stock_codes: List[str]) -> List[Dict[str, Any]]:
         """여러 종목 시세 동시 조회"""
         tasks = []
         for code in stock_codes:
@@ -323,9 +314,7 @@ class ParallelKiwoomAPI:
 
         return results
 
-    def batch_process(
-        self, tasks: List[Dict[str, Any]], callback: Callable = None
-    ) -> List[Any]:
+    def batch_process(self, tasks: List[Dict[str, Any]], callback: Callable = None) -> List[Any]:
         """배치 작업 병렬 처리
 
         Args:
@@ -364,9 +353,7 @@ class ParallelKiwoomAPI:
 
         return results
 
-    def map_reduce(
-        self, map_func: Callable, reduce_func: Callable, data: List[Any]
-    ) -> Any:
+    def map_reduce(self, map_func: Callable, reduce_func: Callable, data: List[Any]) -> Any:
         """Map-Reduce 패턴 구현
 
         Args:

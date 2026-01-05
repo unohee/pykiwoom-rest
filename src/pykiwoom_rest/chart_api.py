@@ -333,7 +333,7 @@ class ChartAPI(KiwoomAPIBase):
         cont_yn = "N"
         next_key = ""
 
-        for page in range(max_pages):
+        for page in range(max_pages):  # noqa: B007 (used after loop)
             # 연속조회 실행
             response = self.make_tr_request_continuous(
                 tr_code=self.TR_CODES["minute_chart"],
@@ -379,9 +379,9 @@ class ChartAPI(KiwoomAPIBase):
                     continue
 
                 # 대상 날짜를 완전히 지나친 경우 중단
-                if chart_data and len(chart_data[-1].get("cntr_tm", "")) >= 8:
-                    if chart_data[-1].get("cntr_tm", "")[:8] < target_date:
-                        break
+                last_time = chart_data[-1].get("cntr_tm", "") if chart_data else ""
+                if len(last_time) >= 8 and last_time[:8] < target_date:
+                    break
             else:
                 all_data.extend(chart_data)
 

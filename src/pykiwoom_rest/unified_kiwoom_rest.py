@@ -122,9 +122,7 @@ class UnifiedKiwoomRest:
         self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """종목별기관매매추이요청"""
-        return self.stock_api.get_institutional_trading_trend(
-            stock_code, start_date, end_date
-        )
+        return self.stock_api.get_institutional_trading_trend(stock_code, start_date, end_date)
 
     # ========== 차트 데이터 메서드 ==========
 
@@ -141,9 +139,7 @@ class UnifiedKiwoomRest:
         count: int = 100,
     ) -> Dict[str, Any]:
         """분봉 차트 조회"""
-        return self.chart_api.get_minute_chart(
-            stock_code, interval, start_date, end_date, count
-        )
+        return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date, count)
 
     def get_daily_chart(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -179,9 +175,7 @@ class UnifiedKiwoomRest:
         self, stock_code: str, date: str, amount_or_quantity: str = "1"
     ) -> Dict[str, Any]:
         """종목시간별 프로그램매매 추이요청"""
-        return self.ranking_api.get_hourly_program_trading(
-            stock_code, date, amount_or_quantity
-        )
+        return self.ranking_api.get_hourly_program_trading(stock_code, date, amount_or_quantity)
 
     def get_hourly_program_trading_paginated(
         self,
@@ -254,9 +248,7 @@ class UnifiedKiwoomRest:
         price_type: str = "00",
     ) -> Dict[str, Any]:
         """주식 매수주문"""
-        return self.order_api.buy_stock(
-            stock_code, quantity, price, order_type, price_type
-        )
+        return self.order_api.buy_stock(stock_code, quantity, price, order_type, price_type)
 
     def sell_stock(
         self,
@@ -267,9 +259,7 @@ class UnifiedKiwoomRest:
         price_type: str = "00",
     ) -> Dict[str, Any]:
         """주식 매도주문"""
-        return self.order_api.sell_stock(
-            stock_code, quantity, price, order_type, price_type
-        )
+        return self.order_api.sell_stock(stock_code, quantity, price, order_type, price_type)
 
     def modify_order(
         self,

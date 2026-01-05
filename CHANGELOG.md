@@ -5,6 +5,42 @@ All notable changes to PyKiwoom-REST will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2025-12-21
+
+### 🔧 Sector Chart API 수정 및 개선
+
+#### Fixed
+- **업종 차트 API 파라미터 수정**: 모든 업종 차트 메서드에서 잘못된 파라미터명 수정
+  - `sect_cd` → `inds_cd` (3자리 업종코드)
+  - 엔드포인트 `sector` → `chart` 변경
+  - 날짜 파라미터 `start_date/end_date` → `base_dt` 통일
+
+#### Changed
+- **get_sector_tick_chart()**: `count` 파라미터를 `tick_scope`로 변경 (1, 3, 5, 10, 30)
+- **get_sector_daily_chart()**: `base_date` 파라미터로 단순화
+- **get_sector_weekly_chart()**: `base_date` 파라미터로 단순화
+- **get_sector_monthly_chart()**: `base_date` 파라미터로 단순화
+- **get_sector_yearly_chart()**: `base_date` 파라미터로 단순화
+
+#### Added
+- **4자리→3자리 코드 자동 변환**: 모든 업종 차트 메서드에서 "0001" → "001" 자동 변환 지원
+- **기본값 설정**: `base_date` 미입력 시 오늘 날짜 자동 적용
+
+#### API Coverage Update
+- **Sector API**: 12 methods (차트 6개 + 현재가/지수 조회 6개)
+  - ka20004: 업종틱차트조회 ✅
+  - ka20005: 업종분봉조회 ✅
+  - ka20006: 업종일봉조회 ✅
+  - ka20007: 업종주봉조회 ✅
+  - ka20008: 업종월봉조회 ✅
+  - ka20019: 업종년봉조회 ✅
+
+#### Testing
+- 14개 단위 테스트 통과
+- 실제 API 테스트 완료 (KOSPI 지수 데이터 조회 성공)
+
+---
+
 ## [2.1.0] - 2025-10-21
 
 ### 🚀 API Expansion & Modernization

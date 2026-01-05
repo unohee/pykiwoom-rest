@@ -173,9 +173,7 @@ class KiwoomRest:
         self, stock_code: str, start_date: str = None, end_date: str = None
     ) -> Dict[str, Any]:
         """종목별기관매매추이요청 (ka10045)"""
-        return self.stock_api.get_institutional_trading_trend(
-            stock_code, start_date, end_date
-        )
+        return self.stock_api.get_institutional_trading_trend(stock_code, start_date, end_date)
 
     def get_stock_investor_trading(
         self,
@@ -209,9 +207,7 @@ class KiwoomRest:
             exchange_type=exchange_type,
         )
 
-    def get_credit_trend(
-        self, date: str = None, query_type: str = "1"
-    ) -> Dict[str, Any]:
+    def get_credit_trend(self, date: str = None, query_type: str = "1") -> Dict[str, Any]:
         """신용매매동향 조회 (ka10013)"""
         return self.stock_api.get_credit_trend(date=date, query_type=query_type)
 
@@ -273,9 +269,7 @@ class KiwoomRest:
         count: int = 100,
     ) -> Dict[str, Any]:
         """분봉 차트 조회"""
-        return self.chart_api.get_minute_chart(
-            stock_code, interval, start_date, end_date, count
-        )
+        return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date, count)
 
     def get_daily_chart(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -311,9 +305,7 @@ class KiwoomRest:
         self, stock_code: str, date: str, amount_or_quantity: str = "1"
     ) -> Dict[str, Any]:
         """종목시간별 프로그램매매 추이요청 (ka90008)"""
-        return self.ranking_api.get_hourly_program_trading(
-            stock_code, date, amount_or_quantity
-        )
+        return self.ranking_api.get_hourly_program_trading(stock_code, date, amount_or_quantity)
 
     def get_hourly_program_trading_paginated(
         self,
@@ -381,9 +373,7 @@ class KiwoomRest:
         self, market: str = "ALL", data_count: str = "50", sort_type: str = "1"
     ) -> Dict[str, Any]:
         """외국인기관매매상위요청 (ka90009)"""
-        return self.ranking_api.get_foreign_institution_trading_top(
-            market, data_count, sort_type
-        )
+        return self.ranking_api.get_foreign_institution_trading_top(market, data_count, sort_type)
 
     # ========== 계좌 관련 메서드 (Account API) ==========
 
@@ -421,9 +411,7 @@ class KiwoomRest:
         """체결잔고요청"""
         return self.account_api.get_execution_balance()
 
-    def get_daily_estimated_asset(
-        self, base_date: Optional[str] = None
-    ) -> Dict[str, Any]:
+    def get_daily_estimated_asset(self, base_date: Optional[str] = None) -> Dict[str, Any]:
         """일별추정예탁자산현황요청"""
         return self.account_api.get_daily_estimated_asset(base_date)
 
@@ -431,9 +419,7 @@ class KiwoomRest:
         """당일실현손익상세요청"""
         return self.account_api.get_realized_profit_detail()
 
-    def get_daily_trading_diary(
-        self, base_date: Optional[str] = None
-    ) -> Dict[str, Any]:
+    def get_daily_trading_diary(self, base_date: Optional[str] = None) -> Dict[str, Any]:
         """당일매매일지요청"""
         return self.account_api.get_daily_trading_diary(base_date)
 
@@ -454,9 +440,7 @@ class KiwoomRest:
         price_type: str = "00",
     ) -> Dict[str, Any]:
         """주식 매수주문"""
-        return self.order_api.buy_stock(
-            stock_code, quantity, price, order_type, price_type
-        )
+        return self.order_api.buy_stock(stock_code, quantity, price, order_type, price_type)
 
     def sell_stock(
         self,
@@ -467,9 +451,7 @@ class KiwoomRest:
         price_type: str = "00",
     ) -> Dict[str, Any]:
         """주식 매도주문"""
-        return self.order_api.sell_stock(
-            stock_code, quantity, price, order_type, price_type
-        )
+        return self.order_api.sell_stock(stock_code, quantity, price, order_type, price_type)
 
     def modify_order(
         self,
@@ -573,9 +555,7 @@ class KiwoomRest:
         """
         return self.sector_api.get_sector_yearly_chart(sector_code, base_date)
 
-    def get_sector_tick_chart(
-        self, sector_code: str, tick_scope: int = 1
-    ) -> Dict[str, Any]:
+    def get_sector_tick_chart(self, sector_code: str, tick_scope: int = 1) -> Dict[str, Any]:
         """
         업종틱차트조회요청 (ka20004)
 
@@ -659,9 +639,7 @@ class KiwoomRest:
             needs_refresh = 0 < time_to_expiry < 300
 
         token_prefix = (
-            f"{best_token[:20]}..."
-            if best_token and len(best_token) > 20
-            else best_token
+            f"{best_token[:20]}..." if best_token and len(best_token) > 20 else best_token
         )
 
         return {
@@ -859,9 +837,7 @@ class KiwoomRest:
         import asyncio
 
         loop = asyncio.get_event_loop()
-        return loop.run_until_complete(
-            self.websocket.subscribe_quote(stock_code, callback)
-        )
+        return loop.run_until_complete(self.websocket.subscribe_quote(stock_code, callback))
 
     def subscribe_realtime_orderbook(self, stock_code: str, callback=None) -> bool:
         """
@@ -887,9 +863,7 @@ class KiwoomRest:
         import asyncio
 
         loop = asyncio.get_event_loop()
-        return loop.run_until_complete(
-            self.websocket.subscribe_orderbook(stock_code, callback)
-        )
+        return loop.run_until_complete(self.websocket.subscribe_orderbook(stock_code, callback))
 
     def subscribe_realtime_trade(self, stock_code: str, callback=None) -> bool:
         """
@@ -915,9 +889,7 @@ class KiwoomRest:
         import asyncio
 
         loop = asyncio.get_event_loop()
-        return loop.run_until_complete(
-            self.websocket.subscribe_trade(stock_code, callback)
-        )
+        return loop.run_until_complete(self.websocket.subscribe_trade(stock_code, callback))
 
     def unsubscribe_realtime_all(self):
         """모든 실시간 구독 해제"""
@@ -953,9 +925,7 @@ class KiwoomRest:
         end_date: str = None,
     ) -> Dict[str, Any]:
         """일별기관매매동향 조회 (ka10044)"""
-        return self.stock_api.get_institutional_daily_trading(
-            stock_code, start_date, end_date
-        )
+        return self.stock_api.get_institutional_daily_trading(stock_code, start_date, end_date)
 
     def get_sector_code_list(self) -> Dict[str, Any]:
         """업종코드 리스트 조회 (ka10101)"""
@@ -964,6 +934,7 @@ class KiwoomRest:
     def get_member_company_list(self) -> Dict[str, Any]:
         """회원사 리스트 조회 (ka10102)"""
         return self.stock_api.get_member_company_list()
+
     # ==================== Ranking API 메서드 (추가) ====================
 
     def get_bid_ask_volume_top(self, market: str = "ALL") -> Dict[str, Any]:
@@ -978,21 +949,15 @@ class KiwoomRest:
         """잔량 급증 조회 (ka10022)"""
         return self.ranking_api.get_remaining_volume_surge(market)
 
-    def get_expected_execution_rate_top(
-        self, market: str = "ALL"
-    ) -> Dict[str, Any]:
+    def get_expected_execution_rate_top(self, market: str = "ALL") -> Dict[str, Any]:
         """예상체결률 상위 조회 (ka10029)"""
         return self.ranking_api.get_expected_execution_rate_top(market)
 
-    def get_intraday_investor_trading_top(
-        self, market: str = "ALL"
-    ) -> Dict[str, Any]:
+    def get_intraday_investor_trading_top(self, market: str = "ALL") -> Dict[str, Any]:
         """장중 투자자별 매매 상위 조회 (ka10065)"""
         return self.ranking_api.get_intraday_investor_trading_top(market)
 
-    def get_overtime_single_price_rate_ranking(
-        self, market: str = "ALL"
-    ) -> Dict[str, Any]:
+    def get_overtime_single_price_rate_ranking(self, market: str = "ALL") -> Dict[str, Any]:
         """시간외 단일가 등락률 순위 조회 (ka10098)"""
         return self.ranking_api.get_overtime_single_price_rate_ranking(market)
 

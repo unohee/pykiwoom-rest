@@ -20,14 +20,16 @@ sys.path.insert(0, str(project_root))
 
 def run_demo():
     """데모 실행"""
+    import runpy
+
     print("PyKiwoom REST API 데모 실행")
     print("-" * 40)
-    
+
     try:
-        # example.py 실행
+        # example.py 실행 (runpy 사용으로 보안성 향상)
         demo_path = project_root / "example.py"
         if demo_path.exists():
-            exec(open(demo_path).read())
+            runpy.run_path(str(demo_path), run_name="__main__")
         else:
             print("example.py 파일을 찾을 수 없습니다.")
             return False
@@ -35,7 +37,7 @@ def run_demo():
         import traceback
         print(f"데모 실행 오류: {e}\n{traceback.format_exc()}")
         raise  # Fail-fast 원칙
-    
+
     return True
 
 def run_tests():

@@ -95,9 +95,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_volume_rate_surge(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_volume_rate_surge(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         거래량 증가율 상위 조회 (ka10022)
 
@@ -121,9 +119,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_trading_volume_surge(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_trading_volume_surge(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         거래대금 급증 조회 (ka10023)
 
@@ -147,9 +143,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_previous_day_rate_top(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_previous_day_rate_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         전일 대비 등락률 상위 조회 (ka10027)
 
@@ -173,9 +167,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_expected_rate_top(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_expected_rate_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         예상체결 등락률 상위 조회 (ka10029)
 
@@ -199,9 +191,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_daily_volume_top(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_daily_volume_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         당일 거래량 상위 조회 (ka10030)
 
@@ -225,9 +215,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_trading_amount_top(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_trading_amount_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         거래대금 상위 조회 (ka10032)
 
@@ -251,9 +239,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_credit_ratio_top(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_credit_ratio_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         신용비율 상위 조회 (ka10033)
 
@@ -357,9 +343,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_securities_trading_top(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_securities_trading_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         증권사별 매매 상위 조회 (ka10039)
 
@@ -401,9 +385,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_net_buy_trader_ranking(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_net_buy_trader_ranking(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         순매수 거래원 순위 조회 (ka10042)
 
@@ -427,9 +409,7 @@ class RankingAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_investor_trading_top(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_investor_trading_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         투자자별 거래 상위 조회 (ka10065)
 
@@ -562,9 +542,7 @@ class RankingAPI(KiwoomAPIBase):
                     continue
                 else:
                     # 최대 재시도 초과 시 현재까지 수집된 데이터 반환
-                    print(
-                        f"최대 재시도 초과. 현재까지 수집된 {len(all_data)}개 데이터 반환"
-                    )
+                    print(f"최대 재시도 초과. 현재까지 수집된 {len(all_data)}개 데이터 반환")
                     break
 
             if not res or "data" not in res:
@@ -597,9 +575,7 @@ class RankingAPI(KiwoomAPIBase):
             "total_records": len(all_data),
         }
 
-    def get_overtime_rate_ranking(
-        self, market: str = "ALL", count: int = 50
-    ) -> Dict[str, Any]:
+    def get_overtime_rate_ranking(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
         시간외 단일가 등락률 순위 조회 (ka10098)
 
@@ -932,9 +908,7 @@ class RankingAPI(KiwoomAPIBase):
 
         return response.data if response.success else {}
 
-    def get_overtime_single_price_rate_ranking(
-        self, market: str = "ALL"
-    ) -> Dict[str, Any]:
+    def get_overtime_single_price_rate_ranking(self, market: str = "ALL") -> Dict[str, Any]:
         """
         시간외단일가등락율순위 조회 (ka10098)
 

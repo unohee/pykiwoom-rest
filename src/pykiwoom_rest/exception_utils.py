@@ -38,9 +38,7 @@ def rethrow_with_trace(logger: logging.Logger | None = None) -> Callable[[F], F]
 
 
 @contextmanager
-def trace_exceptions(
-    logger: logging.Logger, context: str = ""
-) -> Generator[None, None, None]:
+def trace_exceptions(logger: logging.Logger, context: str = "") -> Generator[None, None, None]:
     """
     Context manager to log full traceback and re-raise exceptions.
     """

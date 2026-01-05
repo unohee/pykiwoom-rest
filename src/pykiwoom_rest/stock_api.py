@@ -123,9 +123,7 @@ class StockAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_credit_trend(
-        self, date: str = None, query_type: str = "1"
-    ) -> Dict[str, Any]:
+    def get_credit_trend(self, date: str = None, query_type: str = "1") -> Dict[str, Any]:
         """
         신용매매동향 조회 (ka10013)
 
@@ -254,9 +252,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             상한/하한가 목록
         """
-        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(
-            market, "0000"
-        )
+        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
 
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": market_code}
         return self.make_tr_request(
@@ -276,9 +272,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             등락률 상위 목록
         """
-        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(
-            market, "0000"
-        )
+        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
 
         params = {
             "FID_COND_MRKT_DIV_CODE": "J",
@@ -338,9 +332,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             고가/저가 PER 정보
         """
-        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(
-            market, "0000"
-        )
+        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
 
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": market_code}
         return self.make_tr_request(
@@ -396,9 +388,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             종목 리스트
         """
-        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(
-            market, "0000"
-        )
+        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
 
         params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": market_code}
         return self.make_tr_request(
@@ -691,9 +681,7 @@ class StockAPI(KiwoomAPIBase):
         if not start_date:
             start_date = (datetime.now() - timedelta(days=30)).strftime("%Y%m%d")
 
-        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(
-            market.upper(), "J"
-        )
+        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market.upper(), "J")
 
         params = {
             "FID_COND_MRKT_DIV_CODE": market_code,
@@ -922,9 +910,7 @@ class StockAPI(KiwoomAPIBase):
             bps = output1.get("bps", output1.get("stck_bps", "0"))
             per = output1.get("per", output1.get("stck_per", "0"))
             pbr = output1.get("pbr", output1.get("stck_pbr", "0"))
-            dvd_rate = output1.get(
-                "stk_divi_rate", output1.get("dvdn_rate", "0")
-            )
+            dvd_rate = output1.get("stk_divi_rate", output1.get("dvdn_rate", "0"))
 
             # PyKIS 형식으로 변환
             current_quarter = datetime.now().strftime("%Y%m")
@@ -1033,9 +1019,7 @@ class StockAPI(KiwoomAPIBase):
 
                 if close_price > 0:
                     # 가격대 그룹화 (1% 단위)
-                    price_group = int(close_price / (close_price * 0.01)) * int(
-                        close_price * 0.01
-                    )
+                    price_group = int(close_price / (close_price * 0.01)) * int(close_price * 0.01)
                     if price_group not in price_volume_map:
                         price_volume_map[price_group] = 0
                     price_volume_map[price_group] += volume

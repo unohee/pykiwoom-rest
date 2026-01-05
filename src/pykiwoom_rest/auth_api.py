@@ -166,9 +166,7 @@ class AuthAPI(KiwoomAPIBase):
 
                 # 폐기 성공 여부 판정
                 # 키움 API는 정상 폐기 시 HTTP 200 또는 204 반환
-                success = (
-                    response.get("rt_cd") == "0" or response.get("status") == "success"
-                )
+                success = response.get("rt_cd") == "0" or response.get("status") == "success"
 
                 if success or response.get("error") is None:
                     # 토큰 초기화
@@ -184,9 +182,7 @@ class AuthAPI(KiwoomAPIBase):
                         "tr_code": self.TR_CODES["token_revocation"],
                         "status": "revoked",
                         "revoked_token": (
-                            f"{revoke_target[:20]}..."
-                            if len(revoke_target) > 20
-                            else revoke_target
+                            f"{revoke_target[:20]}..." if len(revoke_target) > 20 else revoke_target
                         ),
                         "revoked_at": now.isoformat(),
                         "message": "Token successfully revoked",
@@ -265,9 +261,7 @@ class AuthAPI(KiwoomAPIBase):
                 "has_token": has_token,
                 "is_valid": is_valid,
                 "token_prefix": token_prefix or "None",
-                "expires_at": (
-                    self.token_expires.isoformat() if self.token_expires else None
-                ),
+                "expires_at": (self.token_expires.isoformat() if self.token_expires else None),
                 "time_to_expiry": time_to_expiry,
                 "needs_refresh": needs_refresh,
             }

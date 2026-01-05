@@ -60,9 +60,9 @@ Claude Code가 시작되면 자동으로 MCP 서버가 연결됩니다.
         "/home/unohee/dev/tools/pykiwoom-rest/pykiwoom-mcp-server/src/pykiwoom_mcp_server/server.py"
       ],
       "env": {
-        "ACCOUNT_NO": "63513804",
-        "KIWOOM_APPKEY": "Ayr_sSVO7m520bOTg1KtrCGm-SWkHUX13LwF-z4ePf4",
-        "KIWOOM_APPSECRET": "sI_jzlZYUVReTm1sSQivynZgO8puSDfMUEO4EkR6iB0"
+        "ACCOUNT_NO": "${ACCOUNT_NO}",
+        "KIWOOM_APPKEY": "${KIWOOM_APPKEY}",
+        "KIWOOM_APPSECRET": "${KIWOOM_APPSECRET}"
       }
     }
   }

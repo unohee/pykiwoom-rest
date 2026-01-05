@@ -35,7 +35,7 @@ for name in dir(KiwoomRest):
             try:
                 sig = inspect.signature(attr)
                 public_methods.append(name)
-            except:
+            except (ValueError, TypeError):
                 pass
 
 print(f"✓ {len(public_methods)}개의 공개 메서드 발견")
