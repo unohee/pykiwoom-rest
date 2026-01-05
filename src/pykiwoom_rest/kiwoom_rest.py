@@ -1017,36 +1017,6 @@ class KiwoomRest:
         """
         return self.stock_api.get_stock_financial(stock_code)
 
-    def get_pbar_tratio(self, stock_code: str) -> Dict[str, Any]:
-        """
-        매물대 분석 (Volume Profile) 조회 (PyKIS 호환)
-
-        PyKIS의 get_pbar_tratio()와 호환되는 인터페이스를 제공합니다.
-        일봉 데이터를 활용하여 가격대별 거래량 분포를 추정합니다.
-
-        Args:
-            stock_code: 종목코드 (예: "005930")
-
-        Returns:
-            Dict[str, Any]: PyKIS 호환 응답 형식
-            {
-                "rt_cd": "0",
-                "output1": {
-                    "stck_prpr": "71000",
-                    "stck_oprc": "70500",
-                    ...
-                },
-                "output2": [
-                    {"vol": "1000000", "prc_rng": "70000-71000", ...},
-                    ...
-                ]
-            }
-
-        Note:
-            키움 REST API는 정확한 매물대 API를 제공하지 않아
-            일봉 데이터를 가격대별로 집계하여 추정값을 반환합니다.
-        """
-        return self.program_api.get_pbar_tratio(stock_code)
 
     def get_index_daily_price(
         self,
