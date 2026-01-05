@@ -39,6 +39,8 @@ from .base_api import (
     TokenBucketRateLimiter,
 )
 from .chart_api import ChartAPI
+from .investor_api import InvestorAPI
+from .program_api import ProgramAPI
 
 # New modular API classes (for direct access)
 from .kiwoom_base import KiwoomAPIBase, KiwoomAPIError
@@ -60,6 +62,8 @@ __all__ = [
     "KiwoomAPIBase",
     "AuthAPI",
     "StockAPI",
+    "InvestorAPI",
+    "ProgramAPI",
     "ChartAPI",
     "RankingAPI",
     # WebSocket API (실시간 시세)
