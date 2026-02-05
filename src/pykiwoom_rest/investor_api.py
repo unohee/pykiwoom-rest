@@ -187,9 +187,7 @@ class InvestorAPI(KiwoomAPIBase):
         if not start_date:
             start_date = (datetime.now() - timedelta(days=30)).strftime("%Y%m%d")
 
-        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(
-            market.upper(), "J"
-        )
+        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market.upper(), "J")
 
         params = {
             "FID_COND_MRKT_DIV_CODE": market_code,

@@ -211,9 +211,13 @@ class KiwoomRest:
             exchange_type=exchange_type,
         )
 
-    def get_credit_trend(self, date: str = None, query_type: str = "1") -> Dict[str, Any]:
+    def get_credit_trend(
+        self, stock_code: str, date: str = None, query_type: str = "1"
+    ) -> Dict[str, Any]:
         """신용매매동향 조회 (ka10013)"""
-        return self.stock_api.get_credit_trend(date=date, query_type=query_type)
+        return self.stock_api.get_credit_trend(
+            stock_code=stock_code, date=date, query_type=query_type
+        )
 
     def get_daily_trading_detail(self, start_date: str = None) -> Dict[str, Any]:
         """일별거래상세 조회 (ka10015)"""
@@ -1016,7 +1020,6 @@ class KiwoomRest:
             주식기본정보(ka10001)에서 추출 가능한 항목만 반환합니다.
         """
         return self.stock_api.get_stock_financial(stock_code)
-
 
     def get_index_daily_price(
         self,
