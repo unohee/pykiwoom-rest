@@ -85,26 +85,84 @@ def _out(data, pretty=False, raw=False, fmt="json"):
         data["_notice"] = notice
 
     if fmt == "table":
-        # 테이블 출력: data 키 안의 리스트를 찾아서 출력
-        inner = data.get("data", data) if isinstance(data, dict) else data
-        if isinstance(inner, dict):
-            # 중첩된 리스트 탐색
-            for v in inner.values():
-                if isinstance(v, list) and v:
-                    print(table_output(v))
-                    return
-            print(table_output(inner))
+        # 테이블 출력: 재귀적으로 첫 번째 리스트 탐색
+        def _find_table_data(obj, depth=0):
+            if depth > 3:
+                return None
+            if isinstance(obj, list) and obj and isinstance(obj[0], dict):
+                return obj
+            if isinstance(obj, dict):
+                for v in obj.values():
+                    found = _find_table_data(v, depth + 1)
+                    if found:
+                        return found
+            return None
+
+        table_data = _find_table_data(data)
+        if table_data:
+            if notice:
+                print(f"# {notice}")
+            print(table_output(table_data))
         else:
+            # 리스트 없으면 가장 깊은 단일 dict 출력
+            def _find_deepest_dict(obj, depth=0):
+                if depth > 4 or not isinstance(obj, dict):
+                    return obj
+                for v in obj.values():
+                    if isinstance(v, dict) and not any(isinstance(vv, (dict, list)) for vv in v.values()):
+                        return v
+                for v in obj.values():
+                    if isinstance(v, dict):
+                        return _find_deepest_dict(v, depth + 1)
+                return obj
+
+            inner = _find_deepest_dict(data)
+            if notice:
+                print(f"# {notice}")
             print(table_output(inner))
     else:
         print(json_output(data, pretty))
 
 
 def _extract_output(data, key="output"):
-    """API 응답에서 output/output2 데이터 추출."""
+    """API 응답에서 데이터 추출.
+
+    키움 API 응답은 3가지 형태:
+    1. {"output": {...}} — 중첩 구조
+    2. {"output2": [...]} — 리스트 데이터 (차트, 순위)
+    3. {"stk_cd": "005930", ...} — 플랫 구조 (대부분)
+
+    key가 존재하면 해당 키 반환, 없으면 메타데이터 제외 후 응답 자체 반환.
+    """
     if not data or not isinstance(data, dict):
         return None
-    return data.get(key)
+    if key in data:
+        return data[key]
+    # 플랫 구조: 메타데이터 키 제외하고 응답 자체를 반환
+    if key == "output":
+        meta_keys = {"rt_cd", "msg1", "return_code", "return_msg", "metadata", "header"}
+        filtered = {k: v for k, v in data.items() if k not in meta_keys}
+        return filtered if filtered else None
+    return None
+
+
+def _find_list_in_response(data):
+    """응답에서 첫 번째 리스트 데이터를 자동 탐색.
+
+    키움 차트/순위 응답은 중첩 키 안에 리스트가 있는 경우가 많음:
+    예: {"stk_cd": "005930", "stk_dt_pole_chart_qry": [{...}, ...]}
+    """
+    if not data or not isinstance(data, dict):
+        return None
+    # output2 우선
+    if "output2" in data and isinstance(data["output2"], list):
+        return data["output2"]
+    # 값 중 리스트 탐색 (메타데이터 제외)
+    meta_keys = {"rt_cd", "msg1", "return_code", "return_msg", "metadata", "header"}
+    for k, v in data.items():
+        if k not in meta_keys and isinstance(v, list) and v and isinstance(v[0], dict):
+            return v
+    return None
 
 
 # ── 핸들러 ──
@@ -162,8 +220,8 @@ def cmd_chart(args):
 
     result = {"chart": {"code": code, "type": chart_type}}
 
-    # output2에 차트 데이터가 들어있음
-    items = _extract_output(data, "output2")
+    # 차트 데이터 추출: output2 → 중첩 리스트 자동 탐색
+    items = _extract_output(data, "output2") or _find_list_in_response(data)
     if items and isinstance(items, list):
         if not args.raw:
             items = [remap(item, CHART_PRICE) for item in items]
@@ -172,7 +230,6 @@ def cmd_chart(args):
         result["chart"]["data"] = items
         result["chart"]["count"] = len(items)
     else:
-        # output에 있을 수도 있음
         output = _extract_output(data)
         if output:
             result["chart"]["data"] = output
@@ -201,14 +258,16 @@ def cmd_rank(args):
     data = func()
     result = {"ranking": {"type": args.type, "market": market}}
 
-    items = _extract_output(data, "output2") or _extract_output(data, "output")
+    items = _extract_output(data, "output2") or _find_list_in_response(data)
     if items and isinstance(items, list):
         if not args.raw:
             items = [remap(item, RANKING) for item in items]
         result["ranking"]["items"] = items
         result["ranking"]["count"] = len(items)
-    elif items:
-        result["ranking"]["data"] = items
+    else:
+        output = _extract_output(data)
+        if output:
+            result["ranking"]["data"] = output
 
     _out({"data": result}, args.pretty, args.raw, args.format)
 
@@ -220,13 +279,15 @@ def cmd_sector(args):
     if args.all:
         data = client.get_all_sector_index()
         result = {"sector": {"type": "all"}}
-        items = _extract_output(data, "output2") or _extract_output(data, "output")
+        items = _extract_output(data, "output2") or _find_list_in_response(data)
         if items and isinstance(items, list):
             if not args.raw:
                 items = [remap(item, SECTOR_INDEX) for item in items]
             result["sector"]["items"] = items
-        elif items:
-            result["sector"]["data"] = items
+        else:
+            output = _extract_output(data)
+            if output:
+                result["sector"]["data"] = output
     else:
         code = args.code or "0001"
         data = client.get_sector_current_price(code)
@@ -253,13 +314,14 @@ def cmd_investor(args):
         # 기본: 외국인 매매동향
         data = client.get_foreign_trading(code)
 
-    output = _extract_output(data, "output2") or _extract_output(data, "output")
-    if output:
-        if isinstance(output, list):
-            if not args.raw:
-                output = [remap(item, INVESTOR_TREND) for item in output]
-            result["investor"]["items"] = output
-        else:
+    items = _extract_output(data, "output2") or _find_list_in_response(data)
+    if items and isinstance(items, list):
+        if not args.raw:
+            items = [remap(item, INVESTOR_TREND) for item in items]
+        result["investor"]["items"] = items
+    else:
+        output = _extract_output(data)
+        if output:
             result["investor"]["data"] = remap(output, INVESTOR_TREND) if not args.raw else output
 
     _out({"data": result}, args.pretty, args.raw, args.format)
@@ -367,9 +429,7 @@ def cmd_query(args):
     for kv in args.args:
         if "=" in kv:
             k, v = kv.split("=", 1)
-            # 숫자 자동 변환
-            if v.isdigit():
-                v = int(v)
+            # 문자열 그대로 전달 (종목코드 '005930' 등 보존)
             kwargs[k] = v
 
     # 도메인 → API 객체 매핑

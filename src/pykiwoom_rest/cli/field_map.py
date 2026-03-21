@@ -13,29 +13,55 @@ def remap_keep_all(data: dict, field_map: dict) -> dict:
     return {field_map.get(k, k): v for k, v in data.items()}
 
 
-# ── 주식 현재가 (ka10001 output) ──
+# ── 주식 현재가 (ka10001 실제 응답 기반) ──
 STOCK_PRICE = {
+    # 키움 고유 필드명 (ka10001 플랫 응답)
     "stk_cd": "code",
     "stk_nm": "name",
     "cur_prc": "currentPrice",
-    "opn_prc": "open",
-    "hgh_prc": "high",
-    "low_prc": "low",
-    "trd_vol": "volume",
-    "trd_amt": "tradingValue",
-    "prdy_vrss": "change",
-    "prdy_ctrt": "changeRate",
-    "prdy_vol": "prevVolume",
-    "par_prc": "faceValue",
-    "lstg_stk_cnt": "listedShares",
-    "mkt_cap": "marketCap",
+    "pre_sig": "changeSign",
+    "pred_pre": "change",
+    "flu_rt": "changeRate",
+    "open_pric": "open",
+    "high_pric": "high",
+    "low_pric": "low",
+    "trde_qty": "volume",
+    "trde_pre": "tradingValue",
+    "base_pric": "basePrice",
+    "upl_pric": "upperLimit",
+    "lst_pric": "lowerLimit",
+    "fav": "faceValue",
+    "cap": "capital",
+    "mac": "marketCap",
+    "mac_wght": "marketCapWeight",
+    "flo_stk": "floatingShares",
+    "dstr_stk": "listedShares",
+    "dstr_rt": "floatingRate",
+    "for_exh_rt": "foreignOwnershipRate",
+    "crd_rt": "creditRate",
     "per": "per",
     "eps": "eps",
     "pbr": "pbr",
     "bps": "bps",
-    "d250_hgpr": "high250d",
-    "d250_lwpr": "low250d",
+    "roe": "roe",
+    "ev": "ev",
+    "sale_amt": "revenue",
+    "bus_pro": "operatingProfit",
+    "cup_nga": "netIncome",
+    "250hgst": "high250d",
+    "250lwst": "low250d",
+    "250hgst_pric_dt": "high250dDate",
+    "250lwst_pric_dt": "low250dDate",
+    "oyr_hgst": "yearHigh",
+    "oyr_lwst": "yearLow",
+    "exp_cntr_pric": "expectedPrice",
+    "exp_cntr_qty": "expectedVolume",
+    "setl_mm": "settlementMonth",
+    "repl_pric": "replacementPrice",
+    # 한투 호환 필드명 (일부 응답에서 사용)
     "stck_prpr": "currentPrice",
+    "prdy_vrss": "change",
+    "prdy_ctrt": "changeRate",
     "prdy_vrss_sign": "changeSign",
     "acml_vol": "volume",
     "acml_tr_pbmn": "tradingValue",
@@ -43,6 +69,8 @@ STOCK_PRICE = {
     "stck_hgpr": "high",
     "stck_lwpr": "low",
     "hts_kor_isnm": "name",
+    "mkt_cap": "marketCap",
+    "lstg_stk_cnt": "listedShares",
 }
 
 # ── 호가 (ka10004 output) ──
@@ -83,8 +111,21 @@ ORDERBOOK = {
     "total_bidp_rsqn": "totalBidVolume",
 }
 
-# ── 차트 OHLCV (ka10080~ka10094 output2 항목) ──
+# ── 차트 OHLCV ──
 CHART_PRICE = {
+    # 키움 고유 필드명 (일봉/주봉/월봉/년봉)
+    "dt": "date",
+    "tm": "time",
+    "cur_prc": "close",
+    "open_pric": "open",
+    "high_pric": "high",
+    "low_pric": "low",
+    "trde_qty": "volume",
+    "trde_prica": "tradingValue",
+    "pred_pre": "change",
+    "pred_pre_sig": "changeSign",
+    "trde_tern_rt": "turnoverRate",
+    # 한투 호환 필드명
     "stck_bsop_date": "date",
     "stck_cntg_hour": "time",
     "stck_oprc": "open",
@@ -95,6 +136,7 @@ CHART_PRICE = {
     "acml_tr_pbmn": "tradingValue",
     "prdy_vrss": "change",
     "prdy_ctrt": "changeRate",
+    # 기타
     "opn_prc": "open",
     "hgh_prc": "high",
     "low_prc": "low",
@@ -164,8 +206,19 @@ SECTOR_INDEX = {
     "bstp_nmix_lwpr": "low",
 }
 
-# ── 투자자 매매동향 ──
+# ── 투자자 매매동향 (외국인 ka10008) ──
 INVESTOR_TREND = {
+    "dt": "date",
+    "close_pric": "close",
+    "pred_pre": "change",
+    "trde_qty": "volume",
+    "chg_qty": "foreignNetChange",
+    "poss_stkcnt": "foreignHolding",
+    "wght": "foreignOwnership",
+    "gain_pos_stkcnt": "foreignBuyableShares",
+    "frgnr_limit": "foreignLimit",
+    "limit_exh_rt": "foreignLimitRate",
+    # 한투 호환
     "stk_cd": "code",
     "stk_nm": "name",
     "frgn_ntby_qty": "foreignNetBuy",
