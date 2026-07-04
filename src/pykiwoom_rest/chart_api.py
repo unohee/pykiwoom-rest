@@ -4,7 +4,7 @@ Chart Data API
 작성일: 2025-01-27
 """
 
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Any, Dict
 
 from .kiwoom_base import KiwoomAPIBase
@@ -24,21 +24,63 @@ class ChartAPI(KiwoomAPIBase):
         "yearly_chart": "ka10094",
     }
 
+    @staticmethod
+    def _record_date(record: Dict[str, Any], key: str) -> str:
+        value = str(record.get(key, ""))
+        return value[:8] if len(value) >= 8 else ""
+
+    @classmethod
+    def _date_in_range(
+        cls,
+        record: Dict[str, Any],
+        date_key: str,
+        start_date: str = None,
+        end_date: str = None,
+    ) -> bool:
+        record_date = cls._record_date(record, date_key)
+        if not record_date:
+            return not (start_date or end_date)
+        if start_date and record_date < start_date:
+            return False
+        return not (end_date and record_date > end_date)
+
+    @classmethod
+    def _filter_chart_response(
+        cls,
+        result: Dict[str, Any],
+        date_key: str,
+        start_date: str = None,
+        end_date: str = None,
+    ) -> Dict[str, Any]:
+        if not (start_date or end_date) or not isinstance(result, dict):
+            return result
+
+        filtered = dict(result)
+        for key, value in result.items():
+            if isinstance(value, list):
+                filtered[key] = [
+                    record
+                    for record in value
+                    if isinstance(record, dict)
+                    and cls._date_in_range(record, date_key, start_date, end_date)
+                ]
+        return filtered
+
     def get_tick_chart(self, stock_code: str, count: int = 100) -> Dict[str, Any]:
         """
         주식 틱 차트 조회 (ka10079)
 
         Args:
             stock_code: 종목코드
-            count: 조회 개수
+            count: 호환성 인자. Kiwoom ka10079 요청 body에는 포함하지 않음.
 
         Returns:
             틱 차트 데이터
         """
         params = {
-            "FID_COND_MRKT_DIV_CODE": "J",
-            "FID_INPUT_ISCD": stock_code,
-            "FID_INPUT_CNT_1": str(count),
+            "stk_cd": stock_code,
+            "tic_scope": "1",
+            "upd_stkpc_tp": "1",
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["tick_chart"],
@@ -61,27 +103,27 @@ class ChartAPI(KiwoomAPIBase):
         Args:
             stock_code: 종목코드
             interval: 분봉 간격 (1, 3, 5, 10, 15, 30, 60)
-            start_date: 시작일 (YYYYMMDD)
-            end_date: 종료일 (YYYYMMDD)
-            count: 조회 개수
+            start_date: 호환성 인자. Kiwoom ka10080 요청 body에는 포함하지 않음.
+            end_date: 호환성 인자. Kiwoom ka10080 요청 body에는 포함하지 않음.
+            count: 호환성 인자. Kiwoom ka10080 요청 body에는 포함하지 않음.
 
         Returns:
             분봉 차트 데이터
         """
-        if not end_date:
-            end_date = datetime.now().strftime("%Y%m%d")
+        if start_date or end_date:
+            return self.get_minute_chart_paginated(
+                stock_code=stock_code,
+                interval=interval,
+                start_date=start_date,
+                end_date=end_date,
+                max_records=count,
+            )
 
-        # POST 요청용 데이터
         data = {
             "stk_cd": stock_code,
             "tic_scope": str(interval),
             "upd_stkpc_tp": "1",
-            "base_dt": end_date,
-            "req_cnt": str(count),
         }
-
-        if start_date:
-            data["start_dt"] = start_date
 
         return self.make_tr_request(
             tr_code=self.TR_CODES["minute_chart"],
@@ -102,9 +144,9 @@ class ChartAPI(KiwoomAPIBase):
 
         Args:
             stock_code: 종목코드
-            start_date: 시작일 (YYYYMMDD)
+            start_date: 호환성 인자. Kiwoom ka10081 요청 body에는 포함하지 않음.
             end_date: 종료일 (YYYYMMDD)
-            count: 조회 개수
+            count: 호환성 인자. Kiwoom ka10081 요청 body에는 포함하지 않음.
 
         Returns:
             일봉 차트 데이터
@@ -116,21 +158,22 @@ class ChartAPI(KiwoomAPIBase):
             "stk_cd": stock_code,
             "base_dt": end_date,
             "upd_stkpc_tp": "1",
-            "req_cnt": str(count),
         }
 
-        if start_date:
-            data["start_dt"] = start_date
-
-        return self.make_tr_request(
+        result = self.make_tr_request(
             tr_code=self.TR_CODES["daily_chart"],
             endpoint="chart",
             data=data,
             method="POST",
         )
+        return self._filter_chart_response(result, "dt", start_date, end_date)
 
     def get_weekly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """
         주식 주봉 차트 조회 (ka10082)
@@ -139,94 +182,96 @@ class ChartAPI(KiwoomAPIBase):
             stock_code: 종목코드
             start_date: 시작일 (YYYYMMDD)
             end_date: 종료일 (YYYYMMDD)
+            count: 조회 개수
 
         Returns:
             주봉 차트 데이터
         """
         if not end_date:
             end_date = datetime.now().strftime("%Y%m%d")
-        if not start_date:
-            start_date = (datetime.now() - timedelta(days=365)).strftime("%Y%m%d")
 
         params = {
-            "FID_COND_MRKT_DIV_CODE": "J",
-            "FID_INPUT_ISCD": stock_code,
-            "FID_PERIOD_DIV_CODE": "W",
-            "FID_INPUT_DATE_1": start_date,
-            "FID_INPUT_DATE_2": end_date,
+            "stk_cd": stock_code,
+            "base_dt": end_date,
+            "upd_stkpc_tp": "1",
         }
-        return self.make_tr_request(
+        result = self.make_tr_request(
             tr_code=self.TR_CODES["weekly_chart"],
             endpoint="chart",
             data=params,
             method="POST",
         )
+        return self._filter_chart_response(result, "dt", start_date, end_date)
 
     def get_monthly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """
         주식 월봉 차트 조회 (ka10083)
 
         Args:
             stock_code: 종목코드
-            start_date: 시작일 (YYYYMMDD)
+            start_date: 호환성 인자. Kiwoom ka10083 요청 body에는 포함하지 않음.
             end_date: 종료일 (YYYYMMDD)
+            count: 호환성 인자. 서버 요청 body에는 포함하지 않음.
 
         Returns:
             월봉 차트 데이터
         """
         if not end_date:
             end_date = datetime.now().strftime("%Y%m%d")
-        if not start_date:
-            start_date = (datetime.now() - timedelta(days=365 * 3)).strftime("%Y%m%d")
 
         params = {
-            "FID_COND_MRKT_DIV_CODE": "J",
-            "FID_INPUT_ISCD": stock_code,
-            "FID_PERIOD_DIV_CODE": "M",
-            "FID_INPUT_DATE_1": start_date,
-            "FID_INPUT_DATE_2": end_date,
+            "stk_cd": stock_code,
+            "base_dt": end_date,
+            "upd_stkpc_tp": "1",
         }
-        return self.make_tr_request(
+        result = self.make_tr_request(
             tr_code=self.TR_CODES["monthly_chart"],
             endpoint="chart",
             data=params,
             method="POST",
         )
+        return self._filter_chart_response(result, "dt", start_date, end_date)
 
     def get_yearly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """
         주식 년봉 차트 조회 (ka10094)
 
         Args:
             stock_code: 종목코드
-            start_date: 시작일 (YYYYMMDD)
+            start_date: 호환성 인자. Kiwoom ka10094 요청 body에는 포함하지 않음.
             end_date: 종료일 (YYYYMMDD)
+            count: 호환성 인자. 서버 요청 body에는 포함하지 않음.
 
         Returns:
             년봉 차트 데이터
         """
         if not end_date:
             end_date = datetime.now().strftime("%Y%m%d")
-        if not start_date:
-            start_date = (datetime.now() - timedelta(days=365 * 10)).strftime("%Y%m%d")
 
         params = {
-            "FID_COND_MRKT_DIV_CODE": "J",
-            "FID_INPUT_ISCD": stock_code,
-            "FID_PERIOD_DIV_CODE": "Y",
-            "FID_INPUT_DATE_1": start_date,
-            "FID_INPUT_DATE_2": end_date,
+            "stk_cd": stock_code,
+            "base_dt": end_date,
+            "upd_stkpc_tp": "1",
         }
-        return self.make_tr_request(
+        result = self.make_tr_request(
             tr_code=self.TR_CODES["yearly_chart"],
             endpoint="chart",
             data=params,
             method="POST",
         )
+        return self._filter_chart_response(result, "dt", start_date, end_date)
 
     def get_minute_chart_paginated(
         self,
@@ -250,62 +295,58 @@ class ChartAPI(KiwoomAPIBase):
             통합된 분봉 차트 데이터
         """
         all_data = []
-        per_request = 100  # 한 번에 조회할 개수
-        current_end_date = end_date or datetime.now().strftime("%Y%m%d")
+        cont_yn = "N"
+        next_key = ""
+        last_result: Dict[str, Any] = {}
 
-        total_collected = 0
-        while total_collected < max_records:
-            remaining = min(per_request, max_records - total_collected)
-
-            result = self.get_minute_chart(
-                stock_code=stock_code,
-                interval=interval,
-                end_date=current_end_date,
-                count=remaining,
+        while len(all_data) < max_records:
+            response = self.make_tr_request_continuous(
+                tr_code=self.TR_CODES["minute_chart"],
+                endpoint="chart",
+                data={
+                    "stk_cd": stock_code,
+                    "tic_scope": str(interval),
+                    "upd_stkpc_tp": "1",
+                },
+                cont_yn=cont_yn,
+                next_key=next_key,
             )
 
-            if not result or result.get("return_code") != 0:
+            if not response or "data" not in response:
                 break
 
+            last_result = response.get("data") or {}
+            cont_yn = response.get("cont_yn", "N")
+            next_key = response.get("next_key", "")
+
             # 데이터 추출 - 실제 응답 필드명 사용
-            chart_data = result.get("stk_min_pole_chart_qry", [])
+            chart_data = last_result.get("stk_min_pole_chart_qry", [])
             if not chart_data:
                 # output2 필드 체크 (호환성)
-                chart_data = result.get("output2", [])
+                chart_data = last_result.get("output2", [])
                 if not chart_data:
                     break
 
-            all_data.extend(chart_data)
-            total_collected += len(chart_data)
+            for record in chart_data:
+                record_date = self._record_date(record, "cntr_tm")
+                if end_date and record_date and record_date > end_date:
+                    continue
+                if start_date and record_date and record_date < start_date:
+                    cont_yn = "N"
+                    break
+                all_data.append(record)
+                if len(all_data) >= max_records:
+                    break
 
-            # 시작일 조건 체크
-            if start_date:
-                # cntr_tm 필드에서 날짜 추출 (YYYYMMDDHHMMSS 형식)
-                last_time = chart_data[-1].get("cntr_tm", "")
-                if last_time:
-                    last_date = last_time[:8]  # YYYYMMDD 부분만 추출
-                    if last_date <= start_date:
-                        break
-
-            # 다음 페이지를 위한 날짜 업데이트
-            if len(chart_data) < remaining:
-                # 더 이상 데이터가 없음
+            if cont_yn != "Y" or not next_key:
                 break
 
-            # 마지막 데이터의 날짜를 다음 요청의 종료일로 사용
-            last_time = chart_data[-1].get("cntr_tm", "")
-            if last_time:
-                last_date = last_time[:8]
-                if last_date == current_end_date:
-                    # 같은 날짜면 하루 전으로
-                    last_dt = datetime.strptime(last_date, "%Y%m%d")
-                    current_end_date = (last_dt - timedelta(days=1)).strftime("%Y%m%d")
-                else:
-                    current_end_date = last_date
-
         # 결과 구성 - output2로 통일하여 반환 (하위 호환성)
+        result = dict(last_result)
         if all_data:
-            result["output2"] = all_data
+            trimmed = all_data[:max_records]
+            result["stk_min_pole_chart_qry"] = trimmed
+            result["output2"] = trimmed
             result["total_records"] = len(all_data)
 
         return result

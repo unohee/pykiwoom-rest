@@ -4,11 +4,8 @@ kiwoom CLI — LLM-friendly 키움증권 REST API
 """
 
 import argparse
-import json
-import os
 import sys
 from datetime import datetime, timedelta
-from typing import Any, Dict, Optional
 
 from .field_map import (
     ACCOUNT_BALANCE,
@@ -20,10 +17,9 @@ from .field_map import (
     SECTOR_INDEX,
     STOCK_PRICE,
     remap,
-    remap_keep_all,
 )
 from .formatters import json_output, table_output
-from .schema import get_schema, list_types
+from .schema import SchemaTypeNotFound, get_schema, list_types
 
 # ── 장 상태 캐시 (세션당 1회 체크) ──
 
@@ -33,6 +29,92 @@ _market_status = {
     "last_business_day": None,
     "notice": None,
 }
+
+RESPONSE_META_KEYS = {"rt_cd", "msg1", "return_code", "return_msg", "metadata", "header"}
+ACCOUNT_HOLDINGS_KEYS = ("output2", "acnt_evlt_remn_indv_tot")
+SAFE_QUERY_DOMAINS = ("stock", "chart", "ranking", "account", "sector", "investor", "program")
+SAFE_QUERY_METHOD_PREFIXES = ("get_", "list_", "search_")
+DANGEROUS_QUERY_METHOD_NAMES = {
+    "buy_stock",
+    "sell_stock",
+    "cancel_order",
+    "get_access_token",
+    "refresh_token",
+    "revoke_token",
+}
+DANGEROUS_QUERY_METHOD_PREFIXES = ("buy_", "sell_", "cancel_", "order_", "place_", "revoke_", "refresh_")
+
+
+def _positive_int_arg(value):
+    """argparse용 양의 정수 파서."""
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError) as exc:
+        raise argparse.ArgumentTypeError("must be a positive integer") from exc
+    if parsed <= 0:
+        raise argparse.ArgumentTypeError("must be a positive integer")
+    return parsed
+
+
+def _non_negative_int_arg(value):
+    """argparse용 0 이상 정수 파서."""
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError) as exc:
+        raise argparse.ArgumentTypeError("must be a non-negative integer") from exc
+    if parsed < 0:
+        raise argparse.ArgumentTypeError("must be a non-negative integer")
+    return parsed
+
+
+def _exit_error(args, payload):
+    """CLI 오류를 JSON/table 옵션에 맞춰 출력하고 종료."""
+    if isinstance(payload, str):
+        payload = {"error": payload}
+    _out(payload, getattr(args, "pretty", False), False, getattr(args, "format", "json"))
+    sys.exit(1)
+
+
+def _validate_positive_int(name, value, args):
+    if value is None:
+        _exit_error(args, f"{name} must be a positive integer")
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        _exit_error(args, f"{name} must be a positive integer")
+    if parsed <= 0:
+        _exit_error(args, f"{name} must be a positive integer")
+    return parsed
+
+
+def _validate_non_negative_int(name, value, args):
+    if value is None:
+        return 0
+    try:
+        parsed = int(value)
+    except (TypeError, ValueError):
+        _exit_error(args, f"{name} must be a non-negative integer")
+    if parsed < 0:
+        _exit_error(args, f"{name} must be a non-negative integer")
+    return parsed
+
+
+def _is_safe_query_method(method_name):
+    if method_name.startswith("_"):
+        return False
+    if method_name in DANGEROUS_QUERY_METHOD_NAMES:
+        return False
+    if method_name.startswith(DANGEROUS_QUERY_METHOD_PREFIXES):
+        return False
+    return method_name.startswith(SAFE_QUERY_METHOD_PREFIXES)
+
+
+def _safe_query_methods(target):
+    return sorted(
+        method_name
+        for method_name in dir(target)
+        if _is_safe_query_method(method_name) and callable(getattr(target, method_name, None))
+    )
 
 
 def _check_market_status():
@@ -140,10 +222,38 @@ def _extract_output(data, key="output"):
         return data[key]
     # 플랫 구조: 메타데이터 키 제외하고 응답 자체를 반환
     if key == "output":
-        meta_keys = {"rt_cd", "msg1", "return_code", "return_msg", "metadata", "header"}
-        filtered = {k: v for k, v in data.items() if k not in meta_keys}
+        filtered = {k: v for k, v in data.items() if k not in RESPONSE_META_KEYS}
         return filtered if filtered else None
     return None
+
+
+def _split_account_balance(data):
+    """kt00018 잔고 응답을 요약 dict와 보유종목 list로 분리."""
+    if not data or not isinstance(data, dict):
+        return None, None
+
+    output1 = _extract_output(data, "output1")
+    output2 = _extract_output(data, "output2")
+    if isinstance(output1, dict) or isinstance(output2, list):
+        return output1, output2
+
+    container = _extract_output(data, "output")
+    if not isinstance(container, dict):
+        container = data
+
+    holdings = None
+    for key in ACCOUNT_HOLDINGS_KEYS:
+        value = container.get(key)
+        if isinstance(value, list):
+            holdings = value
+            break
+
+    summary = {
+        key: value
+        for key, value in container.items()
+        if key not in RESPONSE_META_KEYS and key not in ACCOUNT_HOLDINGS_KEYS
+    }
+    return summary or None, holdings
 
 
 def _find_list_in_response(data):
@@ -158,9 +268,8 @@ def _find_list_in_response(data):
     if "output2" in data and isinstance(data["output2"], list):
         return data["output2"]
     # 값 중 리스트 탐색 (메타데이터 제외)
-    meta_keys = {"rt_cd", "msg1", "return_code", "return_msg", "metadata", "header"}
     for k, v in data.items():
-        if k not in meta_keys and isinstance(v, list) and v and isinstance(v[0], dict):
+        if k not in RESPONSE_META_KEYS and isinstance(v, list) and v and isinstance(v[0], dict):
             return v
     return None
 
@@ -192,12 +301,12 @@ def cmd_price(args):
 
 def cmd_chart(args):
     """차트 데이터 조회."""
-    client = _create_client()
     code = args.code
 
     from_date = getattr(args, "from_date", None)
     to_date = getattr(args, "to_date", None)
-    count = getattr(args, "count", 100)
+    count = _validate_positive_int("--count", getattr(args, "count", 100), args)
+    client = _create_client()
 
     # 차트 타입 결정
     if args.minute:
@@ -205,17 +314,17 @@ def cmd_chart(args):
         data = client.get_minute_chart(code, interval, from_date, to_date, count)
         chart_type = f"minute_{interval}"
     elif args.weekly:
-        data = client.get_weekly_chart(code, from_date, to_date)
+        data = client.get_weekly_chart(code, from_date, to_date, count)
         chart_type = "weekly"
     elif args.monthly:
-        data = client.get_monthly_chart(code, from_date, to_date)
+        data = client.get_monthly_chart(code, from_date, to_date, count)
         chart_type = "monthly"
     elif args.yearly:
-        data = client.get_yearly_chart(code, from_date, to_date)
+        data = client.get_yearly_chart(code, from_date, to_date, count)
         chart_type = "yearly"
     else:
         # 기본값: 일봉
-        data = client.get_daily_chart(code, from_date, to_date)
+        data = client.get_daily_chart(code, from_date, to_date, count)
         chart_type = "daily"
 
     result = {"chart": {"code": code, "type": chart_type}}
@@ -225,7 +334,7 @@ def cmd_chart(args):
     if items and isinstance(items, list):
         if not args.raw:
             items = [remap(item, CHART_PRICE) for item in items]
-        if count and len(items) > count:
+        if len(items) > count:
             items = items[:count]
         result["chart"]["data"] = items
         result["chart"]["count"] = len(items)
@@ -351,11 +460,10 @@ def cmd_account(args):
 
     # 잔고는 output1 + output2 (보유종목) 구조
     if args.type == "balance":
-        output1 = _extract_output(data, "output1") or _extract_output(data, "output")
-        output2 = _extract_output(data, "output2")
-        if output1:
-            result["account"]["summary"] = remap(output1, ACCOUNT_BALANCE) if not args.raw else output1
-        if output2 and isinstance(output2, list):
+        summary, output2 = _split_account_balance(data)
+        if summary:
+            result["account"]["summary"] = remap(summary, ACCOUNT_BALANCE) if not args.raw else summary
+        if output2:
             if not args.raw:
                 output2 = [remap(item, HOLDING) for item in output2]
             result["account"]["holdings"] = output2
@@ -369,15 +477,14 @@ def cmd_account(args):
 
 def cmd_order(args):
     """주문 실행."""
-    client = _create_client()
-
     if args.action == "cancel":
         order_no = args.order_no
         code = args.code
-        qty = args.qty
-        if not all([order_no, code, qty]):
-            _out({"error": "cancel 명령: order_no, code, --qty 모두 필요"})
-            sys.exit(1)
+        qty = _validate_positive_int("--qty", args.qty, args)
+        if not order_no or not code:
+            _exit_error(args, "cancel 명령: code, --order-no, --qty 모두 필요")
+
+        client = _create_client()
 
         # 확인 프롬프트
         if not args.yes:
@@ -393,12 +500,11 @@ def cmd_order(args):
 
     # buy / sell
     code = args.code
-    qty = args.qty
-    price = args.price or 0
-
-    if not code or not qty:
-        _out({"error": f"{args.action} 명령: code, --qty 필요"})
-        sys.exit(1)
+    if not code:
+        _exit_error(args, f"{args.action} 명령: code, --qty 필요")
+    qty = _validate_positive_int("--qty", args.qty, args)
+    price = _validate_non_negative_int("--price", args.price, args)
+    client = _create_client()
 
     # 확인 프롬프트
     if not args.yes:
@@ -420,9 +526,17 @@ def cmd_order(args):
 
 def cmd_query(args):
     """동적 API 호출 — kiwoom query <domain> <method> [key=value ...]"""
-    client = _create_client()
     domain = args.domain
     method = args.method
+
+    if domain not in SAFE_QUERY_DOMAINS:
+        _exit_error(
+            args,
+            {
+                "error": f"Unsupported query domain: {domain}",
+                "available": list(SAFE_QUERY_DOMAINS),
+            },
+        )
 
     # key=value 인자 파싱
     kwargs = {}
@@ -432,33 +546,37 @@ def cmd_query(args):
             # 문자열 그대로 전달 (종목코드 '005930' 등 보존)
             kwargs[k] = v
 
+    client = _create_client()
+
     # 도메인 → API 객체 매핑
     targets = {
         "stock": client.stock,
         "chart": client.chart,
         "ranking": client.ranking,
         "account": client.account_api,
-        "order": client.order_api,
         "sector": client.sector_api,
         "investor": client.investor_api,
         "program": client.program_api,
-        "auth": client.auth,
-        "client": client,
     }
 
-    target = targets.get(domain)
-    if not target:
-        _out({"error": f"Unknown domain: {domain}", "available": list(targets.keys())})
-        sys.exit(1)
+    target = targets[domain]
+    available_methods = _safe_query_methods(target)
+
+    if not _is_safe_query_method(method):
+        _exit_error(
+            args,
+            {
+                "error": f"Unsafe or unsupported query method: {domain}.{method}",
+                "available": available_methods,
+            },
+        )
 
     fn = getattr(target, method, None)
     if not fn or not callable(fn):
-        methods = [
-            m for m in dir(target)
-            if not m.startswith("_") and callable(getattr(target, m, None))
-        ]
-        _out({"error": f"Unknown method: {domain}.{method}", "available": methods})
-        sys.exit(1)
+        _exit_error(
+            args,
+            {"error": f"Unknown method: {domain}.{method}", "available": available_methods},
+        )
 
     try:
         result = fn(**kwargs)
@@ -476,7 +594,11 @@ def cmd_schema(args):
         types = list_types()
         print(json_output({"types": types}, pretty=True))
     else:
-        print(get_schema(type_name))
+        try:
+            print(get_schema(type_name))
+        except SchemaTypeNotFound as e:
+            print(json_output({"error": str(e), "available": e.available}, pretty=True), file=sys.stderr)
+            sys.exit(1)
 
 
 def cmd_status(args):
@@ -541,7 +663,7 @@ def build_parser():
     p.add_argument("--interval", type=int, help="분봉 간격 (1,3,5,10,15,30,60)")
     p.add_argument("--from", dest="from_date", help="시작일 (YYYYMMDD)")
     p.add_argument("--to", dest="to_date", help="종료일 (YYYYMMDD)")
-    p.add_argument("--count", type=int, default=100, help="조회 개수 (기본 100)")
+    p.add_argument("--count", type=_positive_int_arg, default=100, help="조회 개수 (기본 100)")
     _add_global_options(p)
 
     # ── rank ──
@@ -574,9 +696,9 @@ def build_parser():
     # ── order ──
     p = sub.add_parser("order", help="주문 실행")
     p.add_argument("action", choices=["buy", "sell", "cancel"], help="주문 종류")
-    p.add_argument("code", nargs="?", help="종목코드 (buy/sell) 또는 주문번호 (cancel)")
-    p.add_argument("--qty", type=int, help="수량")
-    p.add_argument("--price", type=int, help="가격 (미입력시 시장가)")
+    p.add_argument("code", nargs="?", help="종목코드")
+    p.add_argument("--qty", type=_positive_int_arg, help="수량")
+    p.add_argument("--price", type=_non_negative_int_arg, help="가격 (미입력시 시장가)")
     p.add_argument("--yes", "-y", action="store_true", help="확인 없이 실행")
     # cancel 전용
     p.add_argument("--order-no", dest="order_no", help="취소할 주문번호")

@@ -21,4 +21,19 @@ env/
 *.log
 .mcp.json
 .venv-mcp/
+.claude/
+.openswarm/
+coverage.json
+reports/
+postman/
+docs/prd/
+testing/
+api_mismatches.json
+api_specs_analysis.json
+api_specs_with_dates.json
+todo_fixme_*.csv
+linear.json
 trash/
+
+# Git worktrees
+worktree/

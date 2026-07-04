@@ -118,7 +118,7 @@ class ProgramAPI(KiwoomAPIBase):
 
         result = self.make_tr_request(
             tr_code=self.TR_CODES["supply_concentration"],
-            endpoint="stkinfo",
+            endpoint="stock_info",
             data=params,
         )
 

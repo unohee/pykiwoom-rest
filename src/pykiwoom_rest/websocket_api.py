@@ -95,7 +95,8 @@ class WebSocketAPI:
         access_token: str,
         appkey: str,
         appsecret: str,
-        base_url: str = "wss://openapi.koreainvestment.com:9443",
+        base_url: str = "wss://api.kiwoom.com:10000",
+        api_id: str = "0B",
         auto_reconnect: bool = True,
     ):
         """
@@ -106,6 +107,7 @@ class WebSocketAPI:
             appkey: 앱키
             appsecret: 앱시크릿
             base_url: WebSocket 베이스 URL
+            api_id: 연결 요청 Header api-id 기본값
             auto_reconnect: 자동 재연결 활성화
         """
         self._client = WebSocketClient(
@@ -113,6 +115,7 @@ class WebSocketAPI:
             access_token=access_token,
             appkey=appkey,
             appsecret=appsecret,
+            api_id=api_id,
             auto_reconnect=auto_reconnect,
         )
 
@@ -125,14 +128,17 @@ class WebSocketAPI:
         """WebSocket 연결 상태"""
         return self._client.is_connected
 
-    async def connect(self) -> bool:
+    async def connect(self, api_id: Optional[str] = None) -> bool:
         """
         WebSocket 서버에 연결
+
+        Args:
+            api_id: 연결 요청 Header api-id. 생략하면 초기화 기본값을 사용.
 
         Returns:
             연결 성공 여부
         """
-        return await self._client.connect()
+        return await self._client.connect(api_id=api_id)
 
     async def disconnect(self):
         """WebSocket 연결 종료"""
@@ -260,29 +266,77 @@ class WebSocketAPI:
         for stock_code in list(self._trade_callbacks.keys()):
             await self.unsubscribe_trade(stock_code)
 
+    @staticmethod
+    def _realtime_values(data: Dict[str, Any]) -> Dict[str, Any]:
+        """기존 body.output과 Kiwoom REAL values shape를 모두 지원."""
+        values = data.get("values")
+        if isinstance(values, dict):
+            return values
+        output = data.get("body", {}).get("output", {})
+        return output if isinstance(output, dict) else {}
+
+    @staticmethod
+    def _first_value(values: Dict[str, Any], *keys: str, default: Any = "0") -> Any:
+        for key in keys:
+            value = values.get(key)
+            if value not in (None, ""):
+                return value
+        return default
+
+    @staticmethod
+    def _to_int(value: Any) -> int:
+        if value in (None, ""):
+            return 0
+        try:
+            return int(str(value).replace(",", "").strip())
+        except ValueError:
+            return int(float(str(value).replace(",", "").strip()))
+
+    @classmethod
+    def _to_abs_int(cls, value: Any) -> int:
+        return abs(cls._to_int(value))
+
+    @staticmethod
+    def _to_float(value: Any) -> float:
+        if value in (None, ""):
+            return 0.0
+        return float(str(value).replace(",", "").strip())
+
     def _parse_quote(self, stock_code: str, data: Dict[str, Any]) -> RealtimeQuote:
         """실시간 시세 데이터 파싱"""
-        output = data.get("body", {}).get("output", {})
+        output = self._realtime_values(data)
         return RealtimeQuote(
             stock_code=stock_code,
-            current_price=int(output.get("stck_prpr", 0)),
-            change_price=int(output.get("prdy_vrss", 0)),
-            change_rate=float(output.get("prdy_ctrt", 0.0)),
-            volume=int(output.get("acml_vol", 0)),
-            open_price=int(output.get("stck_oprc", 0)),
-            high_price=int(output.get("stck_hgpr", 0)),
-            low_price=int(output.get("stck_lwpr", 0)),
+            current_price=self._to_abs_int(self._first_value(output, "stck_prpr", "10")),
+            change_price=self._to_int(self._first_value(output, "prdy_vrss", "11")),
+            change_rate=self._to_float(self._first_value(output, "prdy_ctrt", "12")),
+            volume=self._to_abs_int(self._first_value(output, "acml_vol", "13")),
+            open_price=self._to_abs_int(self._first_value(output, "stck_oprc", "16")),
+            high_price=self._to_abs_int(self._first_value(output, "stck_hgpr", "17")),
+            low_price=self._to_abs_int(self._first_value(output, "stck_lwpr", "18")),
             timestamp=datetime.now(),
         )
 
     def _parse_orderbook(self, stock_code: str, data: Dict[str, Any]) -> RealtimeOrderbook:
         """실시간 호가 데이터 파싱"""
-        output = data.get("body", {}).get("output", {})
+        output = self._realtime_values(data)
 
-        ask_prices = [int(output.get(f"askp{i}", 0)) for i in range(1, 11)]
-        ask_volumes = [int(output.get(f"askp_rsqn{i}", 0)) for i in range(1, 11)]
-        bid_prices = [int(output.get(f"bidp{i}", 0)) for i in range(1, 11)]
-        bid_volumes = [int(output.get(f"bidp_rsqn{i}", 0)) for i in range(1, 11)]
+        ask_prices = [
+            self._to_abs_int(self._first_value(output, f"askp{i}", str(40 + i)))
+            for i in range(1, 11)
+        ]
+        ask_volumes = [
+            self._to_abs_int(self._first_value(output, f"askp_rsqn{i}", str(60 + i)))
+            for i in range(1, 11)
+        ]
+        bid_prices = [
+            self._to_abs_int(self._first_value(output, f"bidp{i}", str(50 + i)))
+            for i in range(1, 11)
+        ]
+        bid_volumes = [
+            self._to_abs_int(self._first_value(output, f"bidp_rsqn{i}", str(70 + i)))
+            for i in range(1, 11)
+        ]
 
         return RealtimeOrderbook(
             stock_code=stock_code,
@@ -291,21 +345,25 @@ class WebSocketAPI:
             ask_volumes=ask_volumes,
             bid_prices=bid_prices,
             bid_volumes=bid_volumes,
-            total_ask_volume=sum(ask_volumes),
-            total_bid_volume=sum(bid_volumes),
+            total_ask_volume=self._to_abs_int(
+                self._first_value(output, "total_askp_rsqn", "121", default=sum(ask_volumes))
+            ),
+            total_bid_volume=self._to_abs_int(
+                self._first_value(output, "total_bidp_rsqn", "125", default=sum(bid_volumes))
+            ),
         )
 
     def _parse_trade(self, stock_code: str, data: Dict[str, Any]) -> RealtimeTrade:
         """실시간 체결 데이터 파싱"""
-        output = data.get("body", {}).get("output", {})
+        output = self._realtime_values(data)
         return RealtimeTrade(
             stock_code=stock_code,
-            trade_price=int(output.get("stck_cntg_hour", 0)),
-            trade_volume=int(output.get("cntg_vol", 0)),
-            trade_time=output.get("stck_cntg_hour", ""),
-            change_price=int(output.get("prdy_vrss", 0)),
-            change_rate=float(output.get("prdy_ctrt", 0.0)),
-            cumulative_volume=int(output.get("acml_vol", 0)),
+            trade_price=self._to_abs_int(self._first_value(output, "stck_prpr", "10", "stck_cntg_hour")),
+            trade_volume=self._to_abs_int(self._first_value(output, "cntg_vol", "15")),
+            trade_time=str(self._first_value(output, "stck_cntg_hour", "20", default="")),
+            change_price=self._to_int(self._first_value(output, "prdy_vrss", "11")),
+            change_rate=self._to_float(self._first_value(output, "prdy_ctrt", "12")),
+            cumulative_volume=self._to_abs_int(self._first_value(output, "acml_vol", "13")),
             timestamp=datetime.now(),
         )
 

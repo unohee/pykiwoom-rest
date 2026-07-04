@@ -314,12 +314,7 @@ class AuthAPI(KiwoomAPIBase):
         """
         try:
             # 토큰 폐기
-            revoke_result = self.revoke_token()
-
-            # 추가 세션 정리
-            self._token_cache = {}
-
-            return revoke_result
+            return self.revoke_token()
 
         except Exception as e:
             raise KiwoomAPIError(
@@ -327,3 +322,6 @@ class AuthAPI(KiwoomAPIBase):
                 error_code="LOGOUT_ERROR",
                 error_msg=str(e),
             )
+        finally:
+            # 폐기 요청 실패 시에도 로컬 세션 캐시는 남기지 않는다.
+            self._token_cache = {}

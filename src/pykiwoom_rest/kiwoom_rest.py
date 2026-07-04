@@ -280,28 +280,44 @@ class KiwoomRest:
         return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date, count)
 
     def get_daily_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """일봉 차트 조회"""
-        return self.chart_api.get_daily_chart(stock_code, start_date, end_date)
+        return self.chart_api.get_daily_chart(stock_code, start_date, end_date, count)
 
     def get_weekly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """주봉 차트 조회"""
-        return self.chart_api.get_weekly_chart(stock_code, start_date, end_date)
+        return self.chart_api.get_weekly_chart(stock_code, start_date, end_date, count)
 
     def get_monthly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """월봉 차트 조회"""
-        return self.chart_api.get_monthly_chart(stock_code, start_date, end_date)
+        return self.chart_api.get_monthly_chart(stock_code, start_date, end_date, count)
 
     def get_yearly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """년봉 차트 조회"""
-        return self.chart_api.get_yearly_chart(stock_code, start_date, end_date)
+        return self.chart_api.get_yearly_chart(stock_code, start_date, end_date, count)
 
     # ========== 순위 정보 메서드 (Legacy Compatible) ==========
 
