@@ -122,7 +122,15 @@ class SectorAPI(KiwoomAPIBase):
         if len(sector_code) == 4 and sector_code.startswith("0"):
             sector_code = sector_code[1:]
 
-        params = {"inds_cd": sector_code, "tic_scope": str(interval)}
+        allowed_intervals = {1, 3, 5, 10, 30}
+        try:
+            interval_value = int(interval)
+        except (TypeError, ValueError) as exc:
+            raise ValueError("interval must be one of 1, 3, 5, 10, 30") from exc
+        if interval_value not in allowed_intervals:
+            raise ValueError("interval must be one of 1, 3, 5, 10, 30")
+
+        params = {"inds_cd": sector_code, "tic_scope": str(interval_value)}
 
         return self.make_tr_request(
             tr_code=self.TR_CODES["sector_minute_chart"],

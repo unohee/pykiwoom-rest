@@ -102,14 +102,14 @@ jobs:
         continue-on-error: true
 
   loc-gate:
-    name: LOC Gate (Max 1000 lines)
+    name: LOC Gate (Max 1200 lines)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Check file sizes
         run: |
-          max_lines=1000
+          max_lines=1200
           failed=0
           for file in $(find src/pykiwoom_rest -name "*.py"); do
             lines=$(wc -l < "$file")

@@ -4,11 +4,11 @@ AuthAPI 테스트
 목적: OAuth 인증 API 기능 검증
 """
 
+import contextlib
 import os
-import time
 import unittest
 from datetime import datetime, timedelta
-from unittest.mock import MagicMock, Mock, patch
+from unittest.mock import patch
 
 import pytest
 
@@ -159,13 +159,32 @@ class TestAuthAPIBasic(unittest.TestCase):
 
         # 로그아웃 (revoke_token 호출될 예정)
         # Note: revoke_token이 request를 호출하므로 실제 구현에서는 Mock 필요
-        try:
+        with contextlib.suppress(Exception):
             auth.logout()
-        except Exception:
-            # Mock API 호출 실패 무시
-            pass
 
         # 캐시 초기화 검증
+        assert auth._token_cache == {}
+
+    @patch.dict(os.environ, {
+        "KIWOOM_APPKEY": "TEST_APPKEY",
+        "KIWOOM_APPSECRET": "TEST_APPSECRET",
+        "ACCOUNT_NO": "12345678"
+    })
+    @patch("pykiwoom_rest.auth_api.AuthAPI.request")
+    def test_logout_clears_cache_when_revoke_fails(self, mock_request):
+        """폐기 요청 실패 시에도 로컬 캐시는 초기화"""
+        from pykiwoom_rest.auth_api import AuthAPI
+        from pykiwoom_rest.kiwoom_base import KiwoomAPIError
+
+        mock_request.side_effect = RuntimeError("network unavailable")
+        auth = AuthAPI(use_mock=True)
+        auth.access_token = "test_token_logout"
+        auth.token_expires = datetime.now() + timedelta(hours=10)
+        auth._token_cache = {"token": "test_token_logout"}
+
+        with pytest.raises(KiwoomAPIError):
+            auth.logout()
+
         assert auth._token_cache == {}
 
 

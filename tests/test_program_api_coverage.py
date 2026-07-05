@@ -20,10 +20,9 @@ class TestProgramAPI:
     @pytest.fixture
     def mock_program_api(self):
         """모의 ProgramAPI 인스턴스"""
-        with (
-            patch.object(ProgramAPI, "_get_access_token", return_value="mock_token"),
-            patch.object(ProgramAPI, "make_tr_request") as mock_tr_request,
-        ):
+        token_patch = patch.object(ProgramAPI, "_get_access_token", return_value="mock_token")
+        request_patch = patch.object(ProgramAPI, "make_tr_request")
+        with token_patch, request_patch as mock_tr_request:
             mock_tr_request.return_value = APIResponse(
                 success=True, data={"rt_cd": "0", "output": {"test": "data"}}
             )
@@ -71,6 +70,10 @@ class TestProgramAPI:
         # Assert
         assert result is not None
         mock_program_api.make_tr_request.assert_called_once()
+        call_kwargs = mock_program_api.make_tr_request.call_args.kwargs
+        assert call_kwargs["tr_code"] == "ka10025"
+        assert call_kwargs["endpoint"] == "stock_info"
+        assert call_kwargs["endpoint"] in ProgramAPI.ENDPOINTS
 
     def test_get_pbar_concentration_custom_params(self, mock_program_api):
         """매물대 집중 조회 - 커스텀 파라미터"""
@@ -116,10 +119,9 @@ class TestProgramAPIErrorCases:
     @pytest.fixture
     def failing_program_api(self):
         """에러 발생 API"""
-        with (
-            patch.object(ProgramAPI, "_get_access_token", return_value="mock_token"),
-            patch.object(ProgramAPI, "make_tr_request") as mock_tr_request,
-        ):
+        token_patch = patch.object(ProgramAPI, "_get_access_token", return_value="mock_token")
+        request_patch = patch.object(ProgramAPI, "make_tr_request")
+        with token_patch, request_patch as mock_tr_request:
             mock_tr_request.return_value = APIResponse(
                 success=False, data={}, error={"message": "API Error", "code": "500"}
             )
@@ -130,10 +132,16 @@ class TestProgramAPIErrorCases:
     def test_get_program_trading_daily_failure(self, failing_program_api):
         """프로그램 매매 일별 조회 실패"""
         # Act
-        result = failing_program_api.get_program_trading_daily("005930")
+        with patch.object(failing_program_api, "request") as mock_request:
+            mock_request.return_value = APIResponse(
+                success=False, data={}, error={"message": "API Error", "code": "500"}
+            )
+            result = failing_program_api.get_program_trading_daily("005930")
 
         # Assert
         assert result is not None  # Returns APIResponse even on failure
+        assert not result.success
+        mock_request.assert_called_once()
 
     def test_get_pbar_concentration_failure(self, failing_program_api):
         """매물대 집중 조회 실패"""

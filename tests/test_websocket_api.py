@@ -9,15 +9,17 @@ WebSocket API 테스트
 """
 
 import asyncio
-import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+import json
 from datetime import datetime
+from unittest.mock import AsyncMock, patch
+
+import pytest
 
 from pykiwoom_rest.websocket_api import (
-    WebSocketAPI,
-    RealtimeQuote,
     RealtimeOrderbook,
+    RealtimeQuote,
     RealtimeTrade,
+    WebSocketAPI,
 )
 from pykiwoom_rest.websocket_client import WebSocketClient
 
@@ -42,6 +44,7 @@ class TestWebSocketClient:
         assert ws_client.access_token == "test_token"
         assert ws_client.appkey == "test_appkey"
         assert ws_client.appsecret == "test_appsecret"
+        assert ws_client.api_id == "0B"
         assert not ws_client.is_connected
 
     @pytest.mark.asyncio
@@ -67,6 +70,36 @@ class TestWebSocketClient:
             mock_connect.assert_called_once()
 
     @pytest.mark.asyncio
+    async def test_connect_sends_kiwoom_required_headers(self, ws_client):
+        """연결 요청은 Kiwoom WebSocket 필수 헤더를 사용"""
+        with patch("websockets.connect", new_callable=AsyncMock) as mock_connect:
+            mock_ws = AsyncMock()
+            mock_ws.closed = False
+            mock_connect.return_value = mock_ws
+
+            async def mock_iter():
+                await asyncio.sleep(0.01)
+                return
+                yield  # pragma: no cover
+
+            mock_ws.__aiter__.return_value = mock_iter()
+
+            assert await ws_client.connect(api_id="0D")
+
+            headers = (
+                mock_connect.call_args.kwargs.get("additional_headers")
+                or mock_connect.call_args.kwargs.get("extra_headers")
+            )
+            assert headers == {
+                "authorization": "Bearer test_token",
+                "api-id": "0D",
+            }
+            assert "appkey" not in headers
+            assert "appsecret" not in headers
+
+            await ws_client.disconnect()
+
+    @pytest.mark.asyncio
     async def test_disconnect(self, ws_client):
         """연결 종료 테스트"""
         # 연결 모의
@@ -78,6 +111,102 @@ class TestWebSocketClient:
 
         assert not ws_client.is_connected
         mock_ws.close.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_subscribe_sends_kiwoom_reg_payload_and_tracks_callback_per_key(self, ws_client):
+        """구독 요청은 Kiwoom REG schema를 사용하고 콜백은 종목별로 보관"""
+        mock_ws = AsyncMock()
+        mock_ws.closed = False
+        ws_client._ws = mock_ws
+        ws_client._connected = True
+
+        first_callback = AsyncMock()
+        second_callback = AsyncMock()
+
+        assert await ws_client.subscribe("0B", "005930", first_callback)
+        assert await ws_client.subscribe("0B", "000660", second_callback)
+
+        first_payload = json.loads(mock_ws.send.await_args_list[0].args[0])
+        assert first_payload == {
+            "trnm": "REG",
+            "grp_no": "1",
+            "refresh": "1",
+            "data": [{"item": ["005930"], "type": ["0B"]}],
+        }
+        assert ws_client._callbacks["0B:005930"] is first_callback
+        assert ws_client._callbacks["0B:000660"] is second_callback
+
+        await ws_client._handle_message(
+            json.dumps(
+                {
+                    "trnm": "REAL",
+                    "data": [
+                        {"type": "0B", "item": "005930", "values": {"10": "70000"}},
+                        {"type": "0B", "item": "000660", "values": {"10": "130000"}},
+                    ],
+                }
+            )
+        )
+
+        first_callback.assert_awaited_once()
+        second_callback.assert_awaited_once()
+
+    @pytest.mark.asyncio
+    async def test_unsubscribe_sends_kiwoom_remove_payload_without_dropping_other_callbacks(
+        self, ws_client
+    ):
+        """구독 해제는 REMOVE schema를 사용하고 같은 TR의 다른 종목 콜백을 보존"""
+        mock_ws = AsyncMock()
+        mock_ws.closed = False
+        ws_client._ws = mock_ws
+        ws_client._connected = True
+        ws_client._subscriptions = {"0B:005930", "0B:000660"}
+        ws_client._callbacks = {
+            "0B:005930": AsyncMock(),
+            "0B:000660": AsyncMock(),
+        }
+
+        assert await ws_client.unsubscribe("0B", "005930")
+
+        payload = json.loads(mock_ws.send.await_args.args[0])
+        assert payload == {
+            "trnm": "REMOVE",
+            "grp_no": "1",
+            "data": [{"item": ["005930"], "type": ["0B"]}],
+        }
+        assert "0B:005930" not in ws_client._callbacks
+        assert "0B:000660" in ws_client._callbacks
+
+    @pytest.mark.asyncio
+    async def test_reconnect_closes_stale_socket_and_replaces_tasks(self, ws_client):
+        """재연결은 stale socket과 background task를 먼저 정리"""
+        ws_client.auto_reconnect = True
+        ws_client.reconnect_interval = 0
+        stale_ws = AsyncMock()
+        stale_ws.closed = False
+        ws_client._ws = stale_ws
+        ws_client._connected = True
+        old_ping_task = asyncio.create_task(asyncio.sleep(3600))
+        ws_client._ping_task = old_ping_task
+
+        with patch("websockets.connect", new_callable=AsyncMock) as mock_connect:
+            new_ws = AsyncMock()
+            new_ws.closed = False
+
+            async def mock_iter():
+                await asyncio.sleep(0.01)
+                return
+                yield  # pragma: no cover
+
+            new_ws.__aiter__.return_value = mock_iter()
+            mock_connect.return_value = new_ws
+
+            await ws_client._attempt_reconnect()
+
+        stale_ws.close.assert_awaited_once()
+        assert old_ping_task.cancelled()
+        assert ws_client._ws is new_ws
+        await ws_client.disconnect()
 
 
 class TestWebSocketAPI:
@@ -99,12 +228,31 @@ class TestWebSocketAPI:
         assert ws_api._client is not None
         assert not ws_api.is_connected
 
+    def test_default_base_url_is_kiwoom_websocket_domain(self):
+        """기본 WebSocket URL은 Kiwoom 운영 도메인"""
+        api = WebSocketAPI(
+            access_token="test_token",
+            appkey="test_appkey",
+            appsecret="test_appsecret",
+        )
+
+        assert api._client.base_url == "wss://api.kiwoom.com:10000"
+
     @pytest.mark.asyncio
     async def test_connect(self, ws_api):
         """연결 테스트"""
-        with patch.object(ws_api._client, "connect", return_value=True):
+        with patch.object(ws_api._client, "connect", return_value=True) as mock_connect:
             result = await ws_api.connect()
             assert result is True
+            mock_connect.assert_called_once_with(api_id=None)
+
+    @pytest.mark.asyncio
+    async def test_connect_passes_api_id(self, ws_api):
+        """high-level connect는 Kiwoom Header api-id override를 전달"""
+        with patch.object(ws_api._client, "connect", return_value=True) as mock_connect:
+            result = await ws_api.connect(api_id="0D")
+            assert result is True
+            mock_connect.assert_called_once_with(api_id="0D")
 
     @pytest.mark.asyncio
     async def test_disconnect(self, ws_api):
@@ -123,29 +271,32 @@ class TestWebSocketAPI:
             callback_called = True
             assert quote.stock_code == "005930"
 
-        with patch.object(ws_api._client, "subscribe", return_value=True) as mock_sub:
-            with patch.object(ws_api._client, "register_callback"):
-                result = await ws_api.subscribe_quote("005930", callback)
-                assert result is True
-                mock_sub.assert_called_once()
+        with patch.object(ws_api._client, "subscribe", return_value=True) as mock_sub, patch.object(
+            ws_api._client, "register_callback"
+        ):
+            result = await ws_api.subscribe_quote("005930", callback)
+            assert result is True
+            mock_sub.assert_called_once()
 
     @pytest.mark.asyncio
     async def test_subscribe_orderbook(self, ws_api):
         """실시간 호가 구독 테스트"""
-        with patch.object(ws_api._client, "subscribe", return_value=True) as mock_sub:
-            with patch.object(ws_api._client, "register_callback"):
-                result = await ws_api.subscribe_orderbook("005930")
-                assert result is True
-                mock_sub.assert_called_once()
+        with patch.object(ws_api._client, "subscribe", return_value=True) as mock_sub, patch.object(
+            ws_api._client, "register_callback"
+        ):
+            result = await ws_api.subscribe_orderbook("005930")
+            assert result is True
+            mock_sub.assert_called_once()
 
     @pytest.mark.asyncio
     async def test_subscribe_trade(self, ws_api):
         """실시간 체결 구독 테스트"""
-        with patch.object(ws_api._client, "subscribe", return_value=True) as mock_sub:
-            with patch.object(ws_api._client, "register_callback"):
-                result = await ws_api.subscribe_trade("005930")
-                assert result is True
-                mock_sub.assert_called_once()
+        with patch.object(ws_api._client, "subscribe", return_value=True) as mock_sub, patch.object(
+            ws_api._client, "register_callback"
+        ):
+            result = await ws_api.subscribe_trade("005930")
+            assert result is True
+            mock_sub.assert_called_once()
 
     @pytest.mark.asyncio
     async def test_unsubscribe_quote(self, ws_api):
@@ -184,6 +335,31 @@ class TestWebSocketAPI:
         assert quote.high_price == 71000
         assert quote.low_price == 68000
 
+    def test_parse_quote_from_kiwoom_real_values(self, ws_api):
+        """문서형 REAL values 시세 데이터 파싱"""
+        quote = ws_api._parse_quote(
+            "005930",
+            {
+                "type": "0B",
+                "item": "005930",
+                "values": {
+                    "10": "+70000",
+                    "11": "+1000",
+                    "12": "+1.45",
+                    "13": "1000000",
+                    "16": "69000",
+                    "17": "+71000",
+                    "18": "-68000",
+                },
+            },
+        )
+
+        assert quote.current_price == 70000
+        assert quote.change_price == 1000
+        assert quote.change_rate == 1.45
+        assert quote.volume == 1000000
+        assert quote.low_price == 68000
+
     def test_parse_orderbook(self, ws_api):
         """실시간 호가 데이터 파싱 테스트"""
         data = {
@@ -208,6 +384,26 @@ class TestWebSocketAPI:
         assert orderbook.ask_prices[0] == 70100
         assert orderbook.bid_prices[0] == 69900
 
+    def test_parse_orderbook_from_kiwoom_real_values(self, ws_api):
+        """문서형 REAL values 호가 데이터 파싱"""
+        values = {
+            **{str(40 + i): f"-{70000 + i * 100}" for i in range(1, 11)},
+            **{str(60 + i): str(i * 10) for i in range(1, 11)},
+            **{str(50 + i): f"-{69900 - (i - 1) * 100}" for i in range(1, 11)},
+            **{str(70 + i): str(i * 20) for i in range(1, 11)},
+            "121": "5500",
+            "125": "6600",
+        }
+
+        orderbook = ws_api._parse_orderbook("005930", {"values": values})
+
+        assert orderbook.ask_prices[0] == 70100
+        assert orderbook.ask_volumes[9] == 100
+        assert orderbook.bid_prices[0] == 69900
+        assert orderbook.bid_volumes[9] == 200
+        assert orderbook.total_ask_volume == 5500
+        assert orderbook.total_bid_volume == 6600
+
     def test_parse_trade(self, ws_api):
         """실시간 체결 데이터 파싱 테스트"""
         data = {
@@ -227,6 +423,27 @@ class TestWebSocketAPI:
         assert trade.stock_code == "005930"
         assert trade.trade_price == 70000
         assert trade.trade_volume == 100
+        assert trade.change_price == 500
+
+    def test_parse_trade_from_kiwoom_real_values(self, ws_api):
+        """문서형 REAL values 체결 데이터 파싱"""
+        trade = ws_api._parse_trade(
+            "005930",
+            {
+                "values": {
+                    "20": "153000",
+                    "10": "-70000",
+                    "15": "-100",
+                    "11": "+500",
+                    "12": "+0.72",
+                    "13": "1500000",
+                }
+            },
+        )
+
+        assert trade.trade_price == 70000
+        assert trade.trade_volume == 100
+        assert trade.trade_time == "153000"
         assert trade.change_price == 500
 
 
@@ -305,16 +522,15 @@ class TestKiwoomRestIntegration:
 
     def test_enable_websocket(self, kiwoom):
         """WebSocket 활성화 테스트"""
-        with patch("asyncio.get_event_loop") as mock_loop:
-            with patch.object(
-                kiwoom._websocket_api or kiwoom.websocket,
-                "connect",
-                new_callable=AsyncMock,
-            ) as mock_connect:
-                mock_connect.return_value = True
-                mock_loop.return_value.run_until_complete.return_value = True
-                result = kiwoom.enable_websocket()
-                assert result is True
+        with patch("asyncio.get_event_loop") as mock_loop, patch.object(
+            kiwoom._websocket_api or kiwoom.websocket,
+            "connect",
+            new_callable=AsyncMock,
+        ) as mock_connect:
+            mock_connect.return_value = True
+            mock_loop.return_value.run_until_complete.return_value = True
+            result = kiwoom.enable_websocket()
+            assert result is True
 
     def test_subscribe_realtime_quote_without_enable(self, kiwoom):
         """WebSocket 미활성화 상태에서 구독 시도 테스트"""

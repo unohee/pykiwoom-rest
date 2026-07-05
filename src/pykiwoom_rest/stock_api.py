@@ -123,11 +123,14 @@ class StockAPI(KiwoomAPIBase):
             method="POST",
         )
 
-    def get_credit_trend(self, date: str = None, query_type: str = "1") -> Dict[str, Any]:
+    def get_credit_trend(
+        self, stock_code: str, date: str = None, query_type: str = "1"
+    ) -> Dict[str, Any]:
         """
         신용매매동향 조회 (ka10013)
 
         Args:
+            stock_code: 종목코드 (예: 005930)
             date: 조회일자 (YYYYMMDD, 기본값: 오늘)
             query_type: 조회구분 (1=융자, 2=대주, 기본값: 1)
 
@@ -139,7 +142,7 @@ class StockAPI(KiwoomAPIBase):
         if not date:
             date = datetime.now().strftime("%Y%m%d")
 
-        params = {"dt": date, "qry_tp": query_type}
+        params = {"stk_cd": stock_code, "dt": date, "qry_tp": query_type}
 
         headers = {"api-id": "ka10013", "cont-yn": "N", "next-key": ""}
         token = self._get_access_token()
@@ -563,4 +566,3 @@ class StockAPI(KiwoomAPIBase):
                 "msg1": str(e),
                 "output": [],
             }
-

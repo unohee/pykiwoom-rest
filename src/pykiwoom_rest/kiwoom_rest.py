@@ -211,9 +211,13 @@ class KiwoomRest:
             exchange_type=exchange_type,
         )
 
-    def get_credit_trend(self, date: str = None, query_type: str = "1") -> Dict[str, Any]:
+    def get_credit_trend(
+        self, stock_code: str, date: str = None, query_type: str = "1"
+    ) -> Dict[str, Any]:
         """신용매매동향 조회 (ka10013)"""
-        return self.stock_api.get_credit_trend(date=date, query_type=query_type)
+        return self.stock_api.get_credit_trend(
+            stock_code=stock_code, date=date, query_type=query_type
+        )
 
     def get_daily_trading_detail(self, start_date: str = None) -> Dict[str, Any]:
         """일별거래상세 조회 (ka10015)"""
@@ -276,28 +280,44 @@ class KiwoomRest:
         return self.chart_api.get_minute_chart(stock_code, interval, start_date, end_date, count)
 
     def get_daily_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """일봉 차트 조회"""
-        return self.chart_api.get_daily_chart(stock_code, start_date, end_date)
+        return self.chart_api.get_daily_chart(stock_code, start_date, end_date, count)
 
     def get_weekly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """주봉 차트 조회"""
-        return self.chart_api.get_weekly_chart(stock_code, start_date, end_date)
+        return self.chart_api.get_weekly_chart(stock_code, start_date, end_date, count)
 
     def get_monthly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """월봉 차트 조회"""
-        return self.chart_api.get_monthly_chart(stock_code, start_date, end_date)
+        return self.chart_api.get_monthly_chart(stock_code, start_date, end_date, count)
 
     def get_yearly_chart(
-        self, stock_code: str, start_date: str = None, end_date: str = None
+        self,
+        stock_code: str,
+        start_date: str = None,
+        end_date: str = None,
+        count: int = 100,
     ) -> Dict[str, Any]:
         """년봉 차트 조회"""
-        return self.chart_api.get_yearly_chart(stock_code, start_date, end_date)
+        return self.chart_api.get_yearly_chart(stock_code, start_date, end_date, count)
 
     # ========== 순위 정보 메서드 (Legacy Compatible) ==========
 
@@ -1016,7 +1036,6 @@ class KiwoomRest:
             주식기본정보(ka10001)에서 추출 가능한 항목만 반환합니다.
         """
         return self.stock_api.get_stock_financial(stock_code)
-
 
     def get_index_daily_price(
         self,

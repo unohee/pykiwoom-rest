@@ -38,6 +38,9 @@ dependencies = [
     "websockets>=12.0",
 ]
 
+[project.scripts]
+kiwoom = "pykiwoom_rest.cli.main:main"
+
 [project.urls]
 Homepage = "https://github.com/unohee/pykiwoom-rest"
 Documentation = "https://github.com/unohee/pykiwoom-rest/blob/master/README.md"
