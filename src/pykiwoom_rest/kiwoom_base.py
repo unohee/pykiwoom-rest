@@ -13,7 +13,7 @@ from typing import Any, Dict, List
 from .base_api import APIError, BaseAPIClient
 from .exception_utils import RaiseWithTraceMixin, rethrow_with_trace
 from .rate_limit_optimizer import RateLimitOptimizer, SmartRetryStrategy
-from .response_utils import normalize_response
+from .response_utils import normalize_data_values, normalize_response
 
 
 class KiwoomAPIError(APIError):
@@ -67,6 +67,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         use_mock: bool = False,
         enable_rate_optimizer: bool = False,
         credentials_list: List[Dict[str, str]] = None,
+        normalize_data: bool = False,
         **kwargs,
     ):
         """
@@ -80,6 +81,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
             use_mock: 모의투자 API 사용 여부
             enable_rate_optimizer: 고급 rate limiting 최적화 활성화
             credentials_list: 크레덴셜 리스트 (다중 토큰 로테이션)
+            normalize_data: 응답 숫자 문자열 정규화 여부
             **kwargs: BaseAPIClient 추가 인자
         """
         base_url = self.BASE_URL
@@ -110,6 +112,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
         # Rate Limiting 최적화 설정
         self.enable_rate_optimizer = enable_rate_optimizer
+        self.normalize_data = normalize_data
         self.rate_optimizer = None
         self.retry_strategy = SmartRetryStrategy()
 
@@ -227,12 +230,19 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         try:
             data = response.json()
             # 응답 구조 일원화: 기본 키/메타데이터를 부여하고 원본은 보존
-            return normalize_response(
+            normalized = normalize_response(
                 data,
                 tr_code=tr_code,
                 endpoint=endpoint,
                 processing_time=processing_time,
             )
+            if self.normalize_data:
+                return normalize_data_values(
+                    normalized,
+                    tr_code=tr_code,
+                    endpoint=endpoint,
+                )
+            return normalized
 
         except json.JSONDecodeError:
             # JSON이 아닌 응답 - 에러로 처리
@@ -522,6 +532,12 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
             # 응답 처리
             result = response.json() if hasattr(response, "json") else {}
+            if self.normalize_data:
+                result = normalize_data_values(
+                    result,
+                    tr_code=tr_code,
+                    endpoint=endpoint,
+                )
 
             # 연속조회 정보 추출
             response_headers = response.headers if hasattr(response, "headers") else {}

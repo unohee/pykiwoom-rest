@@ -35,6 +35,7 @@ class KiwoomRest:
         max_retries: int = 3,
         enable_rate_optimizer: bool = False,
         credentials_list: list = None,
+        normalize_data: bool = False,
     ):
         """
         키움증권 REST API 클라이언트 초기화
@@ -56,6 +57,7 @@ class KiwoomRest:
             max_retries: 최대 재시도 횟수 (기본: 3)
             enable_rate_optimizer: Rate limiting 최적화 활성화
             credentials_list: 다중 크레덴셜 리스트 (로테이션용)
+            normalize_data: Kiwoom 숫자 문자열/부호/x100 인코딩 정규화 여부 (기본: False)
 
         Examples:
             # 방법 1: 환경변수 사용 (.env 파일)
@@ -89,6 +91,7 @@ class KiwoomRest:
             "max_retries": max_retries,
             "enable_rate_optimizer": enable_rate_optimizer,
             "credentials_list": credentials_list,
+            "normalize_data": normalize_data,
         }
 
         # 모듈러 API 클래스들 초기화

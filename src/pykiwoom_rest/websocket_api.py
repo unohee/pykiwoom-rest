@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional
 
+from .response_utils import clean_price, clean_rate, signed_change
 from .websocket_client import WebSocketClient
 
 logger = logging.getLogger(__name__)
@@ -294,13 +295,25 @@ class WebSocketAPI:
 
     @classmethod
     def _to_abs_int(cls, value: Any) -> int:
-        return abs(cls._to_int(value))
+        try:
+            return clean_price(value)
+        except (TypeError, ValueError):
+            return abs(cls._to_int(value))
 
     @staticmethod
     def _to_float(value: Any) -> float:
         if value in (None, ""):
             return 0.0
-        return float(str(value).replace(",", "").strip())
+        return clean_rate(value)
+
+    @classmethod
+    def _to_signed_change(cls, values: Dict[str, Any], *change_keys: str) -> int:
+        change = cls._first_value(values, *change_keys)
+        sign_code = cls._first_value(values, "prdy_vrss_sign", "25", default=None)
+        try:
+            return signed_change(change, sign_code)
+        except (TypeError, ValueError):
+            return cls._to_int(change)
 
     def _parse_quote(self, stock_code: str, data: Dict[str, Any]) -> RealtimeQuote:
         """실시간 시세 데이터 파싱"""
@@ -308,7 +321,7 @@ class WebSocketAPI:
         return RealtimeQuote(
             stock_code=stock_code,
             current_price=self._to_abs_int(self._first_value(output, "stck_prpr", "10")),
-            change_price=self._to_int(self._first_value(output, "prdy_vrss", "11")),
+            change_price=self._to_signed_change(output, "prdy_vrss", "11"),
             change_rate=self._to_float(self._first_value(output, "prdy_ctrt", "12")),
             volume=self._to_abs_int(self._first_value(output, "acml_vol", "13")),
             open_price=self._to_abs_int(self._first_value(output, "stck_oprc", "16")),
@@ -358,10 +371,12 @@ class WebSocketAPI:
         output = self._realtime_values(data)
         return RealtimeTrade(
             stock_code=stock_code,
-            trade_price=self._to_abs_int(self._first_value(output, "stck_prpr", "10", "stck_cntg_hour")),
+            trade_price=self._to_abs_int(
+                self._first_value(output, "stck_prpr", "10", "stck_cntg_hour")
+            ),
             trade_volume=self._to_abs_int(self._first_value(output, "cntg_vol", "15")),
             trade_time=str(self._first_value(output, "stck_cntg_hour", "20", default="")),
-            change_price=self._to_int(self._first_value(output, "prdy_vrss", "11")),
+            change_price=self._to_signed_change(output, "prdy_vrss", "11"),
             change_rate=self._to_float(self._first_value(output, "prdy_ctrt", "12")),
             cumulative_volume=self._to_abs_int(self._first_value(output, "acml_vol", "13")),
             timestamp=datetime.now(),
