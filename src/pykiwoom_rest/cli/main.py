@@ -42,7 +42,16 @@ DANGEROUS_QUERY_METHOD_NAMES = {
     "refresh_token",
     "revoke_token",
 }
-DANGEROUS_QUERY_METHOD_PREFIXES = ("buy_", "sell_", "cancel_", "order_", "place_", "revoke_", "refresh_")
+DANGEROUS_QUERY_METHOD_PREFIXES = (
+    "buy_",
+    "sell_",
+    "cancel_",
+    "order_",
+    "place_",
+    "revoke_",
+    "refresh_",
+)
+CHART_COUNT_MAX = 1000
 
 
 def _positive_int_arg(value):
@@ -53,6 +62,14 @@ def _positive_int_arg(value):
         raise argparse.ArgumentTypeError("must be a positive integer") from exc
     if parsed <= 0:
         raise argparse.ArgumentTypeError("must be a positive integer")
+    return parsed
+
+
+def _chart_count_arg(value):
+    """argparse용 차트 count 파서."""
+    parsed = _positive_int_arg(value)
+    if parsed > CHART_COUNT_MAX:
+        raise argparse.ArgumentTypeError(f"must be between 1 and {CHART_COUNT_MAX}")
     return parsed
 
 
@@ -96,6 +113,13 @@ def _validate_non_negative_int(name, value, args):
         _exit_error(args, f"{name} must be a non-negative integer")
     if parsed < 0:
         _exit_error(args, f"{name} must be a non-negative integer")
+    return parsed
+
+
+def _validate_chart_count(value, args):
+    parsed = _validate_positive_int("--count", value, args)
+    if parsed > CHART_COUNT_MAX:
+        _exit_error(args, f"--count must be between 1 and {CHART_COUNT_MAX}")
     return parsed
 
 
@@ -150,11 +174,13 @@ def _create_client():
     """KiwoomRest 인스턴스 생성."""
     try:
         from dotenv import load_dotenv
+
         load_dotenv()
     except ImportError:
         pass
 
     from pykiwoom_rest import KiwoomRest
+
     client = KiwoomRest()
     _check_market_status()
     return client
@@ -191,7 +217,9 @@ def _out(data, pretty=False, raw=False, fmt="json"):
                 if depth > 4 or not isinstance(obj, dict):
                     return obj
                 for v in obj.values():
-                    if isinstance(v, dict) and not any(isinstance(vv, (dict, list)) for vv in v.values()):
+                    if isinstance(v, dict) and not any(
+                        isinstance(vv, (dict, list)) for vv in v.values()
+                    ):
                         return v
                 for v in obj.values():
                     if isinstance(v, dict):
@@ -305,7 +333,7 @@ def cmd_chart(args):
 
     from_date = getattr(args, "from_date", None)
     to_date = getattr(args, "to_date", None)
-    count = _validate_positive_int("--count", getattr(args, "count", 100), args)
+    count = _validate_chart_count(getattr(args, "count", 100), args)
     client = _create_client()
 
     # 차트 타입 결정
@@ -361,7 +389,9 @@ def cmd_rank(args):
 
     func = rank_funcs.get(args.type)
     if not func:
-        _out({"error": f"Unknown rank type: {args.type}. Available: {', '.join(rank_funcs.keys())}"})
+        _out(
+            {"error": f"Unknown rank type: {args.type}. Available: {', '.join(rank_funcs.keys())}"}
+        )
         sys.exit(1)
 
     data = func()
@@ -451,7 +481,11 @@ def cmd_account(args):
 
     func_info = account_funcs.get(args.type)
     if not func_info:
-        _out({"error": f"Unknown account type: {args.type}. Available: {', '.join(account_funcs.keys())}"})
+        _out(
+            {
+                "error": f"Unknown account type: {args.type}. Available: {', '.join(account_funcs.keys())}"
+            }
+        )
         sys.exit(1)
 
     func, key = func_info
@@ -462,7 +496,9 @@ def cmd_account(args):
     if args.type == "balance":
         summary, output2 = _split_account_balance(data)
         if summary:
-            result["account"]["summary"] = remap(summary, ACCOUNT_BALANCE) if not args.raw else summary
+            result["account"]["summary"] = (
+                remap(summary, ACCOUNT_BALANCE) if not args.raw else summary
+            )
         if output2:
             if not args.raw:
                 output2 = [remap(item, HOLDING) for item in output2]
@@ -495,7 +531,12 @@ def cmd_order(args):
                 return
 
         data = client.cancel_order(order_no, code, qty)
-        _out({"data": {"order": {"action": "cancel", "result": data}}}, args.pretty, args.raw, args.format)
+        _out(
+            {"data": {"order": {"action": "cancel", "result": data}}},
+            args.pretty,
+            args.raw,
+            args.format,
+        )
         return
 
     # buy / sell
@@ -521,7 +562,12 @@ def cmd_order(args):
     else:
         data = client.sell_stock(code, qty, price)
 
-    _out({"data": {"order": {"action": args.action, "code": code, "result": data}}}, args.pretty, args.raw, args.format)
+    _out(
+        {"data": {"order": {"action": args.action, "code": code, "result": data}}},
+        args.pretty,
+        args.raw,
+        args.format,
+    )
 
 
 def cmd_query(args):
@@ -597,7 +643,10 @@ def cmd_schema(args):
         try:
             print(get_schema(type_name))
         except SchemaTypeNotFound as e:
-            print(json_output({"error": str(e), "available": e.available}, pretty=True), file=sys.stderr)
+            print(
+                json_output({"error": str(e), "available": e.available}, pretty=True),
+                file=sys.stderr,
+            )
             sys.exit(1)
 
 
@@ -635,7 +684,9 @@ def _add_global_options(parser):
     """모든 서브커맨드에 공통 옵션 추가."""
     parser.add_argument("--pretty", "-p", action="store_true", help="들여쓰기된 JSON 출력")
     parser.add_argument("--raw", action="store_true", help="필드명 변환 없이 원본 출력")
-    parser.add_argument("--format", choices=["json", "table"], default="json", help="출력 형식 (기본: json)")
+    parser.add_argument(
+        "--format", choices=["json", "table"], default="json", help="출력 형식 (기본: json)"
+    )
 
 
 def build_parser():
@@ -663,13 +714,16 @@ def build_parser():
     p.add_argument("--interval", type=int, help="분봉 간격 (1,3,5,10,15,30,60)")
     p.add_argument("--from", dest="from_date", help="시작일 (YYYYMMDD)")
     p.add_argument("--to", dest="to_date", help="종료일 (YYYYMMDD)")
-    p.add_argument("--count", type=_positive_int_arg, default=100, help="조회 개수 (기본 100)")
+    p.add_argument(
+        "--count", type=_chart_count_arg, default=100, help="조회 개수 (1-1000, 기본 100)"
+    )
     _add_global_options(p)
 
     # ── rank ──
     p = sub.add_parser("rank", help="순위 조회")
-    p.add_argument("type", choices=["volume", "amount", "gainers", "foreign-buy", "surge"],
-                    help="순위 종류")
+    p.add_argument(
+        "type", choices=["volume", "amount", "gainers", "foreign-buy", "surge"], help="순위 종류"
+    )
     p.add_argument("--market", default="ALL", help="시장 (ALL, KOSPI, KOSDAQ)")
     _add_global_options(p)
 
@@ -689,8 +743,11 @@ def build_parser():
 
     # ── account ──
     p = sub.add_parser("account", help="계좌 정보 조회")
-    p.add_argument("type", choices=["balance", "deposit", "eval", "orders", "executed", "profit"],
-                    help="조회 종류")
+    p.add_argument(
+        "type",
+        choices=["balance", "deposit", "eval", "orders", "executed", "profit"],
+        help="조회 종류",
+    )
     _add_global_options(p)
 
     # ── order ──
