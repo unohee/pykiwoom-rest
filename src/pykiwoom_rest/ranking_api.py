@@ -4,7 +4,6 @@ Ranking Information API
 작성일: 2025-01-27
 """
 
-import time
 from typing import Any, Dict, List
 
 from .kiwoom_base import KiwoomAPIBase
@@ -43,42 +42,17 @@ class RankingAPI(KiwoomAPIBase):
 
     def _get_market_code(self, market: str) -> str:
         """시장 코드 변환 헬퍼"""
-        return {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
+        market_codes = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}
+        if market not in market_codes:
+            raise ValueError(f"market must be one of {', '.join(market_codes)}")
+        return market_codes[market]
 
-    def _get_kiwoom_market_type(self, market: str, *, default_all: str = "000") -> str:
-        """문서형 mrkt_tp 시장 코드 변환 헬퍼"""
-        return {"ALL": default_all, "KOSPI": "001", "KOSDAQ": "101"}.get(market, default_all)
-
-    def _request_ranking_direct(self, tr_code: str, params: Dict[str, Any]) -> Dict[str, Any]:
-        """legacy alias에서 기존 직접 request 경로와 정규화 컨텍스트를 유지합니다."""
-        self._current_tr_code = tr_code
-        self._current_endpoint = "ranking"
-        self._request_start_time = time.time()
-
-        try:
-            token = self._get_access_token()
-            headers = {
-                "api-id": tr_code,
-                "cont-yn": "N",
-                "next-key": "",
-                "authorization": f"Bearer {token}",
-                "Content-Type": "application/json;charset=UTF-8",
-            }
-
-            response = self.request(
-                method="POST",
-                endpoint=self.ENDPOINTS["ranking"],
-                json_data=params,
-                headers=headers,
-            )
-
-            if hasattr(response, "success") and hasattr(response, "data"):
-                return response.data if response.success else {}
-            return response
-        finally:
-            self._current_tr_code = None
-            self._current_endpoint = None
-            self._request_start_time = None
+    @staticmethod
+    def _validate_count(count: int) -> str:
+        """순위 조회 개수 검증"""
+        if isinstance(count, bool) or not isinstance(count, int) or count <= 0 or count > 100:
+            raise ValueError("count must be an integer between 1 and 100")
+        return str(count)
 
     def get_volume_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
@@ -96,7 +70,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_SCR_DIV_CODE": "20",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
             "FID_PRC_CLS_CODE": "1",
         }
         return self.make_tr_request(
@@ -122,7 +96,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_SCR_DIV_CODE": "20",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["quote_volume_surge"],
@@ -146,7 +120,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["volume_rate_surge"],
@@ -170,7 +144,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["trading_volume_surge"],
@@ -194,7 +168,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["previous_day_rate_top"],
@@ -218,7 +192,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["expected_rate_top"],
@@ -242,7 +216,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["daily_volume_top"],
@@ -266,7 +240,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["trading_amount_top"],
@@ -290,7 +264,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["credit_ratio_top"],
@@ -313,11 +287,14 @@ class RankingAPI(KiwoomAPIBase):
         Returns:
             외인 기간별 매매 상위 목록
         """
+        if period not in {"1", "5", "10"}:
+            raise ValueError("period must be one of: 1, 5, 10")
+
         params = {
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
             "FID_INPUT_OPTION_1": period,
         }
         return self.make_tr_request(
@@ -344,7 +321,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["foreign_continuous_trading_top"],
@@ -370,7 +347,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["foreign_limit_exhaustion_top"],
@@ -394,7 +371,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["securities_trading_top"],
@@ -436,7 +413,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["net_buy_trader_ranking"],
@@ -460,7 +437,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["investor_trading_top"],
@@ -576,10 +553,8 @@ class RankingAPI(KiwoomAPIBase):
 
                     time.sleep(wait_time)
                     continue
-                else:
-                    # 최대 재시도 초과 시 현재까지 수집된 데이터 반환
-                    print(f"최대 재시도 초과. 현재까지 수집된 {len(all_data)}개 데이터 반환")
-                    break
+
+                raise
 
             if not res or "data" not in res:
                 break
@@ -626,7 +601,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": str(count),
+            "FID_INPUT_CNT_1": self._validate_count(count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["overtime_rate_ranking"],
@@ -717,7 +692,7 @@ class RankingAPI(KiwoomAPIBase):
         )
 
     def get_daily_top_departure(
-        self, market: str = "ALL", data_count: str = "50"
+        self, market: str = "ALL", data_count: int = 50
     ) -> Dict[str, Any]:
         """
         당일상위이탈원요청 (ka10053)
@@ -734,7 +709,7 @@ class RankingAPI(KiwoomAPIBase):
             "FID_COND_MRKT_DIV_CODE": "J",
             "FID_INPUT_ISCD": self._get_market_code(market),
             "FID_RANK_SORT_CLS_CODE": "0",
-            "FID_INPUT_CNT_1": data_count,
+            "FID_INPUT_CNT_1": self._validate_count(data_count),
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["daily_top_departure"],
@@ -823,15 +798,18 @@ class RankingAPI(KiwoomAPIBase):
             호가잔량 급증 종목 목록
         """
         params = {
-            "mrkt_tp": self._get_kiwoom_market_type(market, default_all="001"),
-            "trde_tp": "1",
-            "sort_tp": "1",
-            "tm_tp": "30",
-            "trde_qty_tp": "1",
-            "stk_cnd": "0",
-            "stex_tp": "3",
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": self._get_market_code(market),
         }
-        return self._request_ranking_direct("ka10021", params)
+
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["quote_volume_surge"],
+            endpoint="ranking",
+            data=params,
+            method="POST",
+        )
 
     def get_remaining_volume_surge(self, market: str = "ALL") -> Dict[str, Any]:
         """
@@ -844,14 +822,18 @@ class RankingAPI(KiwoomAPIBase):
             잔량율 급증 종목 목록
         """
         params = {
-            "mrkt_tp": self._get_kiwoom_market_type(market, default_all="001"),
-            "rt_tp": "1",
-            "tm_tp": "1",
-            "trde_qty_tp": "5",
-            "stk_cnd": "0",
-            "stex_tp": "3",
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": self._get_market_code(market),
         }
-        return self._request_ranking_direct("ka10022", params)
+
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["volume_rate_surge"],
+            endpoint="ranking",
+            data=params,
+            method="POST",
+        )
 
     def get_expected_execution_rate_top(self, market: str = "ALL") -> Dict[str, Any]:
         """
@@ -864,15 +846,18 @@ class RankingAPI(KiwoomAPIBase):
             예상체결등락률 상위 종목 목록
         """
         params = {
-            "mrkt_tp": self._get_kiwoom_market_type(market),
-            "sort_tp": "1",
-            "trde_qty_cnd": "0",
-            "stk_cnd": "0",
-            "crd_cnd": "0",
-            "pric_cnd": "0",
-            "stex_tp": "3",
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": self._get_market_code(market),
         }
-        return self._request_ranking_direct("ka10029", params)
+
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["expected_rate_top"],
+            endpoint="ranking",
+            data=params,
+            method="POST",
+        )
 
     def get_intraday_investor_trading_top(self, market: str = "ALL") -> Dict[str, Any]:
         """
@@ -885,11 +870,18 @@ class RankingAPI(KiwoomAPIBase):
             장중 투자자별 매매 상위 종목 목록
         """
         params = {
-            "trde_tp": "1",
-            "mrkt_tp": self._get_kiwoom_market_type(market),
-            "orgn_tp": "9000",
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": self._get_market_code(market),
         }
-        return self._request_ranking_direct("ka10065", params)
+
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["investor_trading_top"],
+            endpoint="ranking",
+            data=params,
+            method="POST",
+        )
 
     def get_overtime_single_price_rate_ranking(self, market: str = "ALL") -> Dict[str, Any]:
         """
@@ -902,11 +894,15 @@ class RankingAPI(KiwoomAPIBase):
             시간외단일가등락율순위 종목 목록
         """
         params = {
-            "mrkt_tp": self._get_kiwoom_market_type(market),
-            "sort_base": "5",
-            "stk_cnd": "0",
-            "trde_qty_cnd": "0",
-            "crd_cnd": "0",
-            "trde_prica": "0",
+            "FID_COND_MRKT_DIV_CODE": "J",
+            "FID_COND_SCR_DIV_CODE": "20171",
+            "FID_DIV_CLS_CODE": "0",
+            "FID_INPUT_ISCD": self._get_market_code(market),
         }
-        return self._request_ranking_direct("ka10098", params)
+
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["overtime_rate_ranking"],
+            endpoint="ranking",
+            data=params,
+            method="POST",
+        )

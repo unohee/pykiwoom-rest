@@ -5,6 +5,8 @@ Async API Client for Kiwoom REST API
 """
 
 import asyncio
+import contextlib
+import inspect
 import json
 import logging
 import os
@@ -47,9 +49,14 @@ class AsyncKiwoomAPI:
             enable_rate_optimizer: Rate limiting 최적화 활성화
             credentials_list: 다중 크레덴셜 리스트
         """
+        if not isinstance(rate_limit, int) or isinstance(rate_limit, bool) or rate_limit <= 0:
+            raise ValueError("rate_limit must be a positive integer")
+        if not isinstance(max_concurrent, int) or isinstance(max_concurrent, bool) or max_concurrent <= 0:
+            raise ValueError("max_concurrent must be a positive integer")
+
         self._load_credentials(appkey, appsecret, account_no)
 
-        self.base_url = "https://api.kiwoom.com/uapi/v1"
+        self.base_url = "https://api.kiwoom.com"
         self.rate_limit = rate_limit
         self.max_concurrent = max_concurrent
 
@@ -63,8 +70,10 @@ class AsyncKiwoomAPI:
 
         # Rate limiting
         self.semaphore = asyncio.Semaphore(max_concurrent)
+        # 이전 공개 속성 호환성. 실제 시간 간격 제한은 rate_lock으로 수행한다.
         self.rate_limiter = asyncio.Semaphore(rate_limit)
-        self.last_request_time = 0
+        self.rate_lock = asyncio.Lock()
+        self.last_request_time = 0.0
 
         # Rate optimizer
         self.enable_rate_optimizer = enable_rate_optimizer
@@ -135,10 +144,33 @@ class AsyncKiwoomAPI:
                 "client_secret": self.appsecret,
             }
 
-            async with self.session.post(url, headers=headers, data=data) as response:
-                result = await response.json()
+            if self.session is None or self.session.closed:
+                raise RuntimeError("AsyncKiwoomAPI must be used with 'async with' before making requests")
 
-                self.access_token = result["access_token"]
+            async with self.session.post(url, headers=headers, data=data) as response:
+                content_type = response.headers.get("Content-Type", "")
+                response_text = await response.text()
+                if "application/json" not in content_type.lower():
+                    raise RuntimeError(
+                        f"Token request failed with non-JSON response: HTTP {response.status} {response_text}"
+                    )
+
+                try:
+                    result = json.loads(response_text) if response_text else {}
+                except json.JSONDecodeError as exc:
+                    raise RuntimeError(
+                        f"Token request failed with invalid JSON: HTTP {response.status} {response_text}"
+                    ) from exc
+
+                if response.status < 200 or response.status >= 300:
+                    error_detail = result.get("error") or result.get("error_description") or result
+                    raise RuntimeError(f"Token request failed: HTTP {response.status} {error_detail}")
+
+                access_token = result.get("access_token")
+                if not access_token:
+                    raise RuntimeError(f"Token response missing access_token: {result}")
+
+                self.access_token = access_token
                 expires_in = result.get("expires_in", 86400)
                 self.token_expires = time.time() + expires_in - 60
 
@@ -166,22 +198,39 @@ class AsyncKiwoomAPI:
             }
 
             # Rate limit 적용
-            async with self.rate_limiter:
+            async with self.rate_lock:
                 # 최소 간격 유지
-                current_time = time.time()
+                current_time = time.monotonic()
                 time_since_last = current_time - self.last_request_time
-                if time_since_last < (1.0 / self.rate_limit):
-                    await asyncio.sleep((1.0 / self.rate_limit) - time_since_last)
+                min_interval = 1.0 / self.rate_limit
+                if time_since_last < min_interval:
+                    await asyncio.sleep(min_interval - time_since_last)
 
-                self.last_request_time = time.time()
+                self.last_request_time = time.monotonic()
 
-                # 요청 실행
-                if method == "GET":
-                    async with self.session.get(url, headers=headers, params=params) as response:
-                        return await response.json()
-                else:
-                    async with self.session.post(url, headers=headers, json=params) as response:
-                        return await response.json()
+            # 요청 실행
+            if method == "GET":
+                async with self.session.get(url, headers=headers, params=params) as response:
+                    return await self._parse_response(response)
+            else:
+                async with self.session.post(url, headers=headers, json=params) as response:
+                    return await self._parse_response(response)
+
+    async def _parse_response(self, response: aiohttp.ClientResponse) -> Dict[str, Any]:
+        """응답 상태와 JSON 형식 검증"""
+        response_text = await response.text()
+        try:
+            result = json.loads(response_text) if response_text else {}
+        except json.JSONDecodeError as exc:
+            raise RuntimeError(
+                f"API request failed with invalid JSON: HTTP {response.status} {response_text}"
+            ) from exc
+
+        if response.status < 200 or response.status >= 300:
+            error_detail = result.get("error") or result.get("message") or result
+            raise RuntimeError(f"API request failed: HTTP {response.status} {error_detail}")
+
+        return result
 
     async def get_stock_price(self, stock_code: str) -> Dict[str, Any]:
         """주식 시세 조회 (비동기)"""
@@ -416,6 +465,12 @@ class RealtimeWebSocketClient:
         self.ws = None
         self.callbacks = {}
         self.running = False
+        self._message_task = None
+
+    def _ensure_connected(self):
+        """WebSocket 연결 상태 확인"""
+        if not self.running or self.ws is None or getattr(self.ws, "closed", False):
+            raise ConnectionError("WebSocket is not connected")
 
     async def connect(self):
         """WebSocket 연결"""
@@ -429,19 +484,24 @@ class RealtimeWebSocketClient:
         await self.ws.send(json.dumps(auth_msg))
 
         # 응답 처리 루프 시작
-        asyncio.create_task(self._message_handler())
+        self._message_task = asyncio.create_task(self._message_handler())
 
     async def _message_handler(self):
         """메시지 처리 루프"""
         while self.running:
             try:
-                message = await self.ws.recv()
+                if hasattr(self.ws, "receive_str"):
+                    message = await self.ws.receive_str()
+                else:
+                    message = await self.ws.recv()
                 data = json.loads(message)
 
                 # 메시지 타입별 처리
                 msg_type = data.get("type")
                 if msg_type in self.callbacks:
-                    await self.callbacks[msg_type](data)
+                    result = self.callbacks[msg_type](data)
+                    if inspect.isawaitable(result):
+                        await result
 
             except Exception as e:
                 logger.error(f"WebSocket 메시지 처리 에러: {e}")
@@ -450,6 +510,7 @@ class RealtimeWebSocketClient:
 
     async def subscribe_stock(self, stock_code: str, callback: Callable):
         """종목 구독"""
+        self._ensure_connected()
         # 구독 메시지 전송
         sub_msg = {"type": "subscribe", "channel": "stock", "codes": [stock_code]}
         await self.ws.send(json.dumps(sub_msg))
@@ -459,6 +520,7 @@ class RealtimeWebSocketClient:
 
     async def unsubscribe_stock(self, stock_code: str):
         """구독 해제"""
+        self._ensure_connected()
         unsub_msg = {"type": "unsubscribe", "channel": "stock", "codes": [stock_code]}
         await self.ws.send(json.dumps(unsub_msg))
 
@@ -468,8 +530,15 @@ class RealtimeWebSocketClient:
     async def disconnect(self):
         """연결 종료"""
         self.running = False
+        if self._message_task:
+            self._message_task.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await self._message_task
+            self._message_task = None
         if self.ws:
             await self.ws.close()
+            self.ws = None
+        self.callbacks.clear()
 
 
 # 헬퍼 함수들

@@ -10,6 +10,7 @@
 - 싱글턴 패턴으로 인스턴스 관리
 """
 
+import contextlib
 from typing import Any, Dict, Optional
 
 from .account_api import AccountAPI
@@ -35,9 +36,6 @@ class UnifiedKiwoomRest:
         env_path: str = None,
         use_mock: bool = False,
         rate_limit: int = 20,
-        max_retries: int = 3,
-        enable_rate_optimizer: bool = False,
-        credentials_list: list = None,
         normalize_data: bool = False,
     ):
         """
@@ -50,10 +48,6 @@ class UnifiedKiwoomRest:
             env_path: .env 파일 경로
             use_mock: 모의투자 API 사용 여부
             rate_limit: 초당 최대 요청 수
-            max_retries: 최대 재시도 횟수
-            enable_rate_optimizer: Rate limiting 최적화 활성화
-            credentials_list: 다중 크레덴셜 리스트
-            normalize_data: Kiwoom 숫자 문자열/부호/x100 인코딩 정규화 여부
         """
 
         # 통합 base 클래스 초기화
@@ -64,33 +58,18 @@ class UnifiedKiwoomRest:
             env_path=env_path,
             use_mock=use_mock,
             rate_limit=rate_limit,
-            max_retries=max_retries,
-            enable_rate_optimizer=enable_rate_optimizer,
-            credentials_list=credentials_list,
             normalize_data=normalize_data,
         )
 
-        # 공통 설정 준비
-        common_config = {
-            "account_no": account_no,
-            "appkey": appkey,
-            "appsecret": appsecret,
-            "env_path": env_path,
-            "use_mock": use_mock,
-            "rate_limit": rate_limit,
-            "max_retries": max_retries,
-            "enable_rate_optimizer": enable_rate_optimizer,
-            "credentials_list": credentials_list,
-            "normalize_data": normalize_data,
-        }
-
         # 기존 API 클래스들 초기화 (Facade 공유)
-        self.stock_api = StockAPI(**common_config)
-        self.chart_api = ChartAPI(**common_config)
-        self.ranking_api = RankingAPI(**common_config)
-        self.account_api = AccountAPI(**common_config)
-        self.order_api = OrderAPI(**common_config)
-        self.sector_api = SectorAPI(**common_config)
+        self.stock_api = self._create_shared_api(StockAPI)
+        self.chart_api = self._create_shared_api(ChartAPI)
+        self.ranking_api = self._create_shared_api(RankingAPI)
+        self.account_api = self._create_shared_api(AccountAPI)
+        self.order_api = self._create_shared_api(OrderAPI)
+        self.sector_api = self._create_shared_api(SectorAPI)
+
+        self._closed = False
 
         # 인증 정보 동기화
         self._sync_authentication()
@@ -99,6 +78,53 @@ class UnifiedKiwoomRest:
         """인증 정보 동기화 (모든 API 클래스가 같은 Facade 사용)"""
         # Facade가 싱글턴이므로 자동으로 인증 정보가 공유됨
         pass
+
+    def _create_shared_api(self, api_cls):
+        """API 모듈 로직을 공유 base/facade에 명시적으로 연결"""
+        api_base = self.api_base
+
+        class SharedAPI:
+            _base_attrs = {
+                "account_no",
+                "appkey",
+                "appsecret",
+                "access_token",
+                "token_expires",
+                "base_url",
+                "facade",
+                "use_mock",
+                "max_retries",
+                "make_tr_request",
+                "make_tr_request_continuous",
+                "request",
+                "_get_access_token",
+                "_get_hashkey",
+                "health_check",
+                "reset_rate_limiter",
+            }
+
+            def __getattr__(self, name):
+                if name in self._base_attrs:
+                    return getattr(api_base, name)
+                try:
+                    attr = getattr(api_cls, name)
+                except AttributeError:
+                    return getattr(api_base, name)
+                if callable(attr):
+                    return attr.__get__(self, self.__class__)
+                return attr
+
+            def get_stats(self):
+                return {
+                    "api_module": api_cls.__name__,
+                    "shared_facade": True,
+                    "independent_client": False,
+                }
+
+            def close(self):
+                return None
+
+        return SharedAPI()
 
     # ========== 기존 메서드들 - 완전 호환성 유지 ==========
 
@@ -363,12 +389,24 @@ class UnifiedKiwoomRest:
 
     def reset_rate_limiter(self):
         """Rate limiter 초기화"""
-        # Facade의 rate limiter 리셋 기능이 있다면 사용
-        if hasattr(self.api_base.facade, "global_rate_limiter"):
-            self.api_base.facade.global_rate_limiter.request_times.clear()
+        self.api_base.reset_rate_limiter()
 
     def close(self):
         """모든 세션 종료"""
+        if self._closed:
+            return
+        self._closed = True
+
+        for api in (
+            self.stock_api,
+            self.chart_api,
+            self.ranking_api,
+            self.account_api,
+            self.order_api,
+            self.sector_api,
+        ):
+            with contextlib.suppress(Exception):
+                api.close()
         self.api_base.close()
 
     def __enter__(self):

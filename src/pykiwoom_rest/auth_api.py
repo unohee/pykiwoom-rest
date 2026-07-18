@@ -5,6 +5,7 @@ OAuth2 Authentication API
 목적: OAuth 토큰 발급/폐기 기능 제공
 """
 
+import threading
 from datetime import datetime, timedelta
 from typing import Any, Dict, Optional
 
@@ -36,7 +37,7 @@ class AuthAPI(KiwoomAPIBase):
 
         # 토큰 캐시 메타데이터
         self._token_cache = {}
-        self._token_lock = None
+        self._token_lock = threading.RLock()
 
     def get_access_token(self, force_refresh: bool = False) -> Dict[str, Any]:
         """
@@ -68,44 +69,54 @@ class AuthAPI(KiwoomAPIBase):
             >>> print(token_info['token'])
             'eyJ0eXAiOiJKV1QiLCJhbGc...'
         """
-        try:
-            # 기존 _get_access_token 메서드 호출
-            token = self._get_access_token(force_refresh=force_refresh)
+        with self._token_lock:
+            try:
+                # 기존 _get_access_token 메서드 호출
+                token = self._get_access_token(force_refresh=force_refresh)
 
-            if not token:
+                if not token:
+                    raise KiwoomAPIError(
+                        "토큰 발급 실패: 토큰 값이 없음",
+                        error_code="NULL_TOKEN",
+                        error_msg="Access token is null",
+                    )
+
+                # 캐시된 토큰이면 기존 메타데이터를 그대로 반환
+                if (
+                    not force_refresh
+                    and self._token_cache
+                    and self._token_cache.get("token") == token
+                ):
+                    return self._token_cache
+
+                # 토큰 메타데이터 구성
+                now = datetime.now()
+                expires_at = self.token_expires or (now + timedelta(hours=24))
+                expires_in = max(0, int((expires_at - now).total_seconds()))
+
+                token_info = {
+                    "tr_code": self.TR_CODES["token_issuance"],
+                    "token": token,
+                    "token_type": "Bearer",
+                    "expires_in": expires_in,
+                    "issued_at": now.isoformat(),
+                    "expires_at": expires_at.isoformat(),
+                    "status": "valid",
+                }
+
+                # 캐시에 저장
+                self._token_cache = token_info
+
+                return token_info
+
+            except KiwoomAPIError:
+                raise
+            except Exception as e:
                 raise KiwoomAPIError(
-                    "토큰 발급 실패: 토큰 값이 없음",
-                    error_code="NULL_TOKEN",
-                    error_msg="Access token is null",
+                    f"토큰 발급 중 오류: {str(e)}",
+                    error_code="TOKEN_ISSUE_ERROR",
+                    error_msg=str(e),
                 )
-
-            # 토큰 메타데이터 구성
-            now = datetime.now()
-            expires_at = self.token_expires or (now + timedelta(hours=24))
-
-            token_info = {
-                "tr_code": self.TR_CODES["token_issuance"],
-                "token": token,
-                "token_type": "Bearer",
-                "expires_in": 86400,  # 24시간 (초 단위)
-                "issued_at": now.isoformat(),
-                "expires_at": expires_at.isoformat(),
-                "status": "valid",
-            }
-
-            # 캐시에 저장
-            self._token_cache = token_info
-
-            return token_info
-
-        except KiwoomAPIError:
-            raise
-        except Exception as e:
-            raise KiwoomAPIError(
-                f"토큰 발급 중 오류: {str(e)}",
-                error_code="TOKEN_ISSUE_ERROR",
-                error_msg=str(e),
-            )
 
     def revoke_token(self, token: Optional[str] = None) -> Dict[str, Any]:
         """
@@ -139,24 +150,20 @@ class AuthAPI(KiwoomAPIBase):
             'revoked'
         """
         try:
-            # 폐기할 토큰 결정
-            revoke_target = token or self.access_token
+            with self._token_lock:
+                # 폐기할 토큰 결정
+                revoke_target = token or self.access_token
 
-            if not revoke_target:
-                raise ValueError(
-                    "폐기할 토큰이 없습니다. "
-                    "먼저 get_access_token()으로 토큰을 발급받거나 "
-                    "token 매개변수를 지정하세요."
-                )
+                if not revoke_target:
+                    raise ValueError(
+                        "폐기할 토큰이 없습니다. "
+                        "먼저 get_access_token()으로 토큰을 발급받거나 "
+                        "token 매개변수를 지정하세요."
+                    )
 
-            # 토큰 폐기 요청
-            revoke_data = {"token": revoke_target, "token_type_hint": "access_token"}
+                # 토큰 폐기 요청
+                revoke_data = {"token": revoke_target, "token_type_hint": "access_token"}
 
-            # 폐기 요청 전 현재 토큰 백업
-            backup_token = self.access_token
-            backup_expires = self.token_expires
-
-            try:
                 response = self.request(
                     method="POST",
                     endpoint="/oauth2/revoke",
@@ -166,9 +173,19 @@ class AuthAPI(KiwoomAPIBase):
 
                 # 폐기 성공 여부 판정
                 # 키움 API는 정상 폐기 시 HTTP 200 또는 204 반환
-                success = response.get("rt_cd") == "0" or response.get("status") == "success"
+                success = (
+                    response is None
+                    or response == {}
+                    or (
+                        isinstance(response, dict)
+                        and (
+                            response.get("rt_cd") == "0"
+                            or response.get("status") == "success"
+                        )
+                    )
+                )
 
-                if success or response.get("error") is None:
+                if success:
                     # 토큰 초기화
                     if revoke_target == self.access_token:
                         self.access_token = None
@@ -181,9 +198,6 @@ class AuthAPI(KiwoomAPIBase):
                     revoke_result = {
                         "tr_code": self.TR_CODES["token_revocation"],
                         "status": "revoked",
-                        "revoked_token": (
-                            f"{revoke_target[:20]}..." if len(revoke_target) > 20 else revoke_target
-                        ),
                         "revoked_at": now.isoformat(),
                         "message": "Token successfully revoked",
                         "raw_response": response,
@@ -191,17 +205,20 @@ class AuthAPI(KiwoomAPIBase):
 
                     return revoke_result
                 else:
-                    raise KiwoomAPIError(
-                        f"토큰 폐기 실패: {response.get('msg1', 'Unknown error')}",
-                        error_code=response.get("error_code", "REVOKE_ERROR"),
-                        error_msg=response.get("error", "Token revocation failed"),
-                    )
+                    if isinstance(response, dict):
+                        message = response.get("msg1", "Unknown error")
+                        error_code = response.get("error_code", "REVOKE_ERROR")
+                        error_msg = response.get("error", "Token revocation failed")
+                    else:
+                        message = str(response) if response else "Unknown error"
+                        error_code = "REVOKE_ERROR"
+                        error_msg = "Token revocation failed"
 
-            except Exception:
-                # 폐기 요청 실패 시 토큰 복구
-                self.access_token = backup_token
-                self.token_expires = backup_expires
-                raise
+                    raise KiwoomAPIError(
+                        f"토큰 폐기 실패: {message}",
+                        error_code=error_code,
+                        error_msg=error_msg,
+                    )
 
         except ValueError:
             raise
@@ -251,16 +268,10 @@ class AuthAPI(KiwoomAPIBase):
                 # 5분 미만 남으면 갱신 필요
                 needs_refresh = time_to_expiry < 300
 
-            token_prefix = (
-                f"{self.access_token[:20]}..."
-                if self.access_token and len(self.access_token) > 20
-                else self.access_token
-            )
-
             return {
                 "has_token": has_token,
                 "is_valid": is_valid,
-                "token_prefix": token_prefix or "None",
+                "token_prefix": "REDACTED" if has_token else "None",
                 "expires_at": (self.token_expires.isoformat() if self.token_expires else None),
                 "time_to_expiry": time_to_expiry,
                 "needs_refresh": needs_refresh,

@@ -4,13 +4,16 @@ Stock Information API
 작성일: 2025-01-27
 """
 
+from datetime import datetime
 from typing import Any, Dict
 
 from .kiwoom_base import KiwoomAPIBase
-
-
 class StockAPI(KiwoomAPIBase):
     """주식 정보 관련 API"""
+
+    def _normalize_stock_code(self, stock_code: str) -> str:
+        """Normalize supported stock-code formats for API request fields."""
+        return self.convert_stock_code_param(stock_code)["stk_cd"]
 
     # TR 코드 매핑
     TR_CODES = {
@@ -79,10 +82,10 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             호가 정보
         """
-        params = {"stk_cd": stock_code}
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["stock_quote"],
-            endpoint="market_condition",
+            endpoint="stock_info",
             data=params,
             method="POST",
         )
@@ -97,7 +100,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             체결 정보
         """
-        params = {"stk_cd": stock_code}
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["execution_info"],
             endpoint="stock_info",
@@ -115,13 +118,24 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             투자자별 매매동향
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["stock_member_info"],
             endpoint="stock_info",
             data=params,
             method="POST",
         )
+
+    @staticmethod
+    def _validate_yyyymmdd(value: str, field_name: str) -> str:
+        """Validate YYYYMMDD date strings before API submission."""
+        if not isinstance(value, str) or not (len(value) == 8 and value.isdigit()):
+            raise ValueError(f"{field_name} must be YYYYMMDD")
+        try:
+            datetime.strptime(value, "%Y%m%d")
+        except ValueError as exc:
+            raise ValueError(f"{field_name} must be a valid YYYYMMDD date") from exc
+        return value
 
     def get_credit_trend(
         self, stock_code: str, date: str = None, query_type: str = "1"
@@ -137,26 +151,20 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             신용매매동향 정보
         """
-        from datetime import datetime
-
         if not date:
             date = datetime.now().strftime("%Y%m%d")
+        date = self._validate_yyyymmdd(date, "date")
+        if query_type not in {"1", "2"}:
+            raise ValueError("query_type must be one of 1, 2")
 
-        params = {"stk_cd": stock_code, "dt": date, "qry_tp": query_type}
+        params = {"stk_cd": self._normalize_stock_code(stock_code), "dt": date, "qry_tp": query_type}
 
-        headers = {"api-id": "ka10013", "cont-yn": "N", "next-key": ""}
-        token = self._get_access_token()
-        headers["authorization"] = f"Bearer {token}"
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-
-        response = self.request(
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["credit_trend"],
+            endpoint="stock_info",
+            data=params,
             method="POST",
-            endpoint="/api/dostk/stkinfo",
-            json_data=params,
-            headers=headers,
         )
-
-        return response
 
     def get_daily_trading_detail(self, start_date: str = None) -> Dict[str, Any]:
         """
@@ -168,26 +176,17 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             일별거래상세 정보
         """
-        from datetime import datetime
-
         if not start_date:
             start_date = datetime.now().strftime("%Y%m%d")
+        start_date = self._validate_yyyymmdd(start_date, "start_date")
 
         params = {"strt_dt": start_date}
-
-        headers = {"api-id": "ka10015", "cont-yn": "N", "next-key": ""}
-        token = self._get_access_token()
-        headers["authorization"] = f"Bearer {token}"
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-
-        response = self.request(
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["daily_trading_detail"],
+            endpoint="stock_info",
+            data=params,
             method="POST",
-            endpoint="/api/dostk/stkinfo",
-            json_data=params,
-            headers=headers,
         )
-
-        return response
 
     def get_new_high_low(
         self,
@@ -257,7 +256,7 @@ class StockAPI(KiwoomAPIBase):
         """
         market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
 
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": market_code}
+        params = {"mrkt_tp": market_code}
         return self.make_tr_request(
             tr_code=self.TR_CODES["upper_lower_limit"],
             endpoint="stock_info",
@@ -278,9 +277,8 @@ class StockAPI(KiwoomAPIBase):
         market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
 
         params = {
-            "FID_COND_MRKT_DIV_CODE": "J",
-            "FID_INPUT_ISCD": market_code,
-            "FID_RANK_SORT_CLS_CODE": "0",
+            "mrkt_tp": market_code,
+            "sort_tp": "0",
         }
         return self.make_tr_request(
             tr_code=self.TR_CODES["price_fluctuation"],
@@ -299,7 +297,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             고가/저가 근접 정보
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["high_low_approach"],
             endpoint="stock_info",
@@ -317,7 +315,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             거래량 집중도 정보
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["supply_concentration"],
             endpoint="stock_info",
@@ -355,7 +353,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             당일/전일 체결 비교 정보
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": self._normalize_stock_code(stock_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["current_previous_execution"],
             endpoint="stock_info",
@@ -411,7 +409,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             종목 상세정보
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": self._normalize_stock_code(stock_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["stock_info_inquiry"],
             endpoint="stock_info",
@@ -429,7 +427,7 @@ class StockAPI(KiwoomAPIBase):
         Returns:
             소요시간 정보
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": self._normalize_stock_code(stock_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["stock_elapsed_time"],
             endpoint="stock_info",
@@ -498,71 +496,73 @@ class StockAPI(KiwoomAPIBase):
         """
         from datetime import datetime
 
-        try:
-            # 기본 정보 조회
-            basic_info = self.get_stock_basic_info(stock_code)
+        # 기본 정보 조회
+        basic_info = self.get_stock_basic_info(stock_code)
 
-            if not basic_info or basic_info.get("rt_cd") != "0":
-                return {
-                    "rt_cd": "1",
-                    "msg1": "FINANCIAL_DATA_ERROR",
-                    "output": [],
-                }
-
-            # 응답에서 재무 데이터 추출
-            # ka10001 응답 필드 매핑:
-            # - per: PER
-            # - pbr: PBR
-            # - eps: EPS
-            # - bps: BPS
-            # - stk_divi_rate: 배당수익률
-
-            output1 = basic_info.get("output1", {})
-            if not output1:
-                # 다른 응답 형식 시도
-                output1 = basic_info.get("stk_prpr_qry", {})
-                if not output1:
-                    output1 = basic_info
-
-            # 재무 필드 추출
-            eps = output1.get("eps", output1.get("stck_eps", "0"))
-            bps = output1.get("bps", output1.get("stck_bps", "0"))
-            per = output1.get("per", output1.get("stck_per", "0"))
-            pbr = output1.get("pbr", output1.get("stck_pbr", "0"))
-            dvd_rate = output1.get("stk_divi_rate", output1.get("dvdn_rate", "0"))
-
-            # PyKIS 형식으로 변환
-            current_quarter = datetime.now().strftime("%Y%m")
-
-            financial_data = {
-                "stac_yymm": current_quarter,
-                "eps": str(eps) if eps else "0",
-                "bps": str(bps) if bps else "0",
-                "roe_val": "",  # ka10001에서 제공하지 않음
-                "sps": "",  # ka10001에서 제공하지 않음
-                "per": str(per) if per else "0",
-                "pbr": str(pbr) if pbr else "0",
-                "dvdn_rate": str(dvd_rate) if dvd_rate else "0",
-                # 추가 필드 (있으면 포함)
-                "grs": "",  # 매출성장률
-                "bsop_prfi_inrt": "",  # 영업이익성장률
-                "ntin_inrt": "",  # 순이익성장률
-                "rsrv_rate": "",  # 유보율
-                "lblt_rate": "",  # 부채비율
-            }
-
-            return {
-                "rt_cd": "0",
-                "msg1": "FINANCIAL_FROM_BASIC_INFO",
-                "output": [financial_data],
-                "_source": "ka10001",
-                "_note": "키움 REST API는 분기별 상세 재무데이터를 제공하지 않습니다.",
-            }
-
-        except Exception as e:
-            self.logger.warning(f"[{stock_code}] get_stock_financial 실패: {e}")
+        if not basic_info:
             return {
                 "rt_cd": "1",
-                "msg1": str(e),
+                "msg1": "FINANCIAL_DATA_ERROR",
                 "output": [],
             }
+
+        rt_cd = basic_info.get("rt_cd")
+        if rt_cd is not None and rt_cd != "0":
+            return basic_info
+
+        # 응답에서 재무 데이터 추출
+        # ka10001 응답 필드 매핑:
+        # - per: PER
+        # - pbr: PBR
+        # - eps: EPS
+        # - bps: BPS
+        # - stk_divi_rate: 배당수익률
+
+        output1 = basic_info.get("output1", {})
+        if not output1:
+            # 다른 응답 형식 시도
+            output1 = basic_info.get("stk_prpr_qry", {})
+            if not output1:
+                if not any(key in basic_info for key in ("eps", "stck_eps", "bps", "stck_bps", "per", "stck_per", "pbr", "stck_pbr")):
+                    return {
+                        "rt_cd": "1",
+                        "msg1": "FINANCIAL_DATA_SOURCE_MISSING",
+                        "output": [],
+                        "_source": "ka10001",
+                    }
+                output1 = basic_info
+
+        # 재무 필드 추출
+        eps = output1.get("eps", output1.get("stck_eps", "0"))
+        bps = output1.get("bps", output1.get("stck_bps", "0"))
+        per = output1.get("per", output1.get("stck_per", "0"))
+        pbr = output1.get("pbr", output1.get("stck_pbr", "0"))
+        dvd_rate = output1.get("stk_divi_rate", output1.get("dvdn_rate", "0"))
+
+        # PyKIS 형식으로 변환
+        current_quarter = datetime.now().strftime("%Y%m")
+
+        financial_data = {
+            "stac_yymm": current_quarter,
+            "eps": str(eps) if eps else "0",
+            "bps": str(bps) if bps else "0",
+            "roe_val": "",  # ka10001에서 제공하지 않음
+            "sps": "",  # ka10001에서 제공하지 않음
+            "per": str(per) if per else "0",
+            "pbr": str(pbr) if pbr else "0",
+            "dvdn_rate": str(dvd_rate) if dvd_rate else "0",
+            # 추가 필드 (있으면 포함)
+            "grs": "",  # 매출성장률
+            "bsop_prfi_inrt": "",  # 영업이익성장률
+            "ntin_inrt": "",  # 순이익성장률
+            "rsrv_rate": "",  # 유보율
+            "lblt_rate": "",  # 부채비율
+        }
+
+        return {
+            "rt_cd": "0",
+            "msg1": "FINANCIAL_FROM_BASIC_INFO",
+            "output": [financial_data],
+            "_source": "ka10001",
+            "_note": "키움 REST API는 분기별 상세 재무데이터를 제공하지 않습니다.",
+        }

@@ -9,12 +9,13 @@ WebSocket API 모듈
 """
 
 import asyncio
+import contextlib
 import logging
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Callable, Dict, List, Optional
 
-from .response_utils import clean_price, clean_rate, signed_change
+from .response_utils import clean_price, clean_rate
 from .websocket_client import WebSocketClient
 
 logger = logging.getLogger(__name__)
@@ -161,20 +162,25 @@ class WebSocketAPI:
             ...     print(f"현재가: {quote.current_price}")
             >>> await ws_api.subscribe_quote("005930", on_quote)
         """
-        if callback:
-            self._quote_callbacks[stock_code] = callback
-
         async def internal_callback(data: Dict[str, Any]):
-            quote = self._parse_quote(stock_code, data)
-            if stock_code in self._quote_callbacks:
-                cb = self._quote_callbacks[stock_code]
-                if asyncio.iscoroutinefunction(cb):
-                    await cb(quote)
-                else:
-                    cb(quote)
+            if not self._matches_stock_code(stock_code, data):
+                return
+            try:
+                quote = self._parse_quote(stock_code, data)
+                if stock_code in self._quote_callbacks:
+                    cb = self._quote_callbacks[stock_code]
+                    if asyncio.iscoroutinefunction(cb):
+                        await cb(quote)
+                    else:
+                        cb(quote)
+            except Exception:
+                logger.exception("Realtime quote callback failed for %s", stock_code)
 
         self._client.register_callback(self.TR_STOCK_QUOTE, internal_callback)
-        return await self._client.subscribe(self.TR_STOCK_QUOTE, stock_code)
+        subscribed = await self._client.subscribe(self.TR_STOCK_QUOTE, stock_code)
+        if subscribed and callback:
+            self._quote_callbacks[stock_code] = callback
+        return subscribed
 
     async def subscribe_orderbook(
         self, stock_code: str, callback: Optional[Callable] = None
@@ -194,20 +200,25 @@ class WebSocketAPI:
             ...     print(f"매수 1호가: {orderbook.bid_prices[0]}")
             >>> await ws_api.subscribe_orderbook("005930", on_orderbook)
         """
-        if callback:
-            self._orderbook_callbacks[stock_code] = callback
-
         async def internal_callback(data: Dict[str, Any]):
-            orderbook = self._parse_orderbook(stock_code, data)
-            if stock_code in self._orderbook_callbacks:
-                cb = self._orderbook_callbacks[stock_code]
-                if asyncio.iscoroutinefunction(cb):
-                    await cb(orderbook)
-                else:
-                    cb(orderbook)
+            if not self._matches_stock_code(stock_code, data):
+                return
+            try:
+                orderbook = self._parse_orderbook(stock_code, data)
+                if stock_code in self._orderbook_callbacks:
+                    cb = self._orderbook_callbacks[stock_code]
+                    if asyncio.iscoroutinefunction(cb):
+                        await cb(orderbook)
+                    else:
+                        cb(orderbook)
+            except Exception:
+                logger.exception("Realtime orderbook callback failed for %s", stock_code)
 
         self._client.register_callback(self.TR_STOCK_ORDERBOOK, internal_callback)
-        return await self._client.subscribe(self.TR_STOCK_ORDERBOOK, stock_code)
+        subscribed = await self._client.subscribe(self.TR_STOCK_ORDERBOOK, stock_code)
+        if subscribed and callback:
+            self._orderbook_callbacks[stock_code] = callback
+        return subscribed
 
     async def subscribe_trade(self, stock_code: str, callback: Optional[Callable] = None) -> bool:
         """
@@ -225,47 +236,70 @@ class WebSocketAPI:
             ...     print(f"체결가: {trade.trade_price}, 체결량: {trade.trade_volume}")
             >>> await ws_api.subscribe_trade("005930", on_trade)
         """
-        if callback:
-            self._trade_callbacks[stock_code] = callback
-
         async def internal_callback(data: Dict[str, Any]):
-            trade = self._parse_trade(stock_code, data)
-            if stock_code in self._trade_callbacks:
-                cb = self._trade_callbacks[stock_code]
-                if asyncio.iscoroutinefunction(cb):
-                    await cb(trade)
-                else:
-                    cb(trade)
+            if not self._matches_stock_code(stock_code, data):
+                return
+            try:
+                trade = self._parse_trade(stock_code, data)
+                if stock_code in self._trade_callbacks:
+                    cb = self._trade_callbacks[stock_code]
+                    if asyncio.iscoroutinefunction(cb):
+                        await cb(trade)
+                    else:
+                        cb(trade)
+            except Exception:
+                logger.exception("Realtime trade callback failed for %s", stock_code)
 
         self._client.register_callback(self.TR_STOCK_TRADE, internal_callback)
-        return await self._client.subscribe(self.TR_STOCK_TRADE, stock_code)
+        subscribed = await self._client.subscribe(self.TR_STOCK_TRADE, stock_code)
+        if subscribed and callback:
+            self._trade_callbacks[stock_code] = callback
+        return subscribed
 
     async def unsubscribe_quote(self, stock_code: str) -> bool:
         """실시간 시세 구독 해제"""
-        if stock_code in self._quote_callbacks:
-            del self._quote_callbacks[stock_code]
-        return await self._client.unsubscribe(self.TR_STOCK_QUOTE, stock_code)
+        try:
+            return await self._client.unsubscribe(self.TR_STOCK_QUOTE, stock_code)
+        finally:
+            self._quote_callbacks.pop(stock_code, None)
 
     async def unsubscribe_orderbook(self, stock_code: str) -> bool:
         """실시간 호가 구독 해제"""
-        if stock_code in self._orderbook_callbacks:
-            del self._orderbook_callbacks[stock_code]
-        return await self._client.unsubscribe(self.TR_STOCK_ORDERBOOK, stock_code)
+        try:
+            return await self._client.unsubscribe(self.TR_STOCK_ORDERBOOK, stock_code)
+        finally:
+            self._orderbook_callbacks.pop(stock_code, None)
 
     async def unsubscribe_trade(self, stock_code: str) -> bool:
         """실시간 체결 구독 해제"""
-        if stock_code in self._trade_callbacks:
-            del self._trade_callbacks[stock_code]
-        return await self._client.unsubscribe(self.TR_STOCK_TRADE, stock_code)
+        try:
+            return await self._client.unsubscribe(self.TR_STOCK_TRADE, stock_code)
+        finally:
+            self._trade_callbacks.pop(stock_code, None)
 
     async def unsubscribe_all(self):
         """모든 구독 해제"""
-        for stock_code in list(self._quote_callbacks.keys()):
-            await self.unsubscribe_quote(stock_code)
-        for stock_code in list(self._orderbook_callbacks.keys()):
-            await self.unsubscribe_orderbook(stock_code)
-        for stock_code in list(self._trade_callbacks.keys()):
-            await self.unsubscribe_trade(stock_code)
+        for subscription_key in list(self._client._subscriptions):
+            tr_id, tr_key = subscription_key.split(":", 1)
+            await self._client.unsubscribe(tr_id, tr_key)
+
+        self._quote_callbacks.clear()
+        self._orderbook_callbacks.clear()
+        self._trade_callbacks.clear()
+
+    @classmethod
+    def _matches_stock_code(cls, stock_code: str, data: Dict[str, Any]) -> bool:
+        """실시간 메시지가 구독 종목에 해당하는지 안전하게 판별한다."""
+        values = cls._realtime_values(data)
+        message_code = cls._first_value(
+            values,
+            "stk_cd",
+            "stock_code",
+            "FID_INPUT_ISCD",
+            "code",
+            default="",
+        )
+        return str(message_code).strip() == str(stock_code).strip()
 
     @staticmethod
     def _realtime_values(data: Dict[str, Any]) -> Dict[str, Any]:
@@ -288,32 +322,19 @@ class WebSocketAPI:
     def _to_int(value: Any) -> int:
         if value in (None, ""):
             return 0
+        text = str(value).replace(",", "").replace("+", "").strip()
         try:
-            return int(str(value).replace(",", "").strip())
+            return int(text)
         except ValueError:
-            return int(float(str(value).replace(",", "").strip()))
+            return int(float(text))
 
     @classmethod
     def _to_abs_int(cls, value: Any) -> int:
-        try:
-            return clean_price(value)
-        except (TypeError, ValueError):
-            return abs(cls._to_int(value))
+        return clean_price(value)
 
     @staticmethod
     def _to_float(value: Any) -> float:
-        if value in (None, ""):
-            return 0.0
         return clean_rate(value)
-
-    @classmethod
-    def _to_signed_change(cls, values: Dict[str, Any], *change_keys: str) -> int:
-        change = cls._first_value(values, *change_keys)
-        sign_code = cls._first_value(values, "prdy_vrss_sign", "25", default=None)
-        try:
-            return signed_change(change, sign_code)
-        except (TypeError, ValueError):
-            return cls._to_int(change)
 
     def _parse_quote(self, stock_code: str, data: Dict[str, Any]) -> RealtimeQuote:
         """실시간 시세 데이터 파싱"""
@@ -321,7 +342,7 @@ class WebSocketAPI:
         return RealtimeQuote(
             stock_code=stock_code,
             current_price=self._to_abs_int(self._first_value(output, "stck_prpr", "10")),
-            change_price=self._to_signed_change(output, "prdy_vrss", "11"),
+            change_price=self._to_int(self._first_value(output, "prdy_vrss", "11")),
             change_rate=self._to_float(self._first_value(output, "prdy_ctrt", "12")),
             volume=self._to_abs_int(self._first_value(output, "acml_vol", "13")),
             open_price=self._to_abs_int(self._first_value(output, "stck_oprc", "16")),
@@ -371,12 +392,10 @@ class WebSocketAPI:
         output = self._realtime_values(data)
         return RealtimeTrade(
             stock_code=stock_code,
-            trade_price=self._to_abs_int(
-                self._first_value(output, "stck_prpr", "10", "stck_cntg_hour")
-            ),
+            trade_price=self._to_abs_int(self._first_value(output, "stck_prpr", "10", "stck_cntg_hour")),
             trade_volume=self._to_abs_int(self._first_value(output, "cntg_vol", "15")),
             trade_time=str(self._first_value(output, "stck_cntg_hour", "20", default="")),
-            change_price=self._to_signed_change(output, "prdy_vrss", "11"),
+            change_price=self._to_int(self._first_value(output, "prdy_vrss", "11")),
             change_rate=self._to_float(self._first_value(output, "prdy_ctrt", "12")),
             cumulative_volume=self._to_abs_int(self._first_value(output, "acml_vol", "13")),
             timestamp=datetime.now(),
@@ -397,16 +416,27 @@ class WebSocketContextManager:
     def __init__(self, ws_api: WebSocketAPI):
         self.ws_api = ws_api
         self.loop: Optional[asyncio.AbstractEventLoop] = None
+        self._previous_loop: Optional[asyncio.AbstractEventLoop] = None
 
     def __enter__(self):
+        with contextlib.suppress(RuntimeError):
+            self._previous_loop = asyncio.get_event_loop()
         self.loop = asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
-        self.loop.run_until_complete(self.ws_api.connect())
+        try:
+            self.loop.run_until_complete(self.ws_api.connect())
+        except Exception:
+            self.loop.close()
+            asyncio.set_event_loop(self._previous_loop)
+            raise
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.loop.run_until_complete(self.ws_api.disconnect())
-        self.loop.close()
+        try:
+            self.loop.run_until_complete(self.ws_api.disconnect())
+        finally:
+            self.loop.close()
+            asyncio.set_event_loop(self._previous_loop)
 
     def run(self, coro):
         """코루틴 실행"""

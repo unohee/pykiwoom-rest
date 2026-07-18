@@ -8,7 +8,7 @@ import contextlib
 import os
 import unittest
 from datetime import datetime, timedelta
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -27,18 +27,19 @@ class TestAuthAPIBasic(unittest.TestCase):
         "KIWOOM_APPSECRET": "TEST_APPSECRET",
         "ACCOUNT_NO": "12345678"
     })
-    @patch("pykiwoom_rest.auth_api.AuthAPI.request")
+    @patch("pykiwoom_rest.auth_api.AuthAPI._make_request")
     def test_get_access_token_success(self, mock_request):
         """토큰 발급 성공 테스트"""
         from pykiwoom_rest.auth_api import AuthAPI
 
         # Mock 응답 설정
-        mock_request.return_value = {
+        mock_request.return_value = MagicMock(json=lambda: {
             "rt_cd": "0",
             "msg1": "success",
             "token": "test_access_token_12345",
-            "token_type": "Bearer"
-        }
+            "token_type": "Bearer",
+            "expires_in": 86400,
+        })
 
         # AuthAPI 초기화
         auth = AuthAPI()
@@ -92,7 +93,7 @@ class TestAuthAPIBasic(unittest.TestCase):
         # 검증
         assert status["has_token"] is True
         assert status["is_valid"] is True
-        assert "test_token_12345" in status["token_prefix"]
+        assert status["token_prefix"] == "REDACTED"
         assert status["time_to_expiry"] > 0
         assert status["needs_refresh"] is False
 
@@ -140,6 +141,10 @@ class TestAuthAPIBasic(unittest.TestCase):
         assert result["status"] == "revoked"
         assert auth.access_token is None
         assert auth.token_expires is None
+        acquired = auth._token_lock.acquire(blocking=False)
+        assert acquired
+        if acquired:
+            auth._token_lock.release()
 
     @patch.dict(os.environ, {
         "KIWOOM_APPKEY": "TEST_APPKEY",

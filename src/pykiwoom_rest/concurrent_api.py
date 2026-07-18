@@ -11,7 +11,8 @@ import time
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor, as_completed
 from dataclasses import dataclass
 from enum import Enum
-from queue import Queue
+from queue import Empty, Queue
+from threading import Lock
 from typing import Any, Callable, Dict, List, Tuple
 
 logger = logging.getLogger(__name__)
@@ -79,6 +80,7 @@ class ConcurrentKiwoomAPI:
 
         self.max_workers = max_workers
         self.enable_rate_optimizer = enable_rate_optimizer
+        self._closed = False
 
         # API 클라이언트 풀
         self._api_pool = None
@@ -91,6 +93,7 @@ class ConcurrentKiwoomAPI:
             "total_time": 0,
             "start_time": time.time(),
         }
+        self._stats_lock = Lock()
 
         self._initialize()
 
@@ -121,8 +124,13 @@ class ConcurrentKiwoomAPI:
 
     def _get_api_client(self):
         """API 클라이언트 획득"""
+        if self._closed:
+            raise RuntimeError("ConcurrentKiwoomAPI is closed")
         if self._api_pool:
-            return self._api_pool.get()
+            try:
+                return self._api_pool.get(timeout=30)
+            except Empty as exc:
+                raise RuntimeError("Timed out waiting for API client from pool") from exc
         else:
             from .kiwoom_rest import KiwoomRest
 
@@ -130,8 +138,27 @@ class ConcurrentKiwoomAPI:
 
     def _return_api_client(self, client):
         """API 클라이언트 반환"""
-        if self._api_pool:
+        if self._api_pool and not self._closed:
             self._api_pool.put(client)
+        elif hasattr(client, "close"):
+            client.close()
+
+    def close(self):
+        """Executor와 API 클라이언트 풀 리소스를 정리한다."""
+        if self._closed:
+            return
+        self._closed = True
+
+        if self._executor:
+            self._executor.shutdown(wait=True)
+            self._executor = None
+
+        if self._api_pool:
+            while not self._api_pool.empty():
+                client = self._api_pool.get_nowait()
+                if hasattr(client, "close"):
+                    client.close()
+            self._api_pool = None
 
     def fetch_stock_prices(self, stock_codes: List[str], chunk_size: int = None) -> BatchResult:
         """여러 종목 시세 동시 조회
@@ -176,10 +203,7 @@ class ConcurrentKiwoomAPI:
 
                     errors.append((i, e, traceback.format_exc()))
                     self.stats["total_errors"] += 1
-                    self._write_log(
-                        "ERROR",
-                        f"주가 조회 실패 - {code}: {e}\n{traceback.format_exc()}",
-                    )
+                    logger.error("주가 조회 실패 - %s: %s\n%s", code, e, traceback.format_exc())
         finally:
             self._return_api_client(api)
 
@@ -221,16 +245,22 @@ class ConcurrentKiwoomAPI:
         for future in as_completed(futures):
             i, code = futures[future]
             try:
-                status, data = future.result(timeout=10)
+                future_result = future.result(timeout=10)
+                status, data = future_result[0], future_result[1]
                 if status == "success":
                     results.append(data)
-                    self.stats["total_requests"] += 1
+                    with self._stats_lock:
+                        self.stats["total_requests"] += 1
                 else:
+                    if len(future_result) > 2:
+                        logger.error("Thread worker failed for %s:\n%s", code, future_result[2])
                     errors.append((i, data))
-                    self.stats["total_errors"] += 1
+                    with self._stats_lock:
+                        self.stats["total_errors"] += 1
             except Exception as e:
                 errors.append((i, e))
-                self.stats["total_errors"] += 1
+                with self._stats_lock:
+                    self.stats["total_errors"] += 1
 
         elapsed = time.time() - start_time
 
@@ -266,9 +296,16 @@ class ConcurrentKiwoomAPI:
             try:
                 chunk_results = future.result(timeout=30)
                 results.extend(chunk_results)
-                self.stats["total_requests"] += len(chunk_results)
+                self.stats["total_requests"] += len(chunk)
+                missing_count = len(chunk) - len(chunk_results)
+                if missing_count > 0:
+                    errors.extend(
+                        (i + len(chunk_results) + offset, Exception("Process worker returned no result"))
+                        for offset in range(missing_count)
+                    )
+                    self.stats["total_errors"] += missing_count
             except Exception as e:
-                errors.append((i, e))
+                errors.extend((i + offset, e) for offset in range(len(chunk)))
                 self.stats["total_errors"] += len(chunk)
 
         elapsed = time.time() - start_time
@@ -392,7 +429,7 @@ class ConcurrentKiwoomAPI:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Context manager 종료"""
-        self.shutdown()
+        self.close()
 
 
 # 프로세스 풀용 함수 (최상위 레벨에 정의)
@@ -403,12 +440,15 @@ def _process_chunk(stock_codes: List[str]) -> List[Any]:
     api = KiwoomRest()
     results = []
 
-    for code in stock_codes:
-        try:
-            result = api.get_stock_price(code)
-            results.append(result)
-        except Exception as e:
-            logger.error(f"Error fetching {code}: {e}")
+    try:
+        for code in stock_codes:
+            try:
+                result = api.get_stock_price(code)
+                results.append(result)
+            except Exception as e:
+                logger.error(f"Error fetching {code}: {e}")
+    finally:
+        api.close()
 
     return results
 
@@ -480,9 +520,12 @@ def fetch_stocks_parallel(stock_codes: List[str], max_workers: int = 10) -> Dict
 
         # 딕셔너리로 변환
         stock_dict = {}
-        for i, code in enumerate(stock_codes):
-            if i < len(result.results):
-                stock_dict[code] = result.results[i]
+        for item in result.results:
+            if not isinstance(item, dict):
+                continue
+            code = item.get("stock_code") or item.get("stk_cd") or item.get("code")
+            if code in stock_codes:
+                stock_dict[code] = item
 
         return stock_dict
 

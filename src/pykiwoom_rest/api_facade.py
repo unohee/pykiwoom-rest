@@ -12,15 +12,19 @@
 """
 
 import contextlib
+import json
 import logging
 import threading
 import time
 from dataclasses import dataclass
 from datetime import datetime
 from enum import Enum
+from numbers import Real
 from typing import Any, Dict, List, Optional
 
-from .base_api import BaseAPIClient
+import requests
+
+from .base_api import BaseAPIClient, RateLimitExceededError
 
 
 class RequestPriority(Enum):
@@ -41,13 +45,23 @@ class APIRequest:
     headers: Dict[str, str]
     data: Optional[Dict[str, Any]] = None
     priority: RequestPriority = RequestPriority.NORMAL
-    created_at: float = None
+    created_at: Optional[float] = None
     retries: int = 0
     max_retries: int = 3
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if self.created_at is None:
             self.created_at = time.time()
+
+
+class _FacadeBaseClient(BaseAPIClient):
+    """파사드가 내부 전송 계층으로 사용하는 최소 concrete BaseAPIClient."""
+
+    def _prepare_headers(self, headers: Optional[Dict[str, str]] = None) -> Dict[str, str]:
+        return dict(headers or {})
+
+    def _process_response(self, response: requests.Response) -> Any:
+        return response
 
 
 class GlobalRateLimiter:
@@ -63,41 +77,47 @@ class GlobalRateLimiter:
         self.blocked_requests = 0
         self.last_block_time = None
 
+    def _prune_requests_locked(self, now: float) -> None:
+        """Remove request timestamps outside the one-second rate window."""
+        self.request_times = [t for t in self.request_times if now - t <= 1.0]
+
     def can_make_request(self) -> bool:
         """요청 가능 여부 확인"""
         with self.lock:
             now = time.time()
-
-            # 1초 이전 요청들 제거
-            self.request_times = [t for t in self.request_times if now - t <= 1.0]
-
+            self._prune_requests_locked(now)
             return len(self.request_times) < self.max_requests_per_second
 
     def wait_for_slot(self, timeout: float = 10.0) -> bool:
-        """요청 슬롯이 생길 때까지 대기"""
+        """요청 슬롯이 생길 때까지 대기하고 원자적으로 예약"""
         start_time = time.time()
 
         while time.time() - start_time < timeout:
-            if self.can_make_request():
-                return True
-
             with self.lock:
+                now = time.time()
+                self._prune_requests_locked(now)
+
+                if len(self.request_times) < self.max_requests_per_second:
+                    self.request_times.append(now)
+                    return True
+
                 if self.request_times:
                     # 가장 오래된 요청 시간 기준으로 대기
                     oldest_request = min(self.request_times)
-                    wait_time = max(0.05, 1.1 - (time.time() - oldest_request))
+                    wait_time = max(0.05, 1.1 - (now - oldest_request))
                 else:
                     wait_time = 0.05
 
-            time.sleep(wait_time)
+            remaining = timeout - (time.time() - start_time)
+            if remaining <= 0:
+                break
+            time.sleep(min(wait_time, remaining))
 
         return False
 
     def record_request(self):
-        """요청 기록"""
+        """요청 통계 기록 (슬롯 예약은 wait_for_slot에서 처리)"""
         with self.lock:
-            now = time.time()
-            self.request_times.append(now)
             self.total_requests += 1
 
     def record_block(self):
@@ -105,6 +125,14 @@ class GlobalRateLimiter:
         with self.lock:
             self.blocked_requests += 1
             self.last_block_time = time.time()
+
+    def reset(self):
+        """Rate limiter 상태를 thread-safe하게 초기화"""
+        with self.lock:
+            self.request_times.clear()
+            self.total_requests = 0
+            self.blocked_requests = 0
+            self.last_block_time = None
 
     def get_stats(self) -> Dict[str, Any]:
         """통계 정보 반환"""
@@ -123,7 +151,7 @@ class KiwoomAPIFacade:
     """키움증권 API 통합 파사드 클래스 (싱글턴)"""
 
     _instance = None
-    _lock = threading.Lock()
+    _lock = threading.RLock()
 
     def __new__(cls, *args, **kwargs):
         """싱글턴 패턴 구현"""
@@ -143,49 +171,81 @@ class KiwoomAPIFacade:
         max_requests_per_second: int = 20,
         request_timeout: float = 30.0,
     ):
-        # 이미 초기화된 경우 재초기화 방지
-        if hasattr(self, "_initialized"):
-            return
+        if not isinstance(max_requests_per_second, int) or isinstance(max_requests_per_second, bool):
+            raise ValueError("max_requests_per_second must be an integer")
+        if max_requests_per_second <= 0:
+            raise ValueError("max_requests_per_second must be positive")
+        if not isinstance(request_timeout, Real) or isinstance(request_timeout, bool):
+            raise ValueError("request_timeout must be a number")
+        if request_timeout <= 0:
+            raise ValueError("request_timeout must be positive")
 
-        self.logger = logging.getLogger(__name__)
-
-        # Rate Limiter 초기화
-        self.global_rate_limiter = GlobalRateLimiter(max_requests_per_second)
-
-        # Base API 인스턴스 - URL은 나중에 동적으로 설정
-        self.base_url = "https://mockapi.kiwoom.com" if use_mock else "https://api.kiwoom.com"
-        self.base_api = BaseAPIClient(
-            base_url=self.base_url,
-            rate_limit=max_requests_per_second,
-            timeout=int(request_timeout),
-        )
-
-        # 설정
-        self.request_timeout = request_timeout
-
-        # 통계
-        self.facade_stats = {
-            "total_facade_requests": 0,
-            "successful_requests": 0,
-            "failed_requests": 0,
-            "rate_limited_requests": 0,
-            "start_time": time.time(),
+        config_signature = {
+            "account_no": account_no,
+            "appkey": appkey,
+            "appsecret": appsecret,
+            "env_path": env_path,
+            "use_mock": use_mock,
+            "max_requests_per_second": max_requests_per_second,
+            "request_timeout": request_timeout,
         }
 
-        # 요청 히스토리 (최근 1000개)
-        self.request_history: List[Dict[str, Any]] = []
-        self.history_lock = threading.Lock()
+        with type(self)._lock:
+            # 이미 초기화된 경우 호환되지 않는 설정 재사용 방지
+            if hasattr(self, "_initialized"):
+                if config_signature != self._config_signature:
+                    raise ValueError(
+                        "KiwoomAPIFacade singleton already initialized with different configuration; "
+                        "call reset_instance() before creating a facade with different arguments."
+                    )
+                return
 
-        self._initialized = True
+            self.logger = logging.getLogger(__name__)
 
-        self.logger.info("KiwoomAPIFacade 초기화 완료 (싱글턴)")
+            # Rate Limiter 초기화
+            self.global_rate_limiter = GlobalRateLimiter(max_requests_per_second)
+
+            # Base API 인스턴스 - URL은 나중에 동적으로 설정
+            self.base_url = "https://mockapi.kiwoom.com" if use_mock else "https://api.kiwoom.com"
+            self.base_api = _FacadeBaseClient(
+                base_url=self.base_url,
+                rate_limit=max_requests_per_second,
+                timeout=request_timeout,
+            )
+            self.base_api.account_no = account_no
+            self.base_api.appkey = appkey
+            self.base_api.appsecret = appsecret
+            self.base_api.env_path = env_path
+
+            # 설정
+            self.request_timeout = request_timeout
+            self._config_signature = config_signature
+
+            # 통계
+            self.facade_stats = {
+                "total_facade_requests": 0,
+                "successful_requests": 0,
+                "failed_requests": 0,
+                "rate_limited_requests": 0,
+                "start_time": time.time(),
+            }
+            self.stats_lock = threading.Lock()
+
+            # 요청 히스토리 (최근 1000개)
+            self.request_history: List[Dict[str, Any]] = []
+            self.history_lock = threading.Lock()
+
+            self._initialized = True
+
+            self.logger.info("KiwoomAPIFacade 초기화 완료 (싱글턴)")
 
     @classmethod
     def get_instance(cls, **kwargs) -> "KiwoomAPIFacade":
         """싱글턴 인스턴스 반환"""
-        if cls._instance is None:
-            cls._instance = cls(**kwargs)
-        return cls._instance
+        with cls._lock:
+            if cls._instance is None or not hasattr(cls._instance, "_initialized"):
+                cls._instance = cls(**kwargs)
+            return cls._instance
 
     @classmethod
     def reset_instance(cls):
@@ -195,6 +255,10 @@ class KiwoomAPIFacade:
                 with contextlib.suppress(Exception):
                     cls._instance.close()
             cls._instance = None
+
+    def reset_rate_limiter(self):
+        """전역 rate limiter 상태를 thread-safe하게 초기화"""
+        self.global_rate_limiter.reset()
 
     def _record_request_history(
         self,
@@ -222,6 +286,21 @@ class KiwoomAPIFacade:
             if len(self.request_history) > 1000:
                 self.request_history = self.request_history[-1000:]
 
+    def _increment_facade_stat(self, key: str) -> None:
+        """파사드 통계 카운터 증가"""
+        with self.stats_lock:
+            self.facade_stats[key] += 1
+
+    @staticmethod
+    def _is_retryable_request(method: str) -> bool:
+        """멱등 요청만 파사드 레벨에서 재시도"""
+        return method.upper() in {"GET", "HEAD", "OPTIONS", "PUT", "DELETE"}
+
+    @staticmethod
+    def _is_retryable_status(status_code: Optional[int]) -> bool:
+        """일시 실패 응답만 재시도"""
+        return status_code in {408, 429, 500, 502, 503, 504}
+
     def make_request(
         self,
         method: str,
@@ -241,70 +320,95 @@ class KiwoomAPIFacade:
             data=data,
             priority=priority,
         )
-
-        start_time = time.time()
         error_msg = None
+        logical_request_recorded = False
 
-        try:
-            self.facade_stats["total_facade_requests"] += 1
+        while True:
+            start_time = time.time()
+            status_code = None
 
-            # Rate Limiting 적용
-            if use_rate_limit:
-                if not self.global_rate_limiter.wait_for_slot(timeout=self.request_timeout):
-                    self.facade_stats["rate_limited_requests"] += 1
-                    self.global_rate_limiter.record_block()
-                    raise Exception(f"Rate limit timeout after {self.request_timeout}s")
+            try:
+                if not logical_request_recorded:
+                    self._increment_facade_stat("total_facade_requests")
+                    logical_request_recorded = True
 
-                self.global_rate_limiter.record_request()
+                # Rate Limiting 적용
+                if use_rate_limit:
+                    if not self.global_rate_limiter.wait_for_slot(timeout=self.request_timeout):
+                        self._increment_facade_stat("rate_limited_requests")
+                        self.global_rate_limiter.record_block()
+                        raise Exception(f"Rate limit timeout after {self.request_timeout}s")
 
-            # 실제 API 호출
-            response = self.base_api._make_request(
-                method=method,
-                endpoint=endpoint,
-                headers=headers,
-                json_data=data,  # data -> json_data로 변경
-                use_rate_limit=False,  # 이미 파사드에서 처리했으므로
-            )
+                    self.global_rate_limiter.record_request()
 
-            # 성공 처리
-            if response.status_code == 200:
-                result = response.json() if hasattr(response, "json") else {}
-                self.facade_stats["successful_requests"] += 1
+                # 실제 API 호출
+                response = self.base_api._make_request(
+                    method=method,
+                    endpoint=endpoint,
+                    headers=headers,
+                    json_data=data,  # data -> json_data로 변경
+                    use_rate_limit=False,  # 이미 파사드에서 처리했으므로
+                )
+
+                # 성공 처리
+                if 200 <= response.status_code < 300:
+                    try:
+                        result = response.json() if hasattr(response, "json") and response.text else {}
+                    except json.JSONDecodeError:
+                        result = {"text": response.text}
+                    self._increment_facade_stat("successful_requests")
+
+                    # 히스토리 기록
+                    response_time = time.time() - start_time
+                    self._record_request_history(api_request, response_time, True)
+
+                    return result
+
+                status_code = response.status_code
+                error_msg = f"HTTP {status_code}"
+                raise requests.HTTPError(error_msg, response=response)
+
+            except requests.RequestException as e:
+                error_msg = str(e)
+                if getattr(e, "response", None) is not None:
+                    status_code = e.response.status_code
+                    error_msg = f"{e.__class__.__name__}: HTTP {status_code}"
+
+                # 재시도 로직
+                retryable_failure = status_code is None or self._is_retryable_status(status_code)
+                if (
+                    self._is_retryable_request(method)
+                    and retryable_failure
+                    and api_request.retries < api_request.max_retries
+                ):
+                    api_request.retries += 1
+
+                    # 재시도 대기 (지수 백오프)
+                    wait_time = (2**api_request.retries) * 0.1
+                    time.sleep(wait_time)
+
+                    self.logger.debug(
+                        f"API 요청 재시도 {api_request.retries}/{api_request.max_retries}: {endpoint}"
+                    )
+                    continue
+
+                self._increment_facade_stat("failed_requests")
 
                 # 히스토리 기록
                 response_time = time.time() - start_time
-                self._record_request_history(api_request, response_time, True)
+                self._record_request_history(api_request, response_time, False, error_msg)
 
-                return result
-            else:
-                raise Exception(f"HTTP {response.status_code}: {response.text}")
+                raise
 
-        except Exception as e:
-            error_msg = str(e)
-            self.facade_stats["failed_requests"] += 1
+            except Exception as e:
+                error_msg = str(e)
+                self._increment_facade_stat("failed_requests")
 
-            # 429 에러 처리
-            if "429" in error_msg:
-                self.facade_stats["rate_limited_requests"] += 1
+                # 히스토리 기록
+                response_time = time.time() - start_time
+                self._record_request_history(api_request, response_time, False, error_msg)
 
-            # 재시도 로직
-            if api_request.retries < api_request.max_retries:
-                api_request.retries += 1
-
-                # 재시도 대기 시간 (지수 백오프)
-                wait_time = (2**api_request.retries) * 0.1
-                time.sleep(wait_time)
-
-                self.logger.debug(
-                    f"API 요청 재시도 {api_request.retries}/{api_request.max_retries}: {endpoint}"
-                )
-                return self.make_request(method, endpoint, headers, data, priority, use_rate_limit)
-
-            # 히스토리 기록
-            response_time = time.time() - start_time
-            self._record_request_history(api_request, response_time, False, error_msg)
-
-            raise e
+                raise
 
     def get_comprehensive_stats(self) -> Dict[str, Any]:
         """종합 통계 정보"""
@@ -362,13 +466,20 @@ class KiwoomAPIFacade:
 
     def close(self):
         """리소스 정리"""
-        try:
-            if hasattr(self, "base_api"):
-                self.base_api.close()
+        with type(self)._lock:
+            logger = getattr(self, "logger", logging.getLogger(__name__))
+            try:
+                if hasattr(self, "base_api"):
+                    self.base_api.close()
 
-            self.logger.info("KiwoomAPIFacade 정리 완료")
-        except Exception as e:
-            self.logger.error(f"KiwoomAPIFacade 정리 중 오류: {e}")
+                logger.info("KiwoomAPIFacade 정리 완료")
+            except Exception as e:
+                logger.error(f"KiwoomAPIFacade 정리 중 오류: {e}")
+            finally:
+                if type(self)._instance is self:
+                    type(self)._instance = None
+                if hasattr(self, "_initialized"):
+                    del self._initialized
 
     def __enter__(self):
         """Context manager 진입"""
@@ -376,5 +487,4 @@ class KiwoomAPIFacade:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         """Context manager 종료"""
-        # 싱글턴이므로 실제로 close하지 않음
-        pass
+        self.close()

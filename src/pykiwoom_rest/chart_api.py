@@ -57,7 +57,10 @@ class ChartAPI(KiwoomAPIBase):
 
         filtered = dict(result)
         for key, value in result.items():
-            if isinstance(value, list):
+            if isinstance(value, list) and any(
+                isinstance(record, dict) and cls._record_date(record, date_key)
+                for record in value
+            ):
                 filtered[key] = [
                     record
                     for record in value
@@ -65,6 +68,21 @@ class ChartAPI(KiwoomAPIBase):
                     and cls._date_in_range(record, date_key, start_date, end_date)
                 ]
         return filtered
+
+    @classmethod
+    def _limit_chart_response(
+        cls,
+        result: Dict[str, Any],
+        count: int = None,
+    ) -> Dict[str, Any]:
+        if not count or count <= 0 or not isinstance(result, dict):
+            return result
+
+        limited = dict(result)
+        for key, value in result.items():
+            if isinstance(value, list):
+                limited[key] = value[:count]
+        return limited
 
     def get_tick_chart(self, stock_code: str, count: int = 100) -> Dict[str, Any]:
         """
@@ -82,12 +100,13 @@ class ChartAPI(KiwoomAPIBase):
             "tic_scope": "1",
             "upd_stkpc_tp": "1",
         }
-        return self.make_tr_request(
+        result = self.make_tr_request(
             tr_code=self.TR_CODES["tick_chart"],
             endpoint="chart",
             data=params,
             method="POST",
         )
+        return self._limit_chart_response(result, count)
 
     def get_minute_chart(
         self,
@@ -166,7 +185,8 @@ class ChartAPI(KiwoomAPIBase):
             data=data,
             method="POST",
         )
-        return self._filter_chart_response(result, "dt", start_date, end_date)
+        result = self._filter_chart_response(result, "dt", start_date, end_date)
+        return self._limit_chart_response(result, count)
 
     def get_weekly_chart(
         self,
@@ -201,7 +221,8 @@ class ChartAPI(KiwoomAPIBase):
             data=params,
             method="POST",
         )
-        return self._filter_chart_response(result, "dt", start_date, end_date)
+        result = self._filter_chart_response(result, "dt", start_date, end_date)
+        return self._limit_chart_response(result, count)
 
     def get_monthly_chart(
         self,
@@ -236,7 +257,8 @@ class ChartAPI(KiwoomAPIBase):
             data=params,
             method="POST",
         )
-        return self._filter_chart_response(result, "dt", start_date, end_date)
+        result = self._filter_chart_response(result, "dt", start_date, end_date)
+        return self._limit_chart_response(result, count)
 
     def get_yearly_chart(
         self,
@@ -271,7 +293,8 @@ class ChartAPI(KiwoomAPIBase):
             data=params,
             method="POST",
         )
-        return self._filter_chart_response(result, "dt", start_date, end_date)
+        result = self._filter_chart_response(result, "dt", start_date, end_date)
+        return self._limit_chart_response(result, count)
 
     def get_minute_chart_paginated(
         self,
@@ -280,6 +303,7 @@ class ChartAPI(KiwoomAPIBase):
         start_date: str = None,
         end_date: str = None,
         max_records: int = 1000,
+        max_pages: int = 100,
     ) -> Dict[str, Any]:
         """
         분봉 차트 대량 조회 (페이지네이션)
@@ -290,6 +314,7 @@ class ChartAPI(KiwoomAPIBase):
             start_date: 시작일
             end_date: 종료일
             max_records: 최대 조회 개수
+            max_pages: 최대 연속조회 페이지 수 (반복 next_key 방지)
 
         Returns:
             통합된 분봉 차트 데이터
@@ -298,8 +323,14 @@ class ChartAPI(KiwoomAPIBase):
         cont_yn = "N"
         next_key = ""
         last_result: Dict[str, Any] = {}
+        seen_next_keys = set()
+        page_count = 0
+        while len(all_data) < max_records and page_count < max_pages:
+            if next_key:
+                if next_key in seen_next_keys:
+                    break
+                seen_next_keys.add(next_key)
 
-        while len(all_data) < max_records:
             response = self.make_tr_request_continuous(
                 tr_code=self.TR_CODES["minute_chart"],
                 endpoint="chart",
@@ -310,22 +341,21 @@ class ChartAPI(KiwoomAPIBase):
                 },
                 cont_yn=cont_yn,
                 next_key=next_key,
+                method="POST",
             )
+            page_count += 1
+            last_result = response
 
-            if not response or "data" not in response:
+            # 응답에서 데이터 추출
+            response_data = response.get("data", response)
+            chart_data = response_data.get(
+                "stk_min_pole_chart_qry", response_data.get("output2", [])
+            )
+            if not chart_data:
                 break
 
-            last_result = response.get("data") or {}
-            cont_yn = response.get("cont_yn", "N")
-            next_key = response.get("next_key", "")
-
-            # 데이터 추출 - 실제 응답 필드명 사용
-            chart_data = last_result.get("stk_min_pole_chart_qry", [])
-            if not chart_data:
-                # output2 필드 체크 (호환성)
-                chart_data = last_result.get("output2", [])
-                if not chart_data:
-                    break
+            cont_yn = response.get("cont_yn", response_data.get("cont_yn", "N"))
+            next_key = response.get("next_key", response_data.get("next_key", ""))
 
             for record in chart_data:
                 record_date = self._record_date(record, "cntr_tm")
@@ -343,6 +373,8 @@ class ChartAPI(KiwoomAPIBase):
 
         # 결과 구성 - output2로 통일하여 반환 (하위 호환성)
         result = dict(last_result)
+        if isinstance(result.get("data"), dict):
+            result.update(result["data"])
         if all_data:
             trimmed = all_data[:max_records]
             result["stk_min_pole_chart_qry"] = trimmed
@@ -374,6 +406,7 @@ class ChartAPI(KiwoomAPIBase):
         cont_yn = "N"
         next_key = ""
 
+        page = -1
         for page in range(max_pages):  # noqa: B007 (used after loop)
             # 연속조회 실행
             response = self.make_tr_request_continuous(
@@ -417,6 +450,8 @@ class ChartAPI(KiwoomAPIBase):
 
                 # 대상 날짜 발견 시 계속 수집
                 if found_target and cont_yn == "Y":
+                    if not next_key:
+                        break
                     continue
 
                 # 대상 날짜를 완전히 지나친 경우 중단

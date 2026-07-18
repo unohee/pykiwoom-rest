@@ -2,13 +2,23 @@
 
 
 def remap(data: dict, field_map: dict) -> dict:
-    """필드명을 LLM-friendly 이름으로 변환. 맵에 없는 키는 제외."""
-    return {field_map.get(k, k): v for k, v in data.items() if k in field_map}
+    """필드명을 LLM-friendly 이름으로 변환. 맵에 없는 키도 원본 이름으로 유지."""
+    result = {}
+    for k, v in data.items():
+        dest = field_map.get(k, k)
+        if dest not in result:
+            result[dest] = v
+        elif result[dest] != v:
+            conflict_key = k if k not in result else f"{k}_raw"
+            while conflict_key in result:
+                conflict_key = f"{conflict_key}_raw"
+            result[conflict_key] = v
+    return result
 
 
 def remap_keep_all(data: dict, field_map: dict) -> dict:
     """필드명을 변환하되 맵에 없는 키도 원본 이름으로 유지."""
-    return {field_map.get(k, k): v for k, v in data.items()}
+    return remap(data, field_map)
 
 
 # ── 주식 현재가 (ka10001 실제 응답 기반) ──

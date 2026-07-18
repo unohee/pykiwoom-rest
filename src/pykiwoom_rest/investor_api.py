@@ -27,6 +27,69 @@ class InvestorAPI(KiwoomAPIBase):
         "member_company_list": "ka10102",  # 회원사 리스트
     }
 
+    @staticmethod
+    def _data_or_error(response) -> Dict[str, Any]:
+        """성공/실패 여부와 무관하게 동일한 응답 envelope 반환"""
+        if isinstance(response, dict):
+            if response.get("success") is False:
+                return {
+                    "success": False,
+                    "data": response.get("data"),
+                    "error": response.get("error"),
+                    "metadata": response.get("metadata", response),
+                }
+            status_code = response.get("status_code")
+            has_error_status = isinstance(status_code, int) and status_code >= 400
+            if (response.get("error") or has_error_status) and response.get("rt_cd") not in (
+                "0",
+                0,
+            ):
+                return {
+                    "success": False,
+                    "data": response.get("data"),
+                    "error": response.get("error") or response.get("msg1"),
+                    "metadata": response,
+                }
+            if response.get("rt_cd") not in (None, "0", 0):
+                return {
+                    "success": False,
+                    "data": None,
+                    "error": response.get("msg1") or response.get("error"),
+                    "metadata": response,
+                }
+            return {
+                "success": True,
+                "data": response.get("data", response),
+                "error": None,
+                "metadata": response.get("metadata", response),
+            }
+
+        success = getattr(response, "success", None)
+        data = getattr(response, "data", None)
+        error = getattr(response, "error", None)
+        metadata = getattr(response, "metadata", None)
+
+        if success is True:
+            return {
+                "success": True,
+                "data": data,
+                "error": None,
+                "metadata": metadata,
+            }
+        if success is False:
+            return {
+                "success": False,
+                "data": data,
+                "error": error,
+                "metadata": metadata,
+            }
+        return {
+            "success": False,
+            "data": None,
+            "error": f"Unexpected response type: {type(response).__name__}",
+            "metadata": {"raw_response": repr(response)},
+        }
+
     def get_foreign_trading(self, stock_code: str) -> Dict[str, Any]:
         """
         주식외국인종목별매매동향 조회 (ka10008)
@@ -51,7 +114,7 @@ class InvestorAPI(KiwoomAPIBase):
             headers=headers,
         )
 
-        return response
+        return self._data_or_error(response)
 
     def get_stock_investor_trading(
         self,
@@ -104,7 +167,7 @@ class InvestorAPI(KiwoomAPIBase):
             headers=headers,
         )
 
-        return response
+        return self._data_or_error(response)
 
     def get_stock_member_trading(self, stock_code: str) -> Dict[str, Any]:
         """
@@ -116,13 +179,21 @@ class InvestorAPI(KiwoomAPIBase):
         Returns:
             기관별 매매동향 정보
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
-        return self.make_tr_request(
-            tr_code=self.TR_CODES["stock_member_trading"],
-            endpoint="stock_info",
-            data=params,
+        headers = {"api-id": "ka10006", "cont-yn": "N", "next-key": ""}
+        data = {"stk_cd": stock_code}
+
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+
+        response = self.request(
             method="POST",
+            endpoint="/api/dostk/stkinfo",
+            json_data=data,
+            headers=headers,
         )
+
+        return self._data_or_error(response)
 
     def get_institutional_trading_trend(
         self, stock_code: str, start_date: str = None, end_date: str = None
@@ -163,7 +234,7 @@ class InvestorAPI(KiwoomAPIBase):
             headers=headers,
         )
 
-        return response
+        return self._data_or_error(response)
 
     def get_institutional_foreign_consecutive_trading(
         self,
@@ -187,7 +258,13 @@ class InvestorAPI(KiwoomAPIBase):
         if not start_date:
             start_date = (datetime.now() - timedelta(days=30)).strftime("%Y%m%d")
 
-        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market.upper(), "J")
+        market_codes = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}
+        market_key = market.upper()
+        if market_key not in market_codes:
+            raise ValueError(
+                f"Invalid market: {market}. Expected one of: {', '.join(market_codes)}"
+            )
+        market_code = market_codes[market_key]
 
         params = {
             "FID_COND_MRKT_DIV_CODE": market_code,
@@ -207,7 +284,7 @@ class InvestorAPI(KiwoomAPIBase):
             headers=headers,
         )
 
-        return response.data if response.success else {}
+        return self._data_or_error(response)
 
     def get_institutional_request(self, stock_code: str) -> Dict[str, Any]:
         """
@@ -233,7 +310,7 @@ class InvestorAPI(KiwoomAPIBase):
             headers=headers,
         )
 
-        return response
+        return self._data_or_error(response)
 
     def get_institutional_daily_trading(
         self,
@@ -275,7 +352,7 @@ class InvestorAPI(KiwoomAPIBase):
             headers=headers,
         )
 
-        return response.data if response.success else {}
+        return self._data_or_error(response)
 
     def get_sector_code_list(self) -> Dict[str, Any]:
         """
@@ -296,7 +373,7 @@ class InvestorAPI(KiwoomAPIBase):
             headers=headers,
         )
 
-        return response.data if response.success else {}
+        return self._data_or_error(response)
 
     def get_member_company_list(self) -> Dict[str, Any]:
         """
@@ -317,4 +394,4 @@ class InvestorAPI(KiwoomAPIBase):
             headers=headers,
         )
 
-        return response.data if response.success else {}
+        return self._data_or_error(response)

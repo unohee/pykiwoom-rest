@@ -37,6 +37,12 @@ class TestRateLimitOptimizer:
         assert optimizer.base_rate_limit == 20
         assert optimizer.burst_capacity == 50
         assert optimizer.enable_rotation == False  # 단일 크레덴셜은 로테이션 비활성화
+
+    @pytest.mark.parametrize("base_rate_limit", [0, -1])
+    def test_invalid_base_rate_limit_rejected(self, base_rate_limit):
+        """잘못된 기본 레이트 제한 거부 테스트"""
+        with pytest.raises(ValueError, match="base_rate_limit must be positive"):
+            RateLimitOptimizer(base_rate_limit=base_rate_limit)
     
     def test_multi_credential_rotation(self):
         """다중 크레덴셜 로테이션 테스트"""

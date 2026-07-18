@@ -3,6 +3,7 @@ Account API Module - 계좌 관련 API 구현
 작성일: 2025-01-27
 """
 
+from datetime import datetime
 from typing import Any, Dict, Optional
 
 from .kiwoom_base import KiwoomAPIBase
@@ -37,6 +38,34 @@ class AccountAPI(KiwoomAPIBase):
         "daily_trading_diary": "ka10170",
     }
 
+    @staticmethod
+    def _validate_date(value: Optional[str], field_name: str) -> Optional[str]:
+        if value is None:
+            return None
+        if not isinstance(value, str):
+            raise ValueError(f"{field_name} must be a YYYYMMDD string")
+        if len(value) != 8 or not value.isdigit():
+            raise ValueError(f"{field_name} must be a YYYYMMDD string")
+        try:
+            datetime.strptime(value, "%Y%m%d")
+        except ValueError as exc:
+            raise ValueError(f"{field_name} must be a valid YYYYMMDD date") from exc
+        return value
+
+    @staticmethod
+    def _validate_date_range(start_date: Optional[str], end_date: Optional[str]) -> None:
+        start = AccountAPI._validate_date(start_date, "start_date")
+        end = AccountAPI._validate_date(end_date, "end_date")
+        if start and end and start > end:
+            raise ValueError("start_date must be before or equal to end_date")
+
+    @staticmethod
+    def _validate_positive_price(order_price: int) -> None:
+        if isinstance(order_price, bool) or not isinstance(order_price, int):
+            raise ValueError("order_price must be a positive integer")
+        if order_price <= 0:
+            raise ValueError("order_price must be positive")
+
     def get_deposit_detail(self) -> Dict[str, Any]:
         """예수금상세현황요청 (kt00001)"""
         params = {"acnt_no": self.account_no}
@@ -48,7 +77,7 @@ class AccountAPI(KiwoomAPIBase):
         """일별추정예탁자산현황요청 (kt00002)"""
         params = {"acnt_no": self.account_no}
         if base_date:
-            params["base_dt"] = base_date
+            params["base_dt"] = self._validate_date(base_date, "base_date")
         return self.make_tr_request(
             tr_code=self.TR_CODES["daily_estimated_asset"],
             endpoint="account",
@@ -80,6 +109,7 @@ class AccountAPI(KiwoomAPIBase):
         self, start_date: Optional[str] = None, end_date: Optional[str] = None
     ) -> Dict[str, Any]:
         """계좌별주문체결내역상세요청 (kt00007)"""
+        self._validate_date_range(start_date, end_date)
         params = {"acnt_no": self.account_no}
         if start_date:
             params["start_dt"] = start_date
@@ -120,6 +150,7 @@ class AccountAPI(KiwoomAPIBase):
 
     def get_orderable_quantity_by_margin(self, stock_code: str, order_price: int) -> Dict[str, Any]:
         """증거금율별주문가능수량조회요청 (kt00011)"""
+        self._validate_positive_price(order_price)
         params = {
             "acnt_no": self.account_no,
             "stk_cd": self.convert_stock_code_param(stock_code)["stk_cd"],
@@ -133,6 +164,7 @@ class AccountAPI(KiwoomAPIBase):
 
     def get_orderable_quantity_by_credit(self, stock_code: str, order_price: int) -> Dict[str, Any]:
         """신용보증금율별주문가능수량조회요청 (kt00012)"""
+        self._validate_positive_price(order_price)
         params = {
             "acnt_no": self.account_no,
             "stk_cd": self.convert_stock_code_param(stock_code)["stk_cd"],
@@ -155,6 +187,7 @@ class AccountAPI(KiwoomAPIBase):
         self, start_date: Optional[str] = None, end_date: Optional[str] = None
     ) -> Dict[str, Any]:
         """위탁종합거래내역요청 (kt00015)"""
+        self._validate_date_range(start_date, end_date)
         params = {"acnt_no": self.account_no}
         if start_date:
             params["start_dt"] = start_date
@@ -168,7 +201,7 @@ class AccountAPI(KiwoomAPIBase):
         """일별계좌수익률상세현황요청 (kt00016)"""
         params = {"acnt_no": self.account_no}
         if base_date:
-            params["base_dt"] = base_date
+            params["base_dt"] = self._validate_date(base_date, "base_date")
         return self.make_tr_request(
             tr_code=self.TR_CODES["daily_return_detail"],
             endpoint="account",
@@ -216,6 +249,7 @@ class AccountAPI(KiwoomAPIBase):
         self, start_date: Optional[str] = None, end_date: Optional[str] = None
     ) -> Dict[str, Any]:
         """계좌수익률요청 (ka10085)"""
+        self._validate_date_range(start_date, end_date)
         params = {"acnt_no": self.account_no}
         if start_date:
             params["start_dt"] = start_date
@@ -227,6 +261,12 @@ class AccountAPI(KiwoomAPIBase):
 
     def get_unfilled_split_order_detail(self, order_no: str) -> Dict[str, Any]:
         """미체결 분할주문 상세 (ka10088)"""
+        if not isinstance(order_no, str) or not order_no.strip():
+            raise ValueError("order_no must be a non-empty string")
+        order_no = order_no.strip()
+        if not order_no.isdigit():
+            raise ValueError("order_no must contain only digits")
+
         params = {"acnt_no": self.account_no, "ord_no": order_no}
         return self.make_tr_request(
             tr_code=self.TR_CODES["unfilled_split_order"],
@@ -238,7 +278,7 @@ class AccountAPI(KiwoomAPIBase):
         """당일매매일지요청 (ka10170)"""
         params = {"acnt_no": self.account_no}
         if base_date:
-            params["base_dt"] = base_date
+            params["base_dt"] = self._validate_date(base_date, "base_date")
         return self.make_tr_request(
             tr_code=self.TR_CODES["daily_trading_diary"],
             endpoint="account",

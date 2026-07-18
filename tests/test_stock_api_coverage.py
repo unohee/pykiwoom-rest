@@ -42,18 +42,18 @@ class TestStockAPI:
         today = datetime.now().strftime("%Y%m%d")
         result = mock_stock_api.get_credit_trend(stock_code="005930")
 
-        mock_stock_api.request.assert_called_once()
-        call_args = mock_stock_api.request.call_args
-        assert call_args[1]["endpoint"] == "/api/dostk/stkinfo"
-        assert call_args[1]["json_data"]["dt"] == today
+        mock_stock_api.make_tr_request.assert_called_once()
+        call_args = mock_stock_api.make_tr_request.call_args
+        assert call_args[1]["endpoint"] == "stock_info"
+        assert call_args[1]["data"]["dt"] == today
 
     def test_get_credit_trend_custom_date(self, mock_stock_api):
         """신용매매동향 조회 - 날짜 지정"""
         result = mock_stock_api.get_credit_trend(stock_code="005930", date="20260101", query_type="2")
 
-        call_args = mock_stock_api.request.call_args
-        assert call_args[1]["json_data"]["dt"] == "20260101"
-        assert call_args[1]["json_data"]["qry_tp"] == "2"
+        call_args = mock_stock_api.make_tr_request.call_args
+        assert call_args[1]["data"]["dt"] == "20260101"
+        assert call_args[1]["data"]["qry_tp"] == "2"
 
     # ========== 일별거래상세 테스트 ==========
 
@@ -62,16 +62,16 @@ class TestStockAPI:
         today = datetime.now().strftime("%Y%m%d")
         result = mock_stock_api.get_daily_trading_detail()
 
-        mock_stock_api.request.assert_called_once()
-        call_args = mock_stock_api.request.call_args
-        assert call_args[1]["json_data"]["strt_dt"] == today
+        mock_stock_api.make_tr_request.assert_called_once()
+        call_args = mock_stock_api.make_tr_request.call_args
+        assert call_args[1]["data"]["strt_dt"] == today
 
     def test_get_daily_trading_detail_custom_date(self, mock_stock_api):
         """일별거래상세 조회 - 날짜 지정"""
         result = mock_stock_api.get_daily_trading_detail(start_date="20260101")
 
-        call_args = mock_stock_api.request.call_args
-        assert call_args[1]["json_data"]["strt_dt"] == "20260101"
+        call_args = mock_stock_api.make_tr_request.call_args
+        assert call_args[1]["data"]["strt_dt"] == "20260101"
 
     # ========== 신고저가 테스트 ==========
 
@@ -130,7 +130,7 @@ class TestStockAPI:
         mock_stock_api.make_tr_request.assert_called_once()
         call_kwargs = mock_stock_api.make_tr_request.call_args[1]
         assert call_kwargs["tr_code"] == "ka10002"
-        assert call_kwargs["data"]["FID_INPUT_ISCD"] == "005930"
+        assert call_kwargs["data"]["stk_cd"] == "005930"
 
     # ========== 소요시간 테스트 ==========
 
@@ -270,7 +270,7 @@ class TestStockAPIVariousStocks:
         mock_stock_api.get_stock_member_info(stock_code=stock_code)
 
         call_kwargs = mock_stock_api.make_tr_request.call_args[1]
-        assert call_kwargs["data"]["FID_INPUT_ISCD"] == stock_code
+        assert call_kwargs["data"]["stk_cd"] == stock_code
 
     @pytest.mark.parametrize(
         "stock_code",
@@ -313,13 +313,11 @@ class TestStockAPIDateParams:
         """모의 StockAPI 인스턴스"""
         with (
             patch.object(StockAPI, "_get_access_token", return_value="mock_token"),
-            patch.object(StockAPI, "request") as mock_request,
+            patch.object(StockAPI, "make_tr_request") as mock_tr_request,
         ):
-            mock_request.return_value = APIResponse(
-                success=True, data={"rt_cd": "0", "output": {}}
-            )
+            mock_tr_request.return_value = {"rt_cd": "0", "output": {}}
             api = StockAPI(appkey="test_key", appsecret="test_secret", account_no="12345678")
-            api.request = mock_request
+            api.make_tr_request = mock_tr_request
             yield api
 
     @pytest.mark.parametrize(
@@ -334,8 +332,8 @@ class TestStockAPIDateParams:
         """신용매매동향 - 다양한 날짜"""
         mock_stock_api.get_credit_trend(stock_code="005930", date=date)
 
-        call_args = mock_stock_api.request.call_args
-        assert call_args[1]["json_data"]["dt"] == date
+        call_args = mock_stock_api.make_tr_request.call_args
+        assert call_args[1]["data"]["dt"] == date
 
     @pytest.mark.parametrize(
         "query_type",
@@ -345,5 +343,5 @@ class TestStockAPIDateParams:
         """신용매매동향 - 다양한 조회 유형"""
         mock_stock_api.get_credit_trend(stock_code="005930", query_type=query_type)
 
-        call_args = mock_stock_api.request.call_args
-        assert call_args[1]["json_data"]["qry_tp"] == query_type
+        call_args = mock_stock_api.make_tr_request.call_args
+        assert call_args[1]["data"]["qry_tp"] == query_type

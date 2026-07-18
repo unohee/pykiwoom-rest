@@ -37,8 +37,8 @@ class TestInvestorAPI:
         result = mock_investor_api.get_foreign_trading("005930")
 
         # Assert
-        assert result.success
-        assert result.data["rt_cd"] == "0"
+        assert result["success"]
+        assert result["data"]["rt_cd"] == "0"
         mock_investor_api.request.assert_called_once()
         call_args = mock_investor_api.request.call_args
         assert call_args[1]["method"] == "POST"
@@ -51,7 +51,7 @@ class TestInvestorAPI:
         result = mock_investor_api.get_stock_investor_trading()
 
         # Assert
-        assert result.success
+        assert result["success"]
         call_args = mock_investor_api.request.call_args
         json_data = call_args[1]["json_data"]
 
@@ -77,7 +77,7 @@ class TestInvestorAPI:
         )
 
         # Assert
-        assert result.success
+        assert result["success"]
         call_args = mock_investor_api.request.call_args
         json_data = call_args[1]["json_data"]
 
@@ -93,7 +93,7 @@ class TestInvestorAPI:
         result = mock_investor_api.get_stock_member_trading("005930")
 
         # Assert
-        assert result.success
+        assert result["success"]
         mock_investor_api.request.assert_called_once()
 
     def test_get_institutional_trading_trend(self, mock_investor_api):
@@ -102,7 +102,7 @@ class TestInvestorAPI:
         result = mock_investor_api.get_institutional_trading_trend("005930")
 
         # Assert
-        assert result.success
+        assert result["success"]
         call_args = mock_investor_api.request.call_args
         json_data = call_args[1]["json_data"]
 
@@ -139,7 +139,7 @@ class TestInvestorAPI:
         result = mock_investor_api.get_institutional_request("005930")
 
         # Assert
-        assert result.success
+        assert result["success"]
         call_args = mock_investor_api.request.call_args
 
         assert call_args[1]["endpoint"] == "/api/dostk/frgnistt"
@@ -203,8 +203,8 @@ class TestInvestorAPIErrorCases:
         result = failing_investor_api.get_foreign_trading("005930")
 
         # Assert
-        assert not result.success
-        assert result.error["code"] == "500"
+        assert not result["success"]
+        assert result["error"]["code"] == "500"
 
     def test_get_stock_investor_trading_failure(self, failing_investor_api):
         """투자자별 매매동향 조회 실패"""
@@ -212,4 +212,4 @@ class TestInvestorAPIErrorCases:
         result = failing_investor_api.get_stock_investor_trading()
 
         # Assert
-        assert not result.success
+        assert not result["success"]

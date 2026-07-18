@@ -408,6 +408,17 @@ type TokenStatus {
 '''
 
 
+def validate_schema_sdl():
+    """GraphQL SDL description terminator 검증."""
+    for line_no, line in enumerate(SCHEMA_SDL.splitlines(), start=1):
+        stripped = line.strip()
+        if stripped.startswith('"""') and stripped.count('"""') != 2:
+            raise ValueError(f"Unterminated SDL description at line {line_no}: {line}")
+
+
+validate_schema_sdl()
+
+
 def get_schema(type_name=None):
     """스키마 반환. type_name이 지정되면 해당 타입만 추출."""
     if not type_name:
@@ -424,10 +435,10 @@ def get_schema(type_name=None):
             if m and m.group(2) == type_name:
                 capturing = True
                 scalar_type = m.group(1) == "scalar"
-                # 위의 doc comment 포함
+                # 인접한 doc comment만 포함 (blank line 너머 root/schema 설명 제외)
                 j = i - 1
                 docs = []
-                while j >= 0 and (lines[j].strip().startswith('"""') or lines[j].strip() == ""):
+                while j >= 0 and lines[j].strip().startswith('"""'):
                     docs.insert(0, lines[j])
                     j -= 1
                 result.extend(docs)

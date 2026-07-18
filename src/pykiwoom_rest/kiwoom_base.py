@@ -4,13 +4,12 @@ Kiwoom Securities REST API Base Client
 작성일: 2025-01-27
 """
 
-import json
 import os
 import time
 from datetime import datetime, timedelta
 from typing import Any, Dict, List
 
-from .base_api import APIError, BaseAPIClient
+from .base_api import APIError, BaseAPIClient, RateLimitExceededError
 from .exception_utils import RaiseWithTraceMixin, rethrow_with_trace
 from .rate_limit_optimizer import RateLimitOptimizer, SmartRetryStrategy
 from .response_utils import normalize_data_values, normalize_response
@@ -88,6 +87,8 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         if use_mock:
             base_url = self.MOCK_BASE_URL
 
+        self.normalize_data = bool(kwargs.pop("normalize_data", False))
+
         # 키움 API는 초당 20회 제한
         kwargs.setdefault("rate_limit", 20)
 
@@ -104,11 +105,12 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         self._load_env_file(env_path)
 
         # 인증 정보 설정
-        self._setup_credentials(account_no, appkey, appsecret)
+        self._setup_credentials(account_no, appkey, appsecret, credentials_list)
 
         # 토큰 상태 초기화
         self.access_token = None
         self.token_expires = None
+        self._credential_token_cache = {}
 
         # Rate Limiting 최적화 설정
         self.enable_rate_optimizer = enable_rate_optimizer
@@ -141,27 +143,74 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
     def _manual_load_env(self, env_path: str) -> None:
         """dotenv 라이브러리 없이 수동으로 환경변수 로드"""
+        def parse_value(raw_value: str) -> str:
+            value = raw_value.strip()
+            if not value:
+                return ""
+
+            if value[0] in ('"', "'"):
+                quote = value[0]
+                chars = []
+                escaped = False
+                for ch in value[1:]:
+                    if escaped:
+                        chars.append({"n": "\n", "r": "\r", "t": "\t"}.get(ch, ch))
+                        escaped = False
+                    elif ch == "\\" and quote == '"':
+                        escaped = True
+                    elif ch == quote:
+                        return "".join(chars)
+                    else:
+                        chars.append(ch)
+                return "".join(chars)
+
+            chars = []
+            escaped = False
+            for ch in value:
+                if escaped:
+                    chars.append(ch)
+                    escaped = False
+                elif ch == "\\":
+                    escaped = True
+                elif ch == "#" and (not chars or chars[-1].isspace()):
+                    break
+                else:
+                    chars.append(ch)
+            return "".join(chars).strip()
+
         try:
             with open(env_path, encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
-                    if line and not line.startswith("#") and "=" in line:
-                        key, value = line.split("=", 1)
-                        os.environ[key.strip()] = value.strip()
+                    if not line or line.startswith("#"):
+                        continue
+                    if line.startswith("export "):
+                        line = line[len("export ") :].lstrip()
+                    if "=" not in line:
+                        continue
+                    key, value = line.split("=", 1)
+                    key = key.strip()
+                    if key and key not in os.environ:
+                        os.environ[key] = parse_value(value)
         except (FileNotFoundError, PermissionError):
             # .env 파일 없음 - 환경변수에서 직접 로드 진행
             # 의도적으로 예외 무시 (선택적 기능)
             pass
 
     def _setup_credentials(
-        self, account_no: str = None, appkey: str = None, appsecret: str = None
+        self,
+        account_no: str = None,
+        appkey: str = None,
+        appsecret: str = None,
+        credentials_list: List[Dict[str, str]] = None,
     ) -> None:
         """
         인증 정보 설정
 
         우선순위:
         1. 직접 전달된 파라미터 (account_no, appkey, appsecret)
-        2. 환경변수 (ACC_NO/ACCOUNT_NO, APPKEY/KIWOOM_APPKEY, APPSECRET/KIWOOM_SECRETKEY/KIWOOM_APPSECRET)
+        2. credentials_list[0]
+        3. 환경변수 (ACC_NO/ACCOUNT_NO, APPKEY/KIWOOM_APPKEY, APPSECRET/KIWOOM_SECRETKEY/KIWOOM_APPSECRET)
 
         Args:
             account_no: 계좌번호 (선택)
@@ -171,10 +220,25 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         Raises:
             ValueError: 필수 인증 정보가 없을 경우
         """
-        self.account_no = account_no or os.getenv("ACC_NO") or os.getenv("ACCOUNT_NO")
-        self.appkey = appkey or os.getenv("APPKEY") or os.getenv("KIWOOM_APPKEY")
+        primary_credentials = credentials_list[0] if credentials_list else {}
+        self.account_no = (
+            account_no
+            or primary_credentials.get("ACCOUNT_NO")
+            or primary_credentials.get("account_no")
+            or os.getenv("ACC_NO")
+            or os.getenv("ACCOUNT_NO")
+        )
+        self.appkey = (
+            appkey
+            or primary_credentials.get("APPKEY")
+            or primary_credentials.get("appkey")
+            or os.getenv("APPKEY")
+            or os.getenv("KIWOOM_APPKEY")
+        )
         self.appsecret = (
             appsecret
+            or primary_credentials.get("APPSECRET")
+            or primary_credentials.get("appsecret")
             or os.getenv("APPSECRET")
             or os.getenv("KIWOOM_SECRETKEY")
             or os.getenv("KIWOOM_APPSECRET")
@@ -193,7 +257,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
             raise ValueError(
                 f"필수 인증 정보가 누락되었습니다: {', '.join(missing)}\n"
-                "클래스 초기화 시 직접 전달하거나 환경변수로 설정하세요.\n"
+                "클래스 초기화 시 직접 전달하거나 환경변수/credentials_list로 설정하세요.\n"
                 "예: KiwoomRest(account_no='...', appkey='...', appsecret='...')"
             )
 
@@ -215,17 +279,17 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         return base_headers
 
     @rethrow_with_trace()
-    def _process_response(self, response) -> Dict[str, Any]:
+    def _process_response(
+        self,
+        response,
+        *,
+        tr_code: str = None,
+        endpoint: str = None,
+        request_start_time: float = None,
+    ) -> Dict[str, Any]:
         """키움 API 응답 처리 - 원시 JSON(dict) 반환"""
-        start_time = getattr(self, "_request_start_time", None)
-        # start_time이 None이면 현재 시각 사용 (동시성 이슈 방지)
-        if start_time is None:
-            start_time = time.time()
+        start_time = request_start_time if request_start_time is not None else time.time()
         processing_time = time.time() - start_time
-
-        # 요청 정보 추출
-        tr_code = getattr(self, "_current_tr_code", None)
-        endpoint = getattr(self, "_current_endpoint", None)
 
         try:
             data = response.json()
@@ -235,6 +299,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
                 tr_code=tr_code,
                 endpoint=endpoint,
                 processing_time=processing_time,
+                normalize_data=False,
             )
             if self.normalize_data:
                 return normalize_data_values(
@@ -244,13 +309,16 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
                 )
             return normalized
 
-        except json.JSONDecodeError:
-            # JSON이 아닌 응답 - 에러로 처리
+        except ValueError:
+            # JSON이 아닌 응답 - 에러로 처리 (원문은 민감정보/대용량 보존 방지를 위해 제한)
+            raw_response = getattr(response, "text", "")
+            if len(raw_response) > 2048:
+                raw_response = raw_response[:2048] + "...[truncated]"
             return {
                 "rt_cd": "1",
                 "msg1": "INVALID_JSON",
                 "error": "Invalid JSON response",
-                "raw_response": response.text,
+                "raw_response": raw_response,
             }
 
     def _setup_rate_optimizer(self, additional_credentials_list: List[Dict[str, str]] = None):
@@ -267,7 +335,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
 
         # 추가 크레덴셜
         if additional_credentials_list:
-            all_credentials.extend(additional_credentials_list)
+            all_credentials.extend(additional_credentials_list[1:])
         else:
             # 환경변수에서 추가 크레덴셜 검색
             for i in range(2, 5):  # 최대 4개까지 지원
@@ -315,28 +383,93 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         }
 
         try:
-            response = self.request(
+            response = self._make_request(
                 method="POST",
                 endpoint="/oauth2/token",  # 키움증권 토큰 엔드포인트
                 json_data=token_data,
+                headers={"Content-Type": "application/json"},
                 use_rate_limit=False,  # 인증 요청은 rate limit 제외
-            )
+            ).json()
+
+            token_payload = response.get("data") if isinstance(response.get("data"), dict) else response
 
             # 키움증권은 'token' 키 사용 (access_token 아님)
-            if response.get("token"):
-                self.access_token = response["token"]
-                # 토큰 만료 시간 설정 (24시간 - 5분 여유)
-                self.token_expires = datetime.now() + timedelta(hours=23, minutes=55)
+            if token_payload.get("token"):
+                self.access_token = token_payload["token"]
+                self.token_expires = self._calculate_token_expires(token_payload)
                 return self.access_token
             else:
                 raise KiwoomAPIError(
                     "토큰 발급 실패",
-                    error_code=response.get("return_code"),
-                    error_msg=response.get("return_msg"),
+                    error_code=token_payload.get("return_code") or response.get("return_code"),
+                    error_msg=token_payload.get("return_msg") or response.get("return_msg"),
                 )
 
-        except Exception as e:
-            self.raise_with_trace(e, "토큰 발급 중 오류")
+        except Exception:
+            raise
+
+    def _calculate_token_expires(self, token_payload: Dict[str, Any]) -> datetime:
+        """OAuth 응답의 만료 정보를 기준으로 토큰 만료 시각 계산."""
+        expires_in = token_payload.get("expires_in") or token_payload.get("expires")
+        if expires_in is not None:
+            try:
+                return datetime.now() + timedelta(seconds=int(expires_in))
+            except (TypeError, ValueError):
+                self.logger.warning("토큰 만료 시간 파싱 실패: %s", expires_in)
+
+        expires_at = token_payload.get("expires_at") or token_payload.get("expires_dt")
+        if expires_at:
+            try:
+                return datetime.fromisoformat(str(expires_at).replace("Z", "+00:00")).replace(tzinfo=None)
+            except ValueError:
+                self.logger.warning("토큰 만료 시각 파싱 실패: %s", expires_at)
+
+        raise KiwoomAPIError("토큰 만료 정보가 응답에 없습니다")
+
+    def _get_cached_credential_token(self, appkey: str, appsecret: str, force_refresh: bool = False) -> str:
+        """Rate optimizer 크레덴셜별 OAuth 토큰 캐시 조회/발급."""
+        cache_key = (appkey, appsecret)
+        cached = self._credential_token_cache.get(cache_key)
+        if (
+            not force_refresh
+            and cached
+            and datetime.now() < cached["expires_at"] - timedelta(minutes=5)
+        ):
+            return cached["token"]
+
+        token_payload = self._issue_access_token(appkey, appsecret)
+        token = token_payload["token"]
+        self._credential_token_cache[cache_key] = {
+            "token": token,
+            "expires_at": self._calculate_token_expires(token_payload),
+        }
+        return token
+
+    def _issue_access_token(self, appkey: str, appsecret: str) -> Dict[str, Any]:
+        """요청 스코프용 OAuth2 액세스 토큰 발급 (공유 토큰 캐시 미변경)."""
+        token_data = {
+            "grant_type": "client_credentials",
+            "appkey": appkey,
+            "secretkey": appsecret,
+        }
+
+        response = self._make_request(
+            method="POST",
+            endpoint="/oauth2/token",
+            json_data=token_data,
+            headers={"Content-Type": "application/json"},
+            use_rate_limit=False,
+        ).json()
+        token_payload = response.get("data") if isinstance(response.get("data"), dict) else response
+
+        if token_payload.get("token"):
+            return token_payload
+
+        raise KiwoomAPIError(
+            "토큰 발급 실패",
+            error_code=token_payload.get("return_code") or response.get("return_code"),
+            error_msg=token_payload.get("return_msg") or response.get("return_msg"),
+        )
 
     @rethrow_with_trace()
     def _get_hashkey(self, data: Dict[str, Any]) -> str:
@@ -357,7 +490,15 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
                 use_rate_limit=False,
             )
 
-            return hash_response.get("HASH")
+            hash_payload = hash_response.get("data") if isinstance(hash_response.get("data"), dict) else hash_response
+            hash_value = hash_payload.get("HASH") if isinstance(hash_payload, dict) else None
+            if not hash_value:
+                raise KiwoomAPIError(
+                    "해시키 생성 실패: 응답에 HASH가 없습니다",
+                    error_code=hash_payload.get("return_code") if isinstance(hash_payload, dict) else None,
+                    error_msg=hash_payload.get("return_msg") if isinstance(hash_payload, dict) else None,
+                )
+            return hash_value
 
         except Exception as e:
             self.raise_with_trace(e, "해시키 생성 중 오류")
@@ -372,6 +513,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         method: str = "POST",
         cont_yn: str = "N",
         next_key: str = "",
+        _retry_count: int = 0,
     ) -> Dict[str, Any]:
         """
         TR 코드를 사용한 API 요청
@@ -386,99 +528,111 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         Returns:
             APIResponse 객체
         """
-        # 요청 컨텍스트 설정 (응답 처리에서 사용)
-        self._current_tr_code = tr_code
-        self._current_endpoint = endpoint
-        self._request_start_time = time.time()
+        max_429_retries = 3
+        retry_count = 0
 
-        try:
-            # Rate Optimizer가 활성화된 경우 토큰 획득 대기
-            if self.enable_rate_optimizer and self.rate_optimizer:
-                # 최적 크레덴셜 선택 및 토큰 획득
-                cred_idx, credential = self.rate_optimizer.get_optimal_credential()
+        while True:
+            try:
+                request_start_time = time.time()
 
-                # 선택된 크레덴셜로 임시 전환 (필요시)
-                if credential and credential.get("APPKEY") != self.appkey:
-                    # 다른 크레덴셜 사용 시 토큰 재발급
-                    temp_appkey = self.appkey
-                    temp_appsecret = self.appsecret
-                    self.appkey = credential["APPKEY"]
-                    self.appsecret = credential["APPSECRET"]
-                    token = self._get_access_token(force_refresh=True)
-                    # 원래 크레덴셜로 복구
-                    self.appkey = temp_appkey
-                    self.appsecret = temp_appsecret
+                # Rate Optimizer가 활성화된 경우 토큰 획득 대기
+                if self.enable_rate_optimizer and self.rate_optimizer:
+                    # 최적 크레덴셜 선택 및 토큰 획득
+                    cred_idx, credential = self.rate_optimizer.get_optimal_credential()
+
+                    # 선택된 크레덴셜은 요청 스코프에서만 사용 (공유 필드 변경 금지)
+                    if credential and credential.get("APPKEY") != self.appkey:
+                        token = self._get_cached_credential_token(
+                            credential["APPKEY"],
+                            credential["APPSECRET"],
+                        )
+                    else:
+                        token = self._get_access_token()
+
+                    # Rate limiting 토큰 획득
+                    if not self.rate_optimizer.acquire_token(cred_idx):
+                        self.logger.warning("Rate limit 토큰 획득 실패")
+                        raise RateLimitExceededError("Rate optimizer 토큰 획득 실패")
                 else:
+                    # 기본 rate limiting 사용
                     token = self._get_access_token()
 
-                # Rate limiting 토큰 획득
-                if not self.rate_optimizer.acquire_token(cred_idx):
-                    self.logger.warning("Rate limit 토큰 획득 실패")
-            else:
-                # 기본 rate limiting 사용
-                token = self._get_access_token()
+                # 엔드포인트 URL 가져오기
+                endpoint_url = self.ENDPOINTS.get(endpoint)
+                if not endpoint_url:
+                    raise ValueError(f"알 수 없는 엔드포인트: {endpoint}")
 
-            # 엔드포인트 URL 가져오기
-            endpoint_url = self.ENDPOINTS.get(endpoint)
-            if not endpoint_url:
-                raise ValueError(f"알 수 없는 엔드포인트: {endpoint}")
+                # 헤더 준비
+                headers = {
+                    "authorization": f"Bearer {token}",
+                    "Content-Type": "application/json;charset=UTF-8",
+                    "api-id": tr_code,
+                    "cont-yn": cont_yn,
+                    "next-key": next_key,
+                }
 
-            # 헤더 준비
-            headers = {
-                "authorization": f"Bearer {token}",
-                "Content-Type": "application/json;charset=UTF-8",
-                "api-id": tr_code,
-                "cont-yn": cont_yn,
-                "next-key": next_key,
-            }
+                # 해시키는 필요시에만 추가 (현재는 불필요)
 
-            # 해시키는 필요시에만 추가 (현재는 불필요)
+                # API 요청 실행 (지능형 재시도 포함)
+                try:
+                    raw_response = self._make_request(
+                        method=method,
+                        endpoint=endpoint_url,
+                        headers=headers,
+                        params=params,
+                        json_data=data if method.upper() == "POST" else None,
+                        use_rate_limit=True,
+                    )
+                    response = self._process_response(
+                        raw_response,
+                        tr_code=tr_code,
+                        endpoint=endpoint,
+                        request_start_time=request_start_time,
+                    )
 
-            # API 요청 실행 (지능형 재시도 포함)
-            try:
-                response = self.request(
-                    method=method,
-                    endpoint=endpoint_url,
-                    headers=headers,
-                    params=params,
-                    json_data=data if method.upper() == "POST" else None,
-                )
+                    # 성공 시 에러 카운트 리셋
+                    if self.enable_rate_optimizer and self.rate_optimizer:
+                        self.rate_optimizer.reset_error_count(cred_idx if "cred_idx" in locals() else 0)
 
-                # 성공 시 에러 카운트 리셋
-                if self.enable_rate_optimizer and self.rate_optimizer:
-                    self.rate_optimizer.reset_error_count(cred_idx if "cred_idx" in locals() else 0)
+                    # 헤더 정보 추가
+                    if isinstance(response, dict):
+                        response_headers = raw_response.headers
+                        response["header"] = {
+                            "cont-yn": response_headers.get("cont-yn", "N"),
+                            "next-key": response_headers.get("next-key", ""),
+                        }
 
-                # 헤더 정보 추가
-                if isinstance(response, dict):
-                    response["header"] = {
-                        "cont-yn": headers.get("cont-yn", "N"),
-                        "next-key": headers.get("next-key", ""),
-                    }
-                    # 응답 헤더에서 실제 값 가져오기 (나중에 구현 필요)
-                    # response['header']['cont-yn'] = response_headers.get('cont-yn', 'N')
-                    # response['header']['next-key'] = response_headers.get('next-key', '')
+                    return response
 
-                return response
+                except APIError as e:
+                    # 429 에러 특별 처리
+                    if e.status_code == 429 and self.enable_rate_optimizer and self.rate_optimizer:
+                        self.rate_optimizer.handle_429_error(cred_idx if "cred_idx" in locals() else 0)
 
-            except APIError as e:
-                # 429 에러 특별 처리
-                if e.status_code == 429 and self.enable_rate_optimizer and self.rate_optimizer:
-                    self.rate_optimizer.handle_429_error(cred_idx if "cred_idx" in locals() else 0)
+                        max_retries = 3
+                        if _retry_count >= max_retries:
+                            raise
 
-                    # 지능형 재시도
-                    retry_delay = self.retry_strategy.calculate_retry_delay(429, 1)
-                    self.logger.warning(f"429 에러 - {retry_delay:.1f}초 후 재시도")
-                    time.sleep(retry_delay)
+                        # 지능형 재시도
+                        retry_delay = self.retry_strategy.calculate_retry_delay(429, _retry_count + 1)
+                        self.logger.warning(f"429 에러 - {retry_delay:.1f}초 후 재시도")
+                        time.sleep(retry_delay)
 
-                    # 다른 크레덴셜로 재시도
-                    return self.make_tr_request(tr_code, endpoint, data, params, method)
+                        # 다른 크레덴셜로 재시도
+                        return self.make_tr_request(
+                            tr_code,
+                            endpoint,
+                            data,
+                            params,
+                            method,
+                            cont_yn,
+                            next_key,
+                            _retry_count + 1,
+                        )
+                    raise
+
+            except Exception:
                 raise
-
-        finally:
-            # 컨텍스트 정리
-            self._current_tr_code = None
-            self._current_endpoint = None
-            self._request_start_time = None
 
     def make_tr_request_continuous(
         self,
@@ -551,7 +705,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
         except Exception as e:
             # 429 Rate Limiting 에러는 조용히 처리
             if "429" in str(e) or "rate" in str(e).lower():
-                raise e  # 에러 메시지 출력 없이 예외만 재발생
+                raise  # 에러 메시지 출력 없이 예외만 재발생
             else:
                 self.raise_with_trace(e, "연속조회 요청 실패")
 
@@ -594,9 +748,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
             return {
                 "status": "unhealthy",
                 "connected": False,
-                "error": str(e),
-                "exception_type": type(e).__name__,
-                "traceback": __import__("traceback").format_exc(),
+                "error": "Health check failed",
             }
 
     def convert_stock_code_param(

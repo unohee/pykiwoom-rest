@@ -32,17 +32,10 @@ class TestProgramAPI:
 
     def test_get_program_trading_daily_success(self, mock_program_api):
         """프로그램 매매 일별 조회 성공"""
-        # This method uses self.request() not make_tr_request()
-        with patch.object(mock_program_api, "request") as mock_req:
-            mock_req.return_value = APIResponse(
-                success=True, data={"rt_cd": "0", "output": {"test": "data"}}
-            )
-            # Act
-            result = mock_program_api.get_program_trading_daily("005930")
+        result = mock_program_api.get_program_trading_daily("005930")
 
-            # Assert
-            assert result is not None
-            mock_req.assert_called_once()
+        assert result is not None
+        mock_program_api.make_tr_request.assert_called_once()
 
     def test_get_stock_program_trading(self, mock_program_api):
         """프로그램 매매동향 조회"""
@@ -79,10 +72,10 @@ class TestProgramAPI:
         """매물대 집중 조회 - 커스텀 파라미터"""
         # Act
         result = mock_program_api.get_pbar_concentration(
-            market="KOSDAQ",
-            exchange="KOSDAQ",
+            market="101",
+            exchange="3",
             pbar_count="100",
-            cycle="1",
+            cycle="50",
             concentration_rate="5",
             include_current_entry="1",
         )
@@ -94,7 +87,7 @@ class TestProgramAPI:
     def test_get_pbar_concentration_all_market(self, mock_program_api):
         """매물대 집중 조회 - 전체 시장"""
         # Act
-        result = mock_program_api.get_pbar_concentration(market="ALL")
+        result = mock_program_api.get_pbar_concentration(market="000")
 
         # Assert
         assert result is not None
@@ -103,7 +96,7 @@ class TestProgramAPI:
     def test_get_pbar_concentration_kospi_market(self, mock_program_api):
         """매물대 집중 조회 - KOSPI 시장"""
         # Act
-        result = mock_program_api.get_pbar_concentration(market="KOSPI")
+        result = mock_program_api.get_pbar_concentration(market="001")
 
         # Assert
         assert result is not None
@@ -131,17 +124,12 @@ class TestProgramAPIErrorCases:
 
     def test_get_program_trading_daily_failure(self, failing_program_api):
         """프로그램 매매 일별 조회 실패"""
-        # Act
-        with patch.object(failing_program_api, "request") as mock_request:
-            mock_request.return_value = APIResponse(
-                success=False, data={}, error={"message": "API Error", "code": "500"}
-            )
-            result = failing_program_api.get_program_trading_daily("005930")
+        result = failing_program_api.get_program_trading_daily("005930")
 
         # Assert
         assert result is not None  # Returns APIResponse even on failure
         assert not result.success
-        mock_request.assert_called_once()
+        failing_program_api.make_tr_request.assert_called_once()
 
     def test_get_pbar_concentration_failure(self, failing_program_api):
         """매물대 집중 조회 실패"""
