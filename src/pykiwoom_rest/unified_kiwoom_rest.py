@@ -36,6 +36,7 @@ class UnifiedKiwoomRest:
         env_path: str = None,
         use_mock: bool = False,
         rate_limit: int = 20,
+        normalize_data: bool = False,
     ):
         """
         초기화
@@ -57,6 +58,7 @@ class UnifiedKiwoomRest:
             env_path=env_path,
             use_mock=use_mock,
             rate_limit=rate_limit,
+            normalize_data=normalize_data,
         )
 
         # 기존 API 클래스들 초기화 (Facade 공유)

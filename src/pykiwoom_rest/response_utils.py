@@ -5,7 +5,7 @@ Response normalization utilities to unify returned structures.
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any
 
 SIGN_CODE_MAP = {
@@ -163,6 +163,7 @@ SIGNED_AMOUNT_FIELDS = {
 }
 MONETARY_AMOUNT_FIELDS = {
     "amt",
+    "amount",
     "trde_prica",
     "trde_pre",
     "acc_trde_prica",
@@ -263,14 +264,24 @@ def _to_signed_int(value: Any) -> int:
     return int(_to_float(value))
 
 
+def _parse_numeric(value: Any) -> float | None:
+    """호환용 숫자 파서: 잘못된 입력은 ``None``으로 표현한다."""
+    try:
+        return _to_float(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def clean_price(value: Any) -> int:
     """부호와 쉼표를 제거한 가격 정수로 변환합니다."""
-    return abs(_to_signed_int(value))
+    parsed = _parse_numeric(value)
+    return abs(int(parsed)) if parsed is not None else 0
 
 
 def clean_rate(value: Any) -> float:
     """등락률/비율 문자열을 부호 보존 float로 변환합니다."""
-    return _to_float(value)
+    parsed = _parse_numeric(value)
+    return parsed if parsed is not None else 0.0
 
 
 def clean_signed_number(value: Any) -> int:
@@ -311,7 +322,7 @@ def signed_change(change: Any, sign_code: Any = None) -> int:
     code = str(sign_code).strip()
     direction = SIGN_CODE_ALIASES.get(code, SIGN_CODE_ALIASES.get(SIGN_CODE_MAP.get(code, "")))
     if direction is None:
-        return _to_signed_int(change)
+        raise ValueError(f"unknown Kiwoom sign code: {sign_code!r}")
     if direction == 0:
         return 0
     return clean_price(change) * direction
@@ -335,9 +346,14 @@ def normalize_data_values(
     *,
     tr_code: str | None = None,
     endpoint: str | None = None,
+    sector_index: bool = False,
 ) -> Any:
     """Kiwoom 숫자 문자열을 필드 의미에 맞는 Python 값으로 정규화합니다."""
-    is_sector_index = tr_code in SECTOR_INDEX_TR_CODES
+    endpoint_text = str(endpoint or "").lower()
+    tr_code_text = str(tr_code or "").lower()
+    is_sector_index = sector_index or tr_code_text in SECTOR_INDEX_TR_CODES or any(
+        term in endpoint_text for term in ("sector", "index", "inds")
+    )
     is_decimal_sector_index = tr_code in SECTOR_DECIMAL_INDEX_TR_CODES
     return _normalize_node(
         data,
@@ -384,6 +400,8 @@ def _normalize_node(
             is_sector_index=is_sector_index,
             is_decimal_sector_index=is_decimal_sector_index,
         )
+        if _normalization_key(key) in SIGN_CODE_FIELDS:
+            normalized[f"{key}_meaning"] = interpret_sign_code(value)
     return normalized
 
 
@@ -397,6 +415,8 @@ def _normalize_scalar(
 ) -> Any:
     normalized_key = _normalization_key(key)
     if normalized_key in NON_NUMERIC_FIELDS:
+        return value
+    if value is None or (isinstance(value, str) and not value.strip()):
         return value
 
     try:
@@ -516,6 +536,13 @@ def _is_rate_field(key: str) -> bool:
     )
 
 
+def _is_sector_index_response(endpoint: str | None, tr_code: str | None) -> bool:
+    endpoint_text = str(endpoint or "").lower()
+    return str(tr_code or "").lower() in SECTOR_INDEX_TR_CODES or any(
+        term in endpoint_text for term in ("sector", "index", "inds")
+    )
+
+
 def _is_orderbook_price_field(key: str) -> bool:
     if key.startswith(("askp", "bidp")) and "rsqn" not in key:
         return key[4:].isdigit()
@@ -566,128 +593,6 @@ def _is_trader_volume_rank_field(key: str) -> bool:
     return False
 
 
-_SIGN_CODE_MEANINGS = {
-    "1": "limit_up",
-    "2": "up",
-    "3": "unchanged",
-    "4": "limit_down",
-    "5": "down",
-}
-
-_PRICE_FIELDS = {
-    "cur_prc", "open_pric", "high_pric", "low_pric", "close_pric",
-    "open_price", "high_price", "low_price", "close_price", "current_price",
-    "stck_prpr", "stck_oprc", "stck_hgpr", "stck_lwpr", "trade_price",
-}
-_RATE_FIELDS = {"flu_rt", "chg_rt", "change_rate", "prdy_ctrt", "rate", "trde_qty_rate"}
-_VOLUME_FIELDS = {"vol", "volume", "trde_qty", "acc_trde_qty", "acc_vol", "acml_vol", "cntg_vol"}
-_AMOUNT_FIELDS = {"amt", "amount", "trde_prica", "acc_trde_prica"}
-_INDEX_PRICE_FIELDS = {
-    "cur_prc", "open_pric", "high_pric", "low_pric", "close_pric",
-    "open_price", "high_price", "low_price", "close_price", "current_price",
-    "stck_prpr", "stck_oprc", "stck_hgpr", "stck_lwpr",
-}
-
-
-def _clean_numeric_text(value: Any) -> str:
-    return str(value).strip().replace(",", "").replace("+", "")
-
-
-def _parse_numeric(value: Any) -> float | None:
-    if value is None:
-        return None
-    cleaned = _clean_numeric_text(value)
-    if cleaned in {"", "-", ".", "-."}:
-        return None
-    try:
-        return float(cleaned)
-    except (TypeError, ValueError):
-        return None
-
-
-def clean_price(value: Any) -> int:
-    """Kiwoom absolute price: remove sign/comma and convert to int."""
-    parsed = _parse_numeric(value)
-    if parsed is None:
-        return 0
-    return abs(int(parsed))
-
-
-def clean_rate(value: Any) -> float:
-    """Kiwoom rate/ratio: remove comma/plus, preserve minus sign."""
-    parsed = _parse_numeric(value)
-    if parsed is None:
-        return 0.0
-    return float(parsed)
-
-
-def clean_index_price(value: Any) -> float:
-    """Kiwoom sector/index prices are encoded x100."""
-    return clean_rate(value) / 100.0
-
-
-def interpret_sign_code(code: Any) -> str:
-    return _SIGN_CODE_MEANINGS.get(str(code).strip(), "unknown")
-
-
-def signed_change(change: Any, sign_code: Any) -> int:
-    magnitude = clean_price(change)
-    meaning = interpret_sign_code(sign_code)
-    if meaning in {"up", "limit_up"}:
-        return magnitude
-    if meaning in {"down", "limit_down"}:
-        return -magnitude
-    if meaning == "unchanged":
-        return 0
-    raise ValueError(f"unknown Kiwoom sign code: {sign_code!r}")
-
-
-def normalize_data_values(data: Any, *, sector_index: bool = False) -> Any:
-    """Recursively normalize Kiwoom numeric payload values for configured field names."""
-    if isinstance(data, list):
-        return [normalize_data_values(item, sector_index=sector_index) for item in data]
-    if not isinstance(data, dict):
-        return data
-
-    out: dict[str, Any] = {}
-    sign_code = data.get("pred_pre_sig") or data.get("prdy_vrss_sign")
-    for key, value in data.items():
-        key_l = str(key).lower()
-        try:
-            if isinstance(value, (dict, list)):
-                out[key] = normalize_data_values(value, sector_index=sector_index)
-            elif key_l in {"pred_pre_sig", "prdy_vrss_sign"}:
-                out[key] = value
-                out[f"{key}_meaning"] = interpret_sign_code(value)
-            elif key_l in {"pred_pre", "change_price", "prdy_vrss"} and sign_code is not None:
-                out[key] = signed_change(value, sign_code)
-            elif sector_index and key_l in _INDEX_PRICE_FIELDS:
-                out[key] = clean_index_price(value)
-            elif key_l in _RATE_FIELDS:
-                out[key] = clean_rate(value)
-            elif key_l in _VOLUME_FIELDS or key_l in _AMOUNT_FIELDS:
-                out[key] = clean_price(value)
-            elif key_l in _PRICE_FIELDS:
-                out[key] = clean_price(value)
-            else:
-                out[key] = value
-        except (TypeError, ValueError):
-            out[key] = value
-    return out
-
-
-def _is_sector_index_response(endpoint: str | None, tr_code: str | None) -> bool:
-    """Detect responses whose OHLC fields are Kiwoom sector/index x100 values."""
-    endpoint_text = str(endpoint or "").lower()
-    tr_code_text = str(tr_code or "").lower()
-    return (
-        "sector" in endpoint_text
-        or "index" in endpoint_text
-        or "inds" in endpoint_text
-        or tr_code_text in {"ka20004", "ka20005", "ka20006", "ka20007", "ka20008", "ka20019"}
-    )
-
-
 def normalize_response(
     data: dict[str, Any],
     *,
@@ -708,13 +613,10 @@ def normalize_response(
         # Non-dict JSON (rare) -> wrap into dict
         data = {"data": data}
 
-    # Preserve original payload unless data normalization is explicitly requested
+    # 기본값은 원본 보존이며, 호출자가 요청한 경우에만 숫자 필드를 정규화한다.
     out: dict[str, Any] = dict(data)
     if normalize_data:
-        out = normalize_data_values(
-            out,
-            sector_index=_is_sector_index_response(endpoint, tr_code),
-        )
+        out = normalize_data_values(out, tr_code=tr_code, endpoint=endpoint)
 
     # Provide defaults if missing
     if "rt_cd" not in out:
@@ -726,7 +628,7 @@ def normalize_response(
     # Attach metadata non-destructively
     meta = out.get("metadata", {}) if isinstance(out.get("metadata"), dict) else {}
     meta_update = {
-        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "timestamp": datetime.now().isoformat(),
         "tr_code": tr_code,
         "endpoint": endpoint,
         "processing_time": processing_time,

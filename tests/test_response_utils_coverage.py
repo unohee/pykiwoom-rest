@@ -9,6 +9,7 @@ from pykiwoom_rest.response_utils import (
     normalize_response,
     signed_change,
 )
+import pykiwoom_rest.response_utils as response_utils
 
 
 def test_numeric_helpers_handle_empty_invalid_and_signed_values():
@@ -16,6 +17,7 @@ def test_numeric_helpers_handle_empty_invalid_and_signed_values():
     assert _parse_numeric("-") is None
     assert _parse_numeric(".") is None
     assert _parse_numeric("not-a-number") is None
+    assert _parse_numeric("") is None
     assert clean_price("-1,234.9") == 1234
     assert clean_price(None) == 0
     assert clean_rate("+1,234.5") == 1234.5
@@ -92,3 +94,14 @@ def test_sector_detection_and_response_normalization_preserve_metadata():
     assert wrapped["rt_cd"] == "0"
     assert wrapped["msg1"] == "SUCCESS"
     assert wrapped["data"][0]["cur_prc"] == 100
+
+
+def test_remaining_decimal_and_field_classifier_paths():
+    assert normalize_data_values({"pred_pre": "-1.5"}, tr_code="ka20001")["pred_pre"] == -1.5
+    assert normalize_data_values({"pred_pre_sig": "9", "pred_pre": "1"}, tr_code="ka20001")["pred_pre"] == 1.0
+    assert normalize_data_values({"pred_pre_sig": "3", "pred_pre": "1"}, tr_code="ka20001")["pred_pre"] == 0.0
+    assert normalize_data_values({"cur_prc": "12.5"}, tr_code="ka20001")["cur_prc"] == 12.5
+    assert response_utils._is_rate_field("rt_cd") is False
+    assert response_utils._is_orderbook_price_field("askp1")
+    assert response_utils._is_orderbook_quantity_field("askp_rsqn1")
+    assert response_utils._is_trader_volume_rank_field("buy_trde_qty_1")

@@ -19,6 +19,7 @@ from typing import Any, Dict, Optional
 from .api_facade import KiwoomAPIFacade, RequestPriority
 from .base_api import APIError, RateLimitExceededError
 from .exception_utils import RaiseWithTraceMixin
+from .response_utils import normalize_data_values
 
 
 class KiwoomAPIError(APIError):
@@ -70,6 +71,7 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         max_retries: int = 3,
         enable_rate_optimizer: bool = False,
         credentials_list: list = None,
+        normalize_data: bool = False,
     ):
         """
         초기화
@@ -122,6 +124,7 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
 
         # 설정 저장
         self.use_mock = use_mock
+        self.normalize_data = bool(normalize_data)
         self.max_retries = max_retries
 
         # 기본 URL 설정
@@ -236,6 +239,8 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 priority=priority,
             )
 
+            if self.normalize_data:
+                return normalize_data_values(response, tr_code=tr_code, endpoint=endpoint)
             return response
 
         except Exception as e:

@@ -23,6 +23,13 @@ def response(payload, headers=None):
 
 
 class TestKiwoomBaseRequestExecution:
+    def test_continuous_request_normalizes_when_enabled(self):
+        api = base(normalize_data=True)
+        api._get_access_token = MagicMock(return_value="token")
+        api._make_request = MagicMock(return_value=response({"cur_prc": "-1,000"}))
+        result = api.make_tr_request_continuous("ka10001", "stock_info")
+        assert result["data"]["cur_prc"] == 1000
+
     def test_headers_response_and_token_expiry_parsing(self):
         api = base(normalize_data=True)
         api.access_token = "token"

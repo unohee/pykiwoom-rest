@@ -271,7 +271,10 @@ class SectorAPI(KiwoomAPIBase):
                 }
 
             # 차트 데이터 추출 (output2 또는 output)
-            chart_data = raw_data.get("output2", raw_data.get("output", []))
+            chart_data = raw_data.get(
+                "output2",
+                raw_data.get("output", raw_data.get("inds_dt_pole_qry", [])),
+            )
             if not isinstance(chart_data, list):
                 chart_data = [chart_data] if chart_data else []
 
@@ -284,12 +287,13 @@ class SectorAPI(KiwoomAPIBase):
                 # Kiwoom 필드명 -> PyKIS 필드명 매핑
                 # Kiwoom: dt, open, high, low, close, vol
                 # PyKIS: stck_bsop_date, bstp_nmix_oprc, bstp_nmix_hgpr, etc.
-                open_value = item.get("open", item.get("bstp_nmix_oprc", item.get("oprc", "0")))
-                high_value = item.get("high", item.get("bstp_nmix_hgpr", item.get("hgpr", "0")))
-                low_value = item.get("low", item.get("bstp_nmix_lwpr", item.get("lwpr", "0")))
-                close_value = item.get("close", item.get("bstp_nmix_prpr", item.get("prpr", "0")))
+                open_value = item.get("open", item.get("open_pric", item.get("bstp_nmix_oprc", item.get("oprc", "0"))))
+                high_value = item.get("high", item.get("high_pric", item.get("bstp_nmix_hgpr", item.get("hgpr", "0"))))
+                low_value = item.get("low", item.get("low_pric", item.get("bstp_nmix_lwpr", item.get("lwpr", "0"))))
+                close_value = item.get("close", item.get("cur_prc", item.get("bstp_nmix_prpr", item.get("prpr", "0"))))
 
-                if getattr(self, "normalize_data", False):
+                should_normalize_index = getattr(self, "normalize_data", False) or "inds_dt_pole_qry" in raw_data
+                if should_normalize_index:
                     open_value = clean_index_price(open_value)
                     high_value = clean_index_price(high_value)
                     low_value = clean_index_price(low_value)
@@ -309,10 +313,10 @@ class SectorAPI(KiwoomAPIBase):
                     # 종가
                     "bstp_nmix_prpr": str(close_value),
                     # 거래량
-                    "acml_vol": str(item.get("vol", item.get("acml_vol", item.get("volume", "0")))),
+                    "acml_vol": str(item.get("vol", item.get("trde_qty", item.get("acml_vol", item.get("volume", "0"))))),
                     # 거래대금
                     "acml_tr_pbmn": str(
-                        item.get("amt", item.get("acml_tr_pbmn", item.get("tr_pbmn", "0")))
+                        item.get("amt", item.get("trde_prica", item.get("acml_tr_pbmn", item.get("tr_pbmn", "0"))))
                     ),
                 }
                 output2.append(converted)

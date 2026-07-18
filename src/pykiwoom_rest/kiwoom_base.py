@@ -299,7 +299,7 @@ class KiwoomAPIBase(BaseAPIClient, RaiseWithTraceMixin):
                 tr_code=tr_code,
                 endpoint=endpoint,
                 processing_time=processing_time,
-                normalize_data=self.normalize_data,
+                normalize_data=False,
             )
             if self.normalize_data:
                 return normalize_data_values(
