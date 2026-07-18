@@ -71,7 +71,8 @@
 
 2. **가격/수량 필드**:
    - 문자열로 반환되며 `+`, `-`, `,` 기호 포함
-   - 사용 전 `.replace('+', '').replace('-', '').replace(',', '')` 처리 필요
+   - 기본값(`normalize_data=False`)에서는 원시 문자열을 보존
+   - `KiwoomRest(normalize_data=True)` 사용 시 가격/수량/등락률/업종 지수 x100 값이 필드 의미에 맞게 변환됨
 
 3. **날짜/시간 형식**:
    - 날짜: `YYYYMMDD`

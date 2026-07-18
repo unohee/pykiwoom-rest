@@ -6,6 +6,7 @@ Sector API Module - 업종 관련 API 구현
 from typing import Any, Dict, Optional
 
 from .kiwoom_base import KiwoomAPIBase
+from .response_utils import clean_index_price
 
 
 class SectorAPI(KiwoomAPIBase):
@@ -26,6 +27,43 @@ class SectorAPI(KiwoomAPIBase):
         "sector_investor_trading": "ka10051",
         "sector_program_trading": "ka10010",
     }
+
+    @staticmethod
+    def _index_price_for_pykis(item: Dict[str, Any], *keys: str) -> str:
+        for key in keys:
+            value = item.get(key)
+            if value in (None, ""):
+                continue
+            try:
+                if key in {
+                    "cur_prc",
+                    "open_pric",
+                    "high_pric",
+                    "low_pric",
+                    "bstp_nmix_prpr",
+                    "bstp_nmix_oprc",
+                    "bstp_nmix_hgpr",
+                    "bstp_nmix_lwpr",
+                }:
+                    if isinstance(value, float) or "." in str(value):
+                        decoded = float(str(value).replace(",", "").strip())
+                    else:
+                        decoded = clean_index_price(value)
+                else:
+                    decoded = float(str(value).replace(",", "").strip())
+            except (TypeError, ValueError):
+                continue
+            return f"{decoded:.2f}"
+        return "0"
+
+    @staticmethod
+    def _string_value_for_pykis(item: Dict[str, Any], *keys: str) -> str:
+        for key in keys:
+            value = item.get(key)
+            if value in (None, ""):
+                continue
+            return str(value)
+        return "0"
 
     def get_sector_current_price(self, sector_code: str = "0001") -> Dict[str, Any]:
         """
@@ -230,8 +268,11 @@ class SectorAPI(KiwoomAPIBase):
                     "output2": [],
                 }
 
-            # 차트 데이터 추출 (output2 또는 output)
-            chart_data = raw_data.get("output2", raw_data.get("output", []))
+            # 차트 데이터 추출 (Kiwoom 업종 일봉 키와 호환 키 모두 지원)
+            chart_data = raw_data.get(
+                "inds_dt_pole_qry",
+                raw_data.get("output2", raw_data.get("output", [])),
+            )
             if not isinstance(chart_data, list):
                 chart_data = [chart_data] if chart_data else []
 
@@ -250,26 +291,52 @@ class SectorAPI(KiwoomAPIBase):
                         item.get("dt", item.get("stck_bsop_date", item.get("date", "")))
                     ),
                     # 시가
-                    "bstp_nmix_oprc": str(
-                        item.get("open", item.get("bstp_nmix_oprc", item.get("oprc", "0")))
+                    "bstp_nmix_oprc": self._index_price_for_pykis(
+                        item,
+                        "open_pric",
+                        "open",
+                        "bstp_nmix_oprc",
+                        "oprc",
                     ),
                     # 고가
-                    "bstp_nmix_hgpr": str(
-                        item.get("high", item.get("bstp_nmix_hgpr", item.get("hgpr", "0")))
+                    "bstp_nmix_hgpr": self._index_price_for_pykis(
+                        item,
+                        "high_pric",
+                        "high",
+                        "bstp_nmix_hgpr",
+                        "hgpr",
                     ),
                     # 저가
-                    "bstp_nmix_lwpr": str(
-                        item.get("low", item.get("bstp_nmix_lwpr", item.get("lwpr", "0")))
+                    "bstp_nmix_lwpr": self._index_price_for_pykis(
+                        item,
+                        "low_pric",
+                        "low",
+                        "bstp_nmix_lwpr",
+                        "lwpr",
                     ),
                     # 종가
-                    "bstp_nmix_prpr": str(
-                        item.get("close", item.get("bstp_nmix_prpr", item.get("prpr", "0")))
+                    "bstp_nmix_prpr": self._index_price_for_pykis(
+                        item,
+                        "cur_prc",
+                        "close",
+                        "bstp_nmix_prpr",
+                        "prpr",
                     ),
                     # 거래량
-                    "acml_vol": str(item.get("vol", item.get("acml_vol", item.get("volume", "0")))),
+                    "acml_vol": self._string_value_for_pykis(
+                        item,
+                        "trde_qty",
+                        "vol",
+                        "acml_vol",
+                        "volume",
+                    ),
                     # 거래대금
-                    "acml_tr_pbmn": str(
-                        item.get("amt", item.get("acml_tr_pbmn", item.get("tr_pbmn", "0")))
+                    "acml_tr_pbmn": self._string_value_for_pykis(
+                        item,
+                        "trde_prica",
+                        "amt",
+                        "acml_tr_pbmn",
+                        "tr_pbmn",
                     ),
                 }
                 output2.append(converted)

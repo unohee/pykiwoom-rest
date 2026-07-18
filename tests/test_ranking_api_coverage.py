@@ -7,7 +7,7 @@ ranking_api.py 모듈 단위 테스트
 """
 
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -32,9 +32,7 @@ class TestRankingAPI:
         """모의 RankingAPI 인스턴스"""
         with patch.object(RankingAPI, "_get_access_token", return_value="mock_token"), patch.object(
             RankingAPI, "request"
-        ) as mock_request, patch.object(
-            RankingAPI, "make_tr_request"
-        ) as mock_tr_request:
+        ) as mock_request, patch.object(RankingAPI, "make_tr_request") as mock_tr_request:
             mock_request.return_value = APIResponse(
                 success=True, data={"rt_cd": "0", "output": [{"stk_cd": "005930"}]}
             )
@@ -161,9 +159,7 @@ class TestRankingAPI:
 
     def test_get_foreign_period_trading_top_custom(self, mock_ranking_api):
         """외인 기간별 매매 상위 조회 - 커스텀 파라미터"""
-        mock_ranking_api.get_foreign_period_trading_top(
-            market="KOSPI", period="5", count=30
-        )
+        mock_ranking_api.get_foreign_period_trading_top(market="KOSPI", period="5", count=30)
 
         call_kwargs = mock_ranking_api.make_tr_request.call_args[1]
         assert call_kwargs["tr_code"] == "ka10034"
@@ -249,6 +245,131 @@ class TestRankingAPI:
         call_kwargs = mock_ranking_api.make_tr_request.call_args[1]
         assert call_kwargs["tr_code"] == "ka10098"
 
+    @pytest.mark.parametrize(
+        "method_name,expected_tr_code,expected_payload",
+        [
+            (
+                "get_bid_ask_volume_surge",
+                "ka10021",
+                {
+                    "mrkt_tp": "101",
+                    "trde_tp": "1",
+                    "sort_tp": "1",
+                    "tm_tp": "30",
+                    "trde_qty_tp": "1",
+                    "stk_cnd": "0",
+                    "stex_tp": "3",
+                },
+            ),
+            (
+                "get_remaining_volume_surge",
+                "ka10022",
+                {
+                    "mrkt_tp": "101",
+                    "rt_tp": "1",
+                    "tm_tp": "1",
+                    "trde_qty_tp": "5",
+                    "stk_cnd": "0",
+                    "stex_tp": "3",
+                },
+            ),
+            (
+                "get_expected_execution_rate_top",
+                "ka10029",
+                {
+                    "mrkt_tp": "101",
+                    "sort_tp": "1",
+                    "trde_qty_cnd": "0",
+                    "stk_cnd": "0",
+                    "crd_cnd": "0",
+                    "pric_cnd": "0",
+                    "stex_tp": "3",
+                },
+            ),
+            (
+                "get_intraday_investor_trading_top",
+                "ka10065",
+                {"trde_tp": "1", "mrkt_tp": "101", "orgn_tp": "9000"},
+            ),
+            (
+                "get_overtime_single_price_rate_ranking",
+                "ka10098",
+                {
+                    "mrkt_tp": "101",
+                    "sort_base": "5",
+                    "stk_cnd": "0",
+                    "trde_qty_cnd": "0",
+                    "crd_cnd": "0",
+                    "trde_prica": "0",
+                },
+            ),
+        ],
+    )
+    def test_legacy_ranking_aliases_use_documented_direct_request_fields(
+        self, mock_ranking_api, method_name, expected_tr_code, expected_payload
+    ):
+        """legacy ranking alias는 문서형 요청 필드로 직접 request 경로를 탄다."""
+        assert_official_api_url(expected_tr_code, "/api/dostk/rkinfo")
+
+        getattr(mock_ranking_api, method_name)(market="KOSDAQ")
+
+        mock_ranking_api.make_tr_request.assert_not_called()
+        mock_ranking_api.request.assert_called_once()
+        call_kwargs = mock_ranking_api.request.call_args.kwargs
+        assert call_kwargs["method"] == "POST"
+        assert call_kwargs["endpoint"] == "/api/dostk/rkinfo"
+        assert call_kwargs["headers"]["api-id"] == expected_tr_code
+        assert call_kwargs["json_data"] == expected_payload
+
+    def test_legacy_ranking_alias_normalizes_data_when_enabled(self):
+        """normalize_data=True면 legacy alias 직접 request 응답도 정규화된다."""
+        raw_response = MagicMock()
+        raw_response.json.return_value = {
+            "rt_cd": "0",
+            "bid_req_sdnin": [
+                {
+                    "stk_cd": "005930",
+                    "cur_prc": "-78,800",
+                    "pred_pre": "600",
+                    "pre_sig": "5",
+                    "pre_rt": "-0.76",
+                    "ind_netprps": "--300",
+                }
+            ],
+        }
+
+        with patch.object(RankingAPI, "_get_access_token", return_value="mock_token"), patch.object(
+            RankingAPI, "_make_request", return_value=raw_response
+        ) as mock_make_request:
+            api = RankingAPI(
+                appkey="test_key",
+                appsecret="test_secret",
+                account_no="12345678",
+                normalize_data=True,
+            )
+            result = api.get_bid_ask_volume_surge(market="KOSPI")
+
+        row = result["bid_req_sdnin"][0]
+        assert row["stk_cd"] == "005930"
+        assert row["cur_prc"] == 78800
+        assert row["pred_pre"] == -600
+        assert row["pre_sig"] == "down"
+        assert row["pre_rt"] == -0.76
+        assert row["ind_netprps"] == -300
+
+        call_kwargs = mock_make_request.call_args.kwargs
+        assert call_kwargs["endpoint"] == "/api/dostk/rkinfo"
+        assert call_kwargs["headers"]["api-id"] == "ka10021"
+        assert call_kwargs["json_data"] == {
+            "mrkt_tp": "001",
+            "trde_tp": "1",
+            "sort_tp": "1",
+            "tm_tp": "30",
+            "trde_qty_tp": "1",
+            "stk_cnd": "0",
+            "stex_tp": "3",
+        }
+
     def test_get_foreign_institution_trading_top(self, mock_ranking_api):
         """외국인 기관 매매 상위 조회"""
         mock_ranking_api.get_foreign_institution_trading_top()
@@ -260,9 +381,7 @@ class TestRankingAPI:
 
     def test_get_hourly_program_trading(self, mock_ranking_api):
         """시간별 프로그램 매매 추이 조회"""
-        mock_ranking_api.get_hourly_program_trading(
-            stock_code="005930", date="20260113"
-        )
+        mock_ranking_api.get_hourly_program_trading(stock_code="005930", date="20260113")
 
         call_kwargs = mock_ranking_api.make_tr_request.call_args[1]
         assert call_kwargs["tr_code"] == "ka90008"

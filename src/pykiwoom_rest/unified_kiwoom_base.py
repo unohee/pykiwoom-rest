@@ -17,6 +17,7 @@ from typing import Any, Dict, Optional
 from .api_facade import KiwoomAPIFacade, RequestPriority
 from .base_api import APIError
 from .exception_utils import RaiseWithTraceMixin
+from .response_utils import normalize_data_values
 
 
 class KiwoomAPIError(APIError):
@@ -65,6 +66,7 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         max_retries: int = 3,
         enable_rate_optimizer: bool = False,
         credentials_list: list = None,
+        normalize_data: bool = False,
     ):
         """
         초기화
@@ -79,6 +81,7 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
             max_retries: 최대 재시도 횟수
             enable_rate_optimizer: Rate limiting 최적화 활성화
             credentials_list: 다중 크레덴셜 리스트
+            normalize_data: 응답 숫자 문자열 정규화 여부
         """
 
         # API Facade 인스턴스 가져오기 (싱글턴)
@@ -94,6 +97,7 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         # 설정 저장
         self.use_mock = use_mock
         self.max_retries = max_retries
+        self.normalize_data = normalize_data
 
         # 기본 URL 설정
         self.base_url = self.MOCK_BASE_URL if use_mock else self.BASE_URL
@@ -207,6 +211,12 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 priority=priority,
             )
 
+            if self.normalize_data:
+                return normalize_data_values(
+                    response,
+                    tr_code=tr_code,
+                    endpoint=endpoint,
+                )
             return response
 
         except Exception as e:
@@ -258,6 +268,13 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 data=data,
                 priority=priority,
             )
+
+            if self.normalize_data:
+                response_data = normalize_data_values(
+                    response_data,
+                    tr_code=tr_code,
+                    endpoint=endpoint,
+                )
 
             # 연속조회 정보는 실제 HTTP 응답 헤더에서 가져와야 하지만
             # 현재 Facade에서는 JSON 데이터만 반환하므로 기본값 사용

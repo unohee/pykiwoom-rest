@@ -86,10 +86,9 @@ class TestWebSocketClient:
 
             assert await ws_client.connect(api_id="0D")
 
-            headers = (
-                mock_connect.call_args.kwargs.get("additional_headers")
-                or mock_connect.call_args.kwargs.get("extra_headers")
-            )
+            headers = mock_connect.call_args.kwargs.get(
+                "additional_headers"
+            ) or mock_connect.call_args.kwargs.get("extra_headers")
             assert headers == {
                 "authorization": "Bearer test_token",
                 "api-id": "0D",
@@ -301,9 +300,7 @@ class TestWebSocketAPI:
     @pytest.mark.asyncio
     async def test_unsubscribe_quote(self, ws_api):
         """실시간 시세 구독 해제 테스트"""
-        with patch.object(
-            ws_api._client, "unsubscribe", return_value=True
-        ) as mock_unsub:
+        with patch.object(ws_api._client, "unsubscribe", return_value=True) as mock_unsub:
             result = await ws_api.unsubscribe_quote("005930")
             assert result is True
             mock_unsub.assert_called_once()
@@ -359,6 +356,24 @@ class TestWebSocketAPI:
         assert quote.change_rate == 1.45
         assert quote.volume == 1000000
         assert quote.low_price == 68000
+
+    def test_parse_quote_uses_realtime_sign_code_for_change(self, ws_api):
+        """전일대비 값에 부호가 없어도 REAL 25 기호로 부호 보정"""
+        quote = ws_api._parse_quote(
+            "005930",
+            {
+                "values": {
+                    "10": "-70000",
+                    "11": "50",
+                    "12": "-0.24",
+                    "13": "1000000",
+                    "25": "5",
+                }
+            },
+        )
+
+        assert quote.current_price == 70000
+        assert quote.change_price == -50
 
     def test_parse_orderbook(self, ws_api):
         """실시간 호가 데이터 파싱 테스트"""

@@ -4,6 +4,7 @@ Ranking Information API
 작성일: 2025-01-27
 """
 
+import time
 from typing import Any, Dict, List
 
 from .kiwoom_base import KiwoomAPIBase
@@ -43,6 +44,41 @@ class RankingAPI(KiwoomAPIBase):
     def _get_market_code(self, market: str) -> str:
         """시장 코드 변환 헬퍼"""
         return {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
+
+    def _get_kiwoom_market_type(self, market: str, *, default_all: str = "000") -> str:
+        """문서형 mrkt_tp 시장 코드 변환 헬퍼"""
+        return {"ALL": default_all, "KOSPI": "001", "KOSDAQ": "101"}.get(market, default_all)
+
+    def _request_ranking_direct(self, tr_code: str, params: Dict[str, Any]) -> Dict[str, Any]:
+        """legacy alias에서 기존 직접 request 경로와 정규화 컨텍스트를 유지합니다."""
+        self._current_tr_code = tr_code
+        self._current_endpoint = "ranking"
+        self._request_start_time = time.time()
+
+        try:
+            token = self._get_access_token()
+            headers = {
+                "api-id": tr_code,
+                "cont-yn": "N",
+                "next-key": "",
+                "authorization": f"Bearer {token}",
+                "Content-Type": "application/json;charset=UTF-8",
+            }
+
+            response = self.request(
+                method="POST",
+                endpoint=self.ENDPOINTS["ranking"],
+                json_data=params,
+                headers=headers,
+            )
+
+            if hasattr(response, "success") and hasattr(response, "data"):
+                return response.data if response.success else {}
+            return response
+        finally:
+            self._current_tr_code = None
+            self._current_endpoint = None
+            self._request_start_time = None
 
     def get_volume_top(self, market: str = "ALL", count: int = 50) -> Dict[str, Any]:
         """
@@ -786,28 +822,16 @@ class RankingAPI(KiwoomAPIBase):
         Returns:
             호가잔량 급증 종목 목록
         """
-        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
-
         params = {
-            "FID_COND_MRKT_DIV_CODE": market_code,
-            "FID_COND_SCR_DIV_CODE": "20171",
-            "FID_DIV_CLS_CODE": "0",
-            "FID_INPUT_ISCD": "0000",
+            "mrkt_tp": self._get_kiwoom_market_type(market, default_all="001"),
+            "trde_tp": "1",
+            "sort_tp": "1",
+            "tm_tp": "30",
+            "trde_qty_tp": "1",
+            "stk_cnd": "0",
+            "stex_tp": "3",
         }
-
-        headers = {"api-id": "ka10021", "cont-yn": "N", "next-key": ""}
-        token = self._get_access_token()
-        headers["authorization"] = f"Bearer {token}"
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-
-        response = self.request(
-            method="POST",
-            endpoint="/api/dostk/rkinfo",
-            json_data=params,
-            headers=headers,
-        )
-
-        return response.data if response.success else {}
+        return self._request_ranking_direct("ka10021", params)
 
     def get_remaining_volume_surge(self, market: str = "ALL") -> Dict[str, Any]:
         """
@@ -819,28 +843,15 @@ class RankingAPI(KiwoomAPIBase):
         Returns:
             잔량율 급증 종목 목록
         """
-        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
-
         params = {
-            "FID_COND_MRKT_DIV_CODE": market_code,
-            "FID_COND_SCR_DIV_CODE": "20171",
-            "FID_DIV_CLS_CODE": "0",
-            "FID_INPUT_ISCD": "0000",
+            "mrkt_tp": self._get_kiwoom_market_type(market, default_all="001"),
+            "rt_tp": "1",
+            "tm_tp": "1",
+            "trde_qty_tp": "5",
+            "stk_cnd": "0",
+            "stex_tp": "3",
         }
-
-        headers = {"api-id": "ka10022", "cont-yn": "N", "next-key": ""}
-        token = self._get_access_token()
-        headers["authorization"] = f"Bearer {token}"
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-
-        response = self.request(
-            method="POST",
-            endpoint="/api/dostk/rkinfo",
-            json_data=params,
-            headers=headers,
-        )
-
-        return response.data if response.success else {}
+        return self._request_ranking_direct("ka10022", params)
 
     def get_expected_execution_rate_top(self, market: str = "ALL") -> Dict[str, Any]:
         """
@@ -852,28 +863,16 @@ class RankingAPI(KiwoomAPIBase):
         Returns:
             예상체결등락률 상위 종목 목록
         """
-        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
-
         params = {
-            "FID_COND_MRKT_DIV_CODE": market_code,
-            "FID_COND_SCR_DIV_CODE": "20171",
-            "FID_DIV_CLS_CODE": "0",
-            "FID_INPUT_ISCD": "0000",
+            "mrkt_tp": self._get_kiwoom_market_type(market),
+            "sort_tp": "1",
+            "trde_qty_cnd": "0",
+            "stk_cnd": "0",
+            "crd_cnd": "0",
+            "pric_cnd": "0",
+            "stex_tp": "3",
         }
-
-        headers = {"api-id": "ka10029", "cont-yn": "N", "next-key": ""}
-        token = self._get_access_token()
-        headers["authorization"] = f"Bearer {token}"
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-
-        response = self.request(
-            method="POST",
-            endpoint="/api/dostk/rkinfo",
-            json_data=params,
-            headers=headers,
-        )
-
-        return response.data if response.success else {}
+        return self._request_ranking_direct("ka10029", params)
 
     def get_intraday_investor_trading_top(self, market: str = "ALL") -> Dict[str, Any]:
         """
@@ -885,28 +884,12 @@ class RankingAPI(KiwoomAPIBase):
         Returns:
             장중 투자자별 매매 상위 종목 목록
         """
-        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
-
         params = {
-            "FID_COND_MRKT_DIV_CODE": market_code,
-            "FID_COND_SCR_DIV_CODE": "20171",
-            "FID_DIV_CLS_CODE": "0",
-            "FID_INPUT_ISCD": "0000",
+            "trde_tp": "1",
+            "mrkt_tp": self._get_kiwoom_market_type(market),
+            "orgn_tp": "9000",
         }
-
-        headers = {"api-id": "ka10065", "cont-yn": "N", "next-key": ""}
-        token = self._get_access_token()
-        headers["authorization"] = f"Bearer {token}"
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-
-        response = self.request(
-            method="POST",
-            endpoint="/api/dostk/rkinfo",
-            json_data=params,
-            headers=headers,
-        )
-
-        return response.data if response.success else {}
+        return self._request_ranking_direct("ka10065", params)
 
     def get_overtime_single_price_rate_ranking(self, market: str = "ALL") -> Dict[str, Any]:
         """
@@ -918,25 +901,12 @@ class RankingAPI(KiwoomAPIBase):
         Returns:
             시간외단일가등락율순위 종목 목록
         """
-        market_code = {"ALL": "J", "KOSPI": "J", "KOSDAQ": "Q"}.get(market, "J")
-
         params = {
-            "FID_COND_MRKT_DIV_CODE": market_code,
-            "FID_COND_SCR_DIV_CODE": "20171",
-            "FID_DIV_CLS_CODE": "0",
-            "FID_INPUT_ISCD": "0000",
+            "mrkt_tp": self._get_kiwoom_market_type(market),
+            "sort_base": "5",
+            "stk_cnd": "0",
+            "trde_qty_cnd": "0",
+            "crd_cnd": "0",
+            "trde_prica": "0",
         }
-
-        headers = {"api-id": "ka10098", "cont-yn": "N", "next-key": ""}
-        token = self._get_access_token()
-        headers["authorization"] = f"Bearer {token}"
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-
-        response = self.request(
-            method="POST",
-            endpoint="/api/dostk/rkinfo",
-            json_data=params,
-            headers=headers,
-        )
-
-        return response.data if response.success else {}
+        return self._request_ranking_direct("ka10098", params)

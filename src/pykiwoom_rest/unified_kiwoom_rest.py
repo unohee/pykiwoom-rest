@@ -38,6 +38,7 @@ class UnifiedKiwoomRest:
         max_retries: int = 3,
         enable_rate_optimizer: bool = False,
         credentials_list: list = None,
+        normalize_data: bool = False,
     ):
         """
         초기화
@@ -52,6 +53,7 @@ class UnifiedKiwoomRest:
             max_retries: 최대 재시도 횟수
             enable_rate_optimizer: Rate limiting 최적화 활성화
             credentials_list: 다중 크레덴셜 리스트
+            normalize_data: Kiwoom 숫자 문자열/부호/x100 인코딩 정규화 여부
         """
 
         # 통합 base 클래스 초기화
@@ -65,6 +67,7 @@ class UnifiedKiwoomRest:
             max_retries=max_retries,
             enable_rate_optimizer=enable_rate_optimizer,
             credentials_list=credentials_list,
+            normalize_data=normalize_data,
         )
 
         # 공통 설정 준비
@@ -78,6 +81,7 @@ class UnifiedKiwoomRest:
             "max_retries": max_retries,
             "enable_rate_optimizer": enable_rate_optimizer,
             "credentials_list": credentials_list,
+            "normalize_data": normalize_data,
         }
 
         # 기존 API 클래스들 초기화 (Facade 공유)
