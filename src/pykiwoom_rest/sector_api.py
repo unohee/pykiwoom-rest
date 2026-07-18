@@ -3,6 +3,7 @@ Sector API Module - 업종 관련 API 구현
 작성일: 2025-01-27
 """
 
+from datetime import datetime
 from typing import Any, Dict, Optional
 
 from .kiwoom_base import KiwoomAPIBase
@@ -29,41 +30,42 @@ class SectorAPI(KiwoomAPIBase):
     }
 
     @staticmethod
-    def _index_price_for_pykis(item: Dict[str, Any], *keys: str) -> str:
-        for key in keys:
-            value = item.get(key)
-            if value in (None, ""):
-                continue
-            try:
-                if key in {
-                    "cur_prc",
-                    "open_pric",
-                    "high_pric",
-                    "low_pric",
-                    "bstp_nmix_prpr",
-                    "bstp_nmix_oprc",
-                    "bstp_nmix_hgpr",
-                    "bstp_nmix_lwpr",
-                }:
-                    if isinstance(value, float) or "." in str(value):
-                        decoded = float(str(value).replace(",", "").strip())
-                    else:
-                        decoded = clean_index_price(value)
-                else:
-                    decoded = float(str(value).replace(",", "").strip())
-            except (TypeError, ValueError):
-                continue
-            return f"{decoded:.2f}"
-        return "0"
+    def _normalize_sector_value(name: str, value: Any) -> str:
+        """Validate and normalize sector request parameters before TR submission."""
+        if value is None:
+            raise ValueError(f"{name} is required")
 
-    @staticmethod
-    def _string_value_for_pykis(item: Dict[str, Any], *keys: str) -> str:
-        for key in keys:
-            value = item.get(key)
-            if value in (None, ""):
-                continue
-            return str(value)
-        return "0"
+        normalized = str(value).strip()
+        if not normalized:
+            raise ValueError(f"{name} must not be empty")
+
+        key = name.lower()
+        if "date" in key or key.endswith("dt"):
+            if not (len(normalized) == 8 and normalized.isdigit()):
+                raise ValueError(f"{name} must be YYYYMMDD")
+            try:
+                datetime.strptime(normalized, "%Y%m%d")
+            except ValueError as exc:
+                raise ValueError(f"{name} must be a valid YYYYMMDD date") from exc
+        elif key in {"sect_cd", "sector_code"}:
+            if not (normalized.isdigit() and 3 <= len(normalized) <= 4):
+                raise ValueError(f"{name} must be a 3-4 digit sector code")
+        elif any(token in key for token in ("mrkt", "market", "tp", "type", "unit", "gb")):
+            if not (normalized.isdigit() and len(normalized) <= 2):
+                raise ValueError(f"{name} must be a numeric code")
+
+        return normalized
+
+    def _normalize_sector_params(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        return {key: self._normalize_sector_value(key, value) for key, value in params.items()}
+
+    def make_tr_request(self, *args: Any, **kwargs: Any) -> Dict[str, Any]:
+        """Validate sector request parameters before delegating to the base client."""
+        if "data" in kwargs and isinstance(kwargs["data"], dict):
+            kwargs["data"] = self._normalize_sector_params(kwargs["data"])
+        elif len(args) >= 3 and isinstance(args[2], dict):
+            args = (*args[:2], self._normalize_sector_params(args[2]), *args[3:])
+        return super().make_tr_request(*args, **kwargs)
 
     def get_sector_current_price(self, sector_code: str = "0001") -> Dict[str, Any]:
         """
@@ -268,11 +270,8 @@ class SectorAPI(KiwoomAPIBase):
                     "output2": [],
                 }
 
-            # 차트 데이터 추출 (Kiwoom 업종 일봉 키와 호환 키 모두 지원)
-            chart_data = raw_data.get(
-                "inds_dt_pole_qry",
-                raw_data.get("output2", raw_data.get("output", [])),
-            )
+            # 차트 데이터 추출 (output2 또는 output)
+            chart_data = raw_data.get("output2", raw_data.get("output", []))
             if not isinstance(chart_data, list):
                 chart_data = [chart_data] if chart_data else []
 
@@ -285,58 +284,35 @@ class SectorAPI(KiwoomAPIBase):
                 # Kiwoom 필드명 -> PyKIS 필드명 매핑
                 # Kiwoom: dt, open, high, low, close, vol
                 # PyKIS: stck_bsop_date, bstp_nmix_oprc, bstp_nmix_hgpr, etc.
+                open_value = item.get("open", item.get("bstp_nmix_oprc", item.get("oprc", "0")))
+                high_value = item.get("high", item.get("bstp_nmix_hgpr", item.get("hgpr", "0")))
+                low_value = item.get("low", item.get("bstp_nmix_lwpr", item.get("lwpr", "0")))
+                close_value = item.get("close", item.get("bstp_nmix_prpr", item.get("prpr", "0")))
+
+                if getattr(self, "normalize_data", False):
+                    open_value = clean_index_price(open_value)
+                    high_value = clean_index_price(high_value)
+                    low_value = clean_index_price(low_value)
+                    close_value = clean_index_price(close_value)
+
                 converted = {
                     # 날짜
                     "stck_bsop_date": str(
                         item.get("dt", item.get("stck_bsop_date", item.get("date", "")))
                     ),
                     # 시가
-                    "bstp_nmix_oprc": self._index_price_for_pykis(
-                        item,
-                        "open_pric",
-                        "open",
-                        "bstp_nmix_oprc",
-                        "oprc",
-                    ),
+                    "bstp_nmix_oprc": str(open_value),
                     # 고가
-                    "bstp_nmix_hgpr": self._index_price_for_pykis(
-                        item,
-                        "high_pric",
-                        "high",
-                        "bstp_nmix_hgpr",
-                        "hgpr",
-                    ),
+                    "bstp_nmix_hgpr": str(high_value),
                     # 저가
-                    "bstp_nmix_lwpr": self._index_price_for_pykis(
-                        item,
-                        "low_pric",
-                        "low",
-                        "bstp_nmix_lwpr",
-                        "lwpr",
-                    ),
+                    "bstp_nmix_lwpr": str(low_value),
                     # 종가
-                    "bstp_nmix_prpr": self._index_price_for_pykis(
-                        item,
-                        "cur_prc",
-                        "close",
-                        "bstp_nmix_prpr",
-                        "prpr",
-                    ),
+                    "bstp_nmix_prpr": str(close_value),
                     # 거래량
-                    "acml_vol": self._string_value_for_pykis(
-                        item,
-                        "trde_qty",
-                        "vol",
-                        "acml_vol",
-                        "volume",
-                    ),
+                    "acml_vol": str(item.get("vol", item.get("acml_vol", item.get("volume", "0")))),
                     # 거래대금
-                    "acml_tr_pbmn": self._string_value_for_pykis(
-                        item,
-                        "trde_prica",
-                        "amt",
-                        "acml_tr_pbmn",
-                        "tr_pbmn",
+                    "acml_tr_pbmn": str(
+                        item.get("amt", item.get("acml_tr_pbmn", item.get("tr_pbmn", "0")))
                     ),
                 }
                 output2.append(converted)
@@ -482,7 +458,7 @@ class SectorAPI(KiwoomAPIBase):
         Returns:
             Dict[str, Any]: 업종별 투자자 순매수 정보
         """
-        params = {"sect_cd": sector_code}
+        params = {"sect_cd": self._normalize_sector_value("sect_cd", sector_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["sector_investor_trading"],
             endpoint="sector",
@@ -499,7 +475,7 @@ class SectorAPI(KiwoomAPIBase):
         Returns:
             Dict[str, Any]: 업종 프로그램 매매 정보
         """
-        params = {"sect_cd": sector_code}
+        params = {"sect_cd": self._normalize_sector_value("sect_cd", sector_code)}
         return self.make_tr_request(
             tr_code=self.TR_CODES["sector_program_trading"],
             endpoint="sector",

@@ -5,7 +5,7 @@ Response normalization utilities to unify returned structures.
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 SIGN_CODE_MAP = {
@@ -566,6 +566,128 @@ def _is_trader_volume_rank_field(key: str) -> bool:
     return False
 
 
+_SIGN_CODE_MEANINGS = {
+    "1": "limit_up",
+    "2": "up",
+    "3": "unchanged",
+    "4": "limit_down",
+    "5": "down",
+}
+
+_PRICE_FIELDS = {
+    "cur_prc", "open_pric", "high_pric", "low_pric", "close_pric",
+    "open_price", "high_price", "low_price", "close_price", "current_price",
+    "stck_prpr", "stck_oprc", "stck_hgpr", "stck_lwpr", "trade_price",
+}
+_RATE_FIELDS = {"flu_rt", "chg_rt", "change_rate", "prdy_ctrt", "rate", "trde_qty_rate"}
+_VOLUME_FIELDS = {"vol", "volume", "trde_qty", "acc_trde_qty", "acc_vol", "acml_vol", "cntg_vol"}
+_AMOUNT_FIELDS = {"amt", "amount", "trde_prica", "acc_trde_prica"}
+_INDEX_PRICE_FIELDS = {
+    "cur_prc", "open_pric", "high_pric", "low_pric", "close_pric",
+    "open_price", "high_price", "low_price", "close_price", "current_price",
+    "stck_prpr", "stck_oprc", "stck_hgpr", "stck_lwpr",
+}
+
+
+def _clean_numeric_text(value: Any) -> str:
+    return str(value).strip().replace(",", "").replace("+", "")
+
+
+def _parse_numeric(value: Any) -> float | None:
+    if value is None:
+        return None
+    cleaned = _clean_numeric_text(value)
+    if cleaned in {"", "-", ".", "-."}:
+        return None
+    try:
+        return float(cleaned)
+    except (TypeError, ValueError):
+        return None
+
+
+def clean_price(value: Any) -> int:
+    """Kiwoom absolute price: remove sign/comma and convert to int."""
+    parsed = _parse_numeric(value)
+    if parsed is None:
+        return 0
+    return abs(int(parsed))
+
+
+def clean_rate(value: Any) -> float:
+    """Kiwoom rate/ratio: remove comma/plus, preserve minus sign."""
+    parsed = _parse_numeric(value)
+    if parsed is None:
+        return 0.0
+    return float(parsed)
+
+
+def clean_index_price(value: Any) -> float:
+    """Kiwoom sector/index prices are encoded x100."""
+    return clean_rate(value) / 100.0
+
+
+def interpret_sign_code(code: Any) -> str:
+    return _SIGN_CODE_MEANINGS.get(str(code).strip(), "unknown")
+
+
+def signed_change(change: Any, sign_code: Any) -> int:
+    magnitude = clean_price(change)
+    meaning = interpret_sign_code(sign_code)
+    if meaning in {"up", "limit_up"}:
+        return magnitude
+    if meaning in {"down", "limit_down"}:
+        return -magnitude
+    if meaning == "unchanged":
+        return 0
+    raise ValueError(f"unknown Kiwoom sign code: {sign_code!r}")
+
+
+def normalize_data_values(data: Any, *, sector_index: bool = False) -> Any:
+    """Recursively normalize Kiwoom numeric payload values for configured field names."""
+    if isinstance(data, list):
+        return [normalize_data_values(item, sector_index=sector_index) for item in data]
+    if not isinstance(data, dict):
+        return data
+
+    out: dict[str, Any] = {}
+    sign_code = data.get("pred_pre_sig") or data.get("prdy_vrss_sign")
+    for key, value in data.items():
+        key_l = str(key).lower()
+        try:
+            if isinstance(value, (dict, list)):
+                out[key] = normalize_data_values(value, sector_index=sector_index)
+            elif key_l in {"pred_pre_sig", "prdy_vrss_sign"}:
+                out[key] = value
+                out[f"{key}_meaning"] = interpret_sign_code(value)
+            elif key_l in {"pred_pre", "change_price", "prdy_vrss"} and sign_code is not None:
+                out[key] = signed_change(value, sign_code)
+            elif sector_index and key_l in _INDEX_PRICE_FIELDS:
+                out[key] = clean_index_price(value)
+            elif key_l in _RATE_FIELDS:
+                out[key] = clean_rate(value)
+            elif key_l in _VOLUME_FIELDS or key_l in _AMOUNT_FIELDS:
+                out[key] = clean_price(value)
+            elif key_l in _PRICE_FIELDS:
+                out[key] = clean_price(value)
+            else:
+                out[key] = value
+        except (TypeError, ValueError):
+            out[key] = value
+    return out
+
+
+def _is_sector_index_response(endpoint: str | None, tr_code: str | None) -> bool:
+    """Detect responses whose OHLC fields are Kiwoom sector/index x100 values."""
+    endpoint_text = str(endpoint or "").lower()
+    tr_code_text = str(tr_code or "").lower()
+    return (
+        "sector" in endpoint_text
+        or "index" in endpoint_text
+        or "inds" in endpoint_text
+        or tr_code_text in {"ka20004", "ka20005", "ka20006", "ka20007", "ka20008", "ka20019"}
+    )
+
+
 def normalize_response(
     data: dict[str, Any],
     *,
@@ -573,6 +695,7 @@ def normalize_response(
     endpoint: str | None = None,
     processing_time: float | None = None,
     headers: dict[str, Any] | None = None,
+    normalize_data: bool = False,
 ) -> dict[str, Any]:
     """
     Ensure unified response structure while preserving original payload.
@@ -585,8 +708,13 @@ def normalize_response(
         # Non-dict JSON (rare) -> wrap into dict
         data = {"data": data}
 
-    # Preserve original payload
+    # Preserve original payload unless data normalization is explicitly requested
     out: dict[str, Any] = dict(data)
+    if normalize_data:
+        out = normalize_data_values(
+            out,
+            sector_index=_is_sector_index_response(endpoint, tr_code),
+        )
 
     # Provide defaults if missing
     if "rt_cd" not in out:
@@ -598,7 +726,7 @@ def normalize_response(
     # Attach metadata non-destructively
     meta = out.get("metadata", {}) if isinstance(out.get("metadata"), dict) else {}
     meta_update = {
-        "timestamp": datetime.now().isoformat(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
         "tr_code": tr_code,
         "endpoint": endpoint,
         "processing_time": processing_time,

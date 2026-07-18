@@ -218,7 +218,8 @@ class TestHelperMethods(unittest.TestCase):
         self.assertEqual(ranking._get_market_code("ALL"), "0000")
         self.assertEqual(ranking._get_market_code("KOSPI"), "0001")
         self.assertEqual(ranking._get_market_code("KOSDAQ"), "1001")
-        self.assertEqual(ranking._get_market_code("UNKNOWN"), "0000")  # 기본값
+        with self.assertRaises(ValueError):
+            ranking._get_market_code("UNKNOWN")
 
 
 if __name__ == '__main__':

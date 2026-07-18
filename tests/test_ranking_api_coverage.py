@@ -66,7 +66,8 @@ class TestRankingAPI:
 
     def test_get_market_code_unknown(self, mock_ranking_api):
         """시장 코드 변환 - 알 수 없는 시장"""
-        assert mock_ranking_api._get_market_code("UNKNOWN") == "0000"
+        with pytest.raises(ValueError):
+            mock_ranking_api._get_market_code("UNKNOWN")
 
     # ========== 호가잔량 관련 테스트 ==========
 

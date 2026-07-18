@@ -10,6 +10,7 @@ import time
 from abc import ABC, abstractmethod
 from datetime import datetime
 from typing import Any, Callable, Dict, Union
+from urllib.parse import urljoin, urlparse
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -43,6 +44,11 @@ class TokenBucketRateLimiter:
             rate: 허용되는 요청 수
             per_seconds: 시간 단위 (초)
         """
+        if rate <= 0:
+            raise ValueError("rate는 0보다 커야 합니다")
+        if per_seconds <= 0:
+            raise ValueError("per_seconds는 0보다 커야 합니다")
+
         self.rate = rate
         self.per_seconds = per_seconds
         self.max_tokens = rate
@@ -62,6 +68,8 @@ class TokenBucketRateLimiter:
         Returns:
             토큰 획득 성공 여부
         """
+        if tokens <= 0:
+            raise ValueError("tokens는 0보다 커야 합니다")
         if tokens > self.max_tokens:
             raise ValueError(f"요청한 토큰 수({tokens})가 최대값({self.max_tokens})을 초과")
 
@@ -128,34 +136,48 @@ class ErrorHandlerMixin:
         Returns:
             함수 실행 결과
         """
+        if self.max_retries < 1:
+            raise APIError("max_retries는 1 이상이어야 합니다")
+
         last_exception = None
 
         for attempt in range(self.max_retries):
+            is_last_attempt = attempt == self.max_retries - 1
             try:
                 return func(*args, **kwargs)
 
             except requests.exceptions.Timeout as e:
                 last_exception = e
                 wait_time = self.backoff_factor * (2**attempt)
-                # 전체 traceback 기록 후 재시도
-                self.logger.exception(
-                    f"Timeout 발생 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도..."
-                )
-                time.sleep(wait_time)
+                if is_last_attempt:
+                    self.logger.exception(
+                        f"Timeout 발생 (시도 {attempt + 1}/{self.max_retries}). 재시도 횟수 초과"
+                    )
+                else:
+                    # 전체 traceback 기록 후 재시도
+                    self.logger.exception(
+                        f"Timeout 발생 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도..."
+                    )
+                    time.sleep(wait_time)
 
             except requests.exceptions.ConnectionError as e:
                 last_exception = e
                 wait_time = self.backoff_factor * (2**attempt)
-                self.logger.exception(
-                    f"연결 오류 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도..."
-                )
-                time.sleep(wait_time)
+                if is_last_attempt:
+                    self.logger.exception(
+                        f"연결 오류 (시도 {attempt + 1}/{self.max_retries}). 재시도 횟수 초과"
+                    )
+                else:
+                    self.logger.exception(
+                        f"연결 오류 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도..."
+                    )
+                    time.sleep(wait_time)
 
             except requests.exceptions.HTTPError as e:
                 # 4xx 에러는 재시도하지 않음
                 # 에러 메시지에서 상태 코드 추출 시도
                 status_code = None
-                if hasattr(e, "response") and e.response:
+                if hasattr(e, "response") and e.response is not None:
                     status_code = e.response.status_code
                 elif "404" in str(e):
                     status_code = 404
@@ -169,21 +191,30 @@ class ErrorHandlerMixin:
                 if status_code and 400 <= status_code < 500:
                     # 전체 traceback 포함 로깅 후 APIError로 재발생
                     self.logger.exception("클라이언트 에러")
+                    error_response = None
+                    if hasattr(e, "response") and e.response is not None:
+                        try:
+                            error_response = e.response.json()
+                        except ValueError:
+                            error_response = {"text": e.response.text}
                     raise APIError(
                         str(e),
                         status_code=status_code,
-                        response=(
-                            e.response.json() if hasattr(e, "response") and e.response else None
-                        ),
+                        response=error_response,
                     )
 
                 # 5xx 에러는 재시도
                 last_exception = e
                 wait_time = self.backoff_factor * (2**attempt)
-                self.logger.exception(
-                    f"서버 에러 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도..."
-                )
-                time.sleep(wait_time)
+                if is_last_attempt:
+                    self.logger.exception(
+                        f"서버 에러 (시도 {attempt + 1}/{self.max_retries}). 재시도 횟수 초과"
+                    )
+                else:
+                    self.logger.exception(
+                        f"서버 에러 (시도 {attempt + 1}/{self.max_retries}). {wait_time}초 후 재시도..."
+                    )
+                    time.sleep(wait_time)
 
             except Exception:
                 # 예외 삼킴 없이 전체 traceback 로깅 후 재발생
@@ -191,7 +222,7 @@ class ErrorHandlerMixin:
                 raise
 
         # 모든 재시도 실패
-        self.logger.exception(f"모든 재시도 실패: {last_exception}")
+        self.logger.error("모든 재시도 실패: %s", last_exception)
 
         # Timeout과 ConnectionError는 APIError로 래핑
         if isinstance(
@@ -203,7 +234,7 @@ class ErrorHandlerMixin:
         raise last_exception
 
 
-class BaseAPIClient(ABC, ErrorHandlerMixin):
+class BaseAPIClient(ErrorHandlerMixin, ABC):
     """
     모든 API 클라이언트의 기본 클래스
     Rate limiting, 에러 처리, 연결 관리 제공
@@ -246,6 +277,7 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
             "success_rate": 0.0,
             "last_request_time": None,
         }
+        self._stats_lock = threading.Lock()
 
         # Logger 설정
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -267,6 +299,25 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
         session.mount("https://", adapter)
 
         return session
+
+    def _build_url(self, endpoint: str) -> str:
+        """엔드포인트를 안전하게 절대 URL로 변환"""
+        if not isinstance(endpoint, str) or not endpoint.strip():
+            raise ValueError("endpoint는 비어 있지 않은 문자열이어야 합니다")
+
+        endpoint = endpoint.strip()
+        parsed = urlparse(endpoint)
+        if parsed.scheme or parsed.netloc:
+            base = urlparse(self.base_url)
+            if (
+                parsed.scheme != base.scheme
+                or parsed.netloc != base.netloc
+                or not parsed.netloc
+            ):
+                raise ValueError(f"허용되지 않은 endpoint URL: {endpoint}")
+            return endpoint
+
+        return urljoin(f"{self.base_url}/", endpoint.lstrip("/"))
 
     def _make_request(
         self,
@@ -298,11 +349,16 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
             raise RateLimitExceededError("Rate limit 대기 시간 초과")
 
         # URL 생성
-        url = f"{self.base_url}{endpoint}"
+        url = self._build_url(endpoint)
 
         # 요청 실행
-        self.last_request_time = datetime.now()
-        self.request_count += 1
+        now = datetime.now()
+        now_ts = time.time()
+        with self._stats_lock:
+            self.last_request_time = now
+            self.request_count += 1
+            self.stats["total_requests"] += 1
+            self.stats["last_request_time"] = now_ts
 
         try:
             response = self.session.request(
@@ -318,26 +374,22 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
             response.raise_for_status()
 
             # 통계 업데이트
-            self.request_count += 1
-            self.stats["total_requests"] += 1
-            self.stats["last_request_time"] = time.time()
-            if self.stats["total_requests"] > 0:
-                self.stats["success_rate"] = 1 - (
-                    self.stats["total_errors"] / self.stats["total_requests"]
-                )
+            with self._stats_lock:
+                if self.stats["total_requests"] > 0:
+                    self.stats["success_rate"] = 1 - (
+                        self.stats["total_errors"] / self.stats["total_requests"]
+                    )
 
             return response
 
         except Exception as e:
-            # 예외 삼킴 없이 전체 traceback 로깅 후 재발생
-            self.error_count += 1
-            self.stats["total_errors"] += 1
-            self.stats["total_requests"] += 1
-            if self.stats["total_requests"] > 0:
+            with self._stats_lock:
+                self.error_count += 1
+                self.stats["total_errors"] += 1
                 self.stats["success_rate"] = 1 - (
                     self.stats["total_errors"] / self.stats["total_requests"]
                 )
-
+            # 예외 삼킴 없이 전체 traceback 로깅 후 재발생
             # 429 Rate Limiting 에러는 조용히 처리 (일반적인 현상)
             if hasattr(e, "response") and e.response is not None and e.response.status_code == 429:
                 pass  # 429 에러는 로그 출력 생략
@@ -376,27 +428,30 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
         headers = self._prepare_headers(headers)
 
         # 요청 실행
-        if use_retry:
-            response = self.with_retry(
-                self._make_request,
-                method=method,
-                endpoint=endpoint,
-                headers=headers,
-                params=params,
-                data=data,
-                json_data=json_data,
-                use_rate_limit=use_rate_limit,
-            )
-        else:
-            response = self._make_request(
-                method=method,
-                endpoint=endpoint,
-                headers=headers,
-                params=params,
-                data=data,
-                json_data=json_data,
-                use_rate_limit=use_rate_limit,
-            )
+        try:
+            if use_retry:
+                response = self.with_retry(
+                    self._make_request,
+                    method=method,
+                    endpoint=endpoint,
+                    headers=headers,
+                    params=params,
+                    data=data,
+                    json_data=json_data,
+                    use_rate_limit=use_rate_limit,
+                )
+            else:
+                response = self._make_request(
+                    method=method,
+                    endpoint=endpoint,
+                    headers=headers,
+                    params=params,
+                    data=data,
+                    json_data=json_data,
+                    use_rate_limit=use_rate_limit,
+                )
+        except Exception:
+            raise
 
         # 응답 처리
         return self._process_response(response)
@@ -429,19 +484,29 @@ class BaseAPIClient(ABC, ErrorHandlerMixin):
 
     def get_stats(self) -> Dict[str, Any]:
         """API 호출 통계 반환"""
-        return {
-            "request_count": self.request_count,
-            "error_count": self.error_count,
-            "error_rate": self.error_count / max(self.request_count, 1),
-            "last_request_time": self.last_request_time,
-            "rate_limit_tokens": self.rate_limiter.tokens,
-        }
+        with self._stats_lock:
+            return {
+                "request_count": self.request_count,
+                "error_count": self.error_count,
+                "error_rate": self.error_count / max(self.request_count, 1),
+                "last_request_time": self.last_request_time,
+                "rate_limit_tokens": self.rate_limiter.tokens,
+            }
 
     def reset_stats(self):
         """통계 초기화"""
-        self.request_count = 0
-        self.error_count = 0
-        self.last_request_time = None
+        with self._stats_lock:
+            self.request_count = 0
+            self.error_count = 0
+            self.last_request_time = None
+            self.stats.update(
+                {
+                    "total_requests": 0,
+                    "total_errors": 0,
+                    "success_rate": 0.0,
+                    "last_request_time": None,
+                }
+            )
 
     def close(self):
         """세션 종료"""

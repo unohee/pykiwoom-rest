@@ -5,7 +5,7 @@ API Response Model
 """
 
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, ItemsView, Iterator, KeysView, Optional, Union, ValuesView
 
 
@@ -40,7 +40,7 @@ class APIResponse:
             "data": data or {},
             "error": error,
             "metadata": {
-                "timestamp": datetime.now().isoformat(),
+                "timestamp": datetime.now(timezone.utc).isoformat(),
                 "request_id": str(uuid.uuid4())[:8],
                 "tr_code": tr_code,
                 "endpoint": endpoint,

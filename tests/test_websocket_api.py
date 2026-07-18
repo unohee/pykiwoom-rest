@@ -47,6 +47,16 @@ class TestWebSocketClient:
         assert ws_client.api_id == "0B"
         assert not ws_client.is_connected
 
+    def test_init_rejects_insecure_url(self):
+        """Bearer 토큰 전송을 위해 wss URL만 허용"""
+        with pytest.raises(ValueError):
+            WebSocketClient(
+                base_url="ws://test.example.com",
+                access_token="test_token",
+                appkey="test_appkey",
+                appsecret="test_appsecret",
+            )
+
     @pytest.mark.asyncio
     async def test_connect_success(self, ws_client):
         """연결 성공 테스트"""
@@ -100,6 +110,33 @@ class TestWebSocketClient:
             await ws_client.disconnect()
 
     @pytest.mark.asyncio
+    async def test_connect_returns_false_when_subscription_restore_fails(self, ws_client):
+        """기존 구독 복원 실패 시 연결 성공으로 보고하지 않음"""
+        ws_client._subscriptions.add("0B:005930")
+        with (
+            patch("websockets.connect", new_callable=AsyncMock) as mock_connect,
+            patch.object(ws_client, "_send_subscription_message", new_callable=AsyncMock) as mock_restore,
+        ):
+            mock_ws = AsyncMock()
+            mock_ws.closed = False
+            mock_connect.return_value = mock_ws
+            mock_restore.return_value = False
+
+            async def mock_iter():
+                await asyncio.sleep(0.01)
+                return
+                yield  # pragma: no cover
+
+            mock_ws.__aiter__.return_value = mock_iter()
+
+            result = await ws_client.connect()
+
+            assert result is False
+            assert not ws_client.is_connected
+            assert "0B:005930" in ws_client._subscriptions
+            mock_restore.assert_awaited_once_with("REG", "0B", "005930")
+
+    @pytest.mark.asyncio
     async def test_disconnect(self, ws_client):
         """연결 종료 테스트"""
         # 연결 모의
@@ -119,6 +156,20 @@ class TestWebSocketClient:
         mock_ws.closed = False
         ws_client._ws = mock_ws
         ws_client._connected = True
+
+        async def acknowledge(payload):
+            request = json.loads(payload)
+            await ws_client._handle_message(
+                json.dumps(
+                    {
+                        "trnm": request["trnm"],
+                        "return_code": "0",
+                        "data": request["data"],
+                    }
+                )
+            )
+
+        mock_ws.send.side_effect = acknowledge
 
         first_callback = AsyncMock()
         second_callback = AsyncMock()
@@ -165,6 +216,20 @@ class TestWebSocketClient:
             "0B:005930": AsyncMock(),
             "0B:000660": AsyncMock(),
         }
+
+        async def acknowledge(payload):
+            request = json.loads(payload)
+            await ws_client._handle_message(
+                json.dumps(
+                    {
+                        "trnm": request["trnm"],
+                        "return_code": "0",
+                        "data": request["data"],
+                    }
+                )
+            )
+
+        mock_ws.send.side_effect = acknowledge
 
         assert await ws_client.unsubscribe("0B", "005930")
 
@@ -522,15 +587,20 @@ class TestKiwoomRestIntegration:
 
     def test_enable_websocket(self, kiwoom):
         """WebSocket 활성화 테스트"""
-        with patch("asyncio.get_event_loop") as mock_loop, patch.object(
+        class RunningLoop:
+            @staticmethod
+            def run_until_complete(coroutine):
+                return asyncio.run(coroutine)
+
+        with patch("asyncio.get_event_loop", return_value=RunningLoop()), patch.object(
             kiwoom._websocket_api or kiwoom.websocket,
             "connect",
             new_callable=AsyncMock,
         ) as mock_connect:
             mock_connect.return_value = True
-            mock_loop.return_value.run_until_complete.return_value = True
             result = kiwoom.enable_websocket()
             assert result is True
+            mock_connect.assert_awaited_once()
 
     def test_subscribe_realtime_quote_without_enable(self, kiwoom):
         """WebSocket 미활성화 상태에서 구독 시도 테스트"""

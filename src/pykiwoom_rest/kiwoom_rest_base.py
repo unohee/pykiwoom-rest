@@ -12,4 +12,5 @@ class KiwoomRestBase(KiwoomAPIBase):
     기존 코드와의 호환성 유지를 위해 제공
     """
 
-    pass
+
+__all__ = ["KiwoomRestBase"]

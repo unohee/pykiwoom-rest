@@ -30,21 +30,13 @@ class ProgramAPI(KiwoomAPIBase):
         Returns:
             프로그램 매매 추이 데이터
         """
-        headers = {"api-id": "ka90013", "cont-yn": "N", "next-key": ""}
-        data = {"stk_cd": stock_code}
-
-        token = self._get_access_token()
-        headers["authorization"] = f"Bearer {token}"
-        headers["Content-Type"] = "application/json;charset=UTF-8"
-
-        response = self.request(
+        data = {"stk_cd": self.convert_stock_code_param(stock_code)["stk_cd"]}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["program_trading_daily"],
+            endpoint="mrkcond",
+            data=data,
             method="POST",
-            endpoint="/api/dostk/mrkcond",
-            json_data=data,
-            headers=headers,
         )
-
-        return response
 
     def get_stock_program_trading(self, stock_code: str) -> Dict[str, Any]:
         """
@@ -56,7 +48,7 @@ class ProgramAPI(KiwoomAPIBase):
         Returns:
             프로그램매매동향 정보
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
+        params = {"stk_cd": self.convert_stock_code_param(stock_code)["stk_cd"]}
         return self.make_tr_request(
             tr_code=self.TR_CODES["stock_program_trading"],
             endpoint="stock_info",
@@ -74,7 +66,7 @@ class ProgramAPI(KiwoomAPIBase):
         Returns:
             거래량파동력 정보
         """
-        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": stock_code}
+        params = {"stk_cd": self.convert_stock_code_param(stock_code)["stk_cd"]}
         return self.make_tr_request(
             tr_code=self.TR_CODES["stock_trade_volume_power"],
             endpoint="stock_info",
@@ -107,6 +99,27 @@ class ProgramAPI(KiwoomAPIBase):
         Returns:
             Dict[str, Any]: 매물대 집중 종목 목록
         """
+        allowed_markets = {"000", "001", "101"}
+        allowed_current_entry = {"0", "1"}
+        allowed_cycles = {"50", "100", "150", "200", "250", "300"}
+        allowed_exchanges = {"1", "2", "3"}
+
+        if market not in allowed_markets:
+            raise ValueError("market must be one of 000, 001, 101")
+        if include_current_entry not in allowed_current_entry:
+            raise ValueError("include_current_entry must be one of 0, 1")
+        if cycle not in allowed_cycles:
+            raise ValueError("cycle must be one of 50, 100, 150, 200, 250, 300")
+        if exchange not in allowed_exchanges:
+            raise ValueError("exchange must be one of 1, 2, 3")
+        if not isinstance(concentration_rate, str) or not concentration_rate.isdigit():
+            raise ValueError("concentration_rate must be a numeric string between 0 and 100")
+        concentration_rate_value = int(concentration_rate)
+        if concentration_rate_value < 0 or concentration_rate_value > 100:
+            raise ValueError("concentration_rate must be a numeric string between 0 and 100")
+        if not isinstance(pbar_count, str) or not pbar_count.isdigit() or int(pbar_count) <= 0:
+            raise ValueError("pbar_count must be a positive numeric string")
+
         params = {
             "mrkt_tp": market,
             "prps_cnctr_rt": concentration_rate,
@@ -120,6 +133,7 @@ class ProgramAPI(KiwoomAPIBase):
             tr_code=self.TR_CODES["supply_concentration"],
             endpoint="stock_info",
             data=params,
+            method="POST",
         )
 
         # 응답 형식 표준화

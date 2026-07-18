@@ -19,13 +19,11 @@ class TestTokenBucketRateLimiter:
 
     def test_initialization_edge_cases(self):
         """초기화 엣지 케이스 테스트"""
-        # 정상적인 초기화 (현재 validation이 없으므로)
-        limiter = TokenBucketRateLimiter(rate=0, per_seconds=1.0)
-        assert limiter.rate == 0
+        with pytest.raises(ValueError, match="rate는 0보다 커야 합니다"):
+            TokenBucketRateLimiter(rate=0, per_seconds=1.0)
         
-        # 음수 rate도 현재는 허용됨
-        limiter2 = TokenBucketRateLimiter(rate=-5, per_seconds=1.0)
-        assert limiter2.rate == -5
+        with pytest.raises(ValueError, match="rate는 0보다 커야 합니다"):
+            TokenBucketRateLimiter(rate=-5, per_seconds=1.0)
 
     def test_blocking_acquisition_timeout(self):
         """블로킹 토큰 획득 타임아웃 테스트"""

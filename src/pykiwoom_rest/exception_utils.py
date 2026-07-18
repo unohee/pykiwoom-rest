@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import logging
 from contextlib import contextmanager
+from functools import wraps
 from typing import Any, Callable, Generator, TypeVar
 
 F = TypeVar("F", bound=Callable[..., Any])
@@ -25,6 +26,7 @@ def rethrow_with_trace(logger: logging.Logger | None = None) -> Callable[[F], F]
     def _decorator(func: F) -> F:
         log = logger or logging.getLogger(func.__qualname__)
 
+        @wraps(func)
         def _wrapped(*args: Any, **kwargs: Any):  # type: ignore[misc]
             try:
                 return func(*args, **kwargs)
@@ -64,8 +66,9 @@ class RaiseWithTraceMixin:
 
     def raise_with_trace(self, e: Exception, message: str | None = None) -> None:
         log = self._trace_logger
+        exc_info = (type(e), e, e.__traceback__)
         if message:
-            log.exception(message)
+            log.error(message, exc_info=exc_info)
         else:
-            log.exception("Unhandled exception")
-        raise e
+            log.error("Unhandled exception", exc_info=exc_info)
+        raise e.with_traceback(e.__traceback__)

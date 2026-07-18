@@ -27,10 +27,11 @@ Example Usage:
 """
 
 __version__ = "2.0.0"
-__author__ = "Your Name"
+__author__ = "PyKiwoom-REST contributors"
 __email__ = "contact@pykiwoom-rest.org"
 
 # Main API classes (Enhanced with new architecture)
+from .account_api import AccountAPI
 from .auth_api import AuthAPI
 from .base_api import (
     APIError,
@@ -61,6 +62,7 @@ __all__ = [
     # Modular classes (for direct access)
     "KiwoomAPIBase",
     "AuthAPI",
+    "AccountAPI",
     "StockAPI",
     "InvestorAPI",
     "ProgramAPI",

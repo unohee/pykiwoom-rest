@@ -31,8 +31,9 @@ _market_status = {
 }
 
 RESPONSE_META_KEYS = {"rt_cd", "msg1", "return_code", "return_msg", "metadata", "header"}
-ACCOUNT_HOLDINGS_KEYS = ("output2", "acnt_evlt_remn_indv_tot")
+ACCOUNT_HOLDINGS_KEYS = ("output2", "acnt_evlt_remn_indv_tot", "acnt_evlt_remn_indv", "stk_acnt_evlt_remn_indv_tot")
 SAFE_QUERY_DOMAINS = ("stock", "chart", "ranking", "account", "sector", "investor", "program")
+_CLIENTS = []
 SAFE_QUERY_METHOD_PREFIXES = ("get_", "list_", "search_")
 DANGEROUS_QUERY_METHOD_NAMES = {
     "buy_stock",
@@ -41,8 +42,44 @@ DANGEROUS_QUERY_METHOD_NAMES = {
     "get_access_token",
     "refresh_token",
     "revoke_token",
+    "issue_token",
+    "delete_token",
 }
-DANGEROUS_QUERY_METHOD_PREFIXES = ("buy_", "sell_", "cancel_", "order_", "place_", "revoke_", "refresh_")
+DANGEROUS_QUERY_METHOD_PREFIXES = (
+    "buy_",
+    "sell_",
+    "cancel_",
+    "order_",
+    "place_",
+    "revoke_",
+    "refresh_",
+    "token_",
+    "issue_",
+    "delete_",
+)
+
+
+class CliArgumentParser(argparse.ArgumentParser):
+    """ArgumentParser with command-specific contract checks."""
+
+    def parse_args(self, args=None, namespace=None):
+        parsed = super().parse_args(args, namespace)
+        if getattr(parsed, "command", None) == "order" and getattr(parsed, "action", None) == "cancel":
+            missing = []
+            if not getattr(parsed, "code", None):
+                missing.append("code")
+            if getattr(parsed, "qty", None) is None:
+                missing.append("--qty")
+            if not getattr(parsed, "order_no", None):
+                missing.append("--order-no")
+            if missing:
+                self.error("cancel requires " + ", ".join(missing))
+        if getattr(parsed, "command", None) == "chart":
+            chart_flags = ["minute", "daily", "weekly", "monthly", "yearly"]
+            selected = [flag for flag in chart_flags if getattr(parsed, flag, False)]
+            if len(selected) > 1:
+                self.error("chart type flags are mutually exclusive")
+        return parsed
 
 
 def _positive_int_arg(value):
@@ -53,6 +90,20 @@ def _positive_int_arg(value):
         raise argparse.ArgumentTypeError("must be a positive integer") from exc
     if parsed <= 0:
         raise argparse.ArgumentTypeError("must be a positive integer")
+    return parsed
+
+
+def _chart_count_arg(value):
+    parsed = _positive_int_arg(value)
+    if parsed > 1000:
+        raise argparse.ArgumentTypeError("must be between 1 and 1000")
+    return parsed
+
+
+def _chart_interval_arg(value):
+    parsed = _positive_int_arg(value)
+    if parsed not in {1, 3, 5, 10, 15, 30, 60}:
+        raise argparse.ArgumentTypeError("must be one of 1, 3, 5, 10, 15, 30, 60")
     return parsed
 
 
@@ -68,10 +119,10 @@ def _non_negative_int_arg(value):
 
 
 def _exit_error(args, payload):
-    """CLI 오류를 JSON/table 옵션에 맞춰 출력하고 종료."""
+    """CLI 오류를 JSON/table 옵션에 맞춰 stderr에 출력하고 종료."""
     if isinstance(payload, str):
         payload = {"error": payload}
-    _out(payload, getattr(args, "pretty", False), False, getattr(args, "format", "json"))
+    _out(payload, getattr(args, "pretty", False), False, getattr(args, "format", "json"), stream=sys.stderr)
     sys.exit(1)
 
 
@@ -87,6 +138,13 @@ def _validate_positive_int(name, value, args):
     return parsed
 
 
+def _validate_chart_count(name, value, args):
+    parsed = _validate_positive_int(name, value, args)
+    if parsed > 1000:
+        _exit_error(args, f"{name} must be between 1 and 1000")
+    return parsed
+
+
 def _validate_non_negative_int(name, value, args):
     if value is None:
         return 0
@@ -99,14 +157,26 @@ def _validate_non_negative_int(name, value, args):
     return parsed
 
 
+def _validate_order_price(name, value, args):
+    """주문 가격 검증. 시장가(0) 허용, 음수/누락/비정수 거부."""
+    if value is None:
+        _exit_error(args, f"{name} must be a non-negative integer")
+    return _validate_non_negative_int(name, value, args)
+
+
 def _is_safe_query_method(method_name):
-    if method_name.startswith("_"):
+    method_l = (method_name or "").lower()
+    if method_l.startswith("_"):
         return False
-    if method_name in DANGEROUS_QUERY_METHOD_NAMES:
+    if method_l in DANGEROUS_QUERY_METHOD_NAMES:
         return False
-    if method_name.startswith(DANGEROUS_QUERY_METHOD_PREFIXES):
+    if method_l.startswith(DANGEROUS_QUERY_METHOD_PREFIXES):
         return False
-    return method_name.startswith(SAFE_QUERY_METHOD_PREFIXES)
+    dangerous_terms = ("buy", "sell", "cancel", "order", "token", "revoke", "refresh", "issue", "delete")
+    method_parts = method_l.replace("-", "_").split("_")
+    if any(term in method_parts for term in dangerous_terms):
+        return False
+    return method_l.startswith(SAFE_QUERY_METHOD_PREFIXES)
 
 
 def _safe_query_methods(target):
@@ -156,35 +226,52 @@ def _create_client():
 
     from pykiwoom_rest import KiwoomRest
     client = KiwoomRest()
+    _CLIENTS.append(client)
     _check_market_status()
     return client
 
 
-def _out(data, pretty=False, raw=False, fmt="json"):
+def _close_clients():
+    """생성된 KiwoomRest 클라이언트 리소스 정리."""
+    while _CLIENTS:
+        client = _CLIENTS.pop()
+        close = getattr(client, "close", None)
+        if callable(close):
+            try:
+                close()
+            except Exception as exc:
+                print(f"Warning: failed to close KiwoomRest client: {exc}", file=sys.stderr)
+
+
+def _out(data, pretty=False, raw=False, fmt="json", stream=None):
     """통일된 출력. notice 자동 주입."""
+    if stream is None:
+        stream = sys.stdout
     notice = _market_status.get("notice")
     if notice and isinstance(data, dict) and "data" in data:
-        data["_notice"] = notice
+        data = {**data, "_notice": notice}
 
     if fmt == "table":
         # 테이블 출력: 재귀적으로 첫 번째 리스트 탐색
         def _find_table_data(obj, depth=0):
             if depth > 3:
                 return None
-            if isinstance(obj, list) and obj and isinstance(obj[0], dict):
-                return obj
+            if isinstance(obj, list):
+                if not obj or isinstance(obj[0], dict):
+                    return obj
+                return None
             if isinstance(obj, dict):
                 for v in obj.values():
                     found = _find_table_data(v, depth + 1)
-                    if found:
+                    if found is not None:
                         return found
             return None
 
         table_data = _find_table_data(data)
-        if table_data:
+        if table_data is not None:
             if notice:
-                print(f"# {notice}")
-            print(table_output(table_data))
+                print(f"# {notice}", file=stream)
+            print(table_output(table_data), file=stream)
         else:
             # 리스트 없으면 가장 깊은 단일 dict 출력
             def _find_deepest_dict(obj, depth=0):
@@ -200,10 +287,10 @@ def _out(data, pretty=False, raw=False, fmt="json"):
 
             inner = _find_deepest_dict(data)
             if notice:
-                print(f"# {notice}")
-            print(table_output(inner))
+                print(f"# {notice}", file=stream)
+            print(table_output(inner), file=stream)
     else:
-        print(json_output(data, pretty))
+        print(json_output(data, pretty), file=stream)
 
 
 def _extract_output(data, key="output"):
@@ -225,6 +312,22 @@ def _extract_output(data, key="output"):
         filtered = {k: v for k, v in data.items() if k not in RESPONSE_META_KEYS}
         return filtered if filtered else None
     return None
+
+
+def _api_empty_payload(data):
+    """빈 API 응답/오류 메타데이터를 성공 payload로 숨기지 않기 위한 진단 정보."""
+    if data is None:
+        return {"error": "empty API response"}
+    if not isinstance(data, dict):
+        return {"error": "unexpected API response", "response": data}
+
+    payload = {k: v for k, v in data.items() if k in RESPONSE_META_KEYS}
+    msg = payload.get("msg1") or payload.get("return_msg")
+    code = payload.get("rt_cd") or payload.get("return_code")
+    payload["error"] = msg or "empty API response"
+    if code is not None:
+        payload["code"] = code
+    return payload
 
 
 def _split_account_balance(data):
@@ -262,15 +365,30 @@ def _find_list_in_response(data):
     키움 차트/순위 응답은 중첩 키 안에 리스트가 있는 경우가 많음:
     예: {"stk_cd": "005930", "stk_dt_pole_chart_qry": [{...}, ...]}
     """
-    if not data or not isinstance(data, dict):
+    if data is None:
         return None
+
+    if isinstance(data, list):
+        if not data or isinstance(data[0], dict):
+            return data
+        return None
+
+    if not isinstance(data, dict):
+        return None
+
     # output2 우선
-    if "output2" in data and isinstance(data["output2"], list):
-        return data["output2"]
+    if "output2" in data:
+        found = _find_list_in_response(data["output2"])
+        if found is not None:
+            return found
+
     # 값 중 리스트 탐색 (메타데이터 제외)
     for k, v in data.items():
-        if k not in RESPONSE_META_KEYS and isinstance(v, list) and v and isinstance(v[0], dict):
-            return v
+        if k in RESPONSE_META_KEYS or k == "output2":
+            continue
+        found = _find_list_in_response(v)
+        if found is not None:
+            return found
     return None
 
 
@@ -285,14 +403,22 @@ def cmd_price(args):
 
     data = client.get_stock_price(code)
     output = _extract_output(data)
-    if output:
+    if output is None:
+        result["stock"]["priceError"] = _api_empty_payload(data)
+    elif isinstance(output, dict) and not output:
+        result["stock"]["priceError"] = _api_empty_payload(data)
+    else:
         mapped = remap(output, STOCK_PRICE) if not args.raw else output
         result["stock"]["price"] = mapped
 
     if args.orderbook:
         ob_data = client.get_stock_orderbook(code)
         ob_output = _extract_output(ob_data)
-        if ob_output:
+        if ob_output is None:
+            result["stock"]["orderbookError"] = _api_empty_payload(ob_data)
+        elif isinstance(ob_output, dict) and not ob_output:
+            result["stock"]["orderbookError"] = _api_empty_payload(ob_data)
+        else:
             mapped_ob = remap(ob_output, ORDERBOOK) if not args.raw else ob_output
             result["stock"]["orderbook"] = mapped_ob
 
@@ -305,7 +431,7 @@ def cmd_chart(args):
 
     from_date = getattr(args, "from_date", None)
     to_date = getattr(args, "to_date", None)
-    count = _validate_positive_int("--count", getattr(args, "count", 100), args)
+    count = _validate_chart_count("--count", getattr(args, "count", 100), args)
     client = _create_client()
 
     # 차트 타입 결정
@@ -330,8 +456,10 @@ def cmd_chart(args):
     result = {"chart": {"code": code, "type": chart_type}}
 
     # 차트 데이터 추출: output2 → 중첩 리스트 자동 탐색
-    items = _extract_output(data, "output2") or _find_list_in_response(data)
-    if items and isinstance(items, list):
+    items = _extract_output(data, "output2")
+    if items is None:
+        items = _find_list_in_response(data)
+    if isinstance(items, list):
         if not args.raw:
             items = [remap(item, CHART_PRICE) for item in items]
         if len(items) > count:
@@ -340,7 +468,9 @@ def cmd_chart(args):
         result["chart"]["count"] = len(items)
     else:
         output = _extract_output(data)
-        if output:
+        if output is None or (isinstance(output, dict) and not output):
+            result["chart"]["responseError"] = _api_empty_payload(data)
+        else:
             result["chart"]["data"] = output
 
     _out({"data": result}, args.pretty, args.raw, args.format)
@@ -361,21 +491,24 @@ def cmd_rank(args):
 
     func = rank_funcs.get(args.type)
     if not func:
-        _out({"error": f"Unknown rank type: {args.type}. Available: {', '.join(rank_funcs.keys())}"})
-        sys.exit(1)
+        _exit_error(args, f"Unknown rank type: {args.type}. Available: {', '.join(rank_funcs.keys())}")
 
     data = func()
     result = {"ranking": {"type": args.type, "market": market}}
 
-    items = _extract_output(data, "output2") or _find_list_in_response(data)
-    if items and isinstance(items, list):
+    items = _extract_output(data, "output2")
+    if items is None:
+        items = _find_list_in_response(data)
+    if isinstance(items, list):
         if not args.raw:
             items = [remap(item, RANKING) for item in items]
         result["ranking"]["items"] = items
         result["ranking"]["count"] = len(items)
     else:
         output = _extract_output(data)
-        if output:
+        if output is None or (isinstance(output, dict) and not output):
+            result["ranking"]["responseError"] = _api_empty_payload(data)
+        else:
             result["ranking"]["data"] = output
 
     _out({"data": result}, args.pretty, args.raw, args.format)
@@ -388,21 +521,27 @@ def cmd_sector(args):
     if args.all:
         data = client.get_all_sector_index()
         result = {"sector": {"type": "all"}}
-        items = _extract_output(data, "output2") or _find_list_in_response(data)
-        if items and isinstance(items, list):
+        items = _extract_output(data, "output2")
+        if items is None:
+            items = _find_list_in_response(data)
+        if isinstance(items, list):
             if not args.raw:
                 items = [remap(item, SECTOR_INDEX) for item in items]
             result["sector"]["items"] = items
         else:
             output = _extract_output(data)
-            if output:
+            if output is None or (isinstance(output, dict) and not output):
+                result["sector"]["responseError"] = _api_empty_payload(data)
+            else:
                 result["sector"]["data"] = output
     else:
         code = args.code or "0001"
         data = client.get_sector_current_price(code)
         result = {"sector": {"code": code}}
         output = _extract_output(data)
-        if output:
+        if output is None or (isinstance(output, dict) and not output):
+            result["sector"]["responseError"] = _api_empty_payload(data)
+        else:
             mapped = remap(output, SECTOR_INDEX) if not args.raw else output
             result["sector"]["data"] = mapped
 
@@ -423,14 +562,18 @@ def cmd_investor(args):
         # 기본: 외국인 매매동향
         data = client.get_foreign_trading(code)
 
-    items = _extract_output(data, "output2") or _find_list_in_response(data)
-    if items and isinstance(items, list):
+    items = _extract_output(data, "output2")
+    if items is None:
+        items = _find_list_in_response(data)
+    if isinstance(items, list):
         if not args.raw:
             items = [remap(item, INVESTOR_TREND) for item in items]
         result["investor"]["items"] = items
     else:
         output = _extract_output(data)
-        if output:
+        if output is None or (isinstance(output, dict) and not output):
+            result["investor"]["responseError"] = _api_empty_payload(data)
+        else:
             result["investor"]["data"] = remap(output, INVESTOR_TREND) if not args.raw else output
 
     _out({"data": result}, args.pretty, args.raw, args.format)
@@ -451,8 +594,7 @@ def cmd_account(args):
 
     func_info = account_funcs.get(args.type)
     if not func_info:
-        _out({"error": f"Unknown account type: {args.type}. Available: {', '.join(account_funcs.keys())}"})
-        sys.exit(1)
+        _exit_error(args, f"Unknown account type: {args.type}. Available: {', '.join(account_funcs.keys())}")
 
     func, key = func_info
     data = func()
@@ -463,13 +605,15 @@ def cmd_account(args):
         summary, output2 = _split_account_balance(data)
         if summary:
             result["account"]["summary"] = remap(summary, ACCOUNT_BALANCE) if not args.raw else summary
-        if output2:
+        if isinstance(output2, list):
             if not args.raw:
                 output2 = [remap(item, HOLDING) for item in output2]
             result["account"]["holdings"] = output2
     else:
-        output = _extract_output(data, "output2") or _extract_output(data, "output")
-        if output:
+        output = _extract_output(data, "output2")
+        if output is None:
+            output = _extract_output(data, "output")
+        if output is not None:
             result["account"][key] = output
 
     _out({"data": result}, args.pretty, args.raw, args.format)
@@ -503,7 +647,7 @@ def cmd_order(args):
     if not code:
         _exit_error(args, f"{args.action} 명령: code, --qty 필요")
     qty = _validate_positive_int("--qty", args.qty, args)
-    price = _validate_non_negative_int("--price", args.price, args)
+    price = _validate_order_price("--price", getattr(args, "price", 0), args)
     client = _create_client()
 
     # 확인 프롬프트
@@ -538,37 +682,48 @@ def cmd_query(args):
             },
         )
 
-    # key=value 인자 파싱
-    kwargs = {}
-    for kv in args.args:
-        if "=" in kv:
-            k, v = kv.split("=", 1)
-            # 문자열 그대로 전달 (종목코드 '005930' 등 보존)
-            kwargs[k] = v
-
-    client = _create_client()
-
-    # 도메인 → API 객체 매핑
-    targets = {
-        "stock": client.stock,
-        "chart": client.chart,
-        "ranking": client.ranking,
-        "account": client.account_api,
-        "sector": client.sector_api,
-        "investor": client.investor_api,
-        "program": client.program_api,
-    }
-
-    target = targets[domain]
-    available_methods = _safe_query_methods(target)
-
     if not _is_safe_query_method(method):
         _exit_error(
             args,
             {
                 "error": f"Unsafe or unsupported query method: {domain}.{method}",
-                "available": available_methods,
+                "available": [],
             },
+        )
+
+    # key=value 인자 파싱
+    kwargs = {}
+    for kv in args.args:
+        if "=" not in kv:
+            _exit_error(args, {"error": f"Malformed query argument: {kv}. Expected key=value"})
+        k, v = kv.split("=", 1)
+        if not k:
+            _exit_error(args, {"error": f"Malformed query argument: {kv}. Expected key=value"})
+        # 문자열 그대로 전달 (종목코드 '005930' 등 보존)
+        kwargs[k] = v
+
+    client = _create_client()
+
+    # 도메인 → API 객체 매핑 (선택된 도메인만 지연 접근)
+    target_attrs = {
+        "stock": "stock",
+        "chart": "chart",
+        "ranking": "ranking",
+        "account": "account_api",
+        "sector": "sector_api",
+        "investor": "investor_api",
+        "program": "program_api",
+    }
+
+    target = getattr(client, target_attrs[domain], None)
+    if target is None:
+        _exit_error(args, {"error": f"Unavailable query domain: {domain}", "available": list(SAFE_QUERY_DOMAINS)})
+    available_methods = _safe_query_methods(target)
+
+    if method not in available_methods:
+        _exit_error(
+            args,
+            {"error": f"Unsafe or unknown method: {domain}.{method}", "available": available_methods},
         )
 
     fn = getattr(target, method, None)
@@ -582,8 +737,7 @@ def cmd_query(args):
         result = fn(**kwargs)
         _out({"data": result}, args.pretty, args.raw, args.format)
     except Exception as e:
-        _out({"error": str(e), "type": type(e).__name__})
-        sys.exit(1)
+        _exit_error(args, {"error": str(e), "type": type(e).__name__})
 
 
 def cmd_schema(args):
@@ -639,7 +793,7 @@ def _add_global_options(parser):
 
 
 def build_parser():
-    parser = argparse.ArgumentParser(
+    parser = CliArgumentParser(
         prog="kiwoom",
         description="kiwoom CLI — LLM-friendly 키움증권 REST API",
     )
@@ -660,10 +814,10 @@ def build_parser():
     p.add_argument("--weekly", action="store_true", help="주봉")
     p.add_argument("--monthly", action="store_true", help="월봉")
     p.add_argument("--yearly", action="store_true", help="년봉")
-    p.add_argument("--interval", type=int, help="분봉 간격 (1,3,5,10,15,30,60)")
+    p.add_argument("--interval", type=_chart_interval_arg, help="분봉 간격 (1,3,5,10,15,30,60)")
     p.add_argument("--from", dest="from_date", help="시작일 (YYYYMMDD)")
     p.add_argument("--to", dest="to_date", help="종료일 (YYYYMMDD)")
-    p.add_argument("--count", type=_positive_int_arg, default=100, help="조회 개수 (기본 100)")
+    p.add_argument("--count", type=_chart_count_arg, default=100, help="조회 개수 (1-1000, 기본 100)")
     _add_global_options(p)
 
     # ── rank ──
@@ -696,12 +850,12 @@ def build_parser():
     # ── order ──
     p = sub.add_parser("order", help="주문 실행")
     p.add_argument("action", choices=["buy", "sell", "cancel"], help="주문 종류")
-    p.add_argument("code", nargs="?", help="종목코드")
-    p.add_argument("--qty", type=_positive_int_arg, help="수량")
-    p.add_argument("--price", type=_non_negative_int_arg, help="가격 (미입력시 시장가)")
+    p.add_argument("code", help="종목코드")
+    p.add_argument("--qty", type=_positive_int_arg, required=True, help="수량 (필수, 양의 정수)")
+    p.add_argument("--price", type=_non_negative_int_arg, default=0, help="가격 (buy/sell: 0=시장가, 기본 0; cancel은 사용 안 함)")
     p.add_argument("--yes", "-y", action="store_true", help="확인 없이 실행")
     # cancel 전용
-    p.add_argument("--order-no", dest="order_no", help="취소할 주문번호")
+    p.add_argument("--order-no", dest="order_no", help="취소할 주문번호 (cancel 필수)")
     _add_global_options(p)
 
     # ── query ──
@@ -752,7 +906,14 @@ def main():
 
     handler = handlers.get(args.command)
     if handler:
-        handler(args)
+        try:
+            handler(args)
+        except SystemExit:
+            raise
+        except Exception as e:
+            _exit_error(args, str(e) or e.__class__.__name__)
+        finally:
+            _close_clients()
     else:
         parser.print_help()
         sys.exit(1)

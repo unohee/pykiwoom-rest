@@ -11,13 +11,14 @@
 
 import contextlib
 import os
+import threading
+import time
 from datetime import datetime, timedelta
 from typing import Any, Dict, Optional
 
 from .api_facade import KiwoomAPIFacade, RequestPriority
-from .base_api import APIError
+from .base_api import APIError, RateLimitExceededError
 from .exception_utils import RaiseWithTraceMixin
-from .response_utils import normalize_data_values
 
 
 class KiwoomAPIError(APIError):
@@ -34,6 +35,9 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
     통합 키움증권 REST API 기본 클래스 (Facade 패턴)
     모든 API 호출을 KiwoomAPIFacade를 통해 수행
     """
+
+    _facade_ref_counts: Dict[int, int] = {}
+    _facade_ref_lock = threading.Lock()
 
     # 키움증권 REST API URL
     BASE_URL = "https://api.kiwoom.com"  # 실전투자
@@ -66,7 +70,6 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         max_retries: int = 3,
         enable_rate_optimizer: bool = False,
         credentials_list: list = None,
-        normalize_data: bool = False,
     ):
         """
         초기화
@@ -81,32 +84,14 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
             max_retries: 최대 재시도 횟수
             enable_rate_optimizer: Rate limiting 최적화 활성화
             credentials_list: 다중 크레덴셜 리스트
-            normalize_data: 응답 숫자 문자열 정규화 여부
         """
 
-        # API Facade 인스턴스 가져오기 (싱글턴)
-        self.facade = KiwoomAPIFacade.get_instance(
-            account_no=account_no,
-            appkey=appkey,
-            appsecret=appsecret,
-            env_path=env_path,
-            use_mock=use_mock,
-            max_requests_per_second=rate_limit,
-        )
+        if env_path:
+            from dotenv import load_dotenv
 
-        # 설정 저장
-        self.use_mock = use_mock
-        self.max_retries = max_retries
-        self.normalize_data = normalize_data
+            load_dotenv(env_path)
 
-        # 기본 URL 설정
-        self.base_url = self.MOCK_BASE_URL if use_mock else self.BASE_URL
-
-        # 인증 관련
-        self.access_token = None
-        self.token_expires = None
-
-        # 계좌 정보
+        # 계좌 정보는 Facade 싱글턴 초기화 전에 확정해야 함
         self.account_no = account_no or self._load_from_env("ACCOUNT_NO")
         self.appkey = appkey or self._load_from_env("KIWOOM_APPKEY")
         self.appsecret = appsecret or self._load_from_env("KIWOOM_APPSECRET")
@@ -114,41 +99,77 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         if not all([self.account_no, self.appkey, self.appsecret]):
             raise ValueError("계좌번호, APPKEY, SECRETKEY가 필요합니다. .env 파일을 확인하세요.")
 
+        if max_retries != 3:
+            raise ValueError("max_retries is not supported by UnifiedKiwoomAPIBase")
+        if enable_rate_optimizer:
+            raise ValueError("enable_rate_optimizer is not supported by UnifiedKiwoomAPIBase")
+        if credentials_list:
+            raise ValueError("credentials_list is not supported by UnifiedKiwoomAPIBase")
+
+        # API Facade 인스턴스 가져오기 (동일 설정의 싱글턴만 공유)
+        with self._facade_ref_lock:
+            self.facade = KiwoomAPIFacade.get_instance(
+                account_no=self.account_no,
+                appkey=self.appkey,
+                appsecret=self.appsecret,
+                env_path=env_path,
+                use_mock=use_mock,
+                max_requests_per_second=rate_limit,
+            )
+            self._facade_id = id(self.facade)
+            self._facade_ref_counts[self._facade_id] = self._facade_ref_counts.get(self._facade_id, 0) + 1
+        self._closed = False
+
+        # 설정 저장
+        self.use_mock = use_mock
+        self.max_retries = max_retries
+
+        # 기본 URL 설정
+        self.base_url = self.MOCK_BASE_URL if use_mock else self.BASE_URL
+
+        # 인증 관련
+        self.access_token = None
+        self.token_expires = None
+        self._token_lock = threading.RLock()
+        self._lifecycle_condition = threading.Condition(threading.RLock())
+        self._active_requests = 0
+
     def _load_from_env(self, key: str) -> Optional[str]:
         """환경변수에서 값 로드"""
         return os.getenv(key)
 
     def _get_access_token(self) -> str:
         """OAuth2 액세스 토큰 발급/갱신"""
-        if (
-            self.access_token
-            and self.token_expires
-            and datetime.now() < self.token_expires - timedelta(minutes=5)
-        ):
+        with self._token_lock:
+            if (
+                self.access_token
+                and self.token_expires
+                and datetime.now() < self.token_expires - timedelta(minutes=5)
+            ):
+                return self.access_token
+
+            # 토큰 발급 요청
+            token_data = {
+                "grant_type": "client_credentials",
+                "appkey": self.appkey,
+                "appsecret": self.appsecret,
+            }
+
+            response = self.facade.make_request(
+                method="POST",
+                endpoint=self.ENDPOINTS["auth_token"],
+                data=token_data,
+                priority=RequestPriority.HIGH,
+            )
+
+            if "access_token" not in response:
+                raise KiwoomAPIError("토큰 발급 실패", response.get("error", "unknown"))
+
+            self.access_token = response["access_token"]
+            expires_in = response.get("expires_in", 86400)
+            self.token_expires = datetime.now() + timedelta(seconds=expires_in)
+
             return self.access_token
-
-        # 토큰 발급 요청
-        token_data = {
-            "grant_type": "client_credentials",
-            "appkey": self.appkey,
-            "appsecret": self.appsecret,
-        }
-
-        response = self.facade.make_request(
-            method="POST",
-            endpoint=self.ENDPOINTS["auth_token"],
-            data=token_data,
-            priority=RequestPriority.HIGH,
-        )
-
-        if "access_token" not in response:
-            raise KiwoomAPIError("토큰 발급 실패", response.get("error", "unknown"))
-
-        self.access_token = response["access_token"]
-        expires_in = response.get("expires_in", 86400)
-        self.token_expires = datetime.now() + timedelta(seconds=expires_in)
-
-        return self.access_token
 
     def _get_hashkey(self, data: Dict[str, Any]) -> str:
         """POST 요청용 해시키 생성"""
@@ -181,27 +202,31 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         priority: RequestPriority = RequestPriority.NORMAL,
     ) -> Dict[str, Any]:
         """TR 요청 통합 메서드 (Facade 사용)"""
-
-        # 인증 헤더 구성
-        headers = {
-            "Authorization": f"Bearer {self._get_access_token()}",
-            "appkey": self.appkey,
-            "appsecret": self.appsecret,
-            "api-id": tr_code,
-            "Content-Type": "application/json;charset=UTF-8",
-        }
-
-        # POST 요청시 해시키 추가
-        if method.upper() == "POST" and data:
-            headers["hashkey"] = self._get_hashkey(data)
-
-        # endpoint URL 구성
-        if endpoint.startswith("/"):
-            endpoint_url = endpoint
-        else:
-            endpoint_url = self.ENDPOINTS.get(endpoint, f"/api/dostk/{endpoint}")
+        with self._lifecycle_condition:
+            if self._closed:
+                raise KiwoomAPIError("이미 종료된 Kiwoom API 인스턴스입니다")
+            self._active_requests += 1
 
         try:
+            # 인증 헤더 구성
+            headers = {
+                "Authorization": f"Bearer {self._get_access_token()}",
+                "appkey": self.appkey,
+                "appsecret": self.appsecret,
+                "api-id": tr_code,
+                "Content-Type": "application/json;charset=UTF-8",
+            }
+
+            # POST 요청시 해시키 추가
+            if method.upper() == "POST" and data:
+                headers["hashkey"] = self._get_hashkey(data)
+
+            # endpoint URL 구성
+            if endpoint.startswith("/"):
+                endpoint_url = endpoint
+            else:
+                endpoint_url = self.ENDPOINTS.get(endpoint, f"/api/dostk/{endpoint}")
+
             # Facade를 통한 API 호출
             response = self.facade.make_request(
                 method=method,
@@ -211,12 +236,6 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 priority=priority,
             )
 
-            if self.normalize_data:
-                return normalize_data_values(
-                    response,
-                    tr_code=tr_code,
-                    endpoint=endpoint,
-                )
             return response
 
         except Exception as e:
@@ -225,6 +244,11 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 raise e
             else:
                 self.raise_with_trace(e, f"TR 요청 실패: {tr_code}")
+        finally:
+            with self._lifecycle_condition:
+                self._active_requests -= 1
+                if self._active_requests == 0:
+                    self._lifecycle_condition.notify_all()
 
     def make_tr_request_continuous(
         self,
@@ -237,30 +261,33 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
         priority: RequestPriority = RequestPriority.NORMAL,
     ) -> Dict[str, Any]:
         """연속조회 TR 요청 (Facade 사용)"""
-
-        # 인증 헤더 구성
-        headers = {
-            "Authorization": f"Bearer {self._get_access_token()}",
-            "appkey": self.appkey,
-            "appsecret": self.appsecret,
-            "Content-Type": "application/json;charset=UTF-8",
-            "api-id": tr_code,
-            "cont-yn": cont_yn,
-            "next-key": next_key,
-        }
-
-        # POST 요청시 해시키 추가
-        if method.upper() == "POST" and data:
-            headers["hashkey"] = self._get_hashkey(data)
-
-        # endpoint URL 구성
-        if endpoint.startswith("/"):
-            endpoint_url = endpoint
-        else:
-            endpoint_url = self.ENDPOINTS.get(endpoint, f"/api/dostk/{endpoint}")
+        with self._lifecycle_condition:
+            if self._closed:
+                raise KiwoomAPIError("이미 종료된 Kiwoom API 인스턴스입니다")
+            self._active_requests += 1
 
         try:
-            # Facade를 통한 API 호출
+            # 인증 헤더 구성
+            headers = {
+                "Authorization": f"Bearer {self._get_access_token()}",
+                "appkey": self.appkey,
+                "appsecret": self.appsecret,
+                "Content-Type": "application/json;charset=UTF-8",
+                "api-id": tr_code,
+                "cont-yn": cont_yn,
+                "next-key": next_key,
+            }
+
+            # POST 요청시 해시키 추가
+            if method.upper() == "POST" and data:
+                headers["hashkey"] = self._get_hashkey(data)
+
+            # endpoint URL 구성
+            if endpoint.startswith("/"):
+                endpoint_url = endpoint
+            else:
+                endpoint_url = self.ENDPOINTS.get(endpoint, f"/api/dostk/{endpoint}")
+
             response_data = self.facade.make_request(
                 method=method,
                 endpoint=endpoint_url,
@@ -269,19 +296,10 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 priority=priority,
             )
 
-            if self.normalize_data:
-                response_data = normalize_data_values(
-                    response_data,
-                    tr_code=tr_code,
-                    endpoint=endpoint,
-                )
-
-            # 연속조회 정보는 실제 HTTP 응답 헤더에서 가져와야 하지만
-            # 현재 Facade에서는 JSON 데이터만 반환하므로 기본값 사용
             return {
                 "data": response_data,
-                "cont_yn": "N",  # 기본값
-                "next_key": "",  # 기본값
+                "cont_yn": response_data.get("cont_yn", response_data.get("cont-yn", "N")),
+                "next_key": response_data.get("next_key", response_data.get("next-key", "")),
             }
 
         except Exception as e:
@@ -290,6 +308,11 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
                 raise e
             else:
                 self.raise_with_trace(e, "연속조회 요청 실패")
+        finally:
+            with self._lifecycle_condition:
+                self._active_requests -= 1
+                if self._active_requests == 0:
+                    self._lifecycle_condition.notify_all()
 
     def health_check(self) -> Dict[str, Any]:
         """API 연결 상태 확인"""
@@ -327,16 +350,44 @@ class UnifiedKiwoomAPIBase(RaiseWithTraceMixin):
 
     def close(self):
         """리소스 정리"""
-        # 토큰 무효화 (선택사항)
-        if self.access_token:
-            with contextlib.suppress(Exception):
-                self.facade.make_request(
-                    method="POST",
-                    endpoint=self.ENDPOINTS["auth_revoke"],
-                    data={"token": self.access_token},
-                    priority=RequestPriority.LOW,
-                )
+        should_close_facade = False
+        close_timeout = 5.0
+        deadline = time.monotonic() + close_timeout
+        with self._lifecycle_condition:
+            if self._closed:
+                return
+            self._closed = True
+            while self._active_requests > 0:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    break
+                self._lifecycle_condition.wait(timeout=remaining)
 
-        # Facade는 싱글턴이므로 직접 정리하지 않음
-        self.access_token = None
-        self.token_expires = None
+        with self._facade_ref_lock:
+            ref_count = self._facade_ref_counts.get(self._facade_id, 0) - 1
+            if ref_count > 0:
+                self._facade_ref_counts[self._facade_id] = ref_count
+            else:
+                self._facade_ref_counts.pop(self._facade_id, None)
+                should_close_facade = True
+
+        # 토큰 무효화 (선택사항)
+        with self._token_lock:
+            if should_close_facade and self.access_token:
+                with contextlib.suppress(Exception):
+                    self.facade.make_request(
+                        method="POST",
+                        endpoint=self.ENDPOINTS["auth_revoke"],
+                        data={"token": self.access_token},
+                        priority=RequestPriority.LOW,
+                    )
+            self.access_token = None
+            self.token_expires = None
+
+        if should_close_facade:
+            with contextlib.suppress(Exception):
+                self.facade.close()
+
+    def reset_rate_limiter(self):
+        """Facade rate limiter를 thread-safe하게 초기화"""
+        self.facade.reset_rate_limiter()
