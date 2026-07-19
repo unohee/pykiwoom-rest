@@ -1,114 +1,80 @@
-# MCP 서버가 도구 목록에 표시되지 않는 문제 해결
+# MCP 서버 문제 해결
 
-## ✅ 확인 완료 사항
+## 서버 명령을 찾을 수 없음
 
-### 1. MCP 서버 정상 작동
 ```bash
-$ python3 test_mcp_simple.py
-✓ 초기화 성공: pykiwoom-mcp-server
-✓ 총 68개 도구 발견
+command -v kiwoom-mcp
+python -m pip show pykiwoom-rest
 ```
 
-### 2. .mcp.json 설정 정상
+MCP 호스트가 실행되는 환경과 패키지를 설치한 가상환경이 다르면 명령을 찾지 못합니다. 호스트
+설정의 `command`에 가상환경 안의 실행 파일 절대 경로를 지정하세요.
+
+## `mcp` 모듈을 찾을 수 없음
+
+MCP 추가 의존성을 설치합니다. Python 3.10 이상이 필요합니다.
+
+```bash
+python --version
+python -m pip install -e '.[mcp]'
+```
+
+## 서버가 실행 직후 종료됨
+
+터미널에서 실행해 `stderr` 오류를 확인합니다.
+
+```bash
+kiwoom-mcp
+```
+
+일반적인 원인은 잘못된 Python 경로, 누락된 `mcp` 패키지, 저장소 개발 설치 경로 오류입니다.
+`stdout`은 MCP 프로토콜 전용이므로 진단 출력은 반드시 `stderr`로 보내야 합니다.
+
+## 도구 목록은 보이지만 API 호출이 실패함
+
+`list_tools`와 `list_endpoints`는 인증 없이 동작합니다. 실제 조회에서만 실패한다면 다음 환경
+변수와 키움 API 권한을 확인하세요.
+
+```bash
+ACCOUNT_NO=your-account-number
+KIWOOM_APPKEY=your-app-key
+KIWOOM_APPSECRET=your-app-secret
+```
+
+키움 API 운영·모의투자 도메인, 호출 가능 시간, 계좌 권한도 함께 확인해야 합니다. 비밀값은
+로그나 이슈에 붙여 넣지 마세요.
+
+## 주문 도구가 거부됨
+
+주문·취소·정정과 토큰 변경 도구는 사용자 승인을 받은 호출만 실행합니다. MCP 호출 인자에
+`confirm: true`를 명시해야 합니다.
+
 ```json
 {
-  "mcpServers": {
-    "pykiwoom-mcp-server": {
-      "command": ".venv-mcp/bin/python3",
-      "args": ["pykiwoom-mcp-server/src/pykiwoom_mcp_server/server.py"],
-      "env": { ... }
-    }
-  }
+  "stock_code": "005930",
+  "quantity": 1,
+  "price": 70000,
+  "confirm": true
 }
 ```
 
-### 3. 가상환경 및 패키지 정상
-```bash
-$ .venv-mcp/bin/python3 -c "from pykiwoom_rest import KiwoomRest; print('OK')"
-✓ Import OK
-```
+승인 없이 이 값을 자동 추가하지 마세요. 먼저 모의투자에서 주문 인자와 결과를 검증하세요.
 
-## ❌ 문제 원인
-
-**Claude Code는 시작할 때만 `.mcp.json`을 읽습니다.**
-
-현재 상황:
-1. Claude Code 세션 시작 (`.mcp.json` 없음)
-2. `.mcp.json` 파일 생성
-3. Claude Code가 인식하지 못함 ← **여기가 문제**
-
-## 🔧 해결 방법
-
-### 방법 1: Claude Code 재시작 (권장)
+## stdio 연결을 재현하고 싶음
 
 ```bash
-# 현재 세션 종료
-exit
-
-# 프로젝트 디렉토리에서 재시작
-cd /home/unohee/dev/tools/pykiwoom-rest
-claude
+pytest -q pykiwoom-mcp-server/tests/test_mcp_protocol.py
 ```
 
-**재시작 후 자동으로 MCP 서버가 연결됩니다.**
+이 테스트는 MCP 클라이언트로 서버를 시작해 초기화, 도구 목록, `list_endpoints` 호출을 왕복
+검증합니다. 인증 정보가 없어도 기본 프로토콜 테스트는 통과해야 합니다.
 
-### 방법 2: 새 터미널에서 Claude Code 시작
+## SDK 호환성 오류
+
+현재 서버는 안정 MCP Python SDK 1.x를 대상으로 합니다.
 
 ```bash
-# 새 터미널 열기
-cd /home/unohee/dev/tools/pykiwoom-rest
-claude
+python -m pip install 'mcp>=1.27,<2'
 ```
 
-### 방법 3: MCP 서버를 직접 Python으로 사용
-
-`.mcp.json` 없이도 MCP 서버를 직접 사용할 수 있습니다:
-
-```python
-from pykiwoom_rest import KiwoomRest
-
-# 직접 API 사용
-kiwoom = KiwoomRest()
-price = kiwoom.get_stock_price("005930")
-print(price)
-```
-
-## 📊 MCP 서버 사용 가능한 도구 (68개)
-
-재시작 후 사용 가능한 도구들:
-
-1. **list_endpoints** - 모든 API 목록 조회
-2. **get_stock_price** - 주식 시세 조회
-3. **get_minute_chart** - 분봉 차트
-4. **get_daily_chart** - 일봉 차트
-5. **get_account_balance** - 계좌 잔고
-6. **buy_order** / **sell_order** - 매수/매도
-7. **get_top_gainers** - 상승률 상위 종목
-... 총 68개
-
-## 🔍 재시작 후 확인 방법
-
-재시작하면 Claude Code가 다음과 같이 표시합니다:
-
-```
-Connected to MCP servers:
-  - pykiwoom-mcp-server (68 tools)
-```
-
-그 후 다음 명령어로 테스트:
-
-```
-user: list_endpoints 도구를 사용해서 Stock 카테고리 API를 보여줘
-
-assistant: [mcp__pykiwoom-mcp-server__list_endpoints 호출]
-```
-
-## ⚠️ 주의사항
-
-- `.mcp.json` 파일은 Claude Code 시작 시점에만 읽힘
-- 설정 변경 후에는 반드시 재시작 필요
-- 현재 세션에서는 MCP 서버를 인식할 수 없음
-
----
-
-**결론**: Claude Code를 재시작하면 모든 것이 정상 작동합니다! 🚀
+2.x 사전 공개 버전은 API가 달라질 수 있으므로 같은 환경에 섞지 않습니다.

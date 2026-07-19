@@ -3,8 +3,8 @@
 주식 차트 데이터를 조회하는 API - 실제 Excel 명세서 기반
 
 ## 공통 정보
-- **Base URL**: `/api/dostk/chart`
-- **Method**: `POST`
+- **기본 URL**: `/api/dostk/chart`
+- **메서드**: `POST`
 - **Content-Type**: `application/json;charset=UTF-8`
 
 ## 주식틱차트조회요청 (ka10079)

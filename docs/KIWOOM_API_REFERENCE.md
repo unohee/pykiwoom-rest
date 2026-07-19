@@ -1,8 +1,8 @@
 # 키움 REST API 레퍼런스
 
-> **Generated from**: kiwoom.xlsx  
+> **생성 원본**: kiwoom.xlsx
 > **Purpose**: 키움증권 REST API 개발 레퍼런스  
-> **Generated on**: 2025-01-22
+> **생성일**: 2025-01-22
 
 ## 📋 API 목록
 
@@ -270,7 +270,7 @@ appsecret: {app_secret}
 - **날짜형식**: YYYYMMDD (예: 20250122)
 - **시간형식**: HHMMSS (예: 153000)
 
-### Rate Limiting
+### 호출 제한
 - 초당 최대 20회 요청
 - 일일 최대 40,000회 요청
 

@@ -31,6 +31,6 @@
 | ka90009 | 외국인기관매매상위요청 | 외국인 |
 
 ## 공통 사항
-- **Base URL**: `/api/dostk/rkinfo`
-- **Method**: `POST`
+- **기본 URL**: `/api/dostk/rkinfo`
+- **메서드**: `POST`
 - **특징**: 대부분 상위 N개 종목 리스트 반환

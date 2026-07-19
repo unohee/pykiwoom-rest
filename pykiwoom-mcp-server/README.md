@@ -1,88 +1,85 @@
-# PyKiwoom MCP Server
+# PyKiwoom MCP 서버
 
-**키움증권 REST API를 위한 MCP 서버 - 동적 Tool 생성 방식**
+키움증권 REST API를 MCP 도구로 제공하는 stdio 서버입니다. 실제 구현은 메인 패키지의
+`pykiwoom_rest.mcp_server`에 있으며, 이 디렉터리는 기존 `pykiwoom-mcp-server` 설치 방식과
+실행 명령을 유지하는 호환 패키지입니다.
 
-이 프로젝트는 [pykiwoom-rest](../README.md) 라이브러리의 **모든 메서드를 자동으로** MCP 도구로 노출합니다. Claude Desktop 등의 MCP 클라이언트에서 키움증권 API 전체를 자연어로 쉽게 사용할 수 있습니다.
+## 동작 방식
 
-## 주요 특징
+- `KiwoomRest`의 호출 가능한 공개 메서드를 시작 시 분석합니다.
+- 타입 힌트와 기본값으로 각 도구의 JSON Schema를 만듭니다.
+- `list_endpoints`로 전체 도구 또는 카테고리별 도구를 조회할 수 있습니다.
+- API 클라이언트는 실제 API 도구를 처음 호출할 때 생성됩니다.
+- 동기 REST 호출은 작업 스레드에서 실행되어 MCP 이벤트 루프를 막지 않습니다.
+- 날짜, 모델, DataFrame 계열 결과도 JSON으로 직렬화합니다.
 
-### 🚀 동적 Tool 생성
-- **pykiwoom-rest의 모든 공개 메서드를 자동 감지**
-- **70+ 개의 API 엔드포인트를 MCP tools로 노출**
-- 수동 매핑 불필요 - 라이브러리 업데이트 시 자동 반영
+실시간 콜백 구독, 연결 종료, 내부 속도 제한 초기화처럼 stdio 요청/응답 모델에 맞지 않는
+메서드는 자동 도구에서 제외됩니다.
 
-### 📋 제공되는 Tool 카테고리
+## 요구 사항
 
-1. **Stock (시세)** - 20+ 개
-   - 현재가, 호가, 외국인 매매, 프로그램 매매, 투자자별 동향 등
+- Python 3.10 이상
+- `pykiwoom-rest` 2.2.0 이상
+- 안정 MCP Python SDK 1.x (`mcp>=1.27,<2`)
 
-2. **Chart (차트)** - 10+ 개
-   - 일/주/월/년봉, 분봉, 틱 차트, 페이지네이션 지원
+MCP Python SDK 2.x가 정식 출시되기 전까지 예기치 않은 호환성 변경을 막기 위해 상한을 둡니다.
 
-3. **Account (계좌)** - 15+ 개
-   - 잔고, 평가, 미체결, 체결내역, 손익, 거래일지 등
+## 설치
 
-4. **Order (주문)** - 4개
-   - 매수, 매도, 정정, 취소
+메인 패키지의 추가 의존성으로 설치하는 방법을 권장합니다.
 
-5. **Ranking (순위)** - 15+ 개
-   - 상승률/거래량/거래대금 상위, 외국인 순매수 등
-
-6. **Sector (업종)** - 3개
-   - 업종 시세, 지수, 차트
-
-7. **Auth (인증)** - 5개
-   - 토큰 발급/폐기, 상태 확인, 로그아웃
-
-8. **list_endpoints** 🔍
-   - 모든 API 엔드포인트 목록 조회 (카테고리별 필터 지원)
-
-## 설치 방법
-
-### 1. 사전 요구사항
 ```bash
-# Python 3.10 이상 필요
-python --version
-
-# pykiwoom-rest 패키지 설치 (부모 디렉토리)
-cd ..
-pip install -e .
+pip install 'pykiwoom-rest[mcp]'
 ```
 
-### 2. MCP 서버 설치
+저장소 개발 버전은 다음과 같이 설치합니다.
+
+```bash
+git clone https://github.com/unohee/pykiwoom-rest.git
+cd pykiwoom-rest
+pip install -e '.[mcp]'
+```
+
+기존 호환 패키지만 별도로 설치할 수도 있습니다.
+
 ```bash
 cd pykiwoom-mcp-server
 pip install -e .
-
-# 또는 의존성만 설치
-pip install mcp>=0.9.0
 ```
 
-### 3. 환경 변수 설정
-```bash
-# .env 파일 생성
-cp .env.example .env
+## 인증 정보
 
-# .env 파일 수정
+MCP 클라이언트의 서버 환경 변수에 다음 값을 전달합니다.
+
+```bash
 ACCOUNT_NO=your-account-number
 KIWOOM_APPKEY=your-app-key
 KIWOOM_APPSECRET=your-app-secret
 ```
 
-## 사용 방법
+실제 API 호출 전까지 클라이언트를 만들지 않으므로, 인증 정보 없이도 서버 초기화와
+`list_tools`, `list_endpoints`를 검사할 수 있습니다.
 
-### Claude Desktop 설정
+## 실행
 
-`~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) 또는 `%APPDATA%\Claude\claude_desktop_config.json` (Windows)에 다음 내용 추가:
+```bash
+# 메인 패키지 명령
+kiwoom-mcp
+
+# 기존 호환 명령
+pykiwoom-mcp-server
+```
+
+두 명령은 같은 서버 구현을 실행합니다. 로그는 `stderr`, MCP 프로토콜 메시지는 `stdio`로
+분리되므로 서버 실행 중 `stdout`에 임의 메시지를 출력하면 안 됩니다.
+
+## MCP 클라이언트 설정
 
 ```json
 {
   "mcpServers": {
     "pykiwoom": {
-      "command": "python",
-      "args": [
-        "/absolute/path/to/pykiwoom-rest/pykiwoom-mcp-server/src/pykiwoom_mcp_server/server.py"
-      ],
+      "command": "kiwoom-mcp",
       "env": {
         "ACCOUNT_NO": "your-account-number",
         "KIWOOM_APPKEY": "your-app-key",
@@ -93,259 +90,79 @@ KIWOOM_APPSECRET=your-app-secret
 }
 ```
 
-### 직접 실행 (테스트)
-```bash
-# MCP 서버 실행
-python src/pykiwoom_mcp_server/server.py
+가상환경에 설치했다면 `command`에 해당 가상환경의 `kiwoom-mcp` 절대 경로를 지정하세요.
 
-# 설치 후 커맨드 사용
-pykiwoom-mcp-server
+## 도구 카테고리
 
-# 테스트 실행
-python test_server.py
-```
+- `stock`: 종목 시세, 호가, 투자자·프로그램 동향
+- `chart`: 틱·분·일·주·월·년 차트
+- `account`: 잔고, 평가, 예수금, 체결·미체결
+- `order`: 매수, 매도, 정정, 취소
+- `ranking`: 거래량, 거래대금, 등락률 등 순위
+- `sector`: 업종 시세와 차트
+- `auth`: 토큰 상태, 갱신, 폐기
+- `etc`: 연결 확인과 기타 읽기 API
 
-## 사용 예시
+`list_endpoints`의 `category`에 위 값을 전달하거나 `all`로 전체를 조회합니다.
 
-### 1. 엔드포인트 목록 조회
-```
-User: 사용 가능한 모든 API 엔드포인트를 보여줘
+## 주문과 인증 안전장치
 
-Claude: [list_endpoints 도구 호출 - category: "all"]
-총 72개의 엔드포인트가 있습니다:
+다음 도구는 계좌 또는 인증 상태를 변경하므로 `destructiveHint=true`로 표시됩니다.
 
-Stock (시세): 23개
-- get_stock_price (ka10001)
-- get_stock_orderbook (ka10004)
-- get_foreign_trading (ka10008)
-...
+- `buy_stock`
+- `sell_stock`
+- `modify_order`
+- `cancel_order`
+- `refresh_token`
+- `revoke_token`
+- `logout`
 
-Chart (차트): 12개
-- get_daily_chart (ka10081)
-- get_minute_chart (ka10080)
-...
-```
+호출자가 사용자 승인을 받은 뒤 `confirm: true`를 명시해야 실행됩니다. 누락하거나 `false`를
+전달하면 API 클라이언트 생성 전에 요청을 거부합니다. 이 플래그는 보조 안전장치이며,
+MCP 호스트도 변경성 도구 실행 전에 사용자 확인을 받아야 합니다.
 
-### 2. 카테고리별 조회
-```
-User: 차트 관련 API만 보여줘
+## 응답 형식
 
-Claude: [list_endpoints 도구 호출 - category: "chart"]
-차트 관련 API 12개:
-- get_tick_chart: 틱 차트 조회
-- get_minute_chart: 분봉 차트 조회 (ka10080)
-- get_minute_chart_paginated: 대량 분봉 페이지네이션
-- get_daily_chart: 일봉 차트 (ka10081)
-- get_weekly_chart: 주봉 차트 (ka10082)
-- get_monthly_chart: 월봉 차트 (ka10083)
-- get_yearly_chart: 년봉 차트 (ka10094)
-...
-```
+성공 응답:
 
-### 3. 일반 API 호출
-```
-User: 삼성전자(005930) 현재가를 알려줘
-
-Claude: [get_stock_price 도구 호출]
-삼성전자의 현재가는 70,500원입니다.
-전일 대비 +1,000원(+1.44%) 상승했습니다.
-```
-
-```
-User: 오늘 상승률 상위 10개 종목은?
-
-Claude: [get_previous_day_rate_top 도구 호출]
-상승률 상위 10개 종목:
-1. OO전자 +15.2%
-2. XX바이오 +12.8%
-...
-```
-
-### 4. 계좌 관리
-```
-User: 내 계좌 잔고를 보여줘
-
-Claude: [get_account_evaluation 도구 호출]
-계좌 평가 정보:
-- 총 평가금액: 10,250,000원
-- 총 수익률: +2.5%
-- 보유 종목: 3개
-```
-
-## API 도구 상세
-
-### list_endpoints (메타 도구)
-모든 API 엔드포인트 목록 조회
-
-**파라미터:**
-- `category` (string, 선택): 카테고리 필터
-  - `"all"`: 전체 (기본값)
-  - `"stock"`: 시세 관련
-  - `"chart"`: 차트 관련
-  - `"account"`: 계좌 관련
-  - `"order"`: 주문 관련
-  - `"ranking"`: 순위 관련
-  - `"sector"`: 업종 관련
-  - `"auth"`: 인증 관련
-
-**반환 형식:**
 ```json
 {
-  "total_endpoints": 72,
-  "by_category": {
-    "stock": 23,
-    "chart": 12,
-    "account": 15,
-    "order": 4,
-    "ranking": 15,
-    "sector": 3,
-    "auth": 5
-  },
-  "endpoints": {
-    "stock": [
-      {
-        "name": "get_stock_price",
-        "tr_code": "ka10001",
-        "description": "주식 현재가 조회",
-        "param_count": 1,
-        "required_count": 1,
-        "params": ["stock_code"]
-      },
-      ...
-    ]
-  }
+  "ok": true,
+  "tool": "get_stock_price",
+  "data": {}
 }
 ```
 
-### 동적 Tool 자동 생성
+실패 응답:
 
-모든 pykiwoom-rest 메서드가 자동으로 MCP tools로 변환됩니다:
+```json
+{
+  "ok": false,
+  "tool": "get_stock_price",
+  "error": "오류 메시지",
+  "errorType": "예외 클래스"
+}
+```
 
-- **메서드 이름**: Tool 이름으로 사용
-- **파라미터**: 타입 힌트 기반 자동 추출
-- **필수 파라미터**: 기본값 없는 파라미터 자동 감지
-- **TR 코드**: Docstring에서 자동 추출
-- **설명**: Docstring 첫 줄 사용
+## 검증
 
-## 동적 Tool 생성 장점
-
-### 1. 유지보수 불필요
-- pykiwoom-rest 업데이트 시 자동 반영
-- 새로운 API 추가 시 수동 매핑 불필요
-
-### 2. 완전성 보장
-- 모든 공개 메서드를 100% 노출
-- 누락된 API 없음
-
-### 3. 타입 안전성
-- Python 타입 힌트 기반 자동 스키마 생성
-- 필수/선택 파라미터 자동 구분
-
-### 4. 개발 속도 향상
-- 새로운 API 추가 시 즉시 사용 가능
-- MCP 서버 코드 수정 불필요
-
-## Rate Limiting
-
-이 MCP 서버는 pykiwoom-rest의 Rate Limit 최적화 기능을 활용합니다:
-
-- 기본 Rate Limit: 초당 20회 (키움 API 정책)
-- 다중 크레덴셜 지원: 여러 API 키를 로테이션하여 처리량 증가
-- 자동 재시도: 429 에러 시 exponential backoff
-
-## 보안 주의사항
-
-1. **API 키 보안**
-   - `.env` 파일을 절대 버전 관리에 포함하지 마세요
-   - 프로덕션 환경에서는 환경 변수 또는 시크릿 관리 시스템 사용
-
-2. **주문 실행**
-   - `buy_stock`, `sell_stock`는 실제 거래를 발생시킵니다
-   - 테스트 시에는 모의투자 계좌 사용 권장
-
-3. **접근 제어**
-   - MCP 서버는 로컬 stdio 통신만 지원 (네트워크 노출 없음)
-   - Claude Desktop 등 신뢰할 수 있는 클라이언트에서만 사용
-
-## 트러블슈팅
-
-### 1. "pykiwoom_rest 패키지를 찾을 수 없습니다"
 ```bash
-# 부모 디렉토리에서 pykiwoom-rest 설치
-cd ..
-pip install -e .
-
-# 또는 PYTHONPATH 설정
-export PYTHONPATH=/path/to/pykiwoom-rest/src:$PYTHONPATH
+pytest -q tests/test_mcp_server.py
+pytest -q pykiwoom-mcp-server/tests
+ruff check src/pykiwoom_rest/mcp_server.py pykiwoom-mcp-server/src
 ```
 
-### 2. "PyKiwoom MCP Server started with 0 endpoints"
-- Python 버전 확인 (3.10+)
-- pykiwoom-rest 설치 확인
-- 임포트 에러 확인 (stderr 로그)
+실제 API 통합 테스트는 인증 정보가 있을 때만 실행합니다. stdio 연결, 도구 목록, 스키마,
+`list_endpoints`는 네트워크와 계좌 없이 검증할 수 있습니다.
 
-### 3. "토큰 발급 실패"
-- `.env` 파일의 API 키 확인
-- 키움증권 API 신청 상태 확인
-- 네트워크 연결 확인
+## 문제 해결
 
-### 4. "Rate Limit 초과"
-- 다중 크레덴셜 설정 (`.env`에 `KIWOOM_APPKEY_1`, `KIWOOM_APPSECRET_1` 추가)
-- 요청 간격 조정
+연결이 되지 않으면 다음 순서로 확인하세요.
 
-## 개발
+1. `kiwoom-mcp`가 터미널에서 실행되는지 확인합니다.
+2. MCP 호스트가 사용하는 Python과 설치한 가상환경이 같은지 확인합니다.
+3. 설정 파일의 `command`를 절대 경로로 바꿉니다.
+4. 서버의 `stderr` 로그를 확인합니다.
+5. 실제 API 호출만 실패하면 인증 환경 변수와 키움 API 권한을 확인합니다.
 
-### 코드 구조
-```python
-class PyKiwoomMCPServer:
-    def _build_method_registry(self):
-        """KiwoomRest의 모든 메서드를 분석하여 레지스트리 구축"""
-        # inspect 모듈로 동적 분석
-        # 파라미터, 타입, TR 코드 자동 추출
-
-    def _setup_handlers(self):
-        @self.server.list_tools()
-        async def list_tools():
-            """레지스트리 기반 동적 Tool 생성"""
-
-        @self.server.call_tool()
-        async def call_tool(name, arguments):
-            """동적 메서드 호출"""
-```
-
-### 테스트 실행
-```bash
-pytest tests/ -v
-```
-
-### 코드 포맷팅
-```bash
-ruff format src/
-ruff check src/ --fix
-```
-
-## 라이선스
-
-MIT License - [LICENSE](../LICENSE) 참조
-
-## 관련 프로젝트
-
-- [pykiwoom-rest](../README.md): 기반이 되는 Python 라이브러리 (70+ API 엔드포인트)
-- [MCP Protocol](https://modelcontextprotocol.io/): Model Context Protocol 명세
-
-## 통계
-
-- **총 엔드포인트**: 72개 (동적 감지)
-- **카테고리**: 7개 (Stock, Chart, Account, Order, Ranking, Sector, Auth)
-- **코드 라인**: ~280줄 (자동 생성으로 간결함)
-- **유지보수**: 거의 불필요 (자동 동기화)
-
-## 기여
-
-이슈 및 PR은 언제나 환영합니다!
-
-## 지원
-
-- 이슈 트래커: https://github.com/yourusername/pykiwoom-rest/issues
-- 문서: https://github.com/yourusername/pykiwoom-rest/blob/main/README.md
-- MCP Server Structure: [STRUCTURE.md](STRUCTURE.md)
+추가 사례는 [MCP 문제 해결](../MCP_TROUBLESHOOTING.md)을 참고하세요.

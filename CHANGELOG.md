@@ -1,207 +1,79 @@
-# Changelog
+# 변경 기록
 
-All notable changes to PyKiwoom-REST will be documented in this file.
+PyKiwoom-REST의 주요 변경 사항을 기록합니다. 형식은
+[변경 기록 유지하기](https://keepachangelog.com/ko/1.1.0/)를 따르며, 버전은
+[유의적 버전](https://semver.org/lang/ko/) 규칙을 사용합니다.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+## [2.2.0] - 출시 예정
+
+### 추가
+
+- `kiwoom` CLI: 시세, 차트, 순위, 업종, 투자자, 계좌, 주문, 임의 읽기 조회, 스키마 출력
+- `kiwoom-mcp` stdio 서버와 `mcp` 추가 설치 옵션
+- 기본 설치에서 MCP 추가 기능 설치법을 안내하는 지연 로드 진입점
+- MCP 읽기/변경성 힌트와 주문·인증 변경 도구의 `confirm=true` 안전 게이트
+- MCP 레지스트리 및 실제 stdio 왕복 테스트
+
+### 변경
+
+- 저장소의 사용자·개발자 문서를 한국어 기준으로 통일
+- MCP Python SDK 의존성을 안정 1.x 범위인 `mcp>=1.27,<2`로 제한
+- 기존 독립 MCP 패키지를 메인 구현을 호출하는 호환 래퍼로 단순화
 
 ## [2.1.1] - 2025-12-21
 
-### 🔧 Sector Chart API 수정 및 개선
+### 수정
 
-#### Fixed
-- **업종 차트 API 파라미터 수정**: 모든 업종 차트 메서드에서 잘못된 파라미터명 수정
-  - `sect_cd` → `inds_cd` (3자리 업종코드)
-  - 엔드포인트 `sector` → `chart` 변경
-  - 날짜 파라미터 `start_date/end_date` → `base_dt` 통일
+- 모든 업종 차트 메서드의 업종 코드 인자를 `inds_cd`에 맞게 수정
+- 업종 차트 엔드포인트를 `chart`로 수정
+- 날짜 인자를 `base_dt` 기준으로 통일
+- 4자리 업종 코드를 3자리 코드로 자동 정규화
+- `get_sector_tick_chart()`의 범위를 `tick_scope`로 명확화
+- 일·주·월·년 업종 차트의 기준일 인자를 `base_date`로 통일
 
-#### Changed
-- **get_sector_tick_chart()**: `count` 파라미터를 `tick_scope`로 변경 (1, 3, 5, 10, 30)
-- **get_sector_daily_chart()**: `base_date` 파라미터로 단순화
-- **get_sector_weekly_chart()**: `base_date` 파라미터로 단순화
-- **get_sector_monthly_chart()**: `base_date` 파라미터로 단순화
-- **get_sector_yearly_chart()**: `base_date` 파라미터로 단순화
+### 검증
 
-#### Added
-- **4자리→3자리 코드 자동 변환**: 모든 업종 차트 메서드에서 "0001" → "001" 자동 변환 지원
-- **기본값 설정**: `base_date` 미입력 시 오늘 날짜 자동 적용
-
-#### API Coverage Update
-- **Sector API**: 12 methods (차트 6개 + 현재가/지수 조회 6개)
-  - ka20004: 업종틱차트조회 ✅
-  - ka20005: 업종분봉조회 ✅
-  - ka20006: 업종일봉조회 ✅
-  - ka20007: 업종주봉조회 ✅
-  - ka20008: 업종월봉조회 ✅
-  - ka20019: 업종년봉조회 ✅
-
-#### Testing
-- 14개 단위 테스트 통과
-- 실제 API 테스트 완료 (KOSPI 지수 데이터 조회 성공)
-
----
+- 업종 차트 단위 테스트와 KOSPI 지수 조회를 검증
 
 ## [2.1.0] - 2025-10-21
 
-### 🚀 API Expansion & Modernization
+### 추가
 
-#### New Features
-- **OAuth2 Authentication API** (au10001, au10002)
-  - Token issuance and revocation
-  - Automatic token refresh
-  - Token status monitoring
-  - Complete access control management
+- OAuth2 토큰 발급·폐기와 상태 조회
+- 종목, 투자자, 프로그램 매매 관련 공개 메서드 확장
+- 추정 자산, 거래 내역, 실현 손익 계좌 조회
+- 단일 `KiwoomRest` 진입점을 통한 API 파사드
 
-- **Stock API Extensions** (5 new methods)
-  - ka10005: Investor trading trends (투자자별 매매동향)
-  - ka10006: Member trading trends (기관별 매매동향)
-  - ka10007: Elapsed time analysis (소요시간)
-  - ka10009: Program trading trends (프로그램매매동향)
-  - ka10010: Trade volume power (거래량파동력)
+### 변경
 
-- **Expanded Account API** (7 new wrapper methods)
-  - Estimated asset tracking
-  - Daily asset estimation
-  - Trading history retrieval
-  - Realized profit/loss details
-
-#### Architecture Improvements
-- Unified Facade Pattern: Single `KiwoomRest` entry point
-- Mixin-based extensions for cleaner code organization
-- Dependency synchronization across API modules
-- Enhanced rate limiting with token rotation
-
-#### API Coverage
-- **Total Methods**: 50+ public methods
-- **Auth API**: 5 methods (OAuth2 management)
-- **Stock API**: 35+ methods (market data)
-- **Chart API**: 7 methods (time series data)
-- **Account API**: 18 methods (portfolio management)
-- **Order API**: 4 methods (execution)
-- **Ranking API**: 12+ methods (market trends)
-- **Sector API**: 3 methods (industry data)
-
-#### Testing & Quality
-- Comprehensive OAuth2 authentication tests
-- Integration test suite for new methods
-- Type safety verification
-- Rate limiting compliance validation
-
-#### Documentation
-- OAuth2 integration guide
-- API expansion roadmap
-- Method usage examples
-- Architecture documentation
-
-### 🔄 Module Organization
-```
-New Import Pattern:
-from pykiwoom_rest import KiwoomRest
-
-kiwoom = KiwoomRest(enable_rate_optimizer=True)
-
-# OAuth2 Token Management
-token_info = kiwoom.get_access_token()
-status = kiwoom.get_token_status()
-
-# Extended Stock Analysis
-investor_trend = kiwoom.get_stock_investor_trading("005930")
-member_trend = kiwoom.get_stock_member_trading("005930")
-
-# Enhanced Account Info
-asset = kiwoom.get_estimated_asset()
-history = kiwoom.get_trading_history()
-```
-
----
+- 기능별 API 모듈과 믹스인 기반 구조로 정리
+- 여러 인증 정보를 사용하는 요청 속도 제한 최적화
+- 타입 힌트와 통합 테스트 확장
 
 ## [2.0.0] - 2025-01-05
 
-### 🎯 Major Features Added
-- **Complete Architecture Overhaul**: New modular design with specialized API classes
-- **Advanced Rate Limiting**: Multi-credential rotation and intelligent backoff algorithms
-- **Async/Concurrent Processing**: High-performance parallel and asynchronous request handling
-- **Enhanced Error Handling**: Comprehensive error recovery with exponential backoff
-- **Type Safety**: Full type hints and validation throughout the codebase
+### 추가
 
-### ⚡ Performance Improvements
-- **Rate Limiting Optimizer**: Automatic credential rotation to avoid 429 errors
-- **Async API Client**: ~70 req/s throughput with AsyncIO
-- **Parallel Processing**: ThreadPool-based concurrent requests (~25 req/s)
-- **Smart Retry Strategy**: Intelligent retry with exponential backoff
+- 시세, 차트, 계좌, 주문, 순위, 업종별 모듈 구조
+- 비동기·병렬 처리 API
+- 다중 인증 정보 순환과 지수 백오프
+- 공통 응답 모델, 페이지네이션, 상태 통계
+- 성능 예제와 Postman 컬렉션
 
-### 📚 API Enhancements
-- **Modular API Structure**: Separate classes for Stock, Chart, Account, Order, Ranking, Sector
-- **APIResponse Model**: Standardized response handling with dict compatibility
-- **Pagination Support**: Automatic handling of large datasets
-- **Health Monitoring**: Real-time API status and performance tracking
+### 변경
 
-### 🧪 Testing & Quality
-- **127 Test Cases**: Comprehensive test coverage for all components
-- **Performance Benchmarks**: Automated performance testing and optimization
-- **Code Quality**: BS Index 2.1/10 (Excellent grade)
-- **Zero Technical Debt**: No TODO/FIXME items remaining
-
-### 📖 Documentation
-- **Complete API Documentation**: Comprehensive usage guide with examples
-- **Performance Examples**: Real-world usage scenarios and benchmarks  
-- **Developer Guide**: Setup, configuration, and contribution guidelines
-- **Postman Integration**: API testing collection and environment
-
-### 🔧 Technical Changes
-- **Python 3.10+ Required**: Full type hints support
-- **Dependency Updates**: Latest versions of all dependencies
-- **Environment Variables**: Enhanced configuration management
-- **Logging System**: Structured logging with performance metrics
-
-### 🛡️ Security & Reliability
-- **Credential Security**: Environment-only API key storage
-- **Token Management**: Automatic token refresh and expiration handling
-- **Error Recovery**: Graceful handling of all API failure scenarios
-- **Rate Limit Compliance**: Automatic adherence to API limitations
-
-### 📁 Project Structure Changes
-```
-src/pykiwoom_rest/
-├── async_api.py              # NEW: Async processing
-├── concurrent_api.py         # NEW: Parallel processing  
-├── rate_limit_optimizer.py   # NEW: Advanced rate limiting
-├── response_model.py         # NEW: Standardized responses
-├── base_api.py              # Enhanced error handling
-├── kiwoom_base.py           # Core functionality
-└── [api_modules].py         # Modularized APIs
-```
+- 오류 복구와 타입 검증을 공통 계층으로 통합
+- 환경 변수 기반 인증 설정을 표준화
 
 ## [1.0.0] - 2024-08-20
 
-### Initial Release
-- Basic REST API wrapper for Kiwoom Securities
-- Essential stock data retrieval functions
-- Simple authentication and token management
-- Basic error handling and retry logic
+### 추가
 
-### Features
-- Stock price and orderbook data
-- Chart data (minute, daily, weekly, monthly)
-- Account balance and position information
-- Basic order execution capabilities
+- 키움증권 REST API 기본 래퍼
+- 시세·호가·차트·계좌·주문 기능
+- 기본 인증, 오류 처리, 재시도
 
----
-
-## Upcoming Releases
-
-### [2.1.0] - Planned
-- **WebSocket Integration**: Real-time streaming data
-- **Technical Indicators**: Built-in TA-Lib integration
-- **GUI Dashboard**: Real-time monitoring interface
-- **Docker Support**: Containerized deployment
-
-### [2.2.0] - Future
-- **Backtesting Engine**: Historical strategy testing
-- **ML Integration**: Machine learning signal generation
-- **Cloud Templates**: AWS/GCP deployment guides
-- **REST Server Mode**: API server for multi-client access
-
----
-
-*For detailed API changes, see [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)*
+[2.2.0]: https://github.com/unohee/pykiwoom-rest/compare/v2.1.1...HEAD
+[2.1.1]: https://github.com/unohee/pykiwoom-rest/compare/v2.1.0...v2.1.1
+[2.1.0]: https://github.com/unohee/pykiwoom-rest/compare/v2.0.0...v2.1.0
+[2.0.0]: https://github.com/unohee/pykiwoom-rest/compare/v1.0.0...v2.0.0

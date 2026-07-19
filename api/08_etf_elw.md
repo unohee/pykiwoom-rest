@@ -31,5 +31,5 @@ ETF(상장지수펀드) 및 ELW(주식워런트증권) 관련 API입니다.
 | ka30012 | ELW종목상세정보요청 | ELW 정보 |
 
 ## 공통 정보
-- **ETF Base URL**: `/api/dostk/etf`
-- **ELW Base URL**: `/api/dostk/elw`
+- **ETF 기본 URL**: `/api/dostk/etf`
+- **ELW 기본 URL**: `/api/dostk/elw`

@@ -1,47 +1,32 @@
 <context>
-# Overview  
-[Provide a high-level overview of your product here. Explain what problem it solves, who it's for, and why it's valuable.]
+# 개요
+[제품의 문제, 대상 사용자, 제공 가치와 성공 기준을 설명합니다.]
 
-# Core Features  
-[List and describe the main features of your product. For each feature, include:
-- What it does
-- Why it's important
-- How it works at a high level]
+# 핵심 기능
+[각 주요 기능에 대해 다음을 설명합니다.
+- 무엇을 하는가
+- 왜 필요한가
+- 사용자에게 어떻게 보이는가]
 
-# User Experience  
-[Describe the user journey and experience. Include:
-- User personas
-- Key user flows
-- UI/UX considerations]
+# 사용자 경험
+[사용자 유형, 핵심 흐름, UI/UX 고려 사항을 설명합니다.]
 </context>
+
 <PRD>
-# Technical Architecture  
-[Outline the technical implementation details:
-- System components
-- Data models
-- APIs and integrations
-- Infrastructure requirements]
+# 기술 아키텍처
+[시스템 구성 요소, 데이터 모델, API 연동, 인프라 요구 사항을 설명합니다.]
 
-# Development Roadmap  
-[Break down the development process into phases:
-- MVP requirements
-- Future enhancements
-- Do not think about timelines whatsoever -- all that matters is scope and detailing exactly what needs to be build in each phase so it can later be cut up into tasks]
+# 개발 단계
+[기반 기능부터 확장 기능까지 범위를 단계별로 나눕니다. 일정 추측보다 각 단계의 정확한 범위와
+검증 가능한 완료 기준에 집중합니다.]
 
-# Logical Dependency Chain
-[Define the logical order of development:
-- Which features need to be built first (foundation)
-- Getting as quickly as possible to something usable/visible front end that works
-- Properly pacing and scoping each feature so it is atomic but can also be built upon and improved as development approaches]
+# 논리적 의존성
+[무엇을 먼저 만들어야 하는지, 가장 빠르게 사용 가능한 결과에 도달하는 경로, 이후 확장 가능한
+원자적 기능 경계를 정의합니다.]
 
-# Risks and Mitigations  
-[Identify potential risks and how they'll be addressed:
-- Technical challenges
-- Figuring out the MVP that we can build upon
-- Resource constraints]
+# 위험과 대응
+[기술적 불확실성, MVP 범위, 외부 의존성, 자원 제약과 대응책을 설명합니다.]
 
-# Appendix  
-[Include any additional information:
-- Research findings
-- Technical specifications]
+# 부록
+[조사 결과, 기술 명세, 용어와 미해결 질문을 기록합니다.]
 </PRD>

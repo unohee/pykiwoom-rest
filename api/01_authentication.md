@@ -6,7 +6,7 @@ Kiwoom REST API OAuth2 인증 - 실제 명세서 기반
 
 ### 기본 정보
 - **URL**: `/oauth2/token`
-- **Method**: `POST`
+- **메서드**: `POST`
 - **Content-Type**: `application/x-www-form-urlencoded`
 
 ### 요청 파라미터
@@ -30,7 +30,7 @@ appsecret={APP_SECRET}
 
 ### 기본 정보
 - **URL**: `/oauth2/revoke`
-- **Method**: `POST`
+- **메서드**: `POST`
 - **Authorization**: `Bearer {access_token}`
 - **Content-Type**: `application/x-www-form-urlencoded`
 

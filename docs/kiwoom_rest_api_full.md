@@ -1,8 +1,8 @@
 
-# Page 1
+# 페이지 1
 
 키움 REST API 목차
-No. API ID API 명 대분류 중분류 페이지번호
+번호 API ID API 명 대분류 중분류 페이지번호
 1 au10001 접근토큰 발급 OAuth 인증 접근토큰발급 7
 2 au10002 접근토큰폐기 OAuth 인증 접근토큰폐기 9
 3 ka00198 실시간종목조회순위 국내주식 종목정보 10
@@ -43,10 +43,10 @@ No. API ID API 명 대분류 중분류 페이지번호
 38 ka10035 외인연속순매매상위요청 국내주식 순위정보 108
 1 / 526
 
-# Page 2
+# 페이지 2
 
 키움 REST API 목차
-No. API ID API 명 대분류 중분류 페이지번호
+번호 API ID API 명 대분류 중분류 페이지번호
 39 ka10036 외인한도소진율증가상위 국내주식 순위정보 111
 40 ka10037 외국계창구매매상위요청 국내주식 순위정보 113
 41 ka10038 종목별증권사순위요청 국내주식 순위정보 116
@@ -86,10 +86,10 @@ No. API ID API 명 대분류 중분류 페이지번호
 75 ka10079 주식틱차트조회요청 국내주식 차트 196
 2 / 526
 
-# Page 3
+# 페이지 3
 
 키움 REST API 목차
-No. API ID API 명 대분류 중분류 페이지번호
+번호 API ID API 명 대분류 중분류 페이지번호
 76 ka10080 주식분봉차트조회요청 국내주식 차트 198
 77 ka10081 주식일봉차트조회요청 국내주식 차트 200
 78 ka10082 주식주봉차트조회요청 국내주식 차트 202
@@ -129,10 +129,10 @@ No. API ID API 명 대분류 중분류 페이지번호
 112 ka30004 ELW괴리율요청 국내주식 ELW 283
 3 / 526
 
-# Page 4
+# 페이지 4
 
 키움 REST API 목차
-No. API ID API 명 대분류 중분류 페이지번호
+번호 API ID API 명 대분류 중분류 페이지번호
 113 ka30005 ELW조건검색요청 국내주식 ELW 286
 114 ka30009 ELW등락율순위요청 국내주식 ELW 289
 115 ka30010 ELW잔량순위요청 국내주식 ELW 291
@@ -172,10 +172,10 @@ No. API ID API 명 대분류 중분류 페이지번호
 149 ka90010 프로그램매매추이요청 일자별 국내주식 시세 368
 4 / 526
 
-# Page 5
+# 페이지 5
 
 키움 REST API 목차
-No. API ID API 명 대분류 중분류 페이지번호
+번호 API ID API 명 대분류 중분류 페이지번호
 150 ka90012 대차거래내역요청 국내주식 대차거래 371
 151 ka90013 종목일별프로그램매매추이요청 국내주식 시세 373
 152 kt00001 예수금상세현황요청 국내주식 계좌 376
@@ -215,10 +215,10 @@ No. API ID API 명 대분류 중분류 페이지번호
 186 kt50032 금현물 거래내역조회 국내주식 계좌 460
 5 / 526
 
-# Page 6
+# 페이지 6
 
 키움 REST API 목차
-No. API ID API 명 대분류 중분류 페이지번호
+번호 API ID API 명 대분류 중분류 페이지번호
 187 kt50075 금현물 미체결조회 국내주식 계좌 463
 188 00 주문체결 국내주식 실시간시세 466
 189 04 잔고 국내주식 실시간시세 470
@@ -242,7 +242,7 @@ No. API ID API 명 대분류 중분류 페이지번호
 207 공통 오류코드 526
 6 / 526
 
-# Page 7
+# 페이지 7
 
 키움 REST API
 API 정보
@@ -250,54 +250,54 @@ API 정보
 API 명 접근토큰 발급
 API ID au10001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /oauth2/token
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body grant_type grant_type String Y client_credentials 입력
-Body appkey 앱키 String Y
-Body secretkey 시크릿키 String Y
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body expires_dt 만료일 String Y
-Body token_type 토큰타입 String Y
-Body token 접근토큰 String Y
-Request Example
+본문 grant_type grant_type 문자열 Y client_credentials 입력
+본문 appkey 앱키 문자열 Y
+본문 secretkey 시크릿키 문자열 Y
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 expires_dt 만료일 문자열 Y
+본문 token_type 토큰타입 문자열 Y
+본문 token 접근토큰 문자열 Y
+요청 예시
 {
 "grant_type": "client_credentials",
 "appkey": "AxserEsdcredca.....",
 "secretkey": "SEefdcwcforehDre2fdvc...."
 }
-Response Example
+응답 예시
 {
 "expires_dt":"20241107083713",
 7 / 526
 
-# Page 8
+# 페이지 8
 
-Response Example
+응답 예시
 "token_type":"bearer",
 "token":"WQJCwyqInphKnR3bSRtB9NE1lv..."
 "return_code":0,
@@ -305,7 +305,7 @@ Response Example
 }
 8 / 526
 
-# Page 9
+# 페이지 9
 
 키움 REST API
 API 정보
@@ -313,51 +313,51 @@ API 정보
 API 명 접근토큰폐기
 API ID au10002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /oauth2/revoke
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body appkey 앱키 String Y
-Body secretkey 시크릿키 String Y
-Body token 접근토큰 String Y
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Request Example
+본문 appkey 앱키 문자열 Y
+본문 secretkey 시크릿키 문자열 Y
+본문 token 접근토큰 문자열 Y
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+요청 예시
 {
 "appkey": "AxserEsdcredca.....",
 "secretkey": "SEefdcwcforehDre2fdvc....",
 "token": "WQJCwyqInphKnR3bSRtB9NE1lv..."
 }
-Response Example
+응답 예시
 {
 "return_code": 0,
 "return_msg": "정상적으로 처리되었습니다"
 }
 9 / 526
 
-# Page 10
+# 페이지 10
 
 키움 REST API
 API 정보
@@ -365,63 +365,63 @@ API 정보
 API 명 실시간종목조회순위
 API ID ka00198
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body qry_tp 구분 String Y 1 1:1분, 2:10분, 3:1시간, 4:당일 누적, 5:30초
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body item_inq_rank 실시간종목조회순위 LIST N
-Body - stk_nm 종목명 String N 40
-Body - bigd_rank 빅데이터 순위 String N 20
-Body - rank_chg 순위 등락 String N 20
-Body - rank_chg_sign 순위 등락 부호 String N 20
-Body - past_curr_prc 과거 현재가 String N 20
-Body - base_comp_sign 기준가 대비 부호 String N 20
-Body - base_comp_chgr 기준가 대비 등락율 String N 20
-Body - prev_base_sign 직전 기준 대비 부호 String N 20
+본문 qry_tp 구분 문자열 Y 1 1:1분, 2:10분, 3:1시간, 4:당일 누적, 5:30초
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 item_inq_rank 실시간종목조회순위 목록 N
+본문 - stk_nm 종목명 문자열 N 40
+본문 - bigd_rank 빅데이터 순위 문자열 N 20
+본문 - rank_chg 순위 등락 문자열 N 20
+본문 - rank_chg_sign 순위 등락 부호 문자열 N 20
+본문 - past_curr_prc 과거 현재가 문자열 N 20
+본문 - base_comp_sign 기준가 대비 부호 문자열 N 20
+본문 - base_comp_chgr 기준가 대비 등락율 문자열 N 20
+본문 - prev_base_sign 직전 기준 대비 부호 문자열 N 20
 직전 기준 대비
-Body - prev_base_chgr String N 20
+본문 - prev_base_chgr 문자열 N 20
 등락율
-Body - dt 일자 String N 20
+본문 - dt 일자 문자열 N 20
 10 / 526
 
-# Page 11
+# 페이지 11
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - tm 시간 String N 20
-Body - stk_cd 종목코드 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - tm 시간 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+요청 예시
 {
 "qry_tp": "1"
 }
-Response Example
+응답 예시
 {
 "item_inq_rank": [
 {
@@ -458,7 +458,7 @@ Response Example
 }
 11 / 526
 
-# Page 12
+# 페이지 12
 
 키움 REST API
 API 정보
@@ -466,68 +466,68 @@ API 정보
 API 명 일별잔고수익률
 API ID ka01690
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 해당 API는 모의투자를 지원하지 않습니다
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body qry_dt 조회일자 String Y 8
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body dt 일자 String N 20
-Body tot_buy_amt 총 매입가 String N 20
-Body tot_evlt_amt 총 평가금액 String N 20
-Body tot_evltv_prft 총 평가손익 String N 20
-Body tot_prft_rt 수익률 String N 20
-Body dbst_bal 예수금 String N 20
-Body day_stk_asst 추정자산 String N 20
-Body buy_wght 현금비중 String N 20
-Body day_bal_rt 일별잔고수익률 LIST N
-Body - cur_prc 현재가 String N 20
-Body - stk_cd 종목코드 String N 20
+본문 qry_dt 조회일자 문자열 Y 8
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 dt 일자 문자열 N 20
+본문 tot_buy_amt 총 매입가 문자열 N 20
+본문 tot_evlt_amt 총 평가금액 문자열 N 20
+본문 tot_evltv_prft 총 평가손익 문자열 N 20
+본문 tot_prft_rt 수익률 문자열 N 20
+본문 dbst_bal 예수금 문자열 N 20
+본문 day_stk_asst 추정자산 문자열 N 20
+본문 buy_wght 현금비중 문자열 N 20
+본문 day_bal_rt 일별잔고수익률 목록 N
+본문 - cur_prc 현재가 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
 12 / 526
 
-# Page 13
+# 페이지 13
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - stk_nm 종목명 String N 20
-Body - rmnd_qty 보유 수량 String N 20
-Body - buy_uv 매입 단가 String N 20
-Body - buy_wght 매수비중 String N 20
-Body - evltv_prft 평가손익 String N 20
-Body - prft_rt 수익률 String N 20
-Body - evlt_amt 평가금액 String N 20
-Body - evlt_wght 평가비중 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - stk_nm 종목명 문자열 N 20
+본문 - rmnd_qty 보유 수량 문자열 N 20
+본문 - buy_uv 매입 단가 문자열 N 20
+본문 - buy_wght 매수비중 문자열 N 20
+본문 - evltv_prft 평가손익 문자열 N 20
+본문 - prft_rt 수익률 문자열 N 20
+본문 - evlt_amt 평가금액 문자열 N 20
+본문 - evlt_wght 평가비중 문자열 N 20
+요청 예시
 {
 "qry_dt": "20250825"
 }
-Response Example
+응답 예시
 {
 "dt": "20250306",
 "tot_buy_amt": "192328073",
@@ -568,7 +568,7 @@ Response Example
 }
 13 / 526
 
-# Page 14
+# 페이지 14
 
 키움 REST API
 API 정보
@@ -576,104 +576,104 @@ API 정보
 API 명 주식기본정보요청
 API ID ka10001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cd 종목코드 String N 20
-Body stk_nm 종목명 String N 40
-Body setl_mm 결산월 String N 20
-Body fav 액면가 String N 20
-Body cap 자본금 String N 20
-Body flo_stk 상장주식 String N 20
-Body crd_rt 신용비율 String N 20
-Body oyr_hgst 연중최고 String N 20
-Body oyr_lwst 연중최저 String N 20
-Body mac 시가총액 String N 20
-Body mac_wght 시가총액비중 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 20
+본문 stk_nm 종목명 문자열 N 40
+본문 setl_mm 결산월 문자열 N 20
+본문 fav 액면가 문자열 N 20
+본문 cap 자본금 문자열 N 20
+본문 flo_stk 상장주식 문자열 N 20
+본문 crd_rt 신용비율 문자열 N 20
+본문 oyr_hgst 연중최고 문자열 N 20
+본문 oyr_lwst 연중최저 문자열 N 20
+본문 mac 시가총액 문자열 N 20
+본문 mac_wght 시가총액비중 문자열 N 20
 14 / 526
 
-# Page 15
+# 페이지 15
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body for_exh_rt 외인소진률 String N 20
-Body repl_pric 대용가 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 for_exh_rt 외인소진률 문자열 N 20
+본문 repl_pric 대용가 문자열 N 20
 [ 주의 ] PER, ROE 값들은 외부벤더사에서 제공되는
-Body per PER String N 20 데이터이며 일주일에 한번 또는 실적발표 시즌에 업데이트
+본문 per PER 문자열 N 20 데이터이며 일주일에 한번 또는 실적발표 시즌에 업데이트
 됨
-Body eps EPS String N 20
+본문 eps EPS 문자열 N 20
 [ 주의 ] PER, ROE 값들은 외부벤더사에서 제공되는
-Body roe ROE String N 20 데이터이며 일주일에 한번 또는 실적발표 시즌에 업데이트
+본문 roe ROE 문자열 N 20 데이터이며 일주일에 한번 또는 실적발표 시즌에 업데이트
 됨
-Body pbr PBR String N 20
-Body ev EV String N 20
-Body bps BPS String N 20
-Body sale_amt 매출액 String N 20
-Body bus_pro 영업이익 String N 20
-Body cup_nga 당기순이익 String N 20
-Body 250hgst 250최고 String N 20
-Body 250lwst 250최저 String N 20
-Body open_pric 시가 String N 20
-Body high_pric 고가 String N 20
-Body low_pric 저가 String N 20
-Body upl_pric 상한가 String N 20
-Body lst_pric 하한가 String N 20
-Body base_pric 기준가 String N 20
-Body exp_cntr_pric 예상체결가 String N 20
-Body exp_cntr_qty 예상체결수량 String N 20
-Body 250hgst_pric_dt 250최고가일 String N 20
-Body 250hgst_pric_pre_rt 250최고가대비율 String N 20
-Body 250lwst_pric_dt 250최저가일 String N 20
-Body 250lwst_pric_pre_rt 250최저가대비율 String N 20
-Body cur_prc 현재가 String N 20
-Body pre_sig 대비기호 String N 20
-Body pred_pre 전일대비 String N 20
-Body flu_rt 등락율 String N 20
-Body trde_qty 거래량 String N 20
-Body trde_pre 거래대비 String N 20
-Body fav_unit 액면가단위 String N 20
-Body dstr_stk 유통주식 String N 20
-Body dstr_rt 유통비율 String N 20
-Request Example
+본문 pbr PBR 문자열 N 20
+본문 ev EV 문자열 N 20
+본문 bps BPS 문자열 N 20
+본문 sale_amt 매출액 문자열 N 20
+본문 bus_pro 영업이익 문자열 N 20
+본문 cup_nga 당기순이익 문자열 N 20
+본문 250hgst 250최고 문자열 N 20
+본문 250lwst 250최저 문자열 N 20
+본문 open_pric 시가 문자열 N 20
+본문 high_pric 고가 문자열 N 20
+본문 low_pric 저가 문자열 N 20
+본문 upl_pric 상한가 문자열 N 20
+본문 lst_pric 하한가 문자열 N 20
+본문 base_pric 기준가 문자열 N 20
+본문 exp_cntr_pric 예상체결가 문자열 N 20
+본문 exp_cntr_qty 예상체결수량 문자열 N 20
+본문 250hgst_pric_dt 250최고가일 문자열 N 20
+본문 250hgst_pric_pre_rt 250최고가대비율 문자열 N 20
+본문 250lwst_pric_dt 250최저가일 문자열 N 20
+본문 250lwst_pric_pre_rt 250최저가대비율 문자열 N 20
+본문 cur_prc 현재가 문자열 N 20
+본문 pre_sig 대비기호 문자열 N 20
+본문 pred_pre 전일대비 문자열 N 20
+본문 flu_rt 등락율 문자열 N 20
+본문 trde_qty 거래량 문자열 N 20
+본문 trde_pre 거래대비 문자열 N 20
+본문 fav_unit 액면가단위 문자열 N 20
+본문 dstr_stk 유통주식 문자열 N 20
+본문 dstr_rt 유통비율 문자열 N 20
+요청 예시
 15 / 526
 
-# Page 16
+# 페이지 16
 
-Request Example
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_nm": "삼성전자",
@@ -725,7 +725,7 @@ Response Example
 }
 16 / 526
 
-# Page 17
+# 페이지 17
 
 키움 REST API
 API 정보
@@ -733,87 +733,87 @@ API 정보
 API 명 주식거래원요청
 API ID ka10002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cd 종목코드 String N 20
-Body stk_nm 종목명 String N 40
-Body cur_prc 현재가 String N 20
-Body flu_smbol 등락부호 String N 20
-Body base_pric 기준가 String N 20
-Body pred_pre 전일대비 String N 20
-Body flu_rt 등락율 String N 20
-Body sel_trde_ori_nm_1 매도거래원명1 String N 20
-Body sel_trde_ori_1 매도거래원1 String N 20
-Body sel_trde_qty_1 매도거래량1 String N 20
-Body buy_trde_ori_nm_1 매수거래원명1 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 20
+본문 stk_nm 종목명 문자열 N 40
+본문 cur_prc 현재가 문자열 N 20
+본문 flu_smbol 등락부호 문자열 N 20
+본문 base_pric 기준가 문자열 N 20
+본문 pred_pre 전일대비 문자열 N 20
+본문 flu_rt 등락율 문자열 N 20
+본문 sel_trde_ori_nm_1 매도거래원명1 문자열 N 20
+본문 sel_trde_ori_1 매도거래원1 문자열 N 20
+본문 sel_trde_qty_1 매도거래량1 문자열 N 20
+본문 buy_trde_ori_nm_1 매수거래원명1 문자열 N 20
 17 / 526
 
-# Page 18
+# 페이지 18
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body buy_trde_ori_1 매수거래원1 String N 20
-Body buy_trde_qty_1 매수거래량1 String N 20
-Body sel_trde_ori_nm_2 매도거래원명2 String N 20
-Body sel_trde_ori_2 매도거래원2 String N 20
-Body sel_trde_qty_2 매도거래량2 String N 20
-Body buy_trde_ori_nm_2 매수거래원명2 String N 20
-Body buy_trde_ori_2 매수거래원2 String N 20
-Body buy_trde_qty_2 매수거래량2 String N 20
-Body sel_trde_ori_nm_3 매도거래원명3 String N 20
-Body sel_trde_ori_3 매도거래원3 String N 20
-Body sel_trde_qty_3 매도거래량3 String N 20
-Body buy_trde_ori_nm_3 매수거래원명3 String N 20
-Body buy_trde_ori_3 매수거래원3 String N 20
-Body buy_trde_qty_3 매수거래량3 String N 20
-Body sel_trde_ori_nm_4 매도거래원명4 String N 20
-Body sel_trde_ori_4 매도거래원4 String N 20
-Body sel_trde_qty_4 매도거래량4 String N 20
-Body buy_trde_ori_nm_4 매수거래원명4 String N 20
-Body buy_trde_ori_4 매수거래원4 String N 20
-Body buy_trde_qty_4 매수거래량4 String N 20
-Body sel_trde_ori_nm_5 매도거래원명5 String N 20
-Body sel_trde_ori_5 매도거래원5 String N 20
-Body sel_trde_qty_5 매도거래량5 String N 20
-Body buy_trde_ori_nm_5 매수거래원명5 String N 20
-Body buy_trde_ori_5 매수거래원5 String N 20
-Body buy_trde_qty_5 매수거래량5 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 buy_trde_ori_1 매수거래원1 문자열 N 20
+본문 buy_trde_qty_1 매수거래량1 문자열 N 20
+본문 sel_trde_ori_nm_2 매도거래원명2 문자열 N 20
+본문 sel_trde_ori_2 매도거래원2 문자열 N 20
+본문 sel_trde_qty_2 매도거래량2 문자열 N 20
+본문 buy_trde_ori_nm_2 매수거래원명2 문자열 N 20
+본문 buy_trde_ori_2 매수거래원2 문자열 N 20
+본문 buy_trde_qty_2 매수거래량2 문자열 N 20
+본문 sel_trde_ori_nm_3 매도거래원명3 문자열 N 20
+본문 sel_trde_ori_3 매도거래원3 문자열 N 20
+본문 sel_trde_qty_3 매도거래량3 문자열 N 20
+본문 buy_trde_ori_nm_3 매수거래원명3 문자열 N 20
+본문 buy_trde_ori_3 매수거래원3 문자열 N 20
+본문 buy_trde_qty_3 매수거래량3 문자열 N 20
+본문 sel_trde_ori_nm_4 매도거래원명4 문자열 N 20
+본문 sel_trde_ori_4 매도거래원4 문자열 N 20
+본문 sel_trde_qty_4 매도거래량4 문자열 N 20
+본문 buy_trde_ori_nm_4 매수거래원명4 문자열 N 20
+본문 buy_trde_ori_4 매수거래원4 문자열 N 20
+본문 buy_trde_qty_4 매수거래량4 문자열 N 20
+본문 sel_trde_ori_nm_5 매도거래원명5 문자열 N 20
+본문 sel_trde_ori_5 매도거래원5 문자열 N 20
+본문 sel_trde_qty_5 매도거래량5 문자열 N 20
+본문 buy_trde_ori_nm_5 매수거래원명5 문자열 N 20
+본문 buy_trde_ori_5 매수거래원5 문자열 N 20
+본문 buy_trde_qty_5 매수거래량5 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_nm": "삼성전자",
@@ -830,9 +830,9 @@ Response Example
 "buy_trde_qty_1": "0",
 18 / 526
 
-# Page 19
+# 페이지 19
 
-Response Example
+응답 예시
 "sel_trde_ori_nm_2": "",
 "sel_trde_ori_2": "000",
 "sel_trde_qty_2": "0",
@@ -862,7 +862,7 @@ Response Example
 }
 19 / 526
 
-# Page 20
+# 페이지 20
 
 키움 REST API
 API 정보
@@ -870,63 +870,63 @@ API 정보
 API 명 체결정보요청
 API ID ka10003
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body cntr_infr 체결정보 LIST N
-Body - tm 시간 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - pre_rt 대비율 String N 20
-Body - pri_sel_bid_unit 우선매도호가단위 String N 20
-Body - pri_buy_bid_unit 우선매수호가단위 String N 20
-Body - cntr_trde_qty 체결거래량 String N 20
-Body - sign sign String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - acc_trde_prica 누적거래대금 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 cntr_infr 체결정보 목록 N
+본문 - tm 시간 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - pre_rt 대비율 문자열 N 20
+본문 - pri_sel_bid_unit 우선매도호가단위 문자열 N 20
+본문 - pri_buy_bid_unit 우선매수호가단위 문자열 N 20
+본문 - cntr_trde_qty 체결거래량 문자열 N 20
+본문 - sign sign 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
 20 / 526
 
-# Page 21
+# 페이지 21
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cntr_str 체결강도 String N 20
-Body - stex_tp 거래소구분 String N 20 KRX , NXT , 통합
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cntr_str 체결강도 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20 KRX , NXT , 통합
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "cntr_infr": [
 {
@@ -993,9 +993,9 @@ Response Example
 "pri_sel_bid_unit": "+68900",
 21 / 526
 
-# Page 22
+# 페이지 22
 
-Response Example
+응답 예시
 "pri_buy_bid_unit": "+60100",
 "cntr_trde_qty": "2",
 "sign": "1",
@@ -1024,7 +1024,7 @@ Response Example
 }
 22 / 526
 
-# Page 23
+# 페이지 23
 
 키움 REST API
 API 정보
@@ -1032,129 +1032,129 @@ API 정보
 API 명 주식호가요청
 API ID ka10004
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body bid_req_base_tm 호가잔량기준시간 String N 20 호가시간
-Body sel_10th_pre_req_pre 매도10차선잔량대비 String N 20 매도호가직전대비10
-Body sel_10th_pre_req 매도10차선잔량 String N 20 매도호가수량10
-Body sel_10th_pre_bid 매도10차선호가 String N 20 매도호가10
-Body sel_9th_pre_req_pre 매도9차선잔량대비 String N 20 매도호가직전대비9
-Body sel_9th_pre_req 매도9차선잔량 String N 20 매도호가수량9
-Body sel_9th_pre_bid 매도9차선호가 String N 20 매도호가9
-Body sel_8th_pre_req_pre 매도8차선잔량대비 String N 20 매도호가직전대비8
-Body sel_8th_pre_req 매도8차선잔량 String N 20 매도호가수량8
-Body sel_8th_pre_bid 매도8차선호가 String N 20 매도호가8
-Body sel_7th_pre_req_pre 매도7차선잔량대비 String N 20 매도호가직전대비7
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 bid_req_base_tm 호가잔량기준시간 문자열 N 20 호가시간
+본문 sel_10th_pre_req_pre 매도10차선잔량대비 문자열 N 20 매도호가직전대비10
+본문 sel_10th_pre_req 매도10차선잔량 문자열 N 20 매도호가수량10
+본문 sel_10th_pre_bid 매도10차선호가 문자열 N 20 매도호가10
+본문 sel_9th_pre_req_pre 매도9차선잔량대비 문자열 N 20 매도호가직전대비9
+본문 sel_9th_pre_req 매도9차선잔량 문자열 N 20 매도호가수량9
+본문 sel_9th_pre_bid 매도9차선호가 문자열 N 20 매도호가9
+본문 sel_8th_pre_req_pre 매도8차선잔량대비 문자열 N 20 매도호가직전대비8
+본문 sel_8th_pre_req 매도8차선잔량 문자열 N 20 매도호가수량8
+본문 sel_8th_pre_bid 매도8차선호가 문자열 N 20 매도호가8
+본문 sel_7th_pre_req_pre 매도7차선잔량대비 문자열 N 20 매도호가직전대비7
 23 / 526
 
-# Page 24
+# 페이지 24
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body sel_7th_pre_req 매도7차선잔량 String N 20 매도호가수량7
-Body sel_7th_pre_bid 매도7차선호가 String N 20 매도호가7
-Body sel_6th_pre_req_pre 매도6차선잔량대비 String N 20 매도호가직전대비6
-Body sel_6th_pre_req 매도6차선잔량 String N 20 매도호가수량6
-Body sel_6th_pre_bid 매도6차선호가 String N 20 매도호가6
-Body sel_5th_pre_req_pre 매도5차선잔량대비 String N 20 매도호가직전대비5
-Body sel_5th_pre_req 매도5차선잔량 String N 20 매도호가수량5
-Body sel_5th_pre_bid 매도5차선호가 String N 20 매도호가5
-Body sel_4th_pre_req_pre 매도4차선잔량대비 String N 20 매도호가직전대비4
-Body sel_4th_pre_req 매도4차선잔량 String N 20 매도호가수량4
-Body sel_4th_pre_bid 매도4차선호가 String N 20 매도호가4
-Body sel_3th_pre_req_pre 매도3차선잔량대비 String N 20 매도호가직전대비3
-Body sel_3th_pre_req 매도3차선잔량 String N 20 매도호가수량3
-Body sel_3th_pre_bid 매도3차선호가 String N 20 매도호가3
-Body sel_2th_pre_req_pre 매도2차선잔량대비 String N 20 매도호가직전대비2
-Body sel_2th_pre_req 매도2차선잔량 String N 20 매도호가수량2
-Body sel_2th_pre_bid 매도2차선호가 String N 20 매도호가2
-Body sel_1th_pre_req_pre 매도1차선잔량대비 String N 20 매도호가직전대비1
-Body sel_fpr_req 매도최우선잔량 String N 20 매도호가수량1
-Body sel_fpr_bid 매도최우선호가 String N 20 매도호가1
-Body buy_fpr_bid 매수최우선호가 String N 20 매수호가1
-Body buy_fpr_req 매수최우선잔량 String N 20 매수호가수량1
-Body buy_1th_pre_req_pre 매수1차선잔량대비 String N 20 매수호가직전대비1
-Body buy_2th_pre_bid 매수2차선호가 String N 20 매수호가2
-Body buy_2th_pre_req 매수2차선잔량 String N 20 매수호가수량2
-Body buy_2th_pre_req_pre 매수2차선잔량대비 String N 20 매수호가직전대비2
-Body buy_3th_pre_bid 매수3차선호가 String N 20 매수호가3
-Body buy_3th_pre_req 매수3차선잔량 String N 20 매수호가수량3
-Body buy_3th_pre_req_pre 매수3차선잔량대비 String N 20 매수호가직전대비3
-Body buy_4th_pre_bid 매수4차선호가 String N 20 매수호가4
-Body buy_4th_pre_req 매수4차선잔량 String N 20 매수호가수량4
-Body buy_4th_pre_req_pre 매수4차선잔량대비 String N 20 매수호가직전대비4
-Body buy_5th_pre_bid 매수5차선호가 String N 20 매수호가5
-Body buy_5th_pre_req 매수5차선잔량 String N 20 매수호가수량5
-Body buy_5th_pre_req_pre 매수5차선잔량대비 String N 20 매수호가직전대비5
-Body buy_6th_pre_bid 매수6차선호가 String N 20 매수호가6
-Body buy_6th_pre_req 매수6차선잔량 String N 20 매수호가수량6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 sel_7th_pre_req 매도7차선잔량 문자열 N 20 매도호가수량7
+본문 sel_7th_pre_bid 매도7차선호가 문자열 N 20 매도호가7
+본문 sel_6th_pre_req_pre 매도6차선잔량대비 문자열 N 20 매도호가직전대비6
+본문 sel_6th_pre_req 매도6차선잔량 문자열 N 20 매도호가수량6
+본문 sel_6th_pre_bid 매도6차선호가 문자열 N 20 매도호가6
+본문 sel_5th_pre_req_pre 매도5차선잔량대비 문자열 N 20 매도호가직전대비5
+본문 sel_5th_pre_req 매도5차선잔량 문자열 N 20 매도호가수량5
+본문 sel_5th_pre_bid 매도5차선호가 문자열 N 20 매도호가5
+본문 sel_4th_pre_req_pre 매도4차선잔량대비 문자열 N 20 매도호가직전대비4
+본문 sel_4th_pre_req 매도4차선잔량 문자열 N 20 매도호가수량4
+본문 sel_4th_pre_bid 매도4차선호가 문자열 N 20 매도호가4
+본문 sel_3th_pre_req_pre 매도3차선잔량대비 문자열 N 20 매도호가직전대비3
+본문 sel_3th_pre_req 매도3차선잔량 문자열 N 20 매도호가수량3
+본문 sel_3th_pre_bid 매도3차선호가 문자열 N 20 매도호가3
+본문 sel_2th_pre_req_pre 매도2차선잔량대비 문자열 N 20 매도호가직전대비2
+본문 sel_2th_pre_req 매도2차선잔량 문자열 N 20 매도호가수량2
+본문 sel_2th_pre_bid 매도2차선호가 문자열 N 20 매도호가2
+본문 sel_1th_pre_req_pre 매도1차선잔량대비 문자열 N 20 매도호가직전대비1
+본문 sel_fpr_req 매도최우선잔량 문자열 N 20 매도호가수량1
+본문 sel_fpr_bid 매도최우선호가 문자열 N 20 매도호가1
+본문 buy_fpr_bid 매수최우선호가 문자열 N 20 매수호가1
+본문 buy_fpr_req 매수최우선잔량 문자열 N 20 매수호가수량1
+본문 buy_1th_pre_req_pre 매수1차선잔량대비 문자열 N 20 매수호가직전대비1
+본문 buy_2th_pre_bid 매수2차선호가 문자열 N 20 매수호가2
+본문 buy_2th_pre_req 매수2차선잔량 문자열 N 20 매수호가수량2
+본문 buy_2th_pre_req_pre 매수2차선잔량대비 문자열 N 20 매수호가직전대비2
+본문 buy_3th_pre_bid 매수3차선호가 문자열 N 20 매수호가3
+본문 buy_3th_pre_req 매수3차선잔량 문자열 N 20 매수호가수량3
+본문 buy_3th_pre_req_pre 매수3차선잔량대비 문자열 N 20 매수호가직전대비3
+본문 buy_4th_pre_bid 매수4차선호가 문자열 N 20 매수호가4
+본문 buy_4th_pre_req 매수4차선잔량 문자열 N 20 매수호가수량4
+본문 buy_4th_pre_req_pre 매수4차선잔량대비 문자열 N 20 매수호가직전대비4
+본문 buy_5th_pre_bid 매수5차선호가 문자열 N 20 매수호가5
+본문 buy_5th_pre_req 매수5차선잔량 문자열 N 20 매수호가수량5
+본문 buy_5th_pre_req_pre 매수5차선잔량대비 문자열 N 20 매수호가직전대비5
+본문 buy_6th_pre_bid 매수6차선호가 문자열 N 20 매수호가6
+본문 buy_6th_pre_req 매수6차선잔량 문자열 N 20 매수호가수량6
 24 / 526
 
-# Page 25
+# 페이지 25
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body buy_6th_pre_req_pre 매수6차선잔량대비 String N 20 매수호가직전대비6
-Body buy_7th_pre_bid 매수7차선호가 String N 20 매수호가7
-Body buy_7th_pre_req 매수7차선잔량 String N 20 매수호가수량7
-Body buy_7th_pre_req_pre 매수7차선잔량대비 String N 20 매수호가직전대비7
-Body buy_8th_pre_bid 매수8차선호가 String N 20 매수호가8
-Body buy_8th_pre_req 매수8차선잔량 String N 20 매수호가수량8
-Body buy_8th_pre_req_pre 매수8차선잔량대비 String N 20 매수호가직전대비8
-Body buy_9th_pre_bid 매수9차선호가 String N 20 매수호가9
-Body buy_9th_pre_req 매수9차선잔량 String N 20 매수호가수량9
-Body buy_9th_pre_req_pre 매수9차선잔량대비 String N 20 매수호가직전대비9
-Body buy_10th_pre_bid 매수10차선호가 String N 20 매수호가10
-Body buy_10th_pre_req 매수10차선잔량 String N 20 매수호가수량10
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 buy_6th_pre_req_pre 매수6차선잔량대비 문자열 N 20 매수호가직전대비6
+본문 buy_7th_pre_bid 매수7차선호가 문자열 N 20 매수호가7
+본문 buy_7th_pre_req 매수7차선잔량 문자열 N 20 매수호가수량7
+본문 buy_7th_pre_req_pre 매수7차선잔량대비 문자열 N 20 매수호가직전대비7
+본문 buy_8th_pre_bid 매수8차선호가 문자열 N 20 매수호가8
+본문 buy_8th_pre_req 매수8차선잔량 문자열 N 20 매수호가수량8
+본문 buy_8th_pre_req_pre 매수8차선잔량대비 문자열 N 20 매수호가직전대비8
+본문 buy_9th_pre_bid 매수9차선호가 문자열 N 20 매수호가9
+본문 buy_9th_pre_req 매수9차선잔량 문자열 N 20 매수호가수량9
+본문 buy_9th_pre_req_pre 매수9차선잔량대비 문자열 N 20 매수호가직전대비9
+본문 buy_10th_pre_bid 매수10차선호가 문자열 N 20 매수호가10
+본문 buy_10th_pre_req 매수10차선잔량 문자열 N 20 매수호가수량10
 buy_10th_pre_req_pr
-Body 매수10차선잔량대비 String N 20 매수호가직전대비10
+본문 매수10차선잔량대비 문자열 N 20 매수호가직전대비10
 e
-Body tot_sel_req_jub_pre 총매도잔량직전대비 String N 20 매도호가총잔량직전대비
-Body tot_sel_req 총매도잔량 String N 20 매도호가총잔량
-Body tot_buy_req 총매수잔량 String N 20 매수호가총잔량
-Body tot_buy_req_jub_pre 총매수잔량직전대비 String N 20 매수호가총잔량직전대비
-Body ovt_sel_req_pre 시간외매도잔량대비 String N 20 시간외 매도호가 총잔량 직전대비
-Body ovt_sel_req 시간외매도잔량 String N 20 시간외 매도호가 총잔량
-Body ovt_buy_req 시간외매수잔량 String N 20 시간외 매수호가 총잔량
-Body ovt_buy_req_pre 시간외매수잔량대비 String N 20 시간외 매수호가 총잔량 직전대비
-Request Example
+본문 tot_sel_req_jub_pre 총매도잔량직전대비 문자열 N 20 매도호가총잔량직전대비
+본문 tot_sel_req 총매도잔량 문자열 N 20 매도호가총잔량
+본문 tot_buy_req 총매수잔량 문자열 N 20 매수호가총잔량
+본문 tot_buy_req_jub_pre 총매수잔량직전대비 문자열 N 20 매수호가총잔량직전대비
+본문 ovt_sel_req_pre 시간외매도잔량대비 문자열 N 20 시간외 매도호가 총잔량 직전대비
+본문 ovt_sel_req 시간외매도잔량 문자열 N 20 시간외 매도호가 총잔량
+본문 ovt_buy_req 시간외매수잔량 문자열 N 20 시간외 매수호가 총잔량
+본문 ovt_buy_req_pre 시간외매수잔량대비 문자열 N 20 시간외 매수호가 총잔량 직전대비
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "bid_req_base_tm": "162000",
 "sel_10th_pre_req_pre": "0",
@@ -1180,9 +1180,9 @@ Response Example
 "sel_4th_pre_bid": "0",
 25 / 526
 
-# Page 26
+# 페이지 26
 
-Response Example
+응답 예시
 "sel_3th_pre_req_pre": "0",
 "sel_3th_pre_req": "0",
 "sel_3th_pre_bid": "0",
@@ -1235,7 +1235,7 @@ Response Example
 }
 26 / 526
 
-# Page 27
+# 페이지 27
 
 키움 REST API
 API 정보
@@ -1243,68 +1243,68 @@ API 정보
 API 명 주식일주월시분요청
 API ID ka10005
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_ddwkmm 주식일주월시분 LIST N
-Body - date 날짜 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - close_pric 종가 String N 20
-Body - pre 대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - for_poss 외인보유 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_ddwkmm 주식일주월시분 목록 N
+본문 - date 날짜 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
+본문 - pre 대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - for_poss 외인보유 문자열 N 20
 27 / 526
 
-# Page 28
+# 페이지 28
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - for_wght 외인비중 String N 20
-Body - for_netprps 외인순매수 String N 20
-Body - orgn_netprps 기관순매수 String N 20
-Body - ind_netprps 개인순매수 String N 20
-Body - frgn 외국계 String N 20
-Body - crd_remn_rt 신용잔고율 String N 20
-Body - prm 프로그램 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - for_wght 외인비중 문자열 N 20
+본문 - for_netprps 외인순매수 문자열 N 20
+본문 - orgn_netprps 기관순매수 문자열 N 20
+본문 - ind_netprps 개인순매수 문자열 N 20
+본문 - frgn 외국계 문자열 N 20
+본문 - crd_remn_rt 신용잔고율 문자열 N 20
+본문 - prm 프로그램 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "stk_ddwkmm": [
 {
@@ -1360,9 +1360,9 @@ Response Example
 "cntr_str": "",
 28 / 526
 
-# Page 29
+# 페이지 29
 
-Response Example
+응답 예시
 "for_poss": "",
 "for_wght": "",
 "for_netprps": "",
@@ -1378,7 +1378,7 @@ Response Example
 }
 29 / 526
 
-# Page 30
+# 페이지 30
 
 키움 REST API
 API 정보
@@ -1386,57 +1386,57 @@ API 정보
 API 명 주식시분요청
 API ID ka10006
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body date 날짜 String N 20
-Body open_pric 시가 String N 20
-Body high_pric 고가 String N 20
-Body low_pric 저가 String N 20
-Body close_pric 종가 String N 20
-Body pre 대비 String N 20
-Body flu_rt 등락률 String N 20
-Body trde_qty 거래량 String N 20
-Body trde_prica 거래대금 String N 20
-Body cntr_str 체결강도 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 date 날짜 문자열 N 20
+본문 open_pric 시가 문자열 N 20
+본문 high_pric 고가 문자열 N 20
+본문 low_pric 저가 문자열 N 20
+본문 close_pric 종가 문자열 N 20
+본문 pre 대비 문자열 N 20
+본문 flu_rt 등락률 문자열 N 20
+본문 trde_qty 거래량 문자열 N 20
+본문 trde_prica 거래대금 문자열 N 20
+본문 cntr_str 체결강도 문자열 N 20
+요청 예시
 30 / 526
 
-# Page 31
+# 페이지 31
 
-Request Example
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "date": "20241105",
 "open_pric": "0",
@@ -1453,7 +1453,7 @@ Response Example
 }
 31 / 526
 
-# Page 32
+# 페이지 32
 
 키움 REST API
 API 정보
@@ -1461,198 +1461,198 @@ API 정보
 API 명 시세표성정보요청
 API ID ka10007
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_nm 종목명 String N 40
-Body stk_cd 종목코드 String N 6
-Body date 날짜 String N 20
-Body tm 시간 String N 20
-Body pred_close_pric 전일종가 String N 20
-Body pred_trde_qty 전일거래량 String N 20
-Body upl_pric 상한가 String N 20
-Body lst_pric 하한가 String N 20
-Body pred_trde_prica 전일거래대금 String N 20
-Body flo_stkcnt 상장주식수 String N 20
-Body cur_prc 현재가 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_nm 종목명 문자열 N 40
+본문 stk_cd 종목코드 문자열 N 6
+본문 date 날짜 문자열 N 20
+본문 tm 시간 문자열 N 20
+본문 pred_close_pric 전일종가 문자열 N 20
+본문 pred_trde_qty 전일거래량 문자열 N 20
+본문 upl_pric 상한가 문자열 N 20
+본문 lst_pric 하한가 문자열 N 20
+본문 pred_trde_prica 전일거래대금 문자열 N 20
+본문 flo_stkcnt 상장주식수 문자열 N 20
+본문 cur_prc 현재가 문자열 N 20
 32 / 526
 
-# Page 33
+# 페이지 33
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body smbol 부호 String N 20
-Body flu_rt 등락률 String N 20
-Body pred_rt 전일비 String N 20
-Body open_pric 시가 String N 20
-Body high_pric 고가 String N 20
-Body low_pric 저가 String N 20
-Body cntr_qty 체결량 String N 20
-Body trde_qty 거래량 String N 20
-Body trde_prica 거래대금 String N 20
-Body exp_cntr_pric 예상체결가 String N 20
-Body exp_cntr_qty 예상체결량 String N 20
-Body exp_sel_pri_bid 예상매도우선호가 String N 20
-Body exp_buy_pri_bid 예상매수우선호가 String N 20
-Body trde_strt_dt 거래시작일 String N 20
-Body exec_pric 행사가격 String N 20
-Body hgst_pric 최고가 String N 20
-Body lwst_pric 최저가 String N 20
-Body hgst_pric_dt 최고가일 String N 20
-Body lwst_pric_dt 최저가일 String N 20
-Body sel_1bid 매도1호가 String N 20
-Body sel_2bid 매도2호가 String N 20
-Body sel_3bid 매도3호가 String N 20
-Body sel_4bid 매도4호가 String N 20
-Body sel_5bid 매도5호가 String N 20
-Body sel_6bid 매도6호가 String N 20
-Body sel_7bid 매도7호가 String N 20
-Body sel_8bid 매도8호가 String N 20
-Body sel_9bid 매도9호가 String N 20
-Body sel_10bid 매도10호가 String N 20
-Body buy_1bid 매수1호가 String N 20
-Body buy_2bid 매수2호가 String N 20
-Body buy_3bid 매수3호가 String N 20
-Body buy_4bid 매수4호가 String N 20
-Body buy_5bid 매수5호가 String N 20
-Body buy_6bid 매수6호가 String N 20
-Body buy_7bid 매수7호가 String N 20
-Body buy_8bid 매수8호가 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 smbol 부호 문자열 N 20
+본문 flu_rt 등락률 문자열 N 20
+본문 pred_rt 전일비 문자열 N 20
+본문 open_pric 시가 문자열 N 20
+본문 high_pric 고가 문자열 N 20
+본문 low_pric 저가 문자열 N 20
+본문 cntr_qty 체결량 문자열 N 20
+본문 trde_qty 거래량 문자열 N 20
+본문 trde_prica 거래대금 문자열 N 20
+본문 exp_cntr_pric 예상체결가 문자열 N 20
+본문 exp_cntr_qty 예상체결량 문자열 N 20
+본문 exp_sel_pri_bid 예상매도우선호가 문자열 N 20
+본문 exp_buy_pri_bid 예상매수우선호가 문자열 N 20
+본문 trde_strt_dt 거래시작일 문자열 N 20
+본문 exec_pric 행사가격 문자열 N 20
+본문 hgst_pric 최고가 문자열 N 20
+본문 lwst_pric 최저가 문자열 N 20
+본문 hgst_pric_dt 최고가일 문자열 N 20
+본문 lwst_pric_dt 최저가일 문자열 N 20
+본문 sel_1bid 매도1호가 문자열 N 20
+본문 sel_2bid 매도2호가 문자열 N 20
+본문 sel_3bid 매도3호가 문자열 N 20
+본문 sel_4bid 매도4호가 문자열 N 20
+본문 sel_5bid 매도5호가 문자열 N 20
+본문 sel_6bid 매도6호가 문자열 N 20
+본문 sel_7bid 매도7호가 문자열 N 20
+본문 sel_8bid 매도8호가 문자열 N 20
+본문 sel_9bid 매도9호가 문자열 N 20
+본문 sel_10bid 매도10호가 문자열 N 20
+본문 buy_1bid 매수1호가 문자열 N 20
+본문 buy_2bid 매수2호가 문자열 N 20
+본문 buy_3bid 매수3호가 문자열 N 20
+본문 buy_4bid 매수4호가 문자열 N 20
+본문 buy_5bid 매수5호가 문자열 N 20
+본문 buy_6bid 매수6호가 문자열 N 20
+본문 buy_7bid 매수7호가 문자열 N 20
+본문 buy_8bid 매수8호가 문자열 N 20
 33 / 526
 
-# Page 34
+# 페이지 34
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body buy_9bid 매수9호가 String N 20
-Body buy_10bid 매수10호가 String N 20
-Body sel_1bid_req 매도1호가잔량 String N 20
-Body sel_2bid_req 매도2호가잔량 String N 20
-Body sel_3bid_req 매도3호가잔량 String N 20
-Body sel_4bid_req 매도4호가잔량 String N 20
-Body sel_5bid_req 매도5호가잔량 String N 20
-Body sel_6bid_req 매도6호가잔량 String N 20
-Body sel_7bid_req 매도7호가잔량 String N 20
-Body sel_8bid_req 매도8호가잔량 String N 20
-Body sel_9bid_req 매도9호가잔량 String N 20
-Body sel_10bid_req 매도10호가잔량 String N 20
-Body buy_1bid_req 매수1호가잔량 String N 20
-Body buy_2bid_req 매수2호가잔량 String N 20
-Body buy_3bid_req 매수3호가잔량 String N 20
-Body buy_4bid_req 매수4호가잔량 String N 20
-Body buy_5bid_req 매수5호가잔량 String N 20
-Body buy_6bid_req 매수6호가잔량 String N 20
-Body buy_7bid_req 매수7호가잔량 String N 20
-Body buy_8bid_req 매수8호가잔량 String N 20
-Body buy_9bid_req 매수9호가잔량 String N 20
-Body buy_10bid_req 매수10호가잔량 String N 20
-Body sel_1bid_jub_pre 매도1호가직전대비 String N 20
-Body sel_2bid_jub_pre 매도2호가직전대비 String N 20
-Body sel_3bid_jub_pre 매도3호가직전대비 String N 20
-Body sel_4bid_jub_pre 매도4호가직전대비 String N 20
-Body sel_5bid_jub_pre 매도5호가직전대비 String N 20
-Body sel_6bid_jub_pre 매도6호가직전대비 String N 20
-Body sel_7bid_jub_pre 매도7호가직전대비 String N 20
-Body sel_8bid_jub_pre 매도8호가직전대비 String N 20
-Body sel_9bid_jub_pre 매도9호가직전대비 String N 20
-Body sel_10bid_jub_pre 매도10호가직전대비 String N 20
-Body buy_1bid_jub_pre 매수1호가직전대비 String N 20
-Body buy_2bid_jub_pre 매수2호가직전대비 String N 20
-Body buy_3bid_jub_pre 매수3호가직전대비 String N 20
-Body buy_4bid_jub_pre 매수4호가직전대비 String N 20
-Body buy_5bid_jub_pre 매수5호가직전대비 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 buy_9bid 매수9호가 문자열 N 20
+본문 buy_10bid 매수10호가 문자열 N 20
+본문 sel_1bid_req 매도1호가잔량 문자열 N 20
+본문 sel_2bid_req 매도2호가잔량 문자열 N 20
+본문 sel_3bid_req 매도3호가잔량 문자열 N 20
+본문 sel_4bid_req 매도4호가잔량 문자열 N 20
+본문 sel_5bid_req 매도5호가잔량 문자열 N 20
+본문 sel_6bid_req 매도6호가잔량 문자열 N 20
+본문 sel_7bid_req 매도7호가잔량 문자열 N 20
+본문 sel_8bid_req 매도8호가잔량 문자열 N 20
+본문 sel_9bid_req 매도9호가잔량 문자열 N 20
+본문 sel_10bid_req 매도10호가잔량 문자열 N 20
+본문 buy_1bid_req 매수1호가잔량 문자열 N 20
+본문 buy_2bid_req 매수2호가잔량 문자열 N 20
+본문 buy_3bid_req 매수3호가잔량 문자열 N 20
+본문 buy_4bid_req 매수4호가잔량 문자열 N 20
+본문 buy_5bid_req 매수5호가잔량 문자열 N 20
+본문 buy_6bid_req 매수6호가잔량 문자열 N 20
+본문 buy_7bid_req 매수7호가잔량 문자열 N 20
+본문 buy_8bid_req 매수8호가잔량 문자열 N 20
+본문 buy_9bid_req 매수9호가잔량 문자열 N 20
+본문 buy_10bid_req 매수10호가잔량 문자열 N 20
+본문 sel_1bid_jub_pre 매도1호가직전대비 문자열 N 20
+본문 sel_2bid_jub_pre 매도2호가직전대비 문자열 N 20
+본문 sel_3bid_jub_pre 매도3호가직전대비 문자열 N 20
+본문 sel_4bid_jub_pre 매도4호가직전대비 문자열 N 20
+본문 sel_5bid_jub_pre 매도5호가직전대비 문자열 N 20
+본문 sel_6bid_jub_pre 매도6호가직전대비 문자열 N 20
+본문 sel_7bid_jub_pre 매도7호가직전대비 문자열 N 20
+본문 sel_8bid_jub_pre 매도8호가직전대비 문자열 N 20
+본문 sel_9bid_jub_pre 매도9호가직전대비 문자열 N 20
+본문 sel_10bid_jub_pre 매도10호가직전대비 문자열 N 20
+본문 buy_1bid_jub_pre 매수1호가직전대비 문자열 N 20
+본문 buy_2bid_jub_pre 매수2호가직전대비 문자열 N 20
+본문 buy_3bid_jub_pre 매수3호가직전대비 문자열 N 20
+본문 buy_4bid_jub_pre 매수4호가직전대비 문자열 N 20
+본문 buy_5bid_jub_pre 매수5호가직전대비 문자열 N 20
 34 / 526
 
-# Page 35
+# 페이지 35
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body buy_6bid_jub_pre 매수6호가직전대비 String N 20
-Body buy_7bid_jub_pre 매수7호가직전대비 String N 20
-Body buy_8bid_jub_pre 매수8호가직전대비 String N 20
-Body buy_9bid_jub_pre 매수9호가직전대비 String N 20
-Body buy_10bid_jub_pre 매수10호가직전대비 String N 20
-Body sel_1bid_cnt 매도1호가건수 String N 20
-Body sel_2bid_cnt 매도2호가건수 String N 20
-Body sel_3bid_cnt 매도3호가건수 String N 20
-Body sel_4bid_cnt 매도4호가건수 String N 20
-Body sel_5bid_cnt 매도5호가건수 String N 20
-Body buy_1bid_cnt 매수1호가건수 String N 20
-Body buy_2bid_cnt 매수2호가건수 String N 20
-Body buy_3bid_cnt 매수3호가건수 String N 20
-Body buy_4bid_cnt 매수4호가건수 String N 20
-Body buy_5bid_cnt 매수5호가건수 String N 20
-Body lpsel_1bid_req LP매도1호가잔량 String N 20
-Body lpsel_2bid_req LP매도2호가잔량 String N 20
-Body lpsel_3bid_req LP매도3호가잔량 String N 20
-Body lpsel_4bid_req LP매도4호가잔량 String N 20
-Body lpsel_5bid_req LP매도5호가잔량 String N 20
-Body lpsel_6bid_req LP매도6호가잔량 String N 20
-Body lpsel_7bid_req LP매도7호가잔량 String N 20
-Body lpsel_8bid_req LP매도8호가잔량 String N 20
-Body lpsel_9bid_req LP매도9호가잔량 String N 20
-Body lpsel_10bid_req LP매도10호가잔량 String N 20
-Body lpbuy_1bid_req LP매수1호가잔량 String N 20
-Body lpbuy_2bid_req LP매수2호가잔량 String N 20
-Body lpbuy_3bid_req LP매수3호가잔량 String N 20
-Body lpbuy_4bid_req LP매수4호가잔량 String N 20
-Body lpbuy_5bid_req LP매수5호가잔량 String N 20
-Body lpbuy_6bid_req LP매수6호가잔량 String N 20
-Body lpbuy_7bid_req LP매수7호가잔량 String N 20
-Body lpbuy_8bid_req LP매수8호가잔량 String N 20
-Body lpbuy_9bid_req LP매수9호가잔량 String N 20
-Body lpbuy_10bid_req LP매수10호가잔량 String N 20
-Body tot_buy_req 총매수잔량 String N 20
-Body tot_sel_req 총매도잔량 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 buy_6bid_jub_pre 매수6호가직전대비 문자열 N 20
+본문 buy_7bid_jub_pre 매수7호가직전대비 문자열 N 20
+본문 buy_8bid_jub_pre 매수8호가직전대비 문자열 N 20
+본문 buy_9bid_jub_pre 매수9호가직전대비 문자열 N 20
+본문 buy_10bid_jub_pre 매수10호가직전대비 문자열 N 20
+본문 sel_1bid_cnt 매도1호가건수 문자열 N 20
+본문 sel_2bid_cnt 매도2호가건수 문자열 N 20
+본문 sel_3bid_cnt 매도3호가건수 문자열 N 20
+본문 sel_4bid_cnt 매도4호가건수 문자열 N 20
+본문 sel_5bid_cnt 매도5호가건수 문자열 N 20
+본문 buy_1bid_cnt 매수1호가건수 문자열 N 20
+본문 buy_2bid_cnt 매수2호가건수 문자열 N 20
+본문 buy_3bid_cnt 매수3호가건수 문자열 N 20
+본문 buy_4bid_cnt 매수4호가건수 문자열 N 20
+본문 buy_5bid_cnt 매수5호가건수 문자열 N 20
+본문 lpsel_1bid_req LP매도1호가잔량 문자열 N 20
+본문 lpsel_2bid_req LP매도2호가잔량 문자열 N 20
+본문 lpsel_3bid_req LP매도3호가잔량 문자열 N 20
+본문 lpsel_4bid_req LP매도4호가잔량 문자열 N 20
+본문 lpsel_5bid_req LP매도5호가잔량 문자열 N 20
+본문 lpsel_6bid_req LP매도6호가잔량 문자열 N 20
+본문 lpsel_7bid_req LP매도7호가잔량 문자열 N 20
+본문 lpsel_8bid_req LP매도8호가잔량 문자열 N 20
+본문 lpsel_9bid_req LP매도9호가잔량 문자열 N 20
+본문 lpsel_10bid_req LP매도10호가잔량 문자열 N 20
+본문 lpbuy_1bid_req LP매수1호가잔량 문자열 N 20
+본문 lpbuy_2bid_req LP매수2호가잔량 문자열 N 20
+본문 lpbuy_3bid_req LP매수3호가잔량 문자열 N 20
+본문 lpbuy_4bid_req LP매수4호가잔량 문자열 N 20
+본문 lpbuy_5bid_req LP매수5호가잔량 문자열 N 20
+본문 lpbuy_6bid_req LP매수6호가잔량 문자열 N 20
+본문 lpbuy_7bid_req LP매수7호가잔량 문자열 N 20
+본문 lpbuy_8bid_req LP매수8호가잔량 문자열 N 20
+본문 lpbuy_9bid_req LP매수9호가잔량 문자열 N 20
+본문 lpbuy_10bid_req LP매수10호가잔량 문자열 N 20
+본문 tot_buy_req 총매수잔량 문자열 N 20
+본문 tot_sel_req 총매도잔량 문자열 N 20
 35 / 526
 
-# Page 36
+# 페이지 36
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body tot_buy_cnt 총매수건수 String N 20
-Body tot_sel_cnt 총매도건수 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 tot_buy_cnt 총매수건수 문자열 N 20
+본문 tot_sel_cnt 총매도건수 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "stk_nm": "삼성전자",
 "stk_cd": "005930",
@@ -1719,9 +1719,9 @@ Response Example
 "buy_3bid_req": "0",
 36 / 526
 
-# Page 37
+# 페이지 37
 
-Response Example
+응답 예시
 "buy_4bid_req": "0",
 "buy_5bid_req": "0",
 "buy_6bid_req": "0",
@@ -1788,7 +1788,7 @@ Response Example
 }
 37 / 526
 
-# Page 38
+# 페이지 38
 
 키움 REST API
 API 정보
@@ -1796,62 +1796,62 @@ API 정보
 API 명 주식외국인종목별매매동향
 API ID ka10008
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/frgnistt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_frgnr 주식외국인 LIST N
-Body - dt 일자 String N 20
-Body - close_pric 종가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - trde_qty 거래량 String N 20
-Body - chg_qty 변동수량 String N 20
-Body - poss_stkcnt 보유주식수 String N 20
-Body - wght 비중 String N 20
-Body - gain_pos_stkcnt 취득가능주식수 String N 20
-Body - frgnr_limit 외국인한도 String N 20
-Body - frgnr_limit_irds 외국인한도증감 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_frgnr 주식외국인 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - chg_qty 변동수량 문자열 N 20
+본문 - poss_stkcnt 보유주식수 문자열 N 20
+본문 - wght 비중 문자열 N 20
+본문 - gain_pos_stkcnt 취득가능주식수 문자열 N 20
+본문 - frgnr_limit 외국인한도 문자열 N 20
+본문 - frgnr_limit_irds 외국인한도증감 문자열 N 20
 38 / 526
 
-# Page 39
+# 페이지 39
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - limit_exh_rt 한도소진률 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - limit_exh_rt 한도소진률 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "stk_frgnr": [
 {
@@ -1920,9 +1920,9 @@ Response Example
 "limit_exh_rt": "+26.06"
 39 / 526
 
-# Page 40
+# 페이지 40
 
-Response Example
+응답 예시
 }
 ],
 "return_code": 0,
@@ -1930,7 +1930,7 @@ Response Example
 }
 40 / 526
 
-# Page 41
+# 페이지 41
 
 키움 REST API
 API 정보
@@ -1938,54 +1938,54 @@ API 정보
 API 명 주식기관요청
 API ID ka10009
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/frgnistt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body date 날짜 String N 20
-Body close_pric 종가 String N 20
-Body pre 대비 String N 20
-Body orgn_dt_acc 기관기간누적 String N 20
-Body orgn_daly_nettrde 기관일별순매매 String N 20
-Body frgnr_daly_nettrde 외국인일별순매매 String N 20
-Body frgnr_qota_rt 외국인지분율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 date 날짜 문자열 N 20
+본문 close_pric 종가 문자열 N 20
+본문 pre 대비 문자열 N 20
+본문 orgn_dt_acc 기관기간누적 문자열 N 20
+본문 orgn_daly_nettrde 기관일별순매매 문자열 N 20
+본문 frgnr_daly_nettrde 외국인일별순매매 문자열 N 20
+본문 frgnr_qota_rt 외국인지분율 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 41 / 526
 
-# Page 42
+# 페이지 42
 
-Response Example
+응답 예시
 {
 "date": "20241105",
 "close_pric": "135300",
@@ -1999,7 +1999,7 @@ Response Example
 }
 42 / 526
 
-# Page 43
+# 페이지 43
 
 키움 REST API
 API 정보
@@ -2007,89 +2007,89 @@ API 정보
 API 명 업종프로그램요청
 API ID ka10010
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/sect
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body dfrt_trst_sell_qty 차익위탁매도수량 String N 20
-Body dfrt_trst_sell_amt 차익위탁매도금액 String N 20
-Body dfrt_trst_buy_qty 차익위탁매수수량 String N 20
-Body dfrt_trst_buy_amt 차익위탁매수금액 String N 20
-Body dfrt_trst_netprps_qty 차익위탁순매수수량 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 dfrt_trst_sell_qty 차익위탁매도수량 문자열 N 20
+본문 dfrt_trst_sell_amt 차익위탁매도금액 문자열 N 20
+본문 dfrt_trst_buy_qty 차익위탁매수수량 문자열 N 20
+본문 dfrt_trst_buy_amt 차익위탁매수금액 문자열 N 20
+본문 dfrt_trst_netprps_qty 차익위탁순매수수량 문자열 N 20
 dfrt_trst_netprps_am
-Body 차익위탁순매수금액 String N 20
+본문 차익위탁순매수금액 문자열 N 20
 t
-Body ndiffpro_trst_sell_qty 비차익위탁매도수량 String N 20
+본문 ndiffpro_trst_sell_qty 비차익위탁매도수량 문자열 N 20
 ndiffpro_trst_sell_am
-Body 비차익위탁매도금액 String N 20
+본문 비차익위탁매도금액 문자열 N 20
 t
-Body ndiffpro_trst_buy_qty 비차익위탁매수수량 String N 20
-Body ndiffpro_trst_buy_am 비차익위탁매수금액 String N 20
+본문 ndiffpro_trst_buy_qty 비차익위탁매수수량 문자열 N 20
+본문 ndiffpro_trst_buy_am 비차익위탁매수금액 문자열 N 20
 43 / 526
 
-# Page 44
+# 페이지 44
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 t
 ndiffpro_trst_netprps 비차익위탁순매수수
-Body String N 20
+본문 문자열 N 20
 _qty 량
 ndiffpro_trst_netprps 비차익위탁순매수금
-Body String N 20
+본문 문자열 N 20
 _amt 액
 전체차익위탁매도수
-Body all_dfrt_trst_sell_qty String N 20
+본문 all_dfrt_trst_sell_qty 문자열 N 20
 량
 전체차익위탁매도금
-Body all_dfrt_trst_sell_amt String N 20
+본문 all_dfrt_trst_sell_amt 문자열 N 20
 액
 전체차익위탁매수수
-Body all_dfrt_trst_buy_qty String N 20
+본문 all_dfrt_trst_buy_qty 문자열 N 20
 량
 전체차익위탁매수금
-Body all_dfrt_trst_buy_amt String N 20
+본문 all_dfrt_trst_buy_amt 문자열 N 20
 액
 all_dfrt_trst_netprps_ 전체차익위탁순매수
-Body String N 20
+본문 문자열 N 20
 qty 수량
 all_dfrt_trst_netprps_ 전체차익위탁순매수
-Body String N 20
+본문 문자열 N 20
 amt 금액
-Request Example
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "dfrt_trst_sell_qty": "",
 "dfrt_trst_sell_amt": "",
@@ -2114,7 +2114,7 @@ Response Example
 }
 44 / 526
 
-# Page 45
+# 페이지 45
 
 키움 REST API
 API 정보
@@ -2122,61 +2122,61 @@ API 정보
 API 명 신주인수권전체시세요청
 API ID ka10011
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body newstk_recvrht_tp 신주인수권구분 String Y 2 00:전체, 05:신주인수권증권, 07:신주인수권증서
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body newstk_recvrht_mrpr 신주인수권시세 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - fpr_sel_bid 최우선매도호가 String N 20
-Body - fpr_buy_bid 최우선매수호가 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - open_pric 시가 String N 20
+본문 newstk_recvrht_tp 신주인수권구분 문자열 Y 2 00:전체, 05:신주인수권증권, 07:신주인수권증서
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 newstk_recvrht_mrpr 신주인수권시세 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - fpr_sel_bid 최우선매도호가 문자열 N 20
+본문 - fpr_buy_bid 최우선매수호가 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
 45 / 526
 
-# Page 46
+# 페이지 46
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+요청 예시
 {
 "newstk_recvrht_tp": "00"
 }
-Response Example
+응답 예시
 {
 "newstk_recvrht_mrpr": [
 {
@@ -2213,7 +2213,7 @@ Response Example
 }
 46 / 526
 
-# Page 47
+# 페이지 47
 
 키움 REST API
 API 정보
@@ -2221,67 +2221,67 @@ API 정보
 API 명 신용매매동향요청
 API ID ka10013
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body dt 일자 String Y 8 YYYYMMDD
-Body qry_tp 조회구분 String Y 1 1:융자, 2:대주
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body crd_trde_trend 신용매매동향 LIST N
-Body - dt 일자 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - trde_qty 거래량 String N 20
-Body - new 신규 String N 20
-Body - rpya 상환 String N 20
-Body - remn 잔고 String N 20
+본문 dt 일자 문자열 Y 8 YYYYMMDD
+본문 qry_tp 조회구분 문자열 Y 1 1:융자, 2:대주
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 crd_trde_trend 신용매매동향 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - new 신규 문자열 N 20
+본문 - rpya 상환 문자열 N 20
+본문 - remn 잔고 문자열 N 20
 47 / 526
 
-# Page 48
+# 페이지 48
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - amt 금액 String N 20
-Body - pre 대비 String N 20
-Body - shr_rt 공여율 String N 20
-Body - remn_rt 잔고율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - amt 금액 문자열 N 20
+본문 - pre 대비 문자열 N 20
+본문 - shr_rt 공여율 문자열 N 20
+본문 - remn_rt 잔고율 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "dt": "20241104",
 "qry_tp": "1"
 }
-Response Example
+응답 예시
 {
 "crd_trde_trend": [
 {
@@ -2341,9 +2341,9 @@ Response Example
 "remn_rt": ""
 48 / 526
 
-# Page 49
+# 페이지 49
 
-Response Example
+응답 예시
 }
 ],
 "return_code": 0,
@@ -2351,7 +2351,7 @@ Response Example
 }
 49 / 526
 
-# Page 50
+# 페이지 50
 
 키움 REST API
 API 정보
@@ -2359,68 +2359,68 @@ API 정보
 API 명 공매도추이요청
 API ID ka10014
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/shsa
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body tm_tp 시간구분 String N 1 0:시작일, 1:기간
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Body end_dt 종료일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body shrts_trnsn 공매도추이 LIST N
-Body - dt 일자 String N 20
-Body - close_pric 종가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - shrts_qty 공매도량 String N 20
+본문 tm_tp 시간구분 문자열 N 1 0:시작일, 1:기간
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 shrts_trnsn 공매도추이 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - shrts_qty 공매도량 문자열 N 20
 50 / 526
 
-# Page 51
+# 페이지 51
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - ovr_shrts_qty 누적공매도량 String N 20 설정 기간의 공매도량 합산데이터
-Body - trde_wght 매매비중 String N 20
-Body - shrts_trde_prica 공매도거래대금 String N 20
-Body - shrts_avg_pric 공매도평균가 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - ovr_shrts_qty 누적공매도량 문자열 N 20 설정 기간의 공매도량 합산데이터
+본문 - trde_wght 매매비중 문자열 N 20
+본문 - shrts_trde_prica 공매도거래대금 문자열 N 20
+본문 - shrts_avg_pric 공매도평균가 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "tm_tp": "1",
 "strt_dt": "20250501",
 "end_dt": "20250519"
 }
-Response Example
+응답 예시
 {
 "shrts_trnsn": [
 {
@@ -2479,14 +2479,14 @@ Response Example
 "return_code": 0,
 51 / 526
 
-# Page 52
+# 페이지 52
 
-Response Example
+응답 예시
 "return_msg": "정상적으로 처리되었습니다"
 }
 52 / 526
 
-# Page 53
+# 페이지 53
 
 키움 REST API
 API 정보
@@ -2494,89 +2494,89 @@ API 정보
 API 명 일별거래상세요청
 API ID ka10015
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body daly_trde_dtl 일별거래상세 LIST N
-Body - dt 일자 String N 20
-Body - close_pric 종가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - bf_mkrt_trde_qty 장전거래량 String N 20
-Body - bf_mkrt_trde_wght 장전거래비중 String N 20
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 daly_trde_dtl 일별거래상세 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - bf_mkrt_trde_qty 장전거래량 문자열 N 20
+본문 - bf_mkrt_trde_wght 장전거래비중 문자열 N 20
 53 / 526
 
-# Page 54
+# 페이지 54
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - opmr_trde_qty 장중거래량 String N 20
-Body - opmr_trde_wght 장중거래비중 String N 20
-Body - af_mkrt_trde_qty 장후거래량 String N 20
-Body - af_mkrt_trde_wght 장후거래비중 String N 20
-Body - tot_3 합계3 String N 20
-Body - prid_trde_qty 기간중거래량 String N 20
-Body - cntr_str 체결강도 String N 20
-Body - for_poss 외인보유 String N 20
-Body - for_wght 외인비중 String N 20
-Body - for_netprps 외인순매수 String N 20
-Body - orgn_netprps 기관순매수 String N 20
-Body - ind_netprps 개인순매수 String N 20
-Body - frgn 외국계 String N 20
-Body - crd_remn_rt 신용잔고율 String N 20
-Body - prm 프로그램 String N 20
-Body - bf_mkrt_trde_prica 장전거래대금 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - opmr_trde_qty 장중거래량 문자열 N 20
+본문 - opmr_trde_wght 장중거래비중 문자열 N 20
+본문 - af_mkrt_trde_qty 장후거래량 문자열 N 20
+본문 - af_mkrt_trde_wght 장후거래비중 문자열 N 20
+본문 - tot_3 합계3 문자열 N 20
+본문 - prid_trde_qty 기간중거래량 문자열 N 20
+본문 - cntr_str 체결강도 문자열 N 20
+본문 - for_poss 외인보유 문자열 N 20
+본문 - for_wght 외인비중 문자열 N 20
+본문 - for_netprps 외인순매수 문자열 N 20
+본문 - orgn_netprps 기관순매수 문자열 N 20
+본문 - ind_netprps 개인순매수 문자열 N 20
+본문 - frgn 외국계 문자열 N 20
+본문 - crd_remn_rt 신용잔고율 문자열 N 20
+본문 - prm 프로그램 문자열 N 20
+본문 - bf_mkrt_trde_prica 장전거래대금 문자열 N 20
 - bf_mkrt_trde_prica_
-Body 장전거래대금비중 String N 20
+본문 장전거래대금비중 문자열 N 20
 wght
-Body - opmr_trde_prica 장중거래대금 String N 20
+본문 - opmr_trde_prica 장중거래대금 문자열 N 20
 - opmr_trde_prica_w
-Body 장중거래대금비중 String N 20
+본문 장중거래대금비중 문자열 N 20
 ght
-Body - af_mkrt_trde_prica 장후거래대금 String N 20
+본문 - af_mkrt_trde_prica 장후거래대금 문자열 N 20
 - af_mkrt_trde_prica_
-Body 장후거래대금비중 String N 20
+본문 장후거래대금비중 문자열 N 20
 wght
-Request Example
+요청 예시
 {
 "stk_cd": "005930",
 "strt_dt": "20241105"
 }
-Response Example
+응답 예시
 {
 "daly_trde_dtl": [
 {
@@ -2599,9 +2599,9 @@ Response Example
 "for_poss": "",
 54 / 526
 
-# Page 55
+# 페이지 55
 
-Response Example
+응답 예시
 "for_wght": "",
 "for_netprps": "",
 "orgn_netprps": "",
@@ -2683,15 +2683,15 @@ Response Example
 ],
 55 / 526
 
-# Page 56
+# 페이지 56
 
-Response Example
+응답 예시
 "return_code": 0,
 "return_msg": "정상적으로 처리되었습니다"
 }
 56 / 526
 
-# Page 57
+# 페이지 57
 
 키움 REST API
 API 정보
@@ -2699,75 +2699,75 @@ API 정보
 API 명 신고저가요청
 API ID ka10016
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body ntl_tp 신고저구분 String Y 1 1:신고가,2:신저가
-Body high_low_close_tp 고저종구분 String Y 1 1:고저기준, 2:종가기준
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 ntl_tp 신고저구분 문자열 Y 1 1:신고가,2:신저가
+본문 high_low_close_tp 고저종구분 문자열 Y 1 1:고저기준, 2:종가기준
 0:전체조회,1:관리종목제외, 3:우선주제외, 5:증100제외,
-Body stk_cnd 종목조건 String Y 1
+본문 stk_cnd 종목조건 문자열 Y 1
 6:증100만보기, 7:증40만보기, 8:증30만보기
 00000:전체조회, 00010:만주이상, 00050:5만주이상,
-Body trde_qty_tp 거래량구분 String Y 5 00100:10만주이상, 00150:15만주이상, 00200:20만주이상,
+본문 trde_qty_tp 거래량구분 문자열 Y 5 00100:10만주이상, 00150:15만주이상, 00200:20만주이상,
 00300:30만주이상, 00500:50만주이상, 01000:백만주이상
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1
+본문 crd_cnd 신용조건 문자열 Y 1
 4:신용융자D군, 7:신용융자E군, 9:신용융자전체
-Body updown_incls 상하한포함 String Y 1 0:미포함, 1:포함
+본문 updown_incls 상하한포함 문자열 Y 1 0:미포함, 1:포함
 5:5일, 10:10일, 20:20일, 60:60일, 250:250일, 250일까지
-Body dt 기간 String Y 3
+본문 dt 기간 문자열 Y 3
 입력가능
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ntl_pric 신고저가 LIST N
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ntl_pric 신고저가 목록 N
 57 / 526
 
-# Page 58
+# 페이지 58
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
 -
-Body 전일거래량대비율 String N 20
+본문 전일거래량대비율 문자열 N 20
 pred_trde_qty_pre_rt
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Request Example
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "ntl_tp": "1",
@@ -2779,7 +2779,7 @@ Request Example
 "dt": "5",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "ntl_pric": [
 {
@@ -2816,9 +2816,9 @@ Response Example
 "cur_prc": "-140000",
 58 / 526
 
-# Page 59
+# 페이지 59
 
-Response Example
+응답 예시
 "pred_pre_sig": "5",
 "pred_pre": "-800",
 "flu_rt": "-0.57",
@@ -2891,7 +2891,7 @@ Response Example
 }
 59 / 526
 
-# Page 60
+# 페이지 60
 
 키움 REST API
 API 정보
@@ -2899,76 +2899,76 @@ API 정보
 API 명 상하한가요청
 API ID ka10017
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body updown_tp 상하한구분 String Y 1 1:상한, 2:상승, 3:보합, 4: 하한, 5:하락, 6:전일상한, 7:전일하한
-Body sort_tp 정렬구분 String Y 1 1:종목코드순, 2:연속횟수순(상위100개), 3:등락률순
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 updown_tp 상하한구분 문자열 Y 1 1:상한, 2:상승, 3:보합, 4: 하한, 5:하락, 6:전일상한, 7:전일하한
+본문 sort_tp 정렬구분 문자열 Y 1 1:종목코드순, 2:연속횟수순(상위100개), 3:등락률순
 0:전체조회,1:관리종목제외, 3:우선주제외,
 4:우선주+관리종목제외, 5:증100제외, 6:증100만 보기,
-Body stk_cnd 종목조건 String Y 1
+본문 stk_cnd 종목조건 문자열 Y 1
 7:증40만 보기, 8:증30만 보기, 9:증20만 보기,
 10:우선주+관리종목+환기종목제외
 00000:전체조회, 00010:만주이상, 00050:5만주이상,
-Body trde_qty_tp 거래량구분 String Y 5 00100:10만주이상, 00150:15만주이상, 00200:20만주이상,
+본문 trde_qty_tp 거래량구분 문자열 Y 5 00100:10만주이상, 00150:15만주이상, 00200:20만주이상,
 00300:30만주이상, 00500:50만주이상, 01000:백만주이상
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1
+본문 crd_cnd 신용조건 문자열 Y 1
 4:신용융자D군, 7:신용융자E군, 9:신용융자전체
 0:전체조회, 1:1천원미만, 2:1천원~2천원, 3:2천원~3천원,
-Body trde_gold_tp 매매금구분 String Y 1
+본문 trde_gold_tp 매매금구분 문자열 Y 1
 4:5천원~1만원, 5:1만원이상, 8:1천원이상
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body updown_pric 상하한가 LIST N
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 updown_pric 상하한가 목록 N
 60 / 526
 
-# Page 61
+# 페이지 61
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - stk_cd 종목코드 String N 20
-Body - stk_infr 종목정보 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
-Body - pred_trde_qty 전일거래량 String N 20
-Body - sel_req 매도잔량 String N 20
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - buy_req 매수잔량 String N 20
-Body - cnt 횟수 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_infr 종목정보 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - pred_trde_qty 전일거래량 문자열 N 20
+본문 - sel_req 매도잔량 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - buy_req 매수잔량 문자열 N 20
+본문 - cnt 횟수 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "updown_tp": "1",
@@ -2979,7 +2979,7 @@ Request Example
 "trde_gold_tp": "0",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "updown_pric": [
 {
@@ -3014,9 +3014,9 @@ Response Example
 "buy_req": "4",
 61 / 526
 
-# Page 62
+# 페이지 62
 
-Response Example
+응답 예시
 "cnt": "1"
 }
 ],
@@ -3025,7 +3025,7 @@ Response Example
 }
 62 / 526
 
-# Page 63
+# 페이지 63
 
 키움 REST API
 API 정보
@@ -3033,68 +3033,68 @@ API 정보
 API 명 고저가근접요청
 API ID ka10018
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body high_low_tp 고저구분 String Y 1 1:고가, 2:저가
-Body alacc_rt 근접율 String Y 2 05:0.5 10:1.0, 15:1.5, 20:2.0. 25:2.5, 30:3.0
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
+본문 high_low_tp 고저구분 문자열 Y 1 1:고가, 2:저가
+본문 alacc_rt 근접율 문자열 Y 2 05:0.5 10:1.0, 15:1.5, 20:2.0. 25:2.5, 30:3.0
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
 00000:전체조회, 00010:만주이상, 00050:5만주이상,
-Body trde_qty_tp 거래량구분 String Y 5 00100:10만주이상, 00150:15만주이상, 00200:20만주이상,
+본문 trde_qty_tp 거래량구분 문자열 Y 5 00100:10만주이상, 00150:15만주이상, 00200:20만주이상,
 00300:30만주이상, 00500:50만주이상, 01000:백만주이상
 0:전체조회,1:관리종목제외, 3:우선주제외, 5:증100제외,
-Body stk_cnd 종목조건 String Y 1
+본문 stk_cnd 종목조건 문자열 Y 1
 6:증100만보기, 7:증40만보기, 8:증30만보기
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1
+본문 crd_cnd 신용조건 문자열 Y 1
 4:신용융자D군, 7:신용융자E군, 9:신용융자전체
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body high_low_pric_alacc 고저가근접 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 high_low_pric_alacc 고저가근접 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
 63 / 526
 
-# Page 64
+# 페이지 64
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - tdy_high_pric 당일고가 String N 20
-Body - tdy_low_pric 당일저가 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - tdy_high_pric 당일고가 문자열 N 20
+본문 - tdy_low_pric 당일저가 문자열 N 20
+요청 예시
 {
 "high_low_tp": "1",
 "alacc_rt": "05",
@@ -3104,7 +3104,7 @@ Request Example
 "crd_cnd": "0",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "high_low_pric_alacc": [
 {
@@ -3150,9 +3150,9 @@ Response Example
 "stk_cd": "004930",
 64 / 526
 
-# Page 65
+# 페이지 65
 
-Response Example
+응답 예시
 "stk_nm": "삼성전자",
 "cur_prc": "+40300",
 "pred_pre_sig": "114",
@@ -3196,7 +3196,7 @@ Response Example
 }
 65 / 526
 
-# Page 66
+# 페이지 66
 
 키움 REST API
 API 정보
@@ -3204,73 +3204,73 @@ API 정보
 API 명 가격급등락요청
 API ID ka10019
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥, 201:코스피200
-Body flu_tp 등락구분 String Y 1 1:급등, 2:급락
-Body tm_tp 시간구분 String Y 1 1:분전, 2:일전
-Body tm 시간 String Y 2 분 혹은 일입력
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥, 201:코스피200
+본문 flu_tp 등락구분 문자열 Y 1 1:급등, 2:급락
+본문 tm_tp 시간구분 문자열 Y 1 1:분전, 2:일전
+본문 tm 시간 문자열 Y 2 분 혹은 일입력
 00000:전체조회, 00010:만주이상, 00050:5만주이상,
-Body trde_qty_tp 거래량구분 String Y 4 00100:10만주이상, 00150:15만주이상, 00200:20만주이상,
+본문 trde_qty_tp 거래량구분 문자열 Y 4 00100:10만주이상, 00150:15만주이상, 00200:20만주이상,
 00300:30만주이상, 00500:50만주이상, 01000:백만주이상
 0:전체조회,1:관리종목제외, 3:우선주제외, 5:증100제외,
-Body stk_cnd 종목조건 String Y 1
+본문 stk_cnd 종목조건 문자열 Y 1
 6:증100만보기, 7:증40만보기, 8:증30만보기
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1
+본문 crd_cnd 신용조건 문자열 Y 1
 4:신용융자D군, 7:신용융자E군, 9:신용융자전체
 0:전체조회, 1:1천원미만, 2:1천원~2천원, 3:2천원~3천원,
-Body pric_cnd 가격조건 String Y 1
+본문 pric_cnd 가격조건 문자열 Y 1
 4:5천원~1만원, 5:1만원이상, 8:1천원이상
-Body updown_incls 상하한포함 String Y 1 0:미포함, 1:포함
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 updown_incls 상하한포함 문자열 Y 1 0:미포함, 1:포함
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 66 / 526
 
-# Page 67
+# 페이지 67
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body pric_jmpflu 가격급등락 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_cls 종목분류 String N 20
-Body - stk_nm 종목명 String N 40
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - base_pric 기준가 String N 20
-Body - cur_prc 현재가 String N 20
-Body - base_pre 기준대비 String N 20
-Body - trde_qty 거래량 String N 20
-Body - jmp_rt 급등률 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 pric_jmpflu 가격급등락 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_cls 종목분류 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - base_pric 기준가 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - base_pre 기준대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - jmp_rt 급등률 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "flu_tp": "1",
@@ -3283,7 +3283,7 @@ Request Example
 "updown_incls": "1",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "pric_jmpflu": [
 {
@@ -3320,9 +3320,9 @@ Response Example
 "pred_pre": "+10",
 67 / 526
 
-# Page 68
+# 페이지 68
 
-Response Example
+응답 예시
 "flu_rt": "+0.06",
 "base_pric": "16370",
 "cur_prc": "+16380",
@@ -3362,7 +3362,7 @@ Response Example
 }
 68 / 526
 
-# Page 69
+# 페이지 69
 
 키움 REST API
 API 정보
@@ -3370,66 +3370,66 @@ API 정보
 API 명 호가잔량상위요청
 API ID ka10020
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 001:코스피, 101:코스닥
-Body sort_tp 정렬구분 String Y 1 1:순매수잔량순, 2:순매도잔량순, 3:매수비율순, 4:매도비율순
+본문 mrkt_tp 시장구분 문자열 Y 3 001:코스피, 101:코스닥
+본문 sort_tp 정렬구분 문자열 Y 1 1:순매수잔량순, 2:순매도잔량순, 3:매수비율순, 4:매도비율순
 0000:장시작전(0주이상), 0010:만주이상, 0050:5만주이상,
-Body trde_qty_tp 거래량구분 String Y 4
+본문 trde_qty_tp 거래량구분 문자열 Y 4
 00100:10만주이상
 0:전체조회, 1:관리종목제외, 5:증100제외, 6:증100만보기,
-Body stk_cnd 종목조건 String Y 1
+본문 stk_cnd 종목조건 문자열 Y 1
 7:증40만보기, 8:증30만보기, 9:증20만보기
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1
+본문 crd_cnd 신용조건 문자열 Y 1
 4:신용융자D군, 7:신용융자E군, 9:신용융자전체
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body bid_req_upper 호가잔량상위 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 bid_req_upper 호가잔량상위 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
 69 / 526
 
-# Page 70
+# 페이지 70
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pred_pre 전일대비 String N 20
-Body - trde_qty 거래량 String N 20
-Body - tot_sel_req 총매도잔량 String N 20
-Body - tot_buy_req 총매수잔량 String N 20
-Body - netprps_req 순매수잔량 String N 20
-Body - buy_rt 매수비율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - tot_sel_req 총매도잔량 문자열 N 20
+본문 - tot_buy_req 총매수잔량 문자열 N 20
+본문 - netprps_req 순매수잔량 문자열 N 20
+본문 - buy_rt 매수비율 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "001",
 "sort_tp": "1",
@@ -3438,7 +3438,7 @@ Request Example
 "crd_cnd": "0",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "bid_req_upper": [
 {
@@ -3491,9 +3491,9 @@ Response Example
 },
 70 / 526
 
-# Page 71
+# 페이지 71
 
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_nm": "삼성전자",
@@ -3512,7 +3512,7 @@ Response Example
 }
 71 / 526
 
-# Page 72
+# 페이지 72
 
 키움 REST API
 API 정보
@@ -3520,65 +3520,65 @@ API 정보
 API 명 호가잔량급증요청
 API ID ka10021
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 001:코스피, 101:코스닥
-Body trde_tp 매매구분 String Y 1 1:매수잔량, 2:매도잔량
-Body sort_tp 정렬구분 String Y 1 1:급증량, 2:급증률
-Body tm_tp 시간구분 String Y 2 분 입력
+본문 mrkt_tp 시장구분 문자열 Y 3 001:코스피, 101:코스닥
+본문 trde_tp 매매구분 문자열 Y 1 1:매수잔량, 2:매도잔량
+본문 sort_tp 정렬구분 문자열 Y 1 1:급증량, 2:급증률
+본문 tm_tp 시간구분 문자열 Y 2 분 입력
 1:천주이상, 5:5천주이상, 10:만주이상, 50:5만주이상,
-Body trde_qty_tp 거래량구분 String Y 4
+본문 trde_qty_tp 거래량구분 문자열 Y 4
 100:10만주이상
 0:전체조회, 1:관리종목제외, 5:증100제외, 6:증100만보기,
-Body stk_cnd 종목조건 String Y 1
+본문 stk_cnd 종목조건 문자열 Y 1
 7:증40만보기, 8:증30만보기, 9:증20만보기
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body bid_req_sdnin 호가잔량급증 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 bid_req_sdnin 호가잔량급증 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
 72 / 526
 
-# Page 73
+# 페이지 73
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - int 기준률 String N 20
-Body - now 현재 String N 20
-Body - sdnin_qty 급증수량 String N 20
-Body - sdnin_rt 급증률 String N 20
-Body - tot_buy_qty 총매수량 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - int 기준률 문자열 N 20
+본문 - now 현재 문자열 N 20
+본문 - sdnin_qty 급증수량 문자열 N 20
+본문 - sdnin_rt 급증률 문자열 N 20
+본문 - tot_buy_qty 총매수량 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "001",
 "trde_tp": "1",
@@ -3588,7 +3588,7 @@ Request Example
 "stk_cnd": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "bid_req_sdnin": [
 {
@@ -3609,7 +3609,7 @@ Response Example
 }
 73 / 526
 
-# Page 74
+# 페이지 74
 
 키움 REST API
 API 정보
@@ -3617,62 +3617,62 @@ API 정보
 API 명 잔량율급증요청
 API ID ka10022
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 001:코스피, 101:코스닥
-Body rt_tp 비율구분 String Y 1 1:매수/매도비율, 2:매도/매수비율
-Body tm_tp 시간구분 String Y 2 분 입력
-Body trde_qty_tp 거래량구분 String Y 1 5:5천주이상, 10:만주이상, 50:5만주이상, 100:10만주이상
+본문 mrkt_tp 시장구분 문자열 Y 3 001:코스피, 101:코스닥
+본문 rt_tp 비율구분 문자열 Y 1 1:매수/매도비율, 2:매도/매수비율
+본문 tm_tp 시간구분 문자열 Y 2 분 입력
+본문 trde_qty_tp 거래량구분 문자열 Y 1 5:5천주이상, 10:만주이상, 50:5만주이상, 100:10만주이상
 0:전체조회, 1:관리종목제외, 5:증100제외, 6:증100만보기,
-Body stk_cnd 종목조건 String Y 1
+본문 stk_cnd 종목조건 문자열 Y 1
 7:증40만보기, 8:증30만보기, 9:증20만보기
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body req_rt_sdnin 잔량율급증 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 req_rt_sdnin 잔량율급증 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
 74 / 526
 
-# Page 75
+# 페이지 75
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - int 기준률 String N 20
-Body - now_rt 현재비율 String N 20
-Body - sdnin_rt 급증률 String N 20
-Body - tot_sel_req 총매도잔량 String N 20
-Body - tot_buy_req 총매수잔량 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - int 기준률 문자열 N 20
+본문 - now_rt 현재비율 문자열 N 20
+본문 - sdnin_rt 급증률 문자열 N 20
+본문 - tot_sel_req 총매도잔량 문자열 N 20
+본문 - tot_buy_req 총매수잔량 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "001",
 "rt_tp": "1",
@@ -3681,7 +3681,7 @@ Request Example
 "stk_cnd": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "req_rt_sdnin": [
 {
@@ -3702,7 +3702,7 @@ Response Example
 }
 75 / 526
 
-# Page 76
+# 페이지 76
 
 키움 REST API
 API 정보
@@ -3710,70 +3710,70 @@ API 정보
 API 명 거래량급증요청
 API ID ka10023
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body sort_tp 정렬구분 String Y 1 1:급증량, 2:급증률, 3:급감량, 4:급감률
-Body tm_tp 시간구분 String Y 1 1:분, 2:전일
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 sort_tp 정렬구분 문자열 Y 1 1:급증량, 2:급증률, 3:급감량, 4:급감률
+본문 tm_tp 시간구분 문자열 Y 1 1:분, 2:전일
 5:5천주이상, 10:만주이상, 50:5만주이상, 100:10만주이상,
-Body trde_qty_tp 거래량구분 String Y 1 200:20만주이상, 300:30만주이상, 500:50만주이상,
+본문 trde_qty_tp 거래량구분 문자열 Y 1 200:20만주이상, 300:30만주이상, 500:50만주이상,
 1000:백만주이상
-Body tm 시간 String N 2 분 입력
+본문 tm 시간 문자열 N 2 분 입력
 0:전체조회, 1:관리종목제외, 3:우선주제외,
 11:정리매매종목제외, 4:관리종목,우선주제외, 5:증100제외,
-Body stk_cnd 종목조건 String Y 1 6:증100만보기, 13:증60만보기, 12:증50만보기, 7:증40만보기,
+본문 stk_cnd 종목조건 문자열 Y 1 6:증100만보기, 13:증60만보기, 12:증50만보기, 7:증40만보기,
 8:증30만보기, 9:증20만보기, 17:ETN제외, 14:ETF제외,
 18:ETF+ETN제외, 15:스팩제외, 20:ETF+ETN+스팩제외
 0:전체조회, 2:5만원이상, 5:1만원이상, 6:5천원이상,
-Body pric_tp 가격구분 String Y 1
+본문 pric_tp 가격구분 문자열 Y 1
 8:1천원이상, 9:10만원이상
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body trde_qty_sdnin 거래량급증 LIST N
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 trde_qty_sdnin 거래량급증 목록 N
 76 / 526
 
-# Page 77
+# 페이지 77
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - prev_trde_qty 이전거래량 String N 20
-Body - now_trde_qty 현재거래량 String N 20
-Body - sdnin_qty 급증량 String N 20
-Body - sdnin_rt 급증률 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - prev_trde_qty 이전거래량 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
+본문 - sdnin_qty 급증량 문자열 N 20
+본문 - sdnin_rt 급증률 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "sort_tp": "1",
@@ -3784,7 +3784,7 @@ Request Example
 "pric_tp": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "trde_qty_sdnin": [
 {
@@ -3827,9 +3827,9 @@ Response Example
 "stk_cd": "005930",
 77 / 526
 
-# Page 78
+# 페이지 78
 
-Response Example
+응답 예시
 "stk_nm": "삼성전자",
 "cur_prc": "-22350",
 "pred_pre_sig": "5",
@@ -3858,7 +3858,7 @@ Response Example
 }
 78 / 526
 
-# Page 79
+# 페이지 79
 
 키움 REST API
 API 정보
@@ -3866,67 +3866,67 @@ API 정보
 API 명 거래량갱신요청
 API ID ka10024
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body cycle_tp 주기구분 String Y 1 5:5일, 10:10일, 20:20일, 60:60일, 250:250일
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 cycle_tp 주기구분 문자열 Y 1 5:5일, 10:10일, 20:20일, 60:60일, 250:250일
 5:5천주이상, 10:만주이상, 50:5만주이상, 100:10만주이상,
-Body trde_qty_tp 거래량구분 String Y 1 200:20만주이상, 300:30만주이상, 500:50만주이상,
+본문 trde_qty_tp 거래량구분 문자열 Y 1 200:20만주이상, 300:30만주이상, 500:50만주이상,
 1000:백만주이상
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body trde_qty_updt 거래량갱신 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 trde_qty_updt 거래량갱신 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
 79 / 526
 
-# Page 80
+# 페이지 80
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - prev_trde_qty 이전거래량 String N 20
-Body - now_trde_qty 현재거래량 String N 20
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - prev_trde_qty 이전거래량 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "cycle_tp": "5",
 "trde_qty_tp": "5",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "trde_qty_updt": [
 {
@@ -3983,7 +3983,7 @@ Response Example
 }
 80 / 526
 
-# Page 81
+# 페이지 81
 
 키움 REST API
 API 정보
@@ -3991,63 +3991,63 @@ API 정보
 API 명 매물대집중요청
 API ID ka10025
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body prps_cnctr_rt 매물집중비율 String Y 3 0~100 입력
-Body cur_prc_entry 현재가진입 String Y 1 0:현재가 매물대 진입 포함안함, 1:현재가 매물대 진입포함
-Body prpscnt 매물대수 String Y 2 숫자입력
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 prps_cnctr_rt 매물집중비율 문자열 Y 3 0~100 입력
+본문 cur_prc_entry 현재가진입 문자열 Y 1 0:현재가 매물대 진입 포함안함, 1:현재가 매물대 진입포함
+본문 prpscnt 매물대수 문자열 Y 2 숫자입력
 50:50일, 100:100일, 150:150일, 200:200일, 250:250일,
-Body cycle_tp 주기구분 String Y 2
+본문 cycle_tp 주기구분 문자열 Y 2
 300:300일
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body prps_cnctr 매물대집중 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 prps_cnctr 매물대집중 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
 81 / 526
 
-# Page 82
+# 페이지 82
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - flu_rt 등락률 String N 20
-Body - now_trde_qty 현재거래량 String N 20
-Body - pric_strt 가격대시작 String N 20
-Body - pric_end 가격대끝 String N 20
-Body - prps_qty 매물량 String N 20
-Body - prps_rt 매물비 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - flu_rt 등락률 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
+본문 - pric_strt 가격대시작 문자열 N 20
+본문 - pric_end 가격대끝 문자열 N 20
+본문 - prps_qty 매물량 문자열 N 20
+본문 - prps_rt 매물비 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "prps_cnctr_rt": "50",
@@ -4056,7 +4056,7 @@ Request Example
 "cycle_tp": "50",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "prps_cnctr": [
 {
@@ -4109,9 +4109,9 @@ Response Example
 "pric_strt": "2669",
 82 / 526
 
-# Page 83
+# 페이지 83
 
-Response Example
+응답 예시
 "pric_end": "2685",
 "prps_qty": "4",
 "prps_rt": "+50.00"
@@ -4122,7 +4122,7 @@ Response Example
 }
 83 / 526
 
-# Page 84
+# 페이지 84
 
 키움 REST API
 API 정보
@@ -4130,56 +4130,56 @@ API 정보
 API 명 고저PER요청
 API ID ka10026
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body pertp PER구분 String Y 1 1:저PBR, 2:고PBR, 3:저PER, 4:고PER, 5:저ROE, 6:고ROE
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body high_low_per 고저PER LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - per PER String N 20
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - now_trde_qty 현재거래량 String N 20
-Body - sel_bid 매도호가 String N 20
+본문 pertp PER구분 문자열 Y 1 1:저PBR, 2:고PBR, 3:저PER, 4:고PER, 5:저ROE, 6:고ROE
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 high_low_per 고저PER 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - per PER 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
 84 / 526
 
-# Page 85
+# 페이지 85
 
-Request Example
+요청 예시
 {
 "pertp": "1",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "high_low_per": [
 {
@@ -4243,7 +4243,7 @@ Response Example
 }
 85 / 526
 
-# Page 86
+# 페이지 86
 
 키움 REST API
 API 정보
@@ -4251,81 +4251,81 @@ API 정보
 API 명 전일대비등락률상위요청
 API ID ka10027
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body sort_tp 정렬구분 String Y 1 1:상승률, 2:상승폭, 3:하락률, 4:하락폭, 5:보합
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 sort_tp 정렬구분 문자열 Y 1 1:상승률, 2:상승폭, 3:하락률, 4:하락폭, 5:보합
 0000:전체조회, 0010:만주이상, 0050:5만주이상,
-Body trde_qty_cnd 거래량조건 String Y 5 0100:10만주이상, 0150:15만주이상, 0200:20만주이상,
+본문 trde_qty_cnd 거래량조건 문자열 Y 5 0100:10만주이상, 0150:15만주이상, 0200:20만주이상,
 0300:30만주이상, 0500:50만주이상, 1000:백만주이상
 0:전체조회, 1:관리종목제외, 4:우선주+관리주제외,
 3:우선주제외, 5:증100제외, 6:증100만보기, 7:증40만보기,
-Body stk_cnd 종목조건 String Y 2 8:증30만보기, 9:증20만보기, 11:정리매매종목제외,
+본문 stk_cnd 종목조건 문자열 Y 2 8:증30만보기, 9:증20만보기, 11:정리매매종목제외,
 12:증50만보기, 13:증60만보기, 14:ETF제외, 15:스펙제외,
 16:ETF+ETN제외
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1
+본문 crd_cnd 신용조건 문자열 Y 1
 4:신용융자D군, 7:신용융자E군, 9:신용융자전체
-Body updown_incls 상하한포함 String Y 2 0:불 포함, 1:포함
+본문 updown_incls 상하한포함 문자열 Y 2 0:불 포함, 1:포함
 0:전체조회, 1:1천원미만, 2:1천원~2천원, 3:2천원~5천원,
-Body pric_cnd 가격조건 String Y 2
+본문 pric_cnd 가격조건 문자열 Y 2
 4:5천원~1만원, 5:1만원이상, 8:1천원이상, 10: 1만원미만
 0:전체조회, 3:3천만원이상, 5:5천만원이상, 10:1억원이상,
 30:3억원이상, 50:5억원이상, 100:10억원이상,
-Body trde_prica_cnd 거래대금조건 String Y 4
+본문 trde_prica_cnd 거래대금조건 문자열 Y 4
 300:30억원이상, 500:50억원이상, 1000:100억원이상,
 3000:300억원이상, 5000:500억원이상
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 86 / 526
 
-# Page 87
+# 페이지 87
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 pred_pre_flu_rt_uppe
-Body 전일대비등락률상위 LIST N
+본문 전일대비등락률상위 목록 N
 r
-Body - stk_cls 종목분류 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - sel_req 매도잔량 String N 20
-Body - buy_req 매수잔량 String N 20
-Body - now_trde_qty 현재거래량 String N 20
-Body - cntr_str 체결강도 String N 20
-Body - cnt 횟수 String N 20
-Request Example
+본문 - stk_cls 종목분류 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - sel_req 매도잔량 문자열 N 20
+본문 - buy_req 매수잔량 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
+본문 - cntr_str 체결강도 문자열 N 20
+본문 - cnt 횟수 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "sort_tp": "1",
@@ -4337,7 +4337,7 @@ Request Example
 "trde_prica_cnd": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "pred_pre_flu_rt_upper": [
 {
@@ -4367,9 +4367,9 @@ Response Example
 "now_trde_qty": "6",
 87 / 526
 
-# Page 88
+# 페이지 88
 
-Response Example
+응답 예시
 "cntr_str": "500.00",
 "cnt": "1"
 },
@@ -4407,7 +4407,7 @@ Response Example
 }
 88 / 526
 
-# Page 89
+# 페이지 89
 
 키움 REST API
 API 정보
@@ -4415,75 +4415,75 @@ API 정보
 API 명 시가대비등락률요청
 API ID ka10028
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body sort_tp 정렬구분 String Y 1 1:시가, 2:고가, 3:저가, 4:기준가
+본문 sort_tp 정렬구분 문자열 Y 1 1:시가, 2:고가, 3:저가, 4:기준가
 0000:전체조회, 0010:만주이상, 0050:5만주이상,
-Body trde_qty_cnd 거래량조건 String Y 4
+본문 trde_qty_cnd 거래량조건 문자열 Y 4
 0100:10만주이상, 0500:50만주이상, 1000:백만주이상
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body updown_incls 상하한포함 String Y 1 0:불 포함, 1:포함
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 updown_incls 상하한포함 문자열 Y 1 0:불 포함, 1:포함
 0:전체조회, 1:관리종목제외, 4:우선주+관리주제외,
-Body stk_cnd 종목조건 String Y 2 3:우선주제외, 5:증100제외, 6:증100만보기, 7:증40만보기,
+본문 stk_cnd 종목조건 문자열 Y 2 3:우선주제외, 5:증100제외, 6:증100만보기, 7:증40만보기,
 8:증30만보기, 9:증20만보기
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1
+본문 crd_cnd 신용조건 문자열 Y 1
 4:신용융자D군, 7:신용융자E군, 9:신용융자전체
 0:전체조회, 3:3천만원이상, 5:5천만원이상, 10:1억원이상,
 30:3억원이상, 50:5억원이상, 100:10억원이상,
-Body trde_prica_cnd 거래대금조건 String Y 4
+본문 trde_prica_cnd 거래대금조건 문자열 Y 4
 300:30억원이상, 500:50억원이상, 1000:100억원이상,
 3000:300억원이상, 5000:500억원이상
-Body flu_cnd 등락조건 String Y 1 1:상위, 2:하위
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 flu_cnd 등락조건 문자열 Y 1 1:상위, 2:하위
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 89 / 526
 
-# Page 90
+# 페이지 90
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body open_pric_pre_flu_rt 시가대비등락률 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - open_pric_pre 시가대비 String N 20
-Body - now_trde_qty 현재거래량 String N 20
-Body - cntr_str 체결강도 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 open_pric_pre_flu_rt 시가대비등락률 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - open_pric_pre 시가대비 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
+본문 - cntr_str 체결강도 문자열 N 20
+요청 예시
 {
 "sort_tp": "1",
 "trde_qty_cnd": "0000",
@@ -4495,7 +4495,7 @@ Request Example
 "flu_cnd": "1",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "open_pric_pre_flu_rt": [
 {
@@ -4531,9 +4531,9 @@ Response Example
 "stk_nm": "삼성전자",
 90 / 526
 
-# Page 91
+# 페이지 91
 
-Response Example
+응답 예시
 "cur_prc": "+200000",
 "pred_pre_sig": "2",
 "pred_pre": "+15600",
@@ -4565,7 +4565,7 @@ Response Example
 }
 91 / 526
 
-# Page 92
+# 페이지 92
 
 키움 REST API
 API 정보
@@ -4573,76 +4573,76 @@ API 정보
 API 명 예상체결등락률상위요청
 API ID ka10029
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
 1:상승률, 2:상승폭, 3:보합, 4:하락률, 5:하락폭, 6:체결량,
-Body sort_tp 정렬구분 String Y 1
+본문 sort_tp 정렬구분 문자열 Y 1
 7:상한, 8:하한
 0:전체조회, 1;천주이상, 3:3천주, 5:5천주, 10:만주이상,
-Body trde_qty_cnd 거래량조건 String Y 5
+본문 trde_qty_cnd 거래량조건 문자열 Y 5
 50:5만주이상, 100:10만주이상
 0:전체조회, 1:관리종목제외, 3:우선주제외,
 4:관리종목,우선주제외, 5:증100제외, 6:증100만보기,
-Body stk_cnd 종목조건 String Y 2 7:증40만보기, 8:증30만보기, 9:증20만보기,
+본문 stk_cnd 종목조건 문자열 Y 2 7:증40만보기, 8:증30만보기, 9:증20만보기,
 11:정리매매종목제외, 12:증50만보기, 13:증60만보기,
 14:ETF제외, 15:스팩제외, 16:ETF+ETN제외
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1 4:신용융자D군, 5:신용한도초과제외, 7:신용융자E군,
+본문 crd_cnd 신용조건 문자열 Y 1 4:신용융자D군, 5:신용한도초과제외, 7:신용융자E군,
 8:신용대주, 9:신용융자전체
 0:전체조회, 1:1천원미만, 2:1천원~2천원, 3:2천원~5천원,
-Body pric_cnd 가격조건 String Y 2
+본문 pric_cnd 가격조건 문자열 Y 2
 4:5천원~1만원, 5:1만원이상, 8:1천원이상, 10:1만원미만
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body exp_cntr_flu_rt_uppe 예상체결등락률상위 LIST N
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 exp_cntr_flu_rt_uppe 예상체결등락률상위 목록 N
 92 / 526
 
-# Page 93
+# 페이지 93
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 r
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - exp_cntr_pric 예상체결가 String N 20
-Body - base_pric 기준가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - exp_cntr_qty 예상체결량 String N 20
-Body - sel_req 매도잔량 String N 20
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - buy_req 매수잔량 String N 20
-Request Example
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - exp_cntr_pric 예상체결가 문자열 N 20
+본문 - base_pric 기준가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - exp_cntr_qty 예상체결량 문자열 N 20
+본문 - sel_req 매도잔량 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - buy_req 매수잔량 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "sort_tp": "1",
@@ -4652,7 +4652,7 @@ Request Example
 "pric_cnd": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "exp_cntr_flu_rt_upper": [
 {
@@ -4690,9 +4690,9 @@ Response Example
 "base_pric": "36550",
 93 / 526
 
-# Page 94
+# 페이지 94
 
-Response Example
+응답 예시
 "pred_pre_sig": "2",
 "pred_pre": "+1200",
 "flu_rt": "+3.28",
@@ -4708,7 +4708,7 @@ Response Example
 }
 94 / 526
 
-# Page 95
+# 페이지 95
 
 키움 REST API
 API 정보
@@ -4716,89 +4716,89 @@ API 정보
 API 명 당일거래량상위요청
 API ID ka10030
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body sort_tp 정렬구분 String Y 1 1:거래량, 2:거래회전율, 3:거래대금
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 sort_tp 정렬구분 문자열 Y 1 1:거래량, 2:거래회전율, 3:거래대금
 0:관리종목 포함, 1:관리종목 미포함, 3:우선주제외,
 11:정리매매종목제외, 4:관리종목, 우선주제외, 5:증100제외,
-Body mang_stk_incls 관리종목포함 String Y 1 6:증100마나보기, 13:증60만보기, 12:증50만보기,
+본문 mang_stk_incls 관리종목포함 문자열 Y 1 6:증100마나보기, 13:증60만보기, 12:증50만보기,
 7:증40만보기, 8:증30만보기, 9:증20만보기, 14:ETF제외,
 15:스팩제외, 16:ETF+ETN제외
 0:전체조회, 9:신용융자전체, 1:신용융자A군, 2:신용융자B군,
-Body crd_tp 신용구분 String Y 1
+본문 crd_tp 신용구분 문자열 Y 1
 3:신용융자C군, 4:신용융자D군, 8:신용대주
 0:전체조회, 5:5천주이상, 10:1만주이상, 50:5만주이상,
-Body trde_qty_tp 거래량구분 String Y 1 100:10만주이상, 200:20만주이상, 300:30만주이상,
+본문 trde_qty_tp 거래량구분 문자열 Y 1 100:10만주이상, 200:20만주이상, 300:30만주이상,
 500:500만주이상, 1000:백만주이상
 0:전체조회, 1:1천원미만, 2:1천원이상, 3:1천원~2천원,
-Body pric_tp 가격구분 String Y 1 4:2천원~5천원, 5:5천원이상, 6:5천원~1만원, 10:1만원미만,
+본문 pric_tp 가격구분 문자열 Y 1 4:2천원~5천원, 5:5천원이상, 6:5천원~1만원, 10:1만원미만,
 7:1만원이상, 8:5만원이상, 9:10만원이상
 0:전체조회, 1:1천만원이상, 3:3천만원이상, 4:5천만원이상,
 10:1억원이상, 30:3억원이상, 50:5억원이상, 100:10억원이상,
-Body trde_prica_tp 거래대금구분 String Y 1
+본문 trde_prica_tp 거래대금구분 문자열 Y 1
 300:30억원이상, 500:50억원이상, 1000:100억원이상,
 3000:300억원이상, 5000:500억원이상
-Body mrkt_open_tp 장운영구분 String Y 1 0:전체조회, 1:장중, 2:장전시간외, 3:장후시간외
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+본문 mrkt_open_tp 장운영구분 문자열 Y 1 0:전체조회, 1:장중, 2:장전시간외, 3:장후시간외
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 95 / 526
 
-# Page 96
+# 페이지 96
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tdy_trde_qty_upper 당일거래량상위 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
-Body - pred_rt 전일비 String N 20
-Body - trde_tern_rt 거래회전율 String N 20
-Body - trde_amt 거래금액 String N 20
-Body - opmr_trde_qty 장중거래량 String N 20
-Body - opmr_pred_rt 장중전일비 String N 20
-Body - opmr_trde_rt 장중거래회전율 String N 20
-Body - opmr_trde_amt 장중거래금액 String N 20
-Body - af_mkrt_trde_qty 장후거래량 String N 20
-Body - af_mkrt_pred_rt 장후전일비 String N 20
-Body - af_mkrt_trde_rt 장후거래회전율 String N 20
-Body - af_mkrt_trde_amt 장후거래금액 String N 20
-Body - bf_mkrt_trde_qty 장전거래량 String N 20
-Body - bf_mkrt_pred_rt 장전전일비 String N 20
-Body - bf_mkrt_trde_rt 장전거래회전율 String N 20
-Body - bf_mkrt_trde_amt 장전거래금액 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tdy_trde_qty_upper 당일거래량상위 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - pred_rt 전일비 문자열 N 20
+본문 - trde_tern_rt 거래회전율 문자열 N 20
+본문 - trde_amt 거래금액 문자열 N 20
+본문 - opmr_trde_qty 장중거래량 문자열 N 20
+본문 - opmr_pred_rt 장중전일비 문자열 N 20
+본문 - opmr_trde_rt 장중거래회전율 문자열 N 20
+본문 - opmr_trde_amt 장중거래금액 문자열 N 20
+본문 - af_mkrt_trde_qty 장후거래량 문자열 N 20
+본문 - af_mkrt_pred_rt 장후전일비 문자열 N 20
+본문 - af_mkrt_trde_rt 장후거래회전율 문자열 N 20
+본문 - af_mkrt_trde_amt 장후거래금액 문자열 N 20
+본문 - bf_mkrt_trde_qty 장전거래량 문자열 N 20
+본문 - bf_mkrt_pred_rt 장전전일비 문자열 N 20
+본문 - bf_mkrt_trde_rt 장전거래회전율 문자열 N 20
+본문 - bf_mkrt_trde_amt 장전거래금액 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "sort_tp": "1",
@@ -4810,7 +4810,7 @@ Request Example
 "mrkt_open_tp": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "tdy_trde_qty_upper": [
 {
@@ -4819,9 +4819,9 @@ Response Example
 "cur_prc": "-152000",
 96 / 526
 
-# Page 97
+# 페이지 97
 
-Response Example
+응답 예시
 "pred_pre_sig": "5",
 "pred_pre": "-100",
 "flu_rt": "-0.07",
@@ -4872,7 +4872,7 @@ Response Example
 }
 97 / 526
 
-# Page 98
+# 페이지 98
 
 키움 REST API
 API 정보
@@ -4880,51 +4880,51 @@ API 정보
 API 명 전일거래량상위요청
 API ID ka10031
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body qry_tp 조회구분 String Y 1 1:전일거래량 상위100종목, 2:전일거래대금 상위100종목
-Body rank_strt 순위시작 String Y 3 0 ~ 100 값 중에 조회를 원하는 순위 시작값
-Body rank_end 순위끝 String Y 3 0 ~ 100 값 중에 조회를 원하는 순위 끝값
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body pred_trde_qty_upper 전일거래량상위 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - trde_qty 거래량 String N 20
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 qry_tp 조회구분 문자열 Y 1 1:전일거래량 상위100종목, 2:전일거래대금 상위100종목
+본문 rank_strt 순위시작 문자열 Y 3 0 ~ 100 값 중에 조회를 원하는 순위 시작값
+본문 rank_end 순위끝 문자열 Y 3 0 ~ 100 값 중에 조회를 원하는 순위 끝값
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 pred_trde_qty_upper 전일거래량상위 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
 98 / 526
 
-# Page 99
+# 페이지 99
 
-Request Example
+요청 예시
 {
 "mrkt_tp": "101",
 "qry_tp": "1",
@@ -4932,7 +4932,7 @@ Request Example
 "rank_end": "10",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "pred_trde_qty_upper": [
 {
@@ -5004,9 +5004,9 @@ Response Example
 "stk_nm": "삼성전자",
 99 / 526
 
-# Page 100
+# 페이지 100
 
-Response Example
+응답 예시
 "cur_prc": "-94400",
 "pred_pre_sig": "5",
 "pred_pre": "-100",
@@ -5026,7 +5026,7 @@ Response Example
 }
 100 / 526
 
-# Page 101
+# 페이지 101
 
 키움 REST API
 API 정보
@@ -5034,66 +5034,66 @@ API 정보
 API 명 거래대금상위요청
 API ID ka10032
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body mang_stk_incls 관리종목포함 String Y 1 0:관리종목 미포함, 1:관리종목 포함
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body trde_prica_upper 거래대금상위 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - now_rank 현재순위 String N 20
-Body - pred_rank 전일순위 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 mang_stk_incls 관리종목포함 문자열 Y 1 0:관리종목 미포함, 1:관리종목 포함
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 trde_prica_upper 거래대금상위 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - now_rank 현재순위 문자열 N 20
+본문 - pred_rank 전일순위 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
 101 / 526
 
-# Page 102
+# 페이지 102
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - now_trde_qty 현재거래량 String N 20
-Body - pred_trde_qty 전일거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
+본문 - pred_trde_qty 전일거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "001",
 "mang_stk_incls": "1",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "trde_prica_upper": [
 {
@@ -5147,7 +5147,7 @@ Response Example
 }
 102 / 526
 
-# Page 103
+# 페이지 103
 
 키움 REST API
 API 정보
@@ -5155,67 +5155,67 @@ API 정보
 API 명 신용비율상위요청
 API ID ka10033
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
 0:전체조회, 10:만주이상, 50:5만주이상, 100:10만주이상,
-Body trde_qty_tp 거래량구분 String Y 3 200:20만주이상, 300:30만주이상, 500:50만주이상,
+본문 trde_qty_tp 거래량구분 문자열 Y 3 200:20만주이상, 300:30만주이상, 500:50만주이상,
 1000:백만주이상
 0:전체조회, 1:관리종목제외, 5:증100제외, 6:증100만보기,
-Body stk_cnd 종목조건 String Y 1
+본문 stk_cnd 종목조건 문자열 Y 1
 7:증40만보기, 8:증30만보기, 9:증20만보기
-Body updown_incls 상하한포함 String Y 1 0:상하한 미포함, 1:상하한포함
+본문 updown_incls 상하한포함 문자열 Y 1 0:상하한 미포함, 1:상하한포함
 0:전체조회, 1:신용융자A군, 2:신용융자B군, 3:신용융자C군,
-Body crd_cnd 신용조건 String Y 1
+본문 crd_cnd 신용조건 문자열 Y 1
 4:신용융자D군, 7:신용융자E군, 9:신용융자전체
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body crd_rt_upper 신용비율상위 LIST N
-Body - stk_infr 종목정보 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 crd_rt_upper 신용비율상위 목록 N
+본문 - stk_infr 종목정보 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
 103 / 526
 
-# Page 104
+# 페이지 104
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - crd_rt 신용비율 String N 20
-Body - sel_req 매도잔량 String N 20
-Body - buy_req 매수잔량 String N 20
-Body - now_trde_qty 현재거래량 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - crd_rt 신용비율 문자열 N 20
+본문 - sel_req 매도잔량 문자열 N 20
+본문 - buy_req 매수잔량 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "trde_qty_tp": "0",
@@ -5224,7 +5224,7 @@ Request Example
 "crd_cnd": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "crd_rt_upper": [
 {
@@ -5273,9 +5273,9 @@ Response Example
 "cur_prc": "11050",
 104 / 526
 
-# Page 105
+# 페이지 105
 
-Response Example
+응답 예시
 "pred_pre_sig": "3",
 "pred_pre": "0",
 "flu_rt": "0.00",
@@ -5290,7 +5290,7 @@ Response Example
 }
 105 / 526
 
-# Page 106
+# 페이지 106
 
 키움 REST API
 API 정보
@@ -5298,66 +5298,66 @@ API 정보
 API 명 외인기간별매매상위요청
 API ID ka10034
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body trde_tp 매매구분 String Y 1 1:순매도, 2:순매수, 3:순매매
-Body dt 기간 String Y 2 0:당일, 1:전일, 5:5일, 10;10일, 20:20일, 60:60일
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body for_dt_trde_upper 외인기간별매매상위 LIST N
-Body - rank 순위 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - sel_bid 매도호가 String N 20
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 trde_tp 매매구분 문자열 Y 1 1:순매도, 2:순매수, 3:순매매
+본문 dt 기간 문자열 Y 2 0:당일, 1:전일, 5:5일, 10;10일, 20:20일, 60:60일
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 for_dt_trde_upper 외인기간별매매상위 목록 N
+본문 - rank 순위 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
 106 / 526
 
-# Page 107
+# 페이지 107
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - buy_bid 매수호가 String N 20
-Body - trde_qty 거래량 String N 20
-Body - netprps_qty 순매수량 String N 20
-Body - gain_pos_stkcnt 취득가능주식수 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - netprps_qty 순매수량 문자열 N 20
+본문 - gain_pos_stkcnt 취득가능주식수 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "001",
 "trde_tp": "2",
 "dt": "0",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "for_dt_trde_upper": [
 {
@@ -5405,7 +5405,7 @@ Response Example
 }
 107 / 526
 
-# Page 108
+# 페이지 108
 
 키움 REST API
 API 정보
@@ -5413,70 +5413,70 @@ API 정보
 API 명 외인연속순매매상위요청
 API ID ka10035
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body trde_tp 매매구분 String Y 1 1:연속순매도, 2:연속순매수
-Body base_dt_tp 기준일구분 String Y 1 0:당일기준, 1:전일기준
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 trde_tp 매매구분 문자열 Y 1 1:연속순매도, 2:연속순매수
+본문 base_dt_tp 기준일구분 문자열 Y 1 0:당일기준, 1:전일기준
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 for_cont_nettrde_up
-Body 외인연속순매매상위 LIST N
+본문 외인연속순매매상위 목록 N
 per
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - dm1 D-1 String N 20
-Body - dm2 D-2 String N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - dm1 D-1 문자열 N 20
+본문 - dm2 D-2 문자열 N 20
 108 / 526
 
-# Page 109
+# 페이지 109
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - dm3 D-3 String N 20
-Body - tot 합계 String N 20
-Body - limit_exh_rt 한도소진율 String N 20
-Body - pred_pre_1 전일대비1 String N 20
-Body - pred_pre_2 전일대비2 String N 20
-Body - pred_pre_3 전일대비3 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - dm3 D-3 문자열 N 20
+본문 - tot 합계 문자열 N 20
+본문 - limit_exh_rt 한도소진율 문자열 N 20
+본문 - pred_pre_1 전일대비1 문자열 N 20
+본문 - pred_pre_2 전일대비2 문자열 N 20
+본문 - pred_pre_3 전일대비3 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "trde_tp": "2",
 "base_dt_tp": "1",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "for_cont_nettrde_upper": [
 {
@@ -5531,9 +5531,9 @@ Response Example
 "pred_pre_sig": "3",
 109 / 526
 
-# Page 110
+# 페이지 110
 
-Response Example
+응답 예시
 "pred_pre": "0",
 "dm1": "+21220444",
 "dm2": "+213984",
@@ -5550,7 +5550,7 @@ Response Example
 }
 110 / 526
 
-# Page 111
+# 페이지 111
 
 키움 REST API
 API 정보
@@ -5558,67 +5558,67 @@ API 정보
 API 명 외인한도소진율증가상위
 API ID ka10036
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body dt 기간 String Y 2 0:당일, 1:전일, 5:5일, 10;10일, 20:20일, 60:60일
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 dt 기간 문자열 Y 2 0:당일, 1:전일, 5:5일, 10;10일, 20:20일, 60:60일
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 for_limit_exh_rt_incrs 외인한도소진율증가
-Body LIST N
+본문 목록 N
 _upper 상위
-Body - rank 순위 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - trde_qty 거래량 String N 20
-Body - poss_stkcnt 보유주식수 String N 20
+본문 - rank 순위 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - poss_stkcnt 보유주식수 문자열 N 20
 111 / 526
 
-# Page 112
+# 페이지 112
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - gain_pos_stkcnt 취득가능주식수 String N 20
-Body - base_limit_exh_rt 기준한도소진율 String N 20
-Body - limit_exh_rt 한도소진율 String N 20
-Body - exh_rt_incrs 소진율증가 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - gain_pos_stkcnt 취득가능주식수 문자열 N 20
+본문 - base_limit_exh_rt 기준한도소진율 문자열 N 20
+본문 - limit_exh_rt 한도소진율 문자열 N 20
+본문 - exh_rt_incrs 소진율증가 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "dt": "1",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "for_limit_exh_rt_incrs_upper": [
 {
@@ -5655,7 +5655,7 @@ Response Example
 }
 112 / 526
 
-# Page 113
+# 페이지 113
 
 키움 REST API
 API 정보
@@ -5663,64 +5663,64 @@ API 정보
 API 명 외국계창구매매상위요청
 API ID ka10037
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body dt 기간 String Y 2 0:당일, 1:전일, 5:5일, 10;10일, 20:20일, 60:60일
-Body trde_tp 매매구분 String Y 1 1:순매수, 2:순매도, 3:매수, 4:매도
-Body sort_tp 정렬구분 String Y 1 1:금액, 2:수량
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 dt 기간 문자열 Y 2 0:당일, 1:전일, 5:5일, 10;10일, 20:20일, 60:60일
+본문 trde_tp 매매구분 문자열 Y 1 1:순매수, 2:순매도, 3:매수, 4:매도
+본문 sort_tp 정렬구분 문자열 Y 1 1:금액, 2:수량
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 frgn_wicket_trde_up
-Body 외국계창구매매상위 LIST N
+본문 외국계창구매매상위 목록 N
 per
-Body - rank 순위 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
+본문 - rank 순위 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
 113 / 526
 
-# Page 114
+# 페이지 114
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - flu_rt 등락율 String N 20
-Body - sel_trde_qty 매도거래량 String N 20
-Body - buy_trde_qty 매수거래량 String N 20
-Body - netprps_trde_qty 순매수거래량 String N 20
-Body - netprps_prica 순매수대금 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - flu_rt 등락율 문자열 N 20
+본문 - sel_trde_qty 매도거래량 문자열 N 20
+본문 - buy_trde_qty 매수거래량 문자열 N 20
+본문 - netprps_trde_qty 순매수거래량 문자열 N 20
+본문 - netprps_prica 순매수대금 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "dt": "0",
@@ -5728,7 +5728,7 @@ Request Example
 "sort_tp": "2",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "frgn_wicket_trde_upper": [
 {
@@ -5780,14 +5780,14 @@ Response Example
 "return_code": 0,
 114 / 526
 
-# Page 115
+# 페이지 115
 
-Response Example
+응답 예시
 "return_msg": "정상적으로 처리되었습니다"
 }
 115 / 526
 
-# Page 116
+# 페이지 116
 
 키움 REST API
 API 정보
@@ -5795,64 +5795,64 @@ API 정보
 API 명 종목별증권사순위요청
 API ID ka10038
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 6
+본문 stk_cd 종목코드 문자열 Y 6
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
 YYYYMMDD
-Body strt_dt 시작일자 String Y 8
+본문 strt_dt 시작일자 문자열 Y 8
 (연도4자리, 월 2자리, 일 2자리 형식)
 YYYYMMDD
-Body end_dt 종료일자 String Y 8
+본문 end_dt 종료일자 문자열 Y 8
 (연도4자리, 월 2자리, 일 2자리 형식)
-Body qry_tp 조회구분 String Y 1 1:순매도순위정렬, 2:순매수순위정렬
-Body dt 기간 String Y 2 1:전일, 4:5일, 9:10일, 19:20일, 39:40일, 59:60일, 119:120일
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body rank_1 순위1 String N 20
-Body rank_2 순위2 String N 20
-Body rank_3 순위3 String N 20
-Body prid_trde_qty 기간중거래량 String N 20
-Body stk_sec_rank 종목별증권사순위 LIST N
-Body - rank 순위 String N 20
+본문 qry_tp 조회구분 문자열 Y 1 1:순매도순위정렬, 2:순매수순위정렬
+본문 dt 기간 문자열 Y 2 1:전일, 4:5일, 9:10일, 19:20일, 39:40일, 59:60일, 119:120일
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 rank_1 순위1 문자열 N 20
+본문 rank_2 순위2 문자열 N 20
+본문 rank_3 순위3 문자열 N 20
+본문 prid_trde_qty 기간중거래량 문자열 N 20
+본문 stk_sec_rank 종목별증권사순위 목록 N
+본문 - rank 순위 문자열 N 20
 116 / 526
 
-# Page 117
+# 페이지 117
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - mmcm_nm 회원사명 String N 20
-Body - buy_qty 매수수량 String N 20
-Body - sell_qty 매도수량 String N 20
-Body - acc_netprps_qty 누적순매수수량 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - mmcm_nm 회원사명 문자열 N 20
+본문 - buy_qty 매수수량 문자열 N 20
+본문 - sell_qty 매도수량 문자열 N 20
+본문 - acc_netprps_qty 누적순매수수량 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "strt_dt": "20241106",
@@ -5860,7 +5860,7 @@ Request Example
 "qry_tp": "2",
 "dt": "1"
 }
-Response Example
+응답 예시
 {
 "rank_1": "+34881",
 "rank_2": "-13253",
@@ -5901,7 +5901,7 @@ Response Example
 }
 117 / 526
 
-# Page 118
+# 페이지 118
 
 키움 REST API
 API 정보
@@ -5909,63 +5909,63 @@ API 정보
 API 명 증권사별매매상위요청
 API ID ka10039
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mmcm_cd 회원사코드 String Y 3 회원사 코드는 ka10102 조회
+본문 mmcm_cd 회원사코드 문자열 Y 3 회원사 코드는 ka10102 조회
 0:전체, 5:5000주, 10:1만주, 50:5만주, 100:10만주,
-Body trde_qty_tp 거래량구분 String Y 4
+본문 trde_qty_tp 거래량구분 문자열 Y 4
 500:50만주, 1000: 100만주
-Body trde_tp 매매구분 String Y 2 1:순매수, 2:순매도
-Body dt 기간 String Y 2 1:전일, 5:5일, 10:10일, 60:60일
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body sec_trde_upper 증권사별매매상위 LIST N
-Body - rank 순위 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - prid_stkpc_flu 기간중주가등락 String N 20
-Body - flu_rt 등락율 String N 20
-Body - prid_trde_qty 기간중거래량 String N 20
+본문 trde_tp 매매구분 문자열 Y 2 1:순매수, 2:순매도
+본문 dt 기간 문자열 Y 2 1:전일, 5:5일, 10:10일, 60:60일
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 sec_trde_upper 증권사별매매상위 목록 N
+본문 - rank 순위 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - prid_stkpc_flu 기간중주가등락 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - prid_trde_qty 기간중거래량 문자열 N 20
 118 / 526
 
-# Page 119
+# 페이지 119
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - netprps 순매수 String N 20
-Body - buy_trde_qty 매수거래량 String N 20
-Body - sel_trde_qty 매도거래량 String N 20
-Body - netprps_amt 순매수금액 String N 20
-Body - buy_amt 매수금액 String N 20
-Body - sell_amt 매도금액 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - netprps 순매수 문자열 N 20
+본문 - buy_trde_qty 매수거래량 문자열 N 20
+본문 - sel_trde_qty 매도거래량 문자열 N 20
+본문 - netprps_amt 순매수금액 문자열 N 20
+본문 - buy_amt 매수금액 문자열 N 20
+본문 - sell_amt 매도금액 문자열 N 20
+요청 예시
 {
 "mmcm_cd": "001",
 "trde_qty_tp": "0",
@@ -5973,7 +5973,7 @@ Request Example
 "dt": "1",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "sec_trde_upper": [
 {
@@ -6010,7 +6010,7 @@ Response Example
 }
 119 / 526
 
-# Page 120
+# 페이지 120
 
 키움 REST API
 API 정보
@@ -6018,117 +6018,117 @@ API 정보
 API 명 당일주요거래원요청
 API ID ka10040
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body sel_trde_ori_irds_1 매도거래원별증감1 String N
-Body sel_trde_ori_qty_1 매도거래원수량1 String N
-Body sel_trde_ori_1 매도거래원1 String N
-Body sel_trde_ori_cd_1 매도거래원코드1 String N
-Body buy_trde_ori_1 매수거래원1 String N
-Body buy_trde_ori_cd_1 매수거래원코드1 String N
-Body buy_trde_ori_qty_1 매수거래원수량1 String N
-Body buy_trde_ori_irds_1 매수거래원별증감1 String N
-Body sel_trde_ori_irds_2 매도거래원별증감2 String N
-Body sel_trde_ori_qty_2 매도거래원수량2 String N
-Body sel_trde_ori_2 매도거래원2 String N
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 sel_trde_ori_irds_1 매도거래원별증감1 문자열 N
+본문 sel_trde_ori_qty_1 매도거래원수량1 문자열 N
+본문 sel_trde_ori_1 매도거래원1 문자열 N
+본문 sel_trde_ori_cd_1 매도거래원코드1 문자열 N
+본문 buy_trde_ori_1 매수거래원1 문자열 N
+본문 buy_trde_ori_cd_1 매수거래원코드1 문자열 N
+본문 buy_trde_ori_qty_1 매수거래원수량1 문자열 N
+본문 buy_trde_ori_irds_1 매수거래원별증감1 문자열 N
+본문 sel_trde_ori_irds_2 매도거래원별증감2 문자열 N
+본문 sel_trde_ori_qty_2 매도거래원수량2 문자열 N
+본문 sel_trde_ori_2 매도거래원2 문자열 N
 120 / 526
 
-# Page 121
+# 페이지 121
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body sel_trde_ori_cd_2 매도거래원코드2 String N
-Body buy_trde_ori_2 매수거래원2 String N
-Body buy_trde_ori_cd_2 매수거래원코드2 String N
-Body buy_trde_ori_qty_2 매수거래원수량2 String N
-Body buy_trde_ori_irds_2 매수거래원별증감2 String N
-Body sel_trde_ori_irds_3 매도거래원별증감3 String N
-Body sel_trde_ori_qty_3 매도거래원수량3 String N
-Body sel_trde_ori_3 매도거래원3 String N
-Body sel_trde_ori_cd_3 매도거래원코드3 String N
-Body buy_trde_ori_3 매수거래원3 String N
-Body buy_trde_ori_cd_3 매수거래원코드3 String N
-Body buy_trde_ori_qty_3 매수거래원수량3 String N
-Body buy_trde_ori_irds_3 매수거래원별증감3 String N
-Body sel_trde_ori_irds_4 매도거래원별증감4 String N
-Body sel_trde_ori_qty_4 매도거래원수량4 String N
-Body sel_trde_ori_4 매도거래원4 String N
-Body sel_trde_ori_cd_4 매도거래원코드4 String N
-Body buy_trde_ori_4 매수거래원4 String N
-Body buy_trde_ori_cd_4 매수거래원코드4 String N
-Body buy_trde_ori_qty_4 매수거래원수량4 String N
-Body buy_trde_ori_irds_4 매수거래원별증감4 String N
-Body sel_trde_ori_irds_5 매도거래원별증감5 String N
-Body sel_trde_ori_qty_5 매도거래원수량5 String N
-Body sel_trde_ori_5 매도거래원5 String N
-Body sel_trde_ori_cd_5 매도거래원코드5 String N
-Body buy_trde_ori_5 매수거래원5 String N
-Body buy_trde_ori_cd_5 매수거래원코드5 String N
-Body buy_trde_ori_qty_5 매수거래원수량5 String N
-Body buy_trde_ori_irds_5 매수거래원별증감5 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 sel_trde_ori_cd_2 매도거래원코드2 문자열 N
+본문 buy_trde_ori_2 매수거래원2 문자열 N
+본문 buy_trde_ori_cd_2 매수거래원코드2 문자열 N
+본문 buy_trde_ori_qty_2 매수거래원수량2 문자열 N
+본문 buy_trde_ori_irds_2 매수거래원별증감2 문자열 N
+본문 sel_trde_ori_irds_3 매도거래원별증감3 문자열 N
+본문 sel_trde_ori_qty_3 매도거래원수량3 문자열 N
+본문 sel_trde_ori_3 매도거래원3 문자열 N
+본문 sel_trde_ori_cd_3 매도거래원코드3 문자열 N
+본문 buy_trde_ori_3 매수거래원3 문자열 N
+본문 buy_trde_ori_cd_3 매수거래원코드3 문자열 N
+본문 buy_trde_ori_qty_3 매수거래원수량3 문자열 N
+본문 buy_trde_ori_irds_3 매수거래원별증감3 문자열 N
+본문 sel_trde_ori_irds_4 매도거래원별증감4 문자열 N
+본문 sel_trde_ori_qty_4 매도거래원수량4 문자열 N
+본문 sel_trde_ori_4 매도거래원4 문자열 N
+본문 sel_trde_ori_cd_4 매도거래원코드4 문자열 N
+본문 buy_trde_ori_4 매수거래원4 문자열 N
+본문 buy_trde_ori_cd_4 매수거래원코드4 문자열 N
+본문 buy_trde_ori_qty_4 매수거래원수량4 문자열 N
+본문 buy_trde_ori_irds_4 매수거래원별증감4 문자열 N
+본문 sel_trde_ori_irds_5 매도거래원별증감5 문자열 N
+본문 sel_trde_ori_qty_5 매도거래원수량5 문자열 N
+본문 sel_trde_ori_5 매도거래원5 문자열 N
+본문 sel_trde_ori_cd_5 매도거래원코드5 문자열 N
+본문 buy_trde_ori_5 매수거래원5 문자열 N
+본문 buy_trde_ori_cd_5 매수거래원코드5 문자열 N
+본문 buy_trde_ori_qty_5 매수거래원수량5 문자열 N
+본문 buy_trde_ori_irds_5 매수거래원별증감5 문자열 N
 frgn_sel_prsm_sum_c 외국계매도추정합변
-Body String N
+본문 문자열 N
 hang 동
-Body frgn_sel_prsm_sum 외국계매도추정합 String N
-Body frgn_buy_prsm_sum 외국계매수추정합 String N
+본문 frgn_sel_prsm_sum 외국계매도추정합 문자열 N
+본문 frgn_buy_prsm_sum 외국계매수추정합 문자열 N
 frgn_buy_prsm_sum_ 외국계매수추정합변
-Body String N
+본문 문자열 N
 chang 동
-Body tdy_main_trde_ori 당일주요거래원 LIST N
-Body - sel_scesn_tm 매도이탈시간 String N 20
-Body - sell_qty 매도수량 String N 20
+본문 tdy_main_trde_ori 당일주요거래원 목록 N
+본문 - sel_scesn_tm 매도이탈시간 문자열 N 20
+본문 - sell_qty 매도수량 문자열 N 20
 121 / 526
 
-# Page 122
+# 페이지 122
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 -
-Body 매도상위이탈원 String N 20
+본문 매도상위이탈원 문자열 N 20
 sel_upper_scesn_ori
-Body - buy_scesn_tm 매수이탈시간 String N 20
-Body - buy_qty 매수수량 String N 20
+본문 - buy_scesn_tm 매수이탈시간 문자열 N 20
+본문 - buy_qty 매수수량 문자열 N 20
 -
-Body 매수상위이탈원 String N 20
+본문 매수상위이탈원 문자열 N 20
 buy_upper_scesn_ori
-Body - qry_dt 조회일자 String N 20
-Body - qry_tm 조회시간 String N 20
-Request Example
+본문 - qry_dt 조회일자 문자열 N 20
+본문 - qry_tm 조회시간 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "sel_trde_ori_irds_1": "0",
 "sel_trde_ori_qty_1": "-5689",
@@ -6180,7 +6180,7 @@ Response Example
 }
 122 / 526
 
-# Page 123
+# 페이지 123
 
 키움 REST API
 API 정보
@@ -6188,62 +6188,62 @@ API 정보
 API 명 순매수거래원순위요청
 API ID ka10042
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 6
+본문 stk_cd 종목코드 문자열 Y 6
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
 YYYYMMDD
-Body strt_dt 시작일자 String N 8
+본문 strt_dt 시작일자 문자열 N 8
 (연도4자리, 월 2자리, 일 2자리 형식)
 YYYYMMDD
-Body end_dt 종료일자 String N 8
+본문 end_dt 종료일자 문자열 N 8
 (연도4자리, 월 2자리, 일 2자리 형식)
-Body qry_dt_tp 조회기간구분 String Y 1 0:기간으로 조회, 1:시작일자, 종료일자로 조회
-Body pot_tp 시점구분 String Y 1 0:당일, 1:전일
-Body dt 기간 String N 4 5:5일, 10:10일, 20:20일, 40:40일, 60:60일, 120:120일
-Body sort_base 정렬기준 String Y 1 1:종가순, 2:날짜순
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 qry_dt_tp 조회기간구분 문자열 Y 1 0:기간으로 조회, 1:시작일자, 종료일자로 조회
+본문 pot_tp 시점구분 문자열 Y 1 0:당일, 1:전일
+본문 dt 기간 문자열 N 4 5:5일, 10:10일, 20:20일, 40:40일, 60:60일, 120:120일
+본문 sort_base 정렬기준 문자열 Y 1 1:종가순, 2:날짜순
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 netprps_trde_ori_ran
-Body 순매수거래원순위 LIST N
+본문 순매수거래원순위 목록 N
 k
-Body - rank 순위 String N 20
-Body - mmcm_cd 회원사코드 String N 20
+본문 - rank 순위 문자열 N 20
+본문 - mmcm_cd 회원사코드 문자열 N 20
 123 / 526
 
-# Page 124
+# 페이지 124
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - mmcm_nm 회원사명 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - mmcm_nm 회원사명 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "strt_dt": "20241031",
@@ -6253,7 +6253,7 @@ Request Example
 "dt": "5",
 "sort_base": "1"
 }
-Response Example
+응답 예시
 {
 "netprps_trde_ori_rank": [
 {
@@ -6292,7 +6292,7 @@ Response Example
 }
 124 / 526
 
-# Page 125
+# 페이지 125
 
 키움 REST API
 API 정보
@@ -6300,64 +6300,64 @@ API 정보
 API 명 거래원매물대분석요청
 API ID ka10043
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Body end_dt 종료일자 String Y 8 YYYYMMDD
-Body qry_dt_tp 조회기간구분 String Y 1 0:기간으로 조회, 1:시작일자, 종료일자로 조회
-Body pot_tp 시점구분 String Y 1 0:당일, 1:전일
-Body dt 기간 String Y 4 5:5일, 10:10일, 20:20일, 40:40일, 60:60일, 120:120일
-Body sort_base 정렬기준 String Y 1 1:종가순, 2:날짜순
-Body mmcm_cd 회원사코드 String Y 3 회원사 코드는 ka10102 조회
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body trde_ori_prps_anly 거래원매물대분석 LIST N
-Body - dt 일자 String N 20
-Body - close_pric 종가 String N 20
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 Y 8 YYYYMMDD
+본문 qry_dt_tp 조회기간구분 문자열 Y 1 0:기간으로 조회, 1:시작일자, 종료일자로 조회
+본문 pot_tp 시점구분 문자열 Y 1 0:당일, 1:전일
+본문 dt 기간 문자열 Y 4 5:5일, 10:10일, 20:20일, 40:40일, 60:60일, 120:120일
+본문 sort_base 정렬기준 문자열 Y 1 1:종가순, 2:날짜순
+본문 mmcm_cd 회원사코드 문자열 Y 3 회원사 코드는 ka10102 조회
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 trde_ori_prps_anly 거래원매물대분석 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
 125 / 526
 
-# Page 126
+# 페이지 126
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - sel_qty 매도량 String N 20
-Body - buy_qty 매수량 String N 20
-Body - netprps_qty 순매수수량 String N 20
-Body - trde_qty_sum 거래량합 String N 20
-Body - trde_wght 거래비중 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - sel_qty 매도량 문자열 N 20
+본문 - buy_qty 매수량 문자열 N 20
+본문 - netprps_qty 순매수수량 문자열 N 20
+본문 - trde_qty_sum 거래량합 문자열 N 20
+본문 - trde_wght 거래비중 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "strt_dt": "20241031",
@@ -6369,7 +6369,7 @@ Request Example
 "mmcm_cd": "36",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "trde_ori_prps_anly": [
 {
@@ -6417,9 +6417,9 @@ Response Example
 "trde_wght": "+19079.07"
 126 / 526
 
-# Page 127
+# 페이지 127
 
-Response Example
+응답 예시
 }
 ],
 "return_code": 0,
@@ -6427,7 +6427,7 @@ Response Example
 }
 127 / 526
 
-# Page 128
+# 페이지 128
 
 키움 REST API
 API 정보
@@ -6435,58 +6435,58 @@ API 정보
 API 명 일별기관매매종목요청
 API ID ka10044
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Body end_dt 종료일자 String Y 8 YYYYMMDD
-Body trde_tp 매매구분 String Y 1 1:순매도, 2:순매수
-Body mrkt_tp 시장구분 String Y 3 001:코스피, 101:코스닥
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body daly_orgn_trde_stk 일별기관매매종목 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - netprps_qty 순매수수량 String N 20
-Body - netprps_amt 순매수금액 String N 20
-Request Example
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 Y 8 YYYYMMDD
+본문 trde_tp 매매구분 문자열 Y 1 1:순매도, 2:순매수
+본문 mrkt_tp 시장구분 문자열 Y 3 001:코스피, 101:코스닥
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 daly_orgn_trde_stk 일별기관매매종목 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - netprps_qty 순매수수량 문자열 N 20
+본문 - netprps_amt 순매수금액 문자열 N 20
+요청 예시
 {
 "strt_dt": "20241106",
 128 / 526
 
-# Page 129
+# 페이지 129
 
-Request Example
+요청 예시
 "end_dt": "20241107",
 "trde_tp": "1",
 "mrkt_tp": "001",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "daly_orgn_trde_stk": [
 {
@@ -6515,7 +6515,7 @@ Response Example
 }
 129 / 526
 
-# Page 130
+# 페이지 130
 
 키움 REST API
 API 정보
@@ -6523,68 +6523,68 @@ API 정보
 API 명 종목별기관매매추이요청
 API ID ka10045
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Body end_dt 종료일자 String Y 8 YYYYMMDD
-Body orgn_prsm_unp_tp 기관추정단가구분 String Y 1 1:매수단가, 2:매도단가
-Body for_prsm_unp_tp 외인추정단가구분 String Y 1 1:매수단가, 2:매도단가
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body orgn_prsm_avg_pric 기관추정평균가 String N
-Body for_prsm_avg_pric 외인추정평균가 String N
-Body stk_orgn_trde_trnsn 종목별기관매매추이 LIST N
-Body - dt 일자 String N 20
-Body - close_pric 종가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 Y 8 YYYYMMDD
+본문 orgn_prsm_unp_tp 기관추정단가구분 문자열 Y 1 1:매수단가, 2:매도단가
+본문 for_prsm_unp_tp 외인추정단가구분 문자열 Y 1 1:매수단가, 2:매도단가
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 orgn_prsm_avg_pric 기관추정평균가 문자열 N
+본문 for_prsm_avg_pric 외인추정평균가 문자열 N
+본문 stk_orgn_trde_trnsn 종목별기관매매추이 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
 130 / 526
 
-# Page 131
+# 페이지 131
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - orgn_dt_acc 기관기간누적 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - orgn_dt_acc 기관기간누적 문자열 N 20
 - orgn_daly_nettrde_
-Body 기관일별순매매수량 String N 20
+본문 기관일별순매매수량 문자열 N 20
 qty
-Body - for_dt_acc 외인기간누적 String N 20
+본문 - for_dt_acc 외인기간누적 문자열 N 20
 -
-Body 외인일별순매매수량 String N 20
+본문 외인일별순매매수량 문자열 N 20
 for_daly_nettrde_qty
-Body - limit_exh_rt 한도소진율 String N 20
-Request Example
+본문 - limit_exh_rt 한도소진율 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "strt_dt": "20241007",
@@ -6592,7 +6592,7 @@ Request Example
 "orgn_prsm_unp_tp": "1",
 "for_prsm_unp_tp": "1"
 }
-Response Example
+응답 예시
 {
 "orgn_prsm_avg_pric": "117052",
 "for_prsm_avg_pric": "0",
@@ -6629,7 +6629,7 @@ Response Example
 }
 131 / 526
 
-# Page 132
+# 페이지 132
 
 키움 REST API
 API 정보
@@ -6637,64 +6637,64 @@ API 정보
 API 명 체결강도추이시간별요청
 API ID ka10046
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 6
+본문 stk_cd 종목코드 문자열 Y 6
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body cntr_str_tm 체결강도시간별 LIST N
-Body - cntr_tm 체결시간 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - acc_trde_prica 누적거래대금 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - cntr_str 체결강도 String N 20
-Body - cntr_str_5min 체결강도5분 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 cntr_str_tm 체결강도시간별 목록 N
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - cntr_str 체결강도 문자열 N 20
+본문 - cntr_str_5min 체결강도5분 문자열 N 20
 132 / 526
 
-# Page 133
+# 페이지 133
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cntr_str_20min 체결강도20분 String N 20
-Body - cntr_str_60min 체결강도60분 String N 20
-Body - stex_tp 거래소구분 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cntr_str_20min 체결강도20분 문자열 N 20
+본문 - cntr_str_60min 체결강도60분 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "cntr_str_tm": [
 {
@@ -6748,7 +6748,7 @@ Response Example
 }
 133 / 526
 
-# Page 134
+# 페이지 134
 
 키움 REST API
 API 정보
@@ -6756,63 +6756,63 @@ API 정보
 API 명 체결강도추이일별요청
 API ID ka10047
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 6
+본문 stk_cd 종목코드 문자열 Y 6
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body cntr_str_daly 체결강도일별 LIST N
-Body - dt 일자 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - acc_trde_prica 누적거래대금 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - cntr_str 체결강도 String N 20
-Body - cntr_str_5min 체결강도5일 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 cntr_str_daly 체결강도일별 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - cntr_str 체결강도 문자열 N 20
+본문 - cntr_str_5min 체결강도5일 문자열 N 20
 134 / 526
 
-# Page 135
+# 페이지 135
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cntr_str_20min 체결강도20일 String N 20
-Body - cntr_str_60min 체결강도60일 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cntr_str_20min 체결강도20일 문자열 N 20
+본문 - cntr_str_60min 체결강도60일 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "cntr_str_daly": [
 {
@@ -6863,7 +6863,7 @@ Response Example
 }
 135 / 526
 
-# Page 136
+# 페이지 136
 
 키움 REST API
 API 정보
@@ -6871,54 +6871,54 @@ API 정보
 API 명 ELW일별민감도지표요청
 API ID ka10048
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body elwdaly_snst_ix ELW일별민감도지표 LIST N
-Body - dt 일자 String N 20
-Body - iv IV String N 20
-Body - delta 델타 String N 20
-Body - gam 감마 String N 20
-Body - theta 쎄타 String N 20
-Body - vega 베가 String N 20
-Body - law 로 String N 20
-Body - lp LP String N 20
-Request Example
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 elwdaly_snst_ix ELW일별민감도지표 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - iv IV 문자열 N 20
+본문 - delta 델타 문자열 N 20
+본문 - gam 감마 문자열 N 20
+본문 - theta 쎄타 문자열 N 20
+본문 - vega 베가 문자열 N 20
+본문 - law 로 문자열 N 20
+본문 - lp LP 문자열 N 20
+요청 예시
 {
 "stk_cd": "57JBHH"
 136 / 526
 
-# Page 137
+# 페이지 137
 
-Request Example
+요청 예시
 }
-Response Example
+응답 예시
 {
 "elwdaly_snst_ix": [
 {
@@ -6996,13 +6996,13 @@ Response Example
 "return_msg": "정상적으로 처리되었습니다"
 137 / 526
 
-# Page 138
+# 페이지 138
 
-Response Example
+응답 예시
 }
 138 / 526
 
-# Page 139
+# 페이지 139
 
 키움 REST API
 API 정보
@@ -7010,55 +7010,55 @@ API 정보
 API 명 ELW민감도지표요청
 API ID ka10050
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body elwsnst_ix_array ELW민감도지표배열 LIST N
-Body - cntr_tm 체결시간 String N 20
-Body - cur_prc 현재가 String N 20
-Body - elwtheory_pric ELW이론가 String N 20
-Body - iv IV String N 20
-Body - delta 델타 String N 20
-Body - gam 감마 String N 20
-Body - theta 쎄타 String N 20
-Body - vega 베가 String N 20
-Body - law 로 String N 20
-Body - lp LP String N 20
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 elwsnst_ix_array ELW민감도지표배열 목록 N
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - elwtheory_pric ELW이론가 문자열 N 20
+본문 - iv IV 문자열 N 20
+본문 - delta 델타 문자열 N 20
+본문 - gam 감마 문자열 N 20
+본문 - theta 쎄타 문자열 N 20
+본문 - vega 베가 문자열 N 20
+본문 - law 로 문자열 N 20
+본문 - lp LP 문자열 N 20
 139 / 526
 
-# Page 140
+# 페이지 140
 
-Request Example
+요청 예시
 {
 "stk_cd": "57JBHH"
 }
-Response Example
+응답 예시
 {
 "elwsnst_ix_array": [
 {
@@ -7127,7 +7127,7 @@ Response Example
 }
 140 / 526
 
-# Page 141
+# 페이지 141
 
 키움 REST API
 API 정보
@@ -7135,79 +7135,79 @@ API 정보
 API 명 업종별투자자순매수요청
 API ID ka10051
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/sect
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 1 코스피:0, 코스닥:1
-Body amt_qty_tp 금액수량구분 String Y 1 금액:0, 수량:1
-Body base_dt 기준일자 String N 8 YYYYMMDD
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inds_netprps 업종별순매수 LIST N
-Body - inds_cd 업종코드 String N 20
-Body - inds_nm 업종명 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_smbol 대비부호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
+본문 mrkt_tp 시장구분 문자열 Y 1 코스피:0, 코스닥:1
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 금액:0, 수량:1
+본문 base_dt 기준일자 문자열 N 8 YYYYMMDD
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inds_netprps 업종별순매수 목록 N
+본문 - inds_cd 업종코드 문자열 N 20
+본문 - inds_nm 업종명 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_smbol 대비부호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
 141 / 526
 
-# Page 142
+# 페이지 142
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - sc_netprps 증권순매수 String N 20
-Body - insrnc_netprps 보험순매수 String N 20
-Body - invtrt_netprps 투신순매수 String N 20
-Body - bank_netprps 은행순매수 String N 20
-Body - jnsinkm_netprps 종신금순매수 String N 20
-Body - endw_netprps 기금순매수 String N 20
-Body - etc_corp_netprps 기타법인순매수 String N 20
-Body - ind_netprps 개인순매수 String N 20
-Body - frgnr_netprps 외국인순매수 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - sc_netprps 증권순매수 문자열 N 20
+본문 - insrnc_netprps 보험순매수 문자열 N 20
+본문 - invtrt_netprps 투신순매수 문자열 N 20
+본문 - bank_netprps 은행순매수 문자열 N 20
+본문 - jnsinkm_netprps 종신금순매수 문자열 N 20
+본문 - endw_netprps 기금순매수 문자열 N 20
+본문 - etc_corp_netprps 기타법인순매수 문자열 N 20
+본문 - ind_netprps 개인순매수 문자열 N 20
+본문 - frgnr_netprps 외국인순매수 문자열 N 20
 - native_trmt_frgnr_n 내국인대우외국인순
-Body String N 20
+본문 문자열 N 20
 etprps 매수
-Body - natn_netprps 국가순매수 String N 20
+본문 - natn_netprps 국가순매수 문자열 N 20
 -
-Body 사모펀드순매수 String N 20
+본문 사모펀드순매수 문자열 N 20
 samo_fund_netprps
-Body - orgn_netprps 기관계순매수 String N 20
-Request Example
+본문 - orgn_netprps 기관계순매수 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "0",
 "amt_qty_tp": "0",
 "base_dt": "20241107",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "inds_netprps": [
 {
@@ -7246,9 +7246,9 @@ Response Example
 "bank_netprps": "+0",
 142 / 526
 
-# Page 143
+# 페이지 143
 
-Response Example
+응답 예시
 "jnsinkm_netprps": "+0",
 "endw_netprps": "+0",
 "etc_corp_netprps": "+0",
@@ -7265,7 +7265,7 @@ Response Example
 }
 143 / 526
 
-# Page 144
+# 페이지 144
 
 키움 REST API
 API 정보
@@ -7273,69 +7273,69 @@ API 정보
 API 명 거래원순간거래량요청
 API ID ka10052
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mmcm_cd 회원사코드 String Y 3 회원사 코드는 ka10102 조회
+본문 mmcm_cd 회원사코드 문자열 Y 3 회원사 코드는 ka10102 조회
 거래소별 종목코드
-Body stk_cd 종목코드 String N 20
+본문 stk_cd 종목코드 문자열 N 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body mrkt_tp 시장구분 String Y 1 0:전체, 1:코스피, 2:코스닥, 3:종목
+본문 mrkt_tp 시장구분 문자열 Y 1 0:전체, 1:코스피, 2:코스닥, 3:종목
 0:전체, 1:1000주, 2:2000주, 3:, 5:, 10:10000주, 30: 30000주,
-Body qty_tp 수량구분 String Y 3
+본문 qty_tp 수량구분 문자열 Y 3
 50: 50000주, 100: 100000주
 0:전체, 1:1천원 미만, 8:1천원 이상, 2:1천원 ~ 2천원, 3:2천원
-Body pric_tp 가격구분 String Y 1
+본문 pric_tp 가격구분 문자열 Y 1
 ~ 5천원, 4:5천원 ~ 1만원, 5:1만원 이상
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 trde_ori_mont_trde_
-Body 거래원순간거래량 LIST N
+본문 거래원순간거래량 목록 N
 qty
-Body - tm 시간 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 20
+본문 - tm 시간 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 20
 144 / 526
 
-# Page 145
+# 페이지 145
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - trde_ori_nm 거래원명 String N 20
-Body - tp 구분 String N 20
-Body - mont_trde_qty 순간거래량 String N 20
-Body - acc_netprps 누적순매수 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - trde_ori_nm 거래원명 문자열 N 20
+본문 - tp 구분 문자열 N 20
+본문 - mont_trde_qty 순간거래량 문자열 N 20
+본문 - acc_netprps 누적순매수 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+요청 예시
 {
 "mmcm_cd": "888",
 "stk_cd": "",
@@ -7344,7 +7344,7 @@ Request Example
 "pric_tp": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "trde_ori_mont_trde_qty": [
 {
@@ -7392,7 +7392,7 @@ Response Example
 }
 145 / 526
 
-# Page 146
+# 페이지 146
 
 키움 REST API
 API 정보
@@ -7400,60 +7400,60 @@ API 정보
 API 명 당일상위이탈원요청
 API ID ka10053
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 6
+본문 stk_cd 종목코드 문자열 Y 6
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tdy_upper_scesn_ori 당일상위이탈원 LIST N
-Body - sel_scesn_tm 매도이탈시간 String N 20
-Body - sell_qty 매도수량 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tdy_upper_scesn_ori 당일상위이탈원 목록 N
+본문 - sel_scesn_tm 매도이탈시간 문자열 N 20
+본문 - sell_qty 매도수량 문자열 N 20
 -
-Body 매도상위이탈원 String N 20
+본문 매도상위이탈원 문자열 N 20
 sel_upper_scesn_ori
-Body - buy_scesn_tm 매수이탈시간 String N 20
-Body - buy_qty 매수수량 String N 20
+본문 - buy_scesn_tm 매수이탈시간 문자열 N 20
+본문 - buy_qty 매수수량 문자열 N 20
 -
-Body 매수상위이탈원 String N 20
+본문 매수상위이탈원 문자열 N 20
 buy_upper_scesn_ori
-Body - qry_dt 조회일자 String N 20
-Body - qry_tm 조회시간 String N 20
-Request Example
+본문 - qry_dt 조회일자 문자열 N 20
+본문 - qry_tm 조회시간 문자열 N 20
+요청 예시
 146 / 526
 
-# Page 147
+# 페이지 147
 
-Request Example
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "tdy_upper_scesn_ori": [
 {
@@ -7502,7 +7502,7 @@ Response Example
 }
 147 / 526
 
-# Page 148
+# 페이지 148
 
 키움 REST API
 API 정보
@@ -7510,81 +7510,81 @@ API 정보
 API 명 변동성완화장치발동종목요청
 API ID ka10054
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001: 코스피, 101:코스닥
-Body bf_mkrt_tp 장전구분 String Y 1 0:전체, 1:정규시장,2:시간외단일가
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001: 코스피, 101:코스닥
+본문 bf_mkrt_tp 장전구분 문자열 Y 1 0:전체, 1:정규시장,2:시간외단일가
 거래소별 종목코드
-Body stk_cd 종목코드 String N 20 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
+본문 stk_cd 종목코드 문자열 N 20 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
 공백입력시 시장구분으로 설정한 전체종목조회
-Body motn_tp 발동구분 String Y 1 0:전체, 1:정적VI, 2:동적VI, 3:동적VI + 정적VI
+본문 motn_tp 발동구분 문자열 Y 1 0:전체, 1:정적VI, 2:동적VI, 3:동적VI + 정적VI
 전종목포함 조회시 9개 0으로 설정(000000000),전종목제외
 조회시 9개 1으로 설정(111111111),9개 종목조회여부를
 조회포함(0), 조회제외(1)로 설정하며 종목순서는 우선주,관리
-Body skip_stk 제외종목 String Y 9
+본문 skip_stk 제외종목 문자열 Y 9
 종목,투자경고/위험,투자주의,환기종목,단기과열종목,증거금1
 00%,ETF,ETN가 됨.우선주만 조회시"011111111"",
 관리종목만 조회시 ""101111111"" 설정"
-Body trde_qty_tp 거래량구분 String Y 1 0:사용안함, 1:사용
-Body min_trde_qty 최소거래량 String Y 12 0 주 이상, 거래량구분이 1일때만 입력(공백허용)
-Body max_trde_qty 최대거래량 String Y 12 100000000 주 이하, 거래량구분이 1일때만 입력(공백허용)
-Body trde_prica_tp 거래대금구분 String Y 1 0:사용안함, 1:사용
-Body min_trde_prica 최소거래대금 String Y 10 0 백만원 이상, 거래대금구분 1일때만 입력(공백허용)
+본문 trde_qty_tp 거래량구분 문자열 Y 1 0:사용안함, 1:사용
+본문 min_trde_qty 최소거래량 문자열 Y 12 0 주 이상, 거래량구분이 1일때만 입력(공백허용)
+본문 max_trde_qty 최대거래량 문자열 Y 12 100000000 주 이하, 거래량구분이 1일때만 입력(공백허용)
+본문 trde_prica_tp 거래대금구분 문자열 Y 1 0:사용안함, 1:사용
+본문 min_trde_prica 최소거래대금 문자열 Y 10 0 백만원 이상, 거래대금구분 1일때만 입력(공백허용)
 100000000 백만원 이하, 거래대금구분 1일때만
-Body max_trde_prica 최대거래대금 String Y 10
+본문 max_trde_prica 최대거래대금 문자열 Y 10
 입력(공백허용)
-Body motn_drc 발동방향 String Y 1 0:전체, 1:상승, 2:하락
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
+본문 motn_drc 발동방향 문자열 Y 1 0:전체, 1:상승, 2:하락
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
 148 / 526
 
-# Page 149
+# 페이지 149
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body motn_stk 발동종목 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - acc_trde_qty 누적거래량 String N 20
-Body - motn_pric 발동가격 String N 20
-Body - dynm_dispty_rt 동적괴리율 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 motn_stk 발동종목 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - motn_pric 발동가격 문자열 N 20
+본문 - dynm_dispty_rt 동적괴리율 문자열 N 20
 -
-Body 매매체결처리시각 String N 20
+본문 매매체결처리시각 문자열 N 20
 trde_cntr_proc_time
-Body - virelis_time VI해제시각 String N 20
-Body - viaplc_tp VI적용구분 String N 20
-Body - dynm_stdpc 동적기준가격 String N 20
-Body - static_stdpc 정적기준가격 String N 20
-Body - static_dispty_rt 정적괴리율 String N 20
+본문 - virelis_time VI해제시각 문자열 N 20
+본문 - viaplc_tp VI적용구분 문자열 N 20
+본문 - dynm_stdpc 동적기준가격 문자열 N 20
+본문 - static_stdpc 정적기준가격 문자열 N 20
+본문 - static_dispty_rt 정적괴리율 문자열 N 20
 -
-Body 시가대비등락률 String N 20
+본문 시가대비등락률 문자열 N 20
 open_pric_pre_flu_rt
-Body - vimotn_cnt VI발동횟수 String N 20
-Body - stex_tp 거래소구분 String N 20
-Request Example
+본문 - vimotn_cnt VI발동횟수 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "bf_mkrt_tp": "0",
@@ -7600,7 +7600,7 @@ Request Example
 "motn_drc": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "motn_stk": [
 {
@@ -7619,9 +7619,9 @@ Response Example
 "vimotn_cnt": "23",
 149 / 526
 
-# Page 150
+# 페이지 150
 
-Response Example
+응답 예시
 "stex_tp": "NXT"
 },
 {
@@ -7678,7 +7678,7 @@ Response Example
 }
 150 / 526
 
-# Page 151
+# 페이지 151
 
 키움 REST API
 API 정보
@@ -7686,58 +7686,58 @@ API 정보
 API 명 당일전일체결량요청
 API ID ka10055
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body tdy_pred 당일전일 String Y 1 1:당일, 2:전일
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tdy_pred_cntr_qty 당일전일체결량 LIST N
-Body - cntr_tm 체결시간 String N 20
-Body - cntr_pric 체결가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - cntr_qty 체결량 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - acc_trde_prica 누적거래대금 String N 20
-Request Example
+본문 tdy_pred 당일전일 문자열 Y 1 1:당일, 2:전일
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tdy_pred_cntr_qty 당일전일체결량 목록 N
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - cntr_qty 체결량 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
+요청 예시
 151 / 526
 
-# Page 152
+# 페이지 152
 
-Request Example
+요청 예시
 {
 "stk_cd": "005930",
 "tdy_pred": "2"
 }
-Response Example
+응답 예시
 {
 "tdy_pred_cntr_qty": [
 {
@@ -7786,7 +7786,7 @@ Response Example
 }
 152 / 526
 
-# Page 153
+# 페이지 153
 
 키움 REST API
 API 정보
@@ -7794,65 +7794,65 @@ API 정보
 API 명 투자자별일별매매종목요청
 API ID ka10058
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Body end_dt 종료일자 String Y 8 YYYYMMDD
-Body trde_tp 매매구분 String Y 1 순매도:1, 순매수:2
-Body mrkt_tp 시장구분 String Y 3 001:코스피, 101:코스닥
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 Y 8 YYYYMMDD
+본문 trde_tp 매매구분 문자열 Y 1 순매도:1, 순매수:2
+본문 mrkt_tp 시장구분 문자열 Y 3 001:코스피, 101:코스닥
 8000:개인, 9000:외국인, 1000:금융투자, 3000:투신,
-Body invsr_tp 투자자구분 String Y 4 5000:기타금융, 4000:은행, 2000:보험, 6000:연기금,
+본문 invsr_tp 투자자구분 문자열 Y 4 5000:기타금융, 4000:은행, 2000:보험, 6000:연기금,
 7000:국가, 7100:기타법인, 9999:기관계
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 투자자별일별매매종
-Body invsr_daly_trde_stk LIST N
+본문 invsr_daly_trde_stk 목록 N
 목
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - netslmt_qty 순매도수량 String N 20
-Body - netslmt_amt 순매도금액 String N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - netslmt_qty 순매도수량 문자열 N 20
+본문 - netslmt_amt 순매도금액 문자열 N 20
 153 / 526
 
-# Page 154
+# 페이지 154
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - prsm_avg_pric 추정평균가 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - avg_pric_pre 평균가대비 String N 20
-Body - pre_rt 대비율 String N 20
-Body - dt_trde_qty 기간거래량 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - prsm_avg_pric 추정평균가 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - avg_pric_pre 평균가대비 문자열 N 20
+본문 - pre_rt 대비율 문자열 N 20
+본문 - dt_trde_qty 기간거래량 문자열 N 20
+요청 예시
 {
 "strt_dt": "20241106",
 "end_dt": "20241107",
@@ -7861,7 +7861,7 @@ Request Example
 "invsr_tp": "8000",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "invsr_daly_trde_stk": [
 {
@@ -7909,7 +7909,7 @@ Response Example
 }
 154 / 526
 
-# Page 155
+# 페이지 155
 
 키움 REST API
 API 정보
@@ -7917,71 +7917,71 @@ API 정보
 API 명 종목별투자자기관별요청
 API ID ka10059
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dt 일자 String Y 8 YYYYMMDD
+본문 dt 일자 문자열 Y 8 YYYYMMDD
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액, 2:수량
-Body trde_tp 매매구분 String Y 1 0:순매수, 1:매수, 2:매도
-Body unit_tp 단위구분 String Y 4 1000:천주, 1:단주
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_invsr_orgn 종목별투자자기관별 LIST N
-Body - dt 일자 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20 우측 2자리 소수점자리수
-Body - acc_trde_qty 누적거래량 String N 20
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액, 2:수량
+본문 trde_tp 매매구분 문자열 Y 1 0:순매수, 1:매수, 2:매도
+본문 unit_tp 단위구분 문자열 Y 4 1000:천주, 1:단주
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_invsr_orgn 종목별투자자기관별 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20 우측 2자리 소수점자리수
+본문 - acc_trde_qty 누적거래량 문자열 N 20
 155 / 526
 
-# Page 156
+# 페이지 156
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - acc_trde_prica 누적거래대금 String N 20
-Body - ind_invsr 개인투자자 String N 20
-Body - frgnr_invsr 외국인투자자 String N 20
-Body - orgn 기관계 String N 20
-Body - fnnc_invt 금융투자 String N 20
-Body - insrnc 보험 String N 20
-Body - invtrt 투신 String N 20
-Body - etc_fnnc 기타금융 String N 20
-Body - bank 은행 String N 20
-Body - penfnd_etc 연기금등 String N 20
-Body - samo_fund 사모펀드 String N 20
-Body - natn 국가 String N 20
-Body - etc_corp 기타법인 String N 20
-Body - natfor 내외국인 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
+본문 - ind_invsr 개인투자자 문자열 N 20
+본문 - frgnr_invsr 외국인투자자 문자열 N 20
+본문 - orgn 기관계 문자열 N 20
+본문 - fnnc_invt 금융투자 문자열 N 20
+본문 - insrnc 보험 문자열 N 20
+본문 - invtrt 투신 문자열 N 20
+본문 - etc_fnnc 기타금융 문자열 N 20
+본문 - bank 은행 문자열 N 20
+본문 - penfnd_etc 연기금등 문자열 N 20
+본문 - samo_fund 사모펀드 문자열 N 20
+본문 - natn 국가 문자열 N 20
+본문 - etc_corp 기타법인 문자열 N 20
+본문 - natfor 내외국인 문자열 N 20
+요청 예시
 {
 "dt": "20241107",
 "stk_cd": "005930",
@@ -7989,7 +7989,7 @@ Request Example
 "trde_tp": "0",
 "unit_tp": "1000"
 }
-Response Example
+응답 예시
 {
 "stk_invsr_orgn": [
 {
@@ -8027,9 +8027,9 @@ Response Example
 "orgn": "646",
 156 / 526
 
-# Page 157
+# 페이지 157
 
-Response Example
+응답 예시
 "fnnc_invt": "-47",
 "insrnc": "15",
 "invtrt": "-2",
@@ -8047,7 +8047,7 @@ Response Example
 }
 157 / 526
 
-# Page 158
+# 페이지 158
 
 키움 REST API
 API 정보
@@ -8055,70 +8055,70 @@ API 정보
 API 명 종목별투자자기관별차트요청
 API ID ka10060
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dt 일자 String Y 8 YYYYMMDD
+본문 dt 일자 문자열 Y 8 YYYYMMDD
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액, 2:수량
-Body trde_tp 매매구분 String Y 1 0:순매수, 1:매수, 2:매도
-Body unit_tp 단위구분 String Y 4 1000:천주, 1:단주
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액, 2:수량
+본문 trde_tp 매매구분 문자열 Y 1 0:순매수, 1:매수, 2:매도
+본문 unit_tp 단위구분 문자열 Y 4 1000:천주, 1:단주
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 종목별투자자기관별
-Body stk_invsr_orgn_chart LIST N
+본문 stk_invsr_orgn_chart 목록 N
 차트
-Body - dt 일자 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - acc_trde_prica 누적거래대금 String N 20
-Body - ind_invsr 개인투자자 String N 20
+본문 - dt 일자 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
+본문 - ind_invsr 개인투자자 문자열 N 20
 158 / 526
 
-# Page 159
+# 페이지 159
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - frgnr_invsr 외국인투자자 String N 20
-Body - orgn 기관계 String N 20
-Body - fnnc_invt 금융투자 String N 20
-Body - insrnc 보험 String N 20
-Body - invtrt 투신 String N 20
-Body - etc_fnnc 기타금융 String N 20
-Body - bank 은행 String N 20
-Body - penfnd_etc 연기금등 String N 20
-Body - samo_fund 사모펀드 String N 20
-Body - natn 국가 String N 20
-Body - etc_corp 기타법인 String N 20
-Body - natfor 내외국인 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - frgnr_invsr 외국인투자자 문자열 N 20
+본문 - orgn 기관계 문자열 N 20
+본문 - fnnc_invt 금융투자 문자열 N 20
+본문 - insrnc 보험 문자열 N 20
+본문 - invtrt 투신 문자열 N 20
+본문 - etc_fnnc 기타금융 문자열 N 20
+본문 - bank 은행 문자열 N 20
+본문 - penfnd_etc 연기금등 문자열 N 20
+본문 - samo_fund 사모펀드 문자열 N 20
+본문 - natn 국가 문자열 N 20
+본문 - etc_corp 기타법인 문자열 N 20
+본문 - natfor 내외국인 문자열 N 20
+요청 예시
 {
 "dt": "20241107",
 "stk_cd": "005930",
@@ -8126,7 +8126,7 @@ Request Example
 "trde_tp": "0",
 "unit_tp": "1000"
 }
-Response Example
+응답 예시
 {
 "stk_invsr_orgn_chart": [
 {
@@ -8168,9 +8168,9 @@ Response Example
 "natfor": "0"
 159 / 526
 
-# Page 160
+# 페이지 160
 
-Response Example
+응답 예시
 }
 ],
 "return_code": 0,
@@ -8178,7 +8178,7 @@ Response Example
 }
 160 / 526
 
-# Page 161
+# 페이지 161
 
 키움 REST API
 API 정보
@@ -8186,67 +8186,67 @@ API 정보
 API 명 종목별투자자기관별합계요청
 API ID ka10061
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Body end_dt 종료일자 String Y 8 YYYYMMDD
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액, 2:수량
-Body trde_tp 매매구분 String Y 1 0:순매수
-Body unit_tp 단위구분 String Y 4 1000:천주, 1:단주
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 Y 8 YYYYMMDD
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액, 2:수량
+본문 trde_tp 매매구분 문자열 Y 1 0:순매수
+본문 unit_tp 단위구분 문자열 Y 4 1000:천주, 1:단주
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 종목별투자자기관별
-Body stk_invsr_orgn_tot LIST N
+본문 stk_invsr_orgn_tot 목록 N
 합계
-Body - ind_invsr 개인투자자 String N 20
-Body - frgnr_invsr 외국인투자자 String N 20
-Body - orgn 기관계 String N 20
-Body - fnnc_invt 금융투자 String N 20
+본문 - ind_invsr 개인투자자 문자열 N 20
+본문 - frgnr_invsr 외국인투자자 문자열 N 20
+본문 - orgn 기관계 문자열 N 20
+본문 - fnnc_invt 금융투자 문자열 N 20
 161 / 526
 
-# Page 162
+# 페이지 162
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - insrnc 보험 String N 20
-Body - invtrt 투신 String N 20
-Body - etc_fnnc 기타금융 String N 20
-Body - bank 은행 String N 20
-Body - penfnd_etc 연기금등 String N 20
-Body - samo_fund 사모펀드 String N 20
-Body - natn 국가 String N 20
-Body - etc_corp 기타법인 String N 20
-Body - natfor 내외국인 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - insrnc 보험 문자열 N 20
+본문 - invtrt 투신 문자열 N 20
+본문 - etc_fnnc 기타금융 문자열 N 20
+본문 - bank 은행 문자열 N 20
+본문 - penfnd_etc 연기금등 문자열 N 20
+본문 - samo_fund 사모펀드 문자열 N 20
+본문 - natn 국가 문자열 N 20
+본문 - etc_corp 기타법인 문자열 N 20
+본문 - natfor 내외국인 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "strt_dt": "20241007",
@@ -8255,7 +8255,7 @@ Request Example
 "trde_tp": "0",
 "unit_tp": "1000"
 }
-Response Example
+응답 예시
 {
 "stk_invsr_orgn_tot": [
 {
@@ -8279,7 +8279,7 @@ Response Example
 }
 162 / 526
 
-# Page 163
+# 페이지 163
 
 키움 REST API
 API 정보
@@ -8287,75 +8287,75 @@ API 정보
 API 명 동일순매매순위요청
 API ID ka10062
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 YYYYMMDD
-Body strt_dt 시작일자 String Y 8
+본문 strt_dt 시작일자 문자열 Y 8
 (연도4자리, 월 2자리, 일 2자리 형식)
 YYYYMMDD
-Body end_dt 종료일자 String N 8
+본문 end_dt 종료일자 문자열 N 8
 (연도4자리, 월 2자리, 일 2자리 형식)
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001: 코스피, 101:코스닥
-Body trde_tp 매매구분 String Y 1 1:순매수, 2:순매도
-Body sort_cnd 정렬조건 String Y 1 1:수량, 2:금액
-Body unit_tp 단위구분 String Y 1 1:단주, 1000:천주
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body eql_nettrde_rank 동일순매매순위 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - rank 순위 String N 20
-Body - stk_nm 종목명 String N 40
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001: 코스피, 101:코스닥
+본문 trde_tp 매매구분 문자열 Y 1 1:순매수, 2:순매도
+본문 sort_cnd 정렬조건 문자열 Y 1 1:수량, 2:금액
+본문 unit_tp 단위구분 문자열 Y 1 1:단주, 1000:천주
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 eql_nettrde_rank 동일순매매순위 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - rank 순위 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
 163 / 526
 
-# Page 164
+# 페이지 164
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - orgn_nettrde_qty 기관순매매수량 String N 20
-Body - orgn_nettrde_amt 기관순매매금액 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - orgn_nettrde_qty 기관순매매수량 문자열 N 20
+본문 - orgn_nettrde_amt 기관순매매금액 문자열 N 20
 - orgn_nettrde_avg_
-Body 기관순매매평균가 String N 20
+본문 기관순매매평균가 문자열 N 20
 pric
-Body - for_nettrde_qty 외인순매매수량 String N 20
-Body - for_nettrde_amt 외인순매매금액 String N 20
+본문 - for_nettrde_qty 외인순매매수량 문자열 N 20
+본문 - for_nettrde_amt 외인순매매금액 문자열 N 20
 -
-Body 외인순매매평균가 String N 20
+본문 외인순매매평균가 문자열 N 20
 for_nettrde_avg_pric
-Body - nettrde_qty 순매매수량 String N 20
-Body - nettrde_amt 순매매금액 String N 20
-Request Example
+본문 - nettrde_qty 순매매수량 문자열 N 20
+본문 - nettrde_amt 순매매금액 문자열 N 20
+요청 예시
 {
 "strt_dt": "20241106",
 "end_dt": "20241107",
@@ -8365,7 +8365,7 @@ Request Example
 "unit_tp": "1",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "eql_nettrde_rank": [
 {
@@ -8392,7 +8392,7 @@ Response Example
 }
 164 / 526
 
-# Page 165
+# 페이지 165
 
 키움 REST API
 API 정보
@@ -8400,75 +8400,75 @@ API 정보
 API 명 장중투자자별매매요청
 API ID ka10063
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body amt_qty_tp 금액수량구분 String Y 1 1: 금액&수량
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1: 금액&수량
 6:외국인, 7:기관계, 1:투신, 0:보험, 2:은행, 3:연기금, 4:국가,
-Body invsr 투자자별 String Y 1
+본문 invsr 투자자별 문자열 Y 1
 5:기타법인
-Body frgn_all 외국계전체 String Y 1 1:체크, 0:미체크
-Body smtm_netprps_tp 동시순매수구분 String Y 1 1:체크, 0:미체크
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body opmr_invsr_trde 장중투자자별매매 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
+본문 frgn_all 외국계전체 문자열 Y 1 1:체크, 0:미체크
+본문 smtm_netprps_tp 동시순매수구분 문자열 Y 1 1:체크, 0:미체크
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 opmr_invsr_trde 장중투자자별매매 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
 165 / 526
 
-# Page 166
+# 페이지 166
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - flu_rt 등락율 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - netprps_amt 순매수금액 String N 20
-Body - prev_netprps_amt 이전순매수금액 String N 20
-Body - buy_amt 매수금액 String N 20
-Body - netprps_amt_irds 순매수금액증감 String N 20
-Body - buy_amt_irds 매수금액증감 String N 20
-Body - sell_amt 매도금액 String N 20
-Body - sell_amt_irds 매도금액증감 String N 20
-Body - netprps_qty 순매수수량 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - flu_rt 등락율 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - netprps_amt 순매수금액 문자열 N 20
+본문 - prev_netprps_amt 이전순매수금액 문자열 N 20
+본문 - buy_amt 매수금액 문자열 N 20
+본문 - netprps_amt_irds 순매수금액증감 문자열 N 20
+본문 - buy_amt_irds 매수금액증감 문자열 N 20
+본문 - sell_amt 매도금액 문자열 N 20
+본문 - sell_amt_irds 매도금액증감 문자열 N 20
+본문 - netprps_qty 순매수수량 문자열 N 20
 - prev_pot_netprps_
-Body 이전시점순매수수량 String N 20
+본문 이전시점순매수수량 문자열 N 20
 qty
-Body - netprps_irds 순매수증감 String N 20
-Body - buy_qty 매수수량 String N 20
-Body - buy_qty_irds 매수수량증감 String N 20
-Body - sell_qty 매도수량 String N 20
-Body - sell_qty_irds 매도수량증감 String N 20
-Request Example
+본문 - netprps_irds 순매수증감 문자열 N 20
+본문 - buy_qty 매수수량 문자열 N 20
+본문 - buy_qty_irds 매수수량증감 문자열 N 20
+본문 - sell_qty 매도수량 문자열 N 20
+본문 - sell_qty_irds 매도수량증감 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "amt_qty_tp": "1",
@@ -8477,7 +8477,7 @@ Request Example
 "smtm_netprps_tp": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 'opmr_invsr_trde':
 [
@@ -8508,9 +8508,9 @@ Response Example
 'netprps_qty': '--261000',
 166 / 526
 
-# Page 167
+# 페이지 167
 
-Response Example
+응답 예시
 'prev_pot_netprps_qty': '--347000',
 'netprps_irds': '+86000',
 'buy_qty': '+2728000',
@@ -8524,7 +8524,7 @@ Response Example
 }
 167 / 526
 
-# Page 168
+# 페이지 168
 
 키움 REST API
 API 정보
@@ -8532,68 +8532,68 @@ API 정보
 API 명 장중투자자별매매차트요청
 API ID ka10064
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액, 2:수량
-Body trde_tp 매매구분 String Y 1 0:순매수, 1:매수, 2:매도
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액, 2:수량
+본문 trde_tp 매매구분 문자열 Y 1 0:순매수, 1:매수, 2:매도
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 opmr_invsr_trde_cha 장중투자자별매매차
-Body LIST N
+본문 목록 N
 rt 트
-Body - tm 시간 String N 20
-Body - frgnr_invsr 외국인투자자 String N 20
-Body - orgn 기관계 String N 20
-Body - invtrt 투신 String N 20
-Body - insrnc 보험 String N 20
-Body - bank 은행 String N 20
+본문 - tm 시간 문자열 N 20
+본문 - frgnr_invsr 외국인투자자 문자열 N 20
+본문 - orgn 기관계 문자열 N 20
+본문 - invtrt 투신 문자열 N 20
+본문 - insrnc 보험 문자열 N 20
+본문 - bank 은행 문자열 N 20
 168 / 526
 
-# Page 169
+# 페이지 169
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - penfnd_etc 연기금등 String N 20
-Body - etc_corp 기타법인 String N 20
-Body - natn 국가 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - penfnd_etc 연기금등 문자열 N 20
+본문 - etc_corp 기타법인 문자열 N 20
+본문 - natn 국가 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "amt_qty_tp": "1",
 "trde_tp": "0",
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "opmr_invsr_trde_chart": [
 {
@@ -8635,7 +8635,7 @@ Response Example
 }
 169 / 526
 
-# Page 170
+# 페이지 170
 
 키움 REST API
 API 정보
@@ -8643,59 +8643,59 @@ API 정보
 API 명 장중투자자별매매상위요청
 API ID ka10065
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trde_tp 매매구분 String Y 1 1:순매수, 2:순매도
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
+본문 trde_tp 매매구분 문자열 Y 1 1:순매수, 2:순매도
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
 9000:외국인, 9100:외국계, 1000:금융투자, 3000:투신,
-Body orgn_tp 기관구분 String Y 4 5000:기타금융, 4000:은행, 2000:보험, 6000:연기금,
+본문 orgn_tp 기관구분 문자열 Y 4 5000:기타금융, 4000:은행, 2000:보험, 6000:연기금,
 7000:국가, 7100:기타법인, 9999:기관계
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 opmr_invsr_trde_upp 장중투자자별매매상
-Body LIST N
+본문 목록 N
 er 위
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - sel_qty 매도량 String N 20
-Body - buy_qty 매수량 String N 20
-Body - netslmt 순매도 String N 20
-Request Example
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - sel_qty 매도량 문자열 N 20
+본문 - buy_qty 매수량 문자열 N 20
+본문 - netslmt 순매도 문자열 N 20
+요청 예시
 {
 170 / 526
 
-# Page 171
+# 페이지 171
 
-Request Example
+요청 예시
 "trde_tp": "1",
 "mrkt_tp": "000",
 "orgn_tp": "9000"
 }
-Response Example
+응답 예시
 {
 "opmr_invsr_trde_upper": [
 {
@@ -8753,7 +8753,7 @@ Response Example
 }
 171 / 526
 
-# Page 172
+# 페이지 172
 
 키움 REST API
 API 정보
@@ -8761,76 +8761,76 @@ API 정보
 API 명 장마감후투자자별매매요청
 API ID ka10066
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액, 2:수량
-Body trde_tp 매매구분 String Y 1 0:순매수, 1:매수, 2:매도
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액, 2:수량
+본문 trde_tp 매매구분 문자열 Y 1 0:순매수, 1:매수, 2:매도
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 장중투자자별매매차
-Body opaf_invsr_trde LIST N
+본문 opaf_invsr_trde 목록 N
 트
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
 172 / 526
 
-# Page 173
+# 페이지 173
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - ind_invsr 개인투자자 String N 20
-Body - frgnr_invsr 외국인투자자 String N 20
-Body - orgn 기관계 String N 20
-Body - fnnc_invt 금융투자 String N 20
-Body - insrnc 보험 String N 20
-Body - invtrt 투신 String N 20
-Body - etc_fnnc 기타금융 String N 20
-Body - bank 은행 String N 20
-Body - penfnd_etc 연기금등 String N 20
-Body - samo_fund 사모펀드 String N 20
-Body - natn 국가 String N 20
-Body - etc_corp 기타법인 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - ind_invsr 개인투자자 문자열 N 20
+본문 - frgnr_invsr 외국인투자자 문자열 N 20
+본문 - orgn 기관계 문자열 N 20
+본문 - fnnc_invt 금융투자 문자열 N 20
+본문 - insrnc 보험 문자열 N 20
+본문 - invtrt 투신 문자열 N 20
+본문 - etc_fnnc 기타금융 문자열 N 20
+본문 - bank 은행 문자열 N 20
+본문 - penfnd_etc 연기금등 문자열 N 20
+본문 - samo_fund 사모펀드 문자열 N 20
+본문 - natn 국가 문자열 N 20
+본문 - etc_corp 기타법인 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "amt_qty_tp": "1",
 "trde_tp": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "opaf_invsr_trde": [
 {
@@ -8873,9 +8873,9 @@ Response Example
 "penfnd_etc": "0",
 173 / 526
 
-# Page 174
+# 페이지 174
 
-Response Example
+응답 예시
 "samo_fund": "0",
 "natn": "0",
 "etc_corp": "0"
@@ -8886,7 +8886,7 @@ Response Example
 }
 174 / 526
 
-# Page 175
+# 페이지 175
 
 키움 REST API
 API 정보
@@ -8894,56 +8894,56 @@ API 정보
 API 명 대차거래추이요청
 API ID ka10068
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/slb
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body strt_dt 시작일자 String N 8 YYYYMMDD
-Body end_dt 종료일자 String N 8 YYYYMMDD
-Body all_tp 전체구분 String Y 6 1: 전체표시
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body dbrt_trde_trnsn 대차거래추이 LIST N
-Body - dt 일자 String N 8
-Body - dbrt_trde_cntrcnt 대차거래체결주수 String N 12
-Body - dbrt_trde_rpy 대차거래상환주수 String N 18
-Body - rmnd 잔고주수 String N 18
-Body - dbrt_trde_irds 대차거래증감 String N 60
-Body - remn_amt 잔고금액 String N 18
-Request Example
+본문 strt_dt 시작일자 문자열 N 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 N 8 YYYYMMDD
+본문 all_tp 전체구분 문자열 Y 6 1: 전체표시
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 dbrt_trde_trnsn 대차거래추이 목록 N
+본문 - dt 일자 문자열 N 8
+본문 - dbrt_trde_cntrcnt 대차거래체결주수 문자열 N 12
+본문 - dbrt_trde_rpy 대차거래상환주수 문자열 N 18
+본문 - rmnd 잔고주수 문자열 N 18
+본문 - dbrt_trde_irds 대차거래증감 문자열 N 60
+본문 - remn_amt 잔고금액 문자열 N 18
+요청 예시
 {
 "strt_dt": "20250401",
 175 / 526
 
-# Page 176
+# 페이지 176
 
-Request Example
+요청 예시
 "end_dt": "20250430",
 "all_tp": "1"
 }
-Response Example
+응답 예시
 {
 "dbrt_trde_trnsn": [
 {
@@ -8984,7 +8984,7 @@ Response Example
 }
 176 / 526
 
-# Page 177
+# 페이지 177
 
 키움 REST API
 API 정보
@@ -8992,79 +8992,79 @@ API 정보
 API 명 대차거래상위10종목요청
 API ID ka10069
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/slb
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 YYYYMMDD
-Body strt_dt 시작일자 String Y 8
+본문 strt_dt 시작일자 문자열 Y 8
 (연도4자리, 월 2자리, 일 2자리 형식)
 YYYYMMDD
-Body end_dt 종료일자 String N 8
+본문 end_dt 종료일자 문자열 N 8
 (연도4자리, 월 2자리, 일 2자리 형식)
-Body mrkt_tp 시장구분 String Y 3 001:코스피, 101:코스닥
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 mrkt_tp 시장구분 문자열 Y 3 001:코스피, 101:코스닥
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 dbrt_trde_cntrcnt_su
-Body 대차거래체결주수합 String N
+본문 대차거래체결주수합 문자열 N
 m
-Body dbrt_trde_rpy_sum 대차거래상환주수합 String N
-Body rmnd_sum 잔고주수합 String N
-Body remn_amt_sum 잔고금액합 String N
+본문 dbrt_trde_rpy_sum 대차거래상환주수합 문자열 N
+본문 rmnd_sum 잔고주수합 문자열 N
+본문 remn_amt_sum 잔고금액합 문자열 N
 대차거래체결주수비
-Body dbrt_trde_cntrcnt_rt String N
+본문 dbrt_trde_cntrcnt_rt 문자열 N
 율
 대차거래상환주수비
-Body dbrt_trde_rpy_rt String N
+본문 dbrt_trde_rpy_rt 문자열 N
 율
-Body rmnd_rt 잔고주수비율 String N
+본문 rmnd_rt 잔고주수비율 문자열 N
 177 / 526
 
-# Page 178
+# 페이지 178
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body remn_amt_rt 잔고금액비율 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 remn_amt_rt 잔고금액비율 문자열 N
 dbrt_trde_upper_10s
-Body 대차거래상위10종목 LIST N
+본문 대차거래상위10종목 목록 N
 tk
-Body - stk_nm 종목명 String N 40
-Body - stk_cd 종목코드 String N 20
-Body - dbrt_trde_cntrcnt 대차거래체결주수 String N 20
-Body - dbrt_trde_rpy 대차거래상환주수 String N 20
-Body - rmnd 잔고주수 String N 20
-Body - remn_amt 잔고금액 String N 20
-Request Example
+본문 - stk_nm 종목명 문자열 N 40
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - dbrt_trde_cntrcnt 대차거래체결주수 문자열 N 20
+본문 - dbrt_trde_rpy 대차거래상환주수 문자열 N 20
+본문 - rmnd 잔고주수 문자열 N 20
+본문 - remn_amt 잔고금액 문자열 N 20
+요청 예시
 {
 "strt_dt": "20241110",
 "end_dt": "20241125",
 "mrkt_tp": "001"
 }
-Response Example
+응답 예시
 {
 "dbrt_trde_cntrcnt_sum": "3383301",
 "dbrt_trde_rpy_sum": "764254",
@@ -9113,7 +9113,7 @@ Response Example
 }
 178 / 526
 
-# Page 179
+# 페이지 179
 
 키움 REST API
 API 정보
@@ -9121,67 +9121,67 @@ API 정보
 API 명 일자별종목별실현손익요청_일자
 API ID ka10072
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String N 6
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 6
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 일자별종목별실현손
-Body dt_stk_div_rlzt_pl LIST N
+본문 dt_stk_div_rlzt_pl 목록 N
 익
-Body - stk_nm 종목명 String N 40
-Body - cntr_qty 체결량 String N 20
-Body - buy_uv 매입단가 String N 20
-Body - cntr_pric 체결가 String N 20
-Body - tdy_sel_pl 당일매도손익 String N 20
-Body - pl_rt 손익율 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - tdy_trde_cmsn 당일매매수수료 String N 20
-Body - tdy_trde_tax 당일매매세금 String N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cntr_qty 체결량 문자열 N 20
+본문 - buy_uv 매입단가 문자열 N 20
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - tdy_sel_pl 당일매도손익 문자열 N 20
+본문 - pl_rt 손익율 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - tdy_trde_cmsn 당일매매수수료 문자열 N 20
+본문 - tdy_trde_tax 당일매매세금 문자열 N 20
 179 / 526
 
-# Page 180
+# 페이지 180
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - wthd_alowa 인출가능금액 String N 20
-Body - loan_dt 대출일 String N 20
-Body - crd_tp 신용구분 String N 20
-Body - stk_cd_1 종목코드1 String N 20
-Body - tdy_sel_pl_1 당일매도손익1 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - wthd_alowa 인출가능금액 문자열 N 20
+본문 - loan_dt 대출일 문자열 N 20
+본문 - crd_tp 신용구분 문자열 N 20
+본문 - stk_cd_1 종목코드1 문자열 N 20
+본문 - tdy_sel_pl_1 당일매도손익1 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "strt_dt": "20241128"
 }
-Response Example
+응답 예시
 {
 "dt_stk_div_rlzt_pl": [
 {
@@ -9222,7 +9222,7 @@ Response Example
 }
 180 / 526
 
-# Page 181
+# 페이지 181
 
 키움 REST API
 API 정보
@@ -9230,69 +9230,69 @@ API 정보
 API 명 일자별종목별실현손익요청_기간
 API ID ka10073
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String N 6
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Body end_dt 종료일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 6
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 일자별종목별실현손
-Body dt_stk_rlzt_pl LIST N
+본문 dt_stk_rlzt_pl 목록 N
 익
-Body - dt 일자 String N 20
-Body - tdy_htssel_cmsn 당일hts매도수수료 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cntr_qty 체결량 String N 20
-Body - buy_uv 매입단가 String N 20
-Body - cntr_pric 체결가 String N 20
-Body - tdy_sel_pl 당일매도손익 String N 20
-Body - pl_rt 손익율 String N 20
+본문 - dt 일자 문자열 N 20
+본문 - tdy_htssel_cmsn 당일hts매도수수료 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cntr_qty 체결량 문자열 N 20
+본문 - buy_uv 매입단가 문자열 N 20
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - tdy_sel_pl 당일매도손익 문자열 N 20
+본문 - pl_rt 손익율 문자열 N 20
 181 / 526
 
-# Page 182
+# 페이지 182
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - stk_cd 종목코드 String N 20
-Body - tdy_trde_cmsn 당일매매수수료 String N 20
-Body - tdy_trde_tax 당일매매세금 String N 20
-Body - wthd_alowa 인출가능금액 String N 20
-Body - loan_dt 대출일 String N 20
-Body - crd_tp 신용구분 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - tdy_trde_cmsn 당일매매수수료 문자열 N 20
+본문 - tdy_trde_tax 당일매매세금 문자열 N 20
+본문 - wthd_alowa 인출가능금액 문자열 N 20
+본문 - loan_dt 대출일 문자열 N 20
+본문 - crd_tp 신용구분 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "strt_dt": "20241128",
 "end_dt": "20241128"
 }
-Response Example
+응답 예시
 {
 "dt_stk_rlzt_pl": [
 {
@@ -9348,13 +9348,13 @@ Response Example
 "return_msg": " 조회가 완료되었습니다."
 182 / 526
 
-# Page 183
+# 페이지 183
 
-Response Example
+응답 예시
 }
 183 / 526
 
-# Page 184
+# 페이지 184
 
 키움 REST API
 API 정보
@@ -9362,63 +9362,63 @@ API 정보
 API 명 일자별실현손익요청
 API ID ka10074
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 [ 주의 ] 실현손익이 발생한 일자에대해서만 데이터가 채워짐.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body strt_dt 시작일자 String Y 8
-Body end_dt 종료일자 String Y 8
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tot_buy_amt 총매수금액 String N
-Body tot_sell_amt 총매도금액 String N
-Body rlzt_pl 실현손익 String N
-Body trde_cmsn 매매수수료 String N
-Body trde_tax 매매세금 String N
-Body dt_rlzt_pl 일자별실현손익 LIST N
-Body - dt 일자 String N 20
-Body - buy_amt 매수금액 String N 20
-Body - sell_amt 매도금액 String N 20
-Body - tdy_sel_pl 당일매도손익 String N 20
+본문 strt_dt 시작일자 문자열 Y 8
+본문 end_dt 종료일자 문자열 Y 8
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tot_buy_amt 총매수금액 문자열 N
+본문 tot_sell_amt 총매도금액 문자열 N
+본문 rlzt_pl 실현손익 문자열 N
+본문 trde_cmsn 매매수수료 문자열 N
+본문 trde_tax 매매세금 문자열 N
+본문 dt_rlzt_pl 일자별실현손익 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - buy_amt 매수금액 문자열 N 20
+본문 - sell_amt 매도금액 문자열 N 20
+본문 - tdy_sel_pl 당일매도손익 문자열 N 20
 184 / 526
 
-# Page 185
+# 페이지 185
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - tdy_trde_cmsn 당일매매수수료 String N 20
-Body - tdy_trde_tax 당일매매세금 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - tdy_trde_cmsn 당일매매수수료 문자열 N 20
+본문 - tdy_trde_tax 당일매매세금 문자열 N 20
+요청 예시
 {
 "strt_dt": "20241128",
 "end_dt": "20241128"
 }
-Response Example
+응답 예시
 {
 "tot_buy_amt": "0",
 "tot_sell_amt": "474600",
@@ -9440,7 +9440,7 @@ Response Example
 }
 185 / 526
 
-# Page 186
+# 페이지 186
 
 키움 REST API
 API 정보
@@ -9448,85 +9448,85 @@ API 정보
 API 명 미체결요청
 API ID ka10075
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body all_stk_tp 전체종목구분 String Y 1 0:전체, 1:종목
-Body trde_tp 매매구분 String Y 1 0:전체, 1:매도, 2:매수
-Body stk_cd 종목코드 String N 6
-Body stex_tp 거래소구분 String Y 1 0 : 통합, 1 : KRX, 2 : NXT
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body oso 미체결 LIST N
-Body - acnt_no 계좌번호 String N 20
-Body - ord_no 주문번호 String N 20
-Body - mang_empno 관리사번 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - tsk_tp 업무구분 String N 20
-Body - ord_stt 주문상태 String N 20
-Body - stk_nm 종목명 String N 40
+본문 all_stk_tp 전체종목구분 문자열 Y 1 0:전체, 1:종목
+본문 trde_tp 매매구분 문자열 Y 1 0:전체, 1:매도, 2:매수
+본문 stk_cd 종목코드 문자열 N 6
+본문 stex_tp 거래소구분 문자열 Y 1 0 : 통합, 1 : KRX, 2 : NXT
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 oso 미체결 목록 N
+본문 - acnt_no 계좌번호 문자열 N 20
+본문 - ord_no 주문번호 문자열 N 20
+본문 - mang_empno 관리사번 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - tsk_tp 업무구분 문자열 N 20
+본문 - ord_stt 주문상태 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
 186 / 526
 
-# Page 187
+# 페이지 187
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - ord_qty 주문수량 String N 20
-Body - ord_pric 주문가격 String N 20
-Body - oso_qty 미체결수량 String N 20
-Body - cntr_tot_amt 체결누계금액 String N 20
-Body - orig_ord_no 원주문번호 String N 20
-Body - io_tp_nm 주문구분 String N 20
-Body - trde_tp 매매구분 String N 20
-Body - tm 시간 String N 20
-Body - cntr_no 체결번호 String N 20
-Body - cntr_pric 체결가 String N 20
-Body - cntr_qty 체결량 String N 20
-Body - cur_prc 현재가 String N 20
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - unit_cntr_pric 단위체결가 String N 20
-Body - unit_cntr_qty 단위체결량 String N 20
-Body - tdy_trde_cmsn 당일매매수수료 String N 20
-Body - tdy_trde_tax 당일매매세금 String N 20
-Body - ind_invsr 개인투자자 String N 20
-Body - stex_tp 거래소구분 String N 20 0 : 통합, 1 : KRX, 2 : NXT
-Body - stex_tp_txt 거래소구분텍스트 String N 20 통합,KRX,NXT
-Body - sor_yn SOR 여부값 String N 20 Y,N
-Body - stop_pric 스톱가 String N 20 스톱지정가주문 스톱가
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - ord_qty 주문수량 문자열 N 20
+본문 - ord_pric 주문가격 문자열 N 20
+본문 - oso_qty 미체결수량 문자열 N 20
+본문 - cntr_tot_amt 체결누계금액 문자열 N 20
+본문 - orig_ord_no 원주문번호 문자열 N 20
+본문 - io_tp_nm 주문구분 문자열 N 20
+본문 - trde_tp 매매구분 문자열 N 20
+본문 - tm 시간 문자열 N 20
+본문 - cntr_no 체결번호 문자열 N 20
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - cntr_qty 체결량 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - unit_cntr_pric 단위체결가 문자열 N 20
+본문 - unit_cntr_qty 단위체결량 문자열 N 20
+본문 - tdy_trde_cmsn 당일매매수수료 문자열 N 20
+본문 - tdy_trde_tax 당일매매세금 문자열 N 20
+본문 - ind_invsr 개인투자자 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20 0 : 통합, 1 : KRX, 2 : NXT
+본문 - stex_tp_txt 거래소구분텍스트 문자열 N 20 통합,KRX,NXT
+본문 - sor_yn SOR 여부값 문자열 N 20 Y,N
+본문 - stop_pric 스톱가 문자열 N 20 스톱지정가주문 스톱가
+요청 예시
 {
 "all_stk_tp": "1",
 "trde_tp": "0",
 "stk_cd": "005930",
 "stex_tp": "0"
 }
-Response Example
+응답 예시
 {
 "oso": [
 {
@@ -9546,9 +9546,9 @@ Response Example
 "trde_tp": "시장가",
 187 / 526
 
-# Page 188
+# 페이지 188
 
-Response Example
+응답 예시
 "tm": "154113",
 "cntr_no": "",
 "cntr_pric": "0",
@@ -9571,7 +9571,7 @@ Response Example
 }
 188 / 526
 
-# Page 189
+# 페이지 189
 
 키움 REST API
 API 정보
@@ -9579,70 +9579,70 @@ API 정보
 API 명 체결요청
 API ID ka10076
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String N 6
-Body qry_tp 조회구분 String Y 1 0:전체, 1:종목
-Body sell_tp 매도수구분 String Y 1 0:전체, 1:매도, 2:매수
+본문 stk_cd 종목코드 문자열 N 6
+본문 qry_tp 조회구분 문자열 Y 1 0:전체, 1:종목
+본문 sell_tp 매도수구분 문자열 Y 1 0:전체, 1:매도, 2:매수
 검색 기준 값으로 입력한 주문번호 보다 과거에 체결된
-Body ord_no 주문번호 String N 10
+본문 ord_no 주문번호 문자열 N 10
 내역이 조회됩니다.
-Body stex_tp 거래소구분 String Y 1 0 : 통합, 1 : KRX, 2 : NXT
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body cntr 체결 LIST N
-Body - ord_no 주문번호 String N 20
-Body - stk_nm 종목명 String N 40
-Body - io_tp_nm 주문구분 String N 20
-Body - ord_pric 주문가격 String N 20
-Body - ord_qty 주문수량 String N 20
-Body - cntr_pric 체결가 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 0 : 통합, 1 : KRX, 2 : NXT
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 cntr 체결 목록 N
+본문 - ord_no 주문번호 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - io_tp_nm 주문구분 문자열 N 20
+본문 - ord_pric 주문가격 문자열 N 20
+본문 - ord_qty 주문수량 문자열 N 20
+본문 - cntr_pric 체결가 문자열 N 20
 189 / 526
 
-# Page 190
+# 페이지 190
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cntr_qty 체결량 String N 20
-Body - oso_qty 미체결수량 String N 20
-Body - tdy_trde_cmsn 당일매매수수료 String N 20
-Body - tdy_trde_tax 당일매매세금 String N 20
-Body - ord_stt 주문상태 String N 20
-Body - trde_tp 매매구분 String N 20
-Body - orig_ord_no 원주문번호 String N 20
-Body - ord_tm 주문시간 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stex_tp 거래소구분 String N 20 0 : 통합, 1 : KRX, 2 : NXT
-Body - stex_tp_txt 거래소구분텍스트 String N 20 통합,KRX,NXT
-Body - sor_yn SOR 여부값 String N 20 Y,N
-Body - stop_pric 스톱가 String N 20 스톱지정가주문 스톱가
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cntr_qty 체결량 문자열 N 20
+본문 - oso_qty 미체결수량 문자열 N 20
+본문 - tdy_trde_cmsn 당일매매수수료 문자열 N 20
+본문 - tdy_trde_tax 당일매매세금 문자열 N 20
+본문 - ord_stt 주문상태 문자열 N 20
+본문 - trde_tp 매매구분 문자열 N 20
+본문 - orig_ord_no 원주문번호 문자열 N 20
+본문 - ord_tm 주문시간 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20 0 : 통합, 1 : KRX, 2 : NXT
+본문 - stex_tp_txt 거래소구분텍스트 문자열 N 20 통합,KRX,NXT
+본문 - sor_yn SOR 여부값 문자열 N 20 Y,N
+본문 - stop_pric 스톱가 문자열 N 20 스톱지정가주문 스톱가
+요청 예시
 {
 "stk_cd": "005930",
 "qry_tp": "1",
@@ -9650,7 +9650,7 @@ Request Example
 "ord_no": "",
 "stex_tp": "0"
 }
-Response Example
+응답 예시
 {
 "cntr": [
 {
@@ -9690,9 +9690,9 @@ Response Example
 "ord_tm": "153806",
 190 / 526
 
-# Page 191
+# 페이지 191
 
-Response Example
+응답 예시
 "stk_cd": "005930",
 "stex_tp": "0",
 "stex_tp_txt": "SOR",
@@ -9704,7 +9704,7 @@ Response Example
 }
 191 / 526
 
-# Page 192
+# 페이지 192
 
 키움 REST API
 API 정보
@@ -9712,55 +9712,55 @@ API 정보
 API 명 당일실현손익상세요청
 API ID ka10077
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tdy_rlzt_pl 당일실현손익 String N
-Body tdy_rlzt_pl_dtl 당일실현손익상세 LIST N
-Body - stk_nm 종목명 String N 40
-Body - cntr_qty 체결량 String N 20
-Body - buy_uv 매입단가 String N 20
-Body - cntr_pric 체결가 String N 20
-Body - tdy_sel_pl 당일매도손익 String N 20
-Body - pl_rt 손익율 String N 20
-Body - tdy_trde_cmsn 당일매매수수료 String N 20
-Body - tdy_trde_tax 당일매매세금 String N 20
-Body - stk_cd 종목코드 String N 20
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tdy_rlzt_pl 당일실현손익 문자열 N
+본문 tdy_rlzt_pl_dtl 당일실현손익상세 목록 N
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cntr_qty 체결량 문자열 N 20
+본문 - buy_uv 매입단가 문자열 N 20
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - tdy_sel_pl 당일매도손익 문자열 N 20
+본문 - pl_rt 손익율 문자열 N 20
+본문 - tdy_trde_cmsn 당일매매수수료 문자열 N 20
+본문 - tdy_trde_tax 당일매매세금 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
 192 / 526
 
-# Page 193
+# 페이지 193
 
-Request Example
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "tdy_rlzt_pl": "179439",
 "tdy_rlzt_pl_dtl": [
@@ -9803,7 +9803,7 @@ Response Example
 }
 193 / 526
 
-# Page 194
+# 페이지 194
 
 키움 REST API
 API 정보
@@ -9811,68 +9811,68 @@ API 정보
 API 명 증권사별종목매매동향요청
 API ID ka10078
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mmcm_cd 회원사코드 String Y 3 회원사 코드는 ka10102 조회
+본문 mmcm_cd 회원사코드 문자열 Y 3 회원사 코드는 ka10102 조회
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body strt_dt 시작일자 String Y 8 YYYYMMDD
-Body end_dt 종료일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 strt_dt 시작일자 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 증권사별종목매매동
-Body sec_stk_trde_trend LIST N
+본문 sec_stk_trde_trend 목록 N
 향
-Body - dt 일자 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
+본문 - dt 일자 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
 194 / 526
 
-# Page 195
+# 페이지 195
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - netprps_qty 순매수수량 String N 20
-Body - buy_qty 매수수량 String N 20
-Body - sell_qty 매도수량 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - netprps_qty 순매수수량 문자열 N 20
+본문 - buy_qty 매수수량 문자열 N 20
+본문 - sell_qty 매도수량 문자열 N 20
+요청 예시
 {
 "mmcm_cd": "001",
 "stk_cd": "005930",
 "strt_dt": "20241106",
 "end_dt": "20241107"
 }
-Response Example
+응답 예시
 {
 "sec_stk_trde_trend": [
 {
@@ -9925,7 +9925,7 @@ Response Example
 }
 195 / 526
 
-# Page 196
+# 페이지 196
 
 키움 REST API
 API 정보
@@ -9933,65 +9933,65 @@ API 정보
 API 명 주식틱차트조회요청
 API ID ka10079
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body tic_scope 틱범위 String Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cd 종목코드 String N 6
-Body last_tic_cnt 마지막틱갯수 String N
-Body stk_tic_chart_qry 주식틱차트조회 LIST N
-Body - cur_prc 현재가 String N 20
-Body - trde_qty 거래량 String N 20
-Body - cntr_tm 체결시간 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
+본문 tic_scope 틱범위 문자열 Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 6
+본문 last_tic_cnt 마지막틱갯수 문자열 N
+본문 stk_tic_chart_qry 주식틱차트조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
 196 / 526
 
-# Page 197
+# 페이지 197
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pred_pre 전일대비 String N 20 현재가 - 전일종가
-Body - pred_pre_sig 전일대비 기호 String N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pred_pre 전일대비 문자열 N 20 현재가 - 전일종가
+본문 - pred_pre_sig 전일대비 기호 문자열 N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
+요청 예시
 {
 "stk_cd": "005930",
 "tic_scope": "1",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "last_tic_cnt": "",
@@ -10022,7 +10022,7 @@ Response Example
 }
 197 / 526
 
-# Page 198
+# 페이지 198
 
 키움 REST API
 API 정보
@@ -10030,68 +10030,68 @@ API 정보
 API 명 주식분봉차트조회요청
 API ID ka10080
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
 1:1분, 3:3분, 5:5분, 10:10분, 15:15분, 30:30분, 45:45분,
-Body tic_scope 틱범위 String Y 2
+본문 tic_scope 틱범위 문자열 Y 2
 60:60분
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cd 종목코드 String N 6
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 6
 stk_min_pole_chart_
-Body 주식분봉차트조회 LIST N
+본문 주식분봉차트조회 목록 N
 qry
-Body - cur_prc 현재가 String N 20
-Body - trde_qty 거래량 String N 20
-Body - cntr_tm 체결시간 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
 198 / 526
 
-# Page 199
+# 페이지 199
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pred_pre 전일대비 String N 20 현재가 - 전일종가
-Body - pred_pre_sig 전일대비 기호 String N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pred_pre 전일대비 문자열 N 20 현재가 - 전일종가
+본문 - pred_pre_sig 전일대비 기호 문자열 N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
+요청 예시
 {
 "stk_cd": "005930",
 "tic_scope": "1",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_min_pole_chart_qry": [
@@ -10123,7 +10123,7 @@ Response Example
 }
 199 / 526
 
-# Page 200
+# 페이지 200
 
 키움 REST API
 API 정보
@@ -10131,68 +10131,68 @@ API 정보
 API 명 주식일봉차트조회요청
 API ID ka10081
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cd 종목코드 String N 6
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 6
 stk_dt_pole_chart_qr
-Body 주식일봉차트조회 LIST N
+본문 주식일봉차트조회 목록 N
 y
-Body - cur_prc 현재가 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - dt 일자 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
 200 / 526
 
-# Page 201
+# 페이지 201
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - low_pric 저가 String N 20
-Body - pred_pre 전일대비 String N 20 현재가 - 전일종가
-Body - pred_pre_sig 전일대비기호 String N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
-Body - trde_tern_rt 거래회전율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - low_pric 저가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20 현재가 - 전일종가
+본문 - pred_pre_sig 전일대비기호 문자열 N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
+본문 - trde_tern_rt 거래회전율 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "base_dt": "20250908",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_dt_pole_chart_qry": [
@@ -10226,7 +10226,7 @@ Response Example
 }
 201 / 526
 
-# Page 202
+# 페이지 202
 
 키움 REST API
 API 정보
@@ -10234,68 +10234,68 @@ API 정보
 API 명 주식주봉차트조회요청
 API ID ka10082
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cd 종목코드 String N 6
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 6
 stk_stk_pole_chart_qr
-Body 주식주봉차트조회 LIST N
+본문 주식주봉차트조회 목록 N
 y
-Body - cur_prc 현재가 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - dt 일자 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
 202 / 526
 
-# Page 203
+# 페이지 203
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - low_pric 저가 String N 20
-Body - pred_pre 전일대비 String N 20 현재가 - 전일종가
-Body - pred_pre_sig 전일대비기호 String N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
-Body - trde_tern_rt 거래회전율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - low_pric 저가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20 현재가 - 전일종가
+본문 - pred_pre_sig 전일대비기호 문자열 N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
+본문 - trde_tern_rt 거래회전율 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "base_dt": "20250905",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_stk_pole_chart_qry": [
@@ -10329,7 +10329,7 @@ Response Example
 }
 203 / 526
 
-# Page 204
+# 페이지 204
 
 키움 REST API
 API 정보
@@ -10337,68 +10337,68 @@ API 정보
 API 명 주식월봉차트조회요청
 API ID ka10083
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cd 종목코드 String N 6
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 6
 stk_mth_pole_chart_
-Body 주식월봉차트조회 LIST N
+본문 주식월봉차트조회 목록 N
 qry
-Body - cur_prc 현재가 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - dt 일자 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
 204 / 526
 
-# Page 205
+# 페이지 205
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - low_pric 저가 String N 20
-Body - pred_pre 전일대비 String N 20 현재가 - 전일종가
-Body - pred_pre_sig 전일대비기호 String N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
-Body - trde_tern_rt 거래회전율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - low_pric 저가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20 현재가 - 전일종가
+본문 - pred_pre_sig 전일대비기호 문자열 N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
+본문 - trde_tern_rt 거래회전율 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "base_dt": "20250905",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_mth_pole_chart_qry": [
@@ -10432,7 +10432,7 @@ Response Example
 }
 205 / 526
 
-# Page 206
+# 페이지 206
 
 키움 REST API
 API 정보
@@ -10440,71 +10440,71 @@ API 정보
 API 명 당일전일체결요청
 API ID ka10084
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body tdy_pred 당일전일 String Y 1 당일 : 1, 전일 : 2
-Body tic_min 틱분 String Y 1 0:틱, 1:분
+본문 tdy_pred 당일전일 문자열 Y 1 당일 : 1, 전일 : 2
+본문 tic_min 틱분 문자열 Y 1 0:틱, 1:분
 조회시간 4자리, 오전 9시일 경우 0900, 오후 2시 30분일
-Body tm 시간 String N 4
+본문 tm 시간 문자열 N 4
 경우 1430
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tdy_pred_cntr 당일전일체결 LIST N
-Body - tm 시간 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - pre_rt 대비율 String N 20
-Body - pri_sel_bid_unit 우선매도호가단위 String N 20
-Body - pri_buy_bid_unit 우선매수호가단위 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tdy_pred_cntr 당일전일체결 목록 N
+본문 - tm 시간 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - pre_rt 대비율 문자열 N 20
+본문 - pri_sel_bid_unit 우선매도호가단위 문자열 N 20
+본문 - pri_buy_bid_unit 우선매수호가단위 문자열 N 20
 206 / 526
 
-# Page 207
+# 페이지 207
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cntr_trde_qty 체결거래량 String N 20
-Body - sign 전일대비기호 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - acc_trde_prica 누적거래대금 String N 20
-Body - cntr_str 체결강도 String N 20
-Body - stex_tp 거래소구분 String N 20 KRX , NXT , 통합
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cntr_trde_qty 체결거래량 문자열 N 20
+본문 - sign 전일대비기호 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
+본문 - cntr_str 체결강도 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20 KRX , NXT , 통합
+요청 예시
 {
 "stk_cd": "005930",
 "tdy_pred": "1",
 "tic_min": "0",
 "tm": ""
 }
-Response Example
+응답 예시
 {
 "tdy_pred_cntr": [
 {
@@ -10539,7 +10539,7 @@ Response Example
 }
 207 / 526
 
-# Page 208
+# 페이지 208
 
 키움 REST API
 API 정보
@@ -10547,66 +10547,66 @@ API 정보
 API 명 계좌수익률요청
 API ID ka10085
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stex_tp 거래소구분 String Y 1 0 : 통합, 1 : KRX, 2 : NXT
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body acnt_prft_rt 계좌수익률 LIST N
-Body - dt 일자 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pur_pric 매입가 String N 20
-Body - pur_amt 매입금액 String N 20
-Body - rmnd_qty 보유수량 String N 20
-Body - tdy_sel_pl 당일매도손익 String N 20
-Body - tdy_trde_cmsn 당일매매수수료 String N 20
-Body - tdy_trde_tax 당일매매세금 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 0 : 통합, 1 : KRX, 2 : NXT
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 acnt_prft_rt 계좌수익률 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pur_pric 매입가 문자열 N 20
+본문 - pur_amt 매입금액 문자열 N 20
+본문 - rmnd_qty 보유수량 문자열 N 20
+본문 - tdy_sel_pl 당일매도손익 문자열 N 20
+본문 - tdy_trde_cmsn 당일매매수수료 문자열 N 20
+본문 - tdy_trde_tax 당일매매세금 문자열 N 20
 208 / 526
 
-# Page 209
+# 페이지 209
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - crd_tp 신용구분 String N 20
-Body - loan_dt 대출일 String N 20
-Body - setl_remn 결제잔고 String N 20
-Body - clrn_alow_qty 청산가능수량 String N 20
-Body - crd_amt 신용금액 String N 20
-Body - crd_int 신용이자 String N 20
-Body - expr_dt 만기일 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - crd_tp 신용구분 문자열 N 20
+본문 - loan_dt 대출일 문자열 N 20
+본문 - setl_remn 결제잔고 문자열 N 20
+본문 - clrn_alow_qty 청산가능수량 문자열 N 20
+본문 - crd_amt 신용금액 문자열 N 20
+본문 - crd_int 신용이자 문자열 N 20
+본문 - expr_dt 만기일 문자열 N 20
+요청 예시
 {
 "stex_tp": "0"
 }
-Response Example
+응답 예시
 {
 "acnt_prft_rt": [
 {
@@ -10662,9 +10662,9 @@ Response Example
 "loan_dt": "00000000",
 209 / 526
 
-# Page 210
+# 페이지 210
 
-Response Example
+응답 예시
 "setl_remn": "39",
 "clrn_alow_qty": "36",
 "crd_amt": "0",
@@ -10677,7 +10677,7 @@ Response Example
 }
 210 / 526
 
-# Page 211
+# 페이지 211
 
 키움 REST API
 API 정보
@@ -10685,78 +10685,78 @@ API 정보
 API 명 일별주가요청
 API ID ka10086
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 [ 주의 ] 외국인순매수 데이터는 거래소로부터 금액데이터가 제공되지 않고 수량으로만 조회됩니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body qry_dt 조회일자 String Y 8 YYYYMMDD
-Body indc_tp 표시구분 String Y 1 0:수량, 1:금액(백만원)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body daly_stkpc 일별주가 LIST N
-Body - date 날짜 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - close_pric 종가 String N 20
-Body - pred_rt 전일비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
+본문 qry_dt 조회일자 문자열 Y 8 YYYYMMDD
+본문 indc_tp 표시구분 문자열 Y 1 0:수량, 1:금액(백만원)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 daly_stkpc 일별주가 목록 N
+본문 - date 날짜 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
+본문 - pred_rt 전일비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
 211 / 526
 
-# Page 212
+# 페이지 212
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - amt_mn 금액(백만) String N 20
-Body - crd_rt 신용비 String N 20
-Body - ind 개인 String N 20
-Body - orgn 기관 String N 20
-Body - for_qty 외인수량 String N 20
-Body - frgn 외국계 String N 20
-Body - prm 프로그램 String N 20
-Body - for_rt 외인비 String N 20
-Body - for_poss 외인보유 String N 20
-Body - for_wght 외인비중 String N 20
-Body - for_netprps 외인순매수 String N 20
-Body - orgn_netprps 기관순매수 String N 20
-Body - ind_netprps 개인순매수 String N 20
-Body - crd_remn_rt 신용잔고율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - amt_mn 금액(백만) 문자열 N 20
+본문 - crd_rt 신용비 문자열 N 20
+본문 - ind 개인 문자열 N 20
+본문 - orgn 기관 문자열 N 20
+본문 - for_qty 외인수량 문자열 N 20
+본문 - frgn 외국계 문자열 N 20
+본문 - prm 프로그램 문자열 N 20
+본문 - for_rt 외인비 문자열 N 20
+본문 - for_poss 외인보유 문자열 N 20
+본문 - for_wght 외인비중 문자열 N 20
+본문 - for_netprps 외인순매수 문자열 N 20
+본문 - orgn_netprps 기관순매수 문자열 N 20
+본문 - ind_netprps 개인순매수 문자열 N 20
+본문 - crd_remn_rt 신용잔고율 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "qry_dt": "20241125",
 "indc_tp": "0"
 }
-Response Example
+응답 예시
 {
 "daly_stkpc": [
 {
@@ -10796,9 +10796,9 @@ Response Example
 "crd_rt": "0.00",
 212 / 526
 
-# Page 213
+# 페이지 213
 
-Response Example
+응답 예시
 "ind": "--196415",
 "orgn": "+196104",
 "for_qty": "--2965929",
@@ -10818,7 +10818,7 @@ Response Example
 }
 213 / 526
 
-# Page 214
+# 페이지 214
 
 키움 REST API
 API 정보
@@ -10826,185 +10826,185 @@ API 정보
 API 명 시간외단일가요청
 API ID ka10087
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 [ 주의 ] 호가잔량기준시간은 시간외거래에대한 시간이 아닌 정규장시간 값임
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body bid_req_base_tm 호가잔량기준시간 String N
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 bid_req_base_tm 호가잔량기준시간 문자열 N
 ovt_sigpric_sel_bid_j 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ub_pre_5 가직전대비5
 ovt_sigpric_sel_bid_j 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ub_pre_4 가직전대비4
 ovt_sigpric_sel_bid_j 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ub_pre_3 가직전대비3
 ovt_sigpric_sel_bid_j 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ub_pre_2 가직전대비2
 ovt_sigpric_sel_bid_j 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ub_pre_1 가직전대비1
 ovt_sigpric_sel_bid_q 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ty_5 가수량5
 ovt_sigpric_sel_bid_q 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ty_4 가수량4
 214 / 526
 
-# Page 215
+# 페이지 215
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 ovt_sigpric_sel_bid_q 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ty_3 가수량3
 ovt_sigpric_sel_bid_q 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ty_2 가수량2
 ovt_sigpric_sel_bid_q 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ty_1 가수량1
 시간외단일가_매도호
-Body ovt_sigpric_sel_bid_5 String N
+본문 ovt_sigpric_sel_bid_5 문자열 N
 가5
 시간외단일가_매도호
-Body ovt_sigpric_sel_bid_4 String N
+본문 ovt_sigpric_sel_bid_4 문자열 N
 가4
 시간외단일가_매도호
-Body ovt_sigpric_sel_bid_3 String N
+본문 ovt_sigpric_sel_bid_3 문자열 N
 가3
 시간외단일가_매도호
-Body ovt_sigpric_sel_bid_2 String N
+본문 ovt_sigpric_sel_bid_2 문자열 N
 가2
 시간외단일가_매도호
-Body ovt_sigpric_sel_bid_1 String N
+본문 ovt_sigpric_sel_bid_1 문자열 N
 가1
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 1 가1
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 2 가2
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 3 가3
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 4 가4
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 5 가5
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 qty_1 가수량1
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 qty_2 가수량2
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 qty_3 가수량3
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 qty_4 가수량4
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 qty_5 가수량5
 ovt_sigpric_buy_bid_j 시간외단일가_매수호
-Body String N
+본문 문자열 N
 ub_pre_1 가직전대비1
 ovt_sigpric_buy_bid_j 시간외단일가_매수호
-Body String N
+본문 문자열 N
 ub_pre_2 가직전대비2
 ovt_sigpric_buy_bid_j 시간외단일가_매수호
-Body String N
+본문 문자열 N
 ub_pre_3 가직전대비3
 ovt_sigpric_buy_bid_j 시간외단일가_매수호
-Body String N
+본문 문자열 N
 ub_pre_4 가직전대비4
 ovt_sigpric_buy_bid_j 시간외단일가_매수호
-Body String N
+본문 문자열 N
 ub_pre_5 가직전대비5
 ovt_sigpric_sel_bid_t 시간외단일가_매도호
-Body String N
+본문 문자열 N
 ot_req 가총잔량
 ovt_sigpric_buy_bid_ 시간외단일가_매수호
-Body String N
+본문 문자열 N
 tot_req 가총잔량
 215 / 526
 
-# Page 216
+# 페이지 216
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 sel_bid_tot_req_jub_ 매도호가총잔량직전
-Body String N
+본문 문자열 N
 pre 대비
-Body sel_bid_tot_req 매도호가총잔량 String N
-Body buy_bid_tot_req 매수호가총잔량 String N
+본문 sel_bid_tot_req 매도호가총잔량 문자열 N
+본문 buy_bid_tot_req 매수호가총잔량 문자열 N
 buy_bid_tot_req_jub_ 매수호가총잔량직전
-Body String N
+본문 문자열 N
 pre 대비
 ovt_sel_bid_tot_req_j 시간외매도호가총잔
-Body String N
+본문 문자열 N
 ub_pre 량직전대비
 시간외매도호가총잔
-Body ovt_sel_bid_tot_req String N
+본문 ovt_sel_bid_tot_req 문자열 N
 량
 시간외매수호가총잔
-Body ovt_buy_bid_tot_req String N
+본문 ovt_buy_bid_tot_req 문자열 N
 량
 ovt_buy_bid_tot_req_ 시간외매수호가총잔
-Body String N
+본문 문자열 N
 jub_pre 량직전대비
-Body ovt_sigpric_cur_prc 시간외단일가_현재가 String N
+본문 ovt_sigpric_cur_prc 시간외단일가_현재가 문자열 N
 ovt_sigpric_pred_pre 시간외단일가_전일대
-Body String N
+본문 문자열 N
 _sig 비기호
 시간외단일가_전일대
-Body ovt_sigpric_pred_pre String N
+본문 ovt_sigpric_pred_pre 문자열 N
 비
-Body ovt_sigpric_flu_rt 시간외단일가_등락률 String N
+본문 ovt_sigpric_flu_rt 시간외단일가_등락률 문자열 N
 ovt_sigpric_acc_trde_ 시간외단일가_누적거
-Body String N
+본문 문자열 N
 qty 래량
-Request Example
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "bid_req_base_tm": "164000",
 "ovt_sigpric_sel_bid_jub_pre_5": "0",
@@ -11039,9 +11039,9 @@ Response Example
 "ovt_sigpric_buy_bid_jub_pre_5": "0",
 216 / 526
 
-# Page 217
+# 페이지 217
 
-Response Example
+응답 예시
 "ovt_sigpric_sel_bid_tot_req": "0",
 "ovt_sigpric_buy_bid_tot_req": "0",
 "sel_bid_tot_req_jub_pre": "0",
@@ -11062,7 +11062,7 @@ Response Example
 }
 217 / 526
 
-# Page 218
+# 페이지 218
 
 키움 REST API
 API 정보
@@ -11070,65 +11070,65 @@ API 정보
 API 명 미체결 분할주문 상세
 API ID ka10088
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body ord_no 주문번호 String Y 20
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 Y 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 미체결분할주문리스
-Body osop LIST N
+본문 osop 목록 N
 트
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - ord_no 주문번호 String N 20
-Body - ord_qty 주문수량 String N 20
-Body - ord_pric 주문가격 String N 20
-Body - osop_qty 미체결수량 String N 20
-Body - io_tp_nm 주문구분 String N 20
-Body - trde_tp 매매구분 String N 20
-Body - sell_tp 매도/수 구분 String N 20
-Body - cntr_qty 체결량 String N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - ord_no 주문번호 문자열 N 20
+본문 - ord_qty 주문수량 문자열 N 20
+본문 - ord_pric 주문가격 문자열 N 20
+본문 - osop_qty 미체결수량 문자열 N 20
+본문 - io_tp_nm 주문구분 문자열 N 20
+본문 - trde_tp 매매구분 문자열 N 20
+본문 - sell_tp 매도/수 구분 문자열 N 20
+본문 - cntr_qty 체결량 문자열 N 20
 218 / 526
 
-# Page 219
+# 페이지 219
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - ord_stt 주문상태 String N 20
-Body - cur_prc 현재가 String N 20
-Body - stex_tp 거래소구분 String N 20 0 : 통합, 1 : KRX, 2 : NXT
-Body - stex_tp_txt 거래소구분텍스트 String N 20 통합,KRX,NXT
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - ord_stt 주문상태 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20 0 : 통합, 1 : KRX, 2 : NXT
+본문 - stex_tp_txt 거래소구분텍스트 문자열 N 20 통합,KRX,NXT
+요청 예시
 {
 "ord_no": "8"
 }
-Response Example
+응답 예시
 {
 "osop": [
 {
@@ -11154,7 +11154,7 @@ Response Example
 }
 219 / 526
 
-# Page 220
+# 페이지 220
 
 키움 REST API
 API 정보
@@ -11162,65 +11162,65 @@ API 정보
 API 명 주식년봉차트조회요청
 API ID ka10094
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cd 종목코드 String N 6
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 6
 stk_yr_pole_chart_qr
-Body 주식년봉차트조회 LIST N
+본문 주식년봉차트조회 목록 N
 y
-Body - cur_prc 현재가 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - dt 일자 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
 220 / 526
 
-# Page 221
+# 페이지 221
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - low_pric 저가 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - low_pric 저가 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930",
 "base_dt": "20250905",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_yr_pole_chart_qry": [
@@ -11248,7 +11248,7 @@ Response Example
 }
 221 / 526
 
-# Page 222
+# 페이지 222
 
 키움 REST API
 API 정보
@@ -11256,122 +11256,122 @@ API 정보
 API 명 관심종목정보요청
 API ID ka10095
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
+본문 stk_cd 종목코드 문자열 Y 20 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
 여러개의 종목코드 입력시 | 로 구분
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body atn_stk_infr 관심종목정보 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - base_pric 기준가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 atn_stk_infr 관심종목정보 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - base_pric 기준가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
 222 / 526
 
-# Page 223
+# 페이지 223
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cntr_qty 체결량 String N 20
-Body - cntr_str 체결강도 String N 20
-Body - pred_trde_qty_pre 전일거래량대비 String N 20
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - sel_1th_bid 매도1차호가 String N 20
-Body - sel_2th_bid 매도2차호가 String N 20
-Body - sel_3th_bid 매도3차호가 String N 20
-Body - sel_4th_bid 매도4차호가 String N 20
-Body - sel_5th_bid 매도5차호가 String N 20
-Body - buy_1th_bid 매수1차호가 String N 20
-Body - buy_2th_bid 매수2차호가 String N 20
-Body - buy_3th_bid 매수3차호가 String N 20
-Body - buy_4th_bid 매수4차호가 String N 20
-Body - buy_5th_bid 매수5차호가 String N 20
-Body - upl_pric 상한가 String N 20
-Body - lst_pric 하한가 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - close_pric 종가 String N 20
-Body - cntr_tm 체결시간 String N 20
-Body - exp_cntr_pric 예상체결가 String N 20
-Body - exp_cntr_qty 예상체결량 String N 20
-Body - cap 자본금 String N 20
-Body - fav 액면가 String N 20
-Body - mac 시가총액 String N 20
-Body - stkcnt 주식수 String N 20
-Body - bid_tm 호가시간 String N 20
-Body - dt 일자 String N 20
-Body - pri_sel_req 우선매도잔량 String N 20
-Body - pri_buy_req 우선매수잔량 String N 20
-Body - pri_sel_cnt 우선매도건수 String N 20
-Body - pri_buy_cnt 우선매수건수 String N 20
-Body - tot_sel_req 총매도잔량 String N 20
-Body - tot_buy_req 총매수잔량 String N 20
-Body - tot_sel_cnt 총매도건수 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cntr_qty 체결량 문자열 N 20
+본문 - cntr_str 체결강도 문자열 N 20
+본문 - pred_trde_qty_pre 전일거래량대비 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - sel_1th_bid 매도1차호가 문자열 N 20
+본문 - sel_2th_bid 매도2차호가 문자열 N 20
+본문 - sel_3th_bid 매도3차호가 문자열 N 20
+본문 - sel_4th_bid 매도4차호가 문자열 N 20
+본문 - sel_5th_bid 매도5차호가 문자열 N 20
+본문 - buy_1th_bid 매수1차호가 문자열 N 20
+본문 - buy_2th_bid 매수2차호가 문자열 N 20
+본문 - buy_3th_bid 매수3차호가 문자열 N 20
+본문 - buy_4th_bid 매수4차호가 문자열 N 20
+본문 - buy_5th_bid 매수5차호가 문자열 N 20
+본문 - upl_pric 상한가 문자열 N 20
+본문 - lst_pric 하한가 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - exp_cntr_pric 예상체결가 문자열 N 20
+본문 - exp_cntr_qty 예상체결량 문자열 N 20
+본문 - cap 자본금 문자열 N 20
+본문 - fav 액면가 문자열 N 20
+본문 - mac 시가총액 문자열 N 20
+본문 - stkcnt 주식수 문자열 N 20
+본문 - bid_tm 호가시간 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - pri_sel_req 우선매도잔량 문자열 N 20
+본문 - pri_buy_req 우선매수잔량 문자열 N 20
+본문 - pri_sel_cnt 우선매도건수 문자열 N 20
+본문 - pri_buy_cnt 우선매수건수 문자열 N 20
+본문 - tot_sel_req 총매도잔량 문자열 N 20
+본문 - tot_buy_req 총매수잔량 문자열 N 20
+본문 - tot_sel_cnt 총매도건수 문자열 N 20
 223 / 526
 
-# Page 224
+# 페이지 224
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - tot_buy_cnt 총매수건수 String N 20
-Body - prty 패리티 String N 20
-Body - gear 기어링 String N 20
-Body - pl_qutr 손익분기 String N 20
-Body - cap_support 자본지지 String N 20
-Body - elwexec_pric ELW행사가 String N 20
-Body - cnvt_rt 전환비율 String N 20
-Body - elwexpr_dt ELW만기일 String N 20
-Body - cntr_engg 미결제약정 String N 20
-Body - cntr_pred_pre 미결제전일대비 String N 20
-Body - theory_pric 이론가 String N 20
-Body - innr_vltl 내재변동성 String N 20
-Body - delta 델타 String N 20
-Body - gam 감마 String N 20
-Body - theta 쎄타 String N 20
-Body - vega 베가 String N 20
-Body - law 로 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - tot_buy_cnt 총매수건수 문자열 N 20
+본문 - prty 패리티 문자열 N 20
+본문 - gear 기어링 문자열 N 20
+본문 - pl_qutr 손익분기 문자열 N 20
+본문 - cap_support 자본지지 문자열 N 20
+본문 - elwexec_pric ELW행사가 문자열 N 20
+본문 - cnvt_rt 전환비율 문자열 N 20
+본문 - elwexpr_dt ELW만기일 문자열 N 20
+본문 - cntr_engg 미결제약정 문자열 N 20
+본문 - cntr_pred_pre 미결제전일대비 문자열 N 20
+본문 - theory_pric 이론가 문자열 N 20
+본문 - innr_vltl 내재변동성 문자열 N 20
+본문 - delta 델타 문자열 N 20
+본문 - gam 감마 문자열 N 20
+본문 - theta 쎄타 문자열 N 20
+본문 - vega 베가 문자열 N 20
+본문 - law 로 문자열 N 20
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "atn_stk_infr": [
 {
@@ -11406,9 +11406,9 @@ Response Example
 "low_pric": "-85200",
 224 / 526
 
-# Page 225
+# 페이지 225
 
-Response Example
+응답 예시
 "close_pric": "+156600",
 "cntr_tm": "163713",
 "exp_cntr_pric": "+156600",
@@ -11450,7 +11450,7 @@ Response Example
 }
 225 / 526
 
-# Page 226
+# 페이지 226
 
 키움 REST API
 API 정보
@@ -11458,79 +11458,79 @@ API 정보
 API 명 시간외단일가등락율순위요청
 API ID ka10098
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체,001:코스피,101:코스닥
-Body sort_base 정렬기준 String Y 1 1:상승률, 2:상승폭, 3:하락률, 4:하락폭, 5:보합
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체,001:코스피,101:코스닥
+본문 sort_base 정렬기준 문자열 Y 1 1:상승률, 2:상승폭, 3:하락률, 4:하락폭, 5:보합
 0:전체조회,1:관리종목제외,2:정리매매종목제외,3:우선주제외,
 4:관리종목우선주제외,5:증100제외,6:증100만보기,7:증40만보
-Body stk_cnd 종목조건 String Y 2
+본문 stk_cnd 종목조건 문자열 Y 2
 기,8:증30만보기,9:증20만보기,12:증50만보기,13:증60만보기,
 14:ETF제외,15:스팩제외,16:ETF+ETN제외,17:ETN제외
 0:전체조회, 10:백주이상,50:5백주이상,100;천주이상,
-Body trde_qty_cnd 거래량조건 String Y 5 500:5천주이상, 1000:만주이상, 5000:5만주이상,
+본문 trde_qty_cnd 거래량조건 문자열 Y 5 500:5천주이상, 1000:만주이상, 5000:5만주이상,
 10000:10만주이상
 0:전체조회, 9:신용융자전체, 1:신용융자A군, 2:신용융자B군,
-Body crd_cnd 신용조건 String Y 1 3:신용융자C군, 4:신용융자D군, 7:신용융자E군, 8:신용대주,
+본문 crd_cnd 신용조건 문자열 Y 1 3:신용융자C군, 4:신용융자D군, 7:신용융자E군, 8:신용대주,
 5:신용한도초과제외
 0:전체조회, 5:5백만원이상,10:1천만원이상, 30:3천만원이상,
 50:5천만원이상, 100:1억원이상, 300:3억원이상,
-Body trde_prica 거래대금 String Y 5
+본문 trde_prica 거래대금 문자열 Y 5
 500:5억원이상, 1000:10억원이상, 3000:30억원이상,
 5000:50억원이상, 10000:100억원이상
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 ovt_sigpric_flu_rt_ran 시간외단일가등락율
-Body LIST N
+본문 목록 N
 k 순위
 226 / 526
 
-# Page 227
+# 페이지 227
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - rank 순위 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - sel_tot_req 매도총잔량 String N 20
-Body - buy_tot_req 매수총잔량 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - acc_trde_prica 누적거래대금 String N 20
-Body - tdy_close_pric 당일종가 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - rank 순위 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - sel_tot_req 매도총잔량 문자열 N 20
+본문 - buy_tot_req 매수총잔량 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
+본문 - tdy_close_pric 당일종가 문자열 N 20
 -
-Body 당일종가등락률 String N 20
+본문 당일종가등락률 문자열 N 20
 tdy_close_pric_flu_rt
-Request Example
+요청 예시
 {
 "mrkt_tp": "000",
 "sort_base": "5",
@@ -11539,7 +11539,7 @@ Request Example
 "crd_cnd": "0",
 "trde_prica": "0"
 }
-Response Example
+응답 예시
 {
 "ovt_sigpric_flu_rt_rank": [
 {
@@ -11563,7 +11563,7 @@ Response Example
 }
 227 / 526
 
-# Page 228
+# 페이지 228
 
 키움 REST API
 API 정보
@@ -11571,69 +11571,69 @@ API 정보
 API 명 종목정보 리스트
 API ID ka10099
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 0:코스피,10:코스닥,3:ELW,8:ETF,30:K-OTC,50:코넥스,5:신주인
-Body mrkt_tp 시장구분 String Y 2
+본문 mrkt_tp 시장구분 문자열 Y 2
 수권,4:뮤추얼펀드,6:리츠,9:하이일드
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body list 종목리스트 LIST N
-Body - code 종목코드 String N 20 단축코드
-Body - name 종목명 String N 40
-Body - listCount 상장주식수 String N 20
-Body - auditInfo 감리구분 String N 20
-Body - regDay 상장일 String N 20
-Body - lastPrice 전일종가 String N 20
-Body - state 종목상태 String N 20
-Body - marketCode 시장구분코드 String N 20
-Body - marketName 시장명 String N 20
-Body - upName 업종명 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 list 종목리스트 목록 N
+본문 - code 종목코드 문자열 N 20 단축코드
+본문 - name 종목명 문자열 N 40
+본문 - listCount 상장주식수 문자열 N 20
+본문 - auditInfo 감리구분 문자열 N 20
+본문 - regDay 상장일 문자열 N 20
+본문 - lastPrice 전일종가 문자열 N 20
+본문 - state 종목상태 문자열 N 20
+본문 - marketCode 시장구분코드 문자열 N 20
+본문 - marketName 시장명 문자열 N 20
+본문 - upName 업종명 문자열 N 20
 228 / 526
 
-# Page 229
+# 페이지 229
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - upSizeName 회사크기분류 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - upSizeName 회사크기분류 문자열 N 20
 -
-Body 회사분류 String N 20 코스닥만 존재함
+본문 회사분류 문자열 N 20 코스닥만 존재함
 companyClassName
 0: 해당없음, 2: 정리매매, 3: 단기과열, 4: 투자위험, 5:
-Body - orderWarning 투자유의종목여부 String N 20
+본문 - orderWarning 투자유의종목여부 문자열 N 20
 투자경과, 1: ETF투자주의요망(ETF인 경우만 전달
-Body - nxtEnable NXT가능여부 String N 20 Y: 가능
-Request Example
+본문 - nxtEnable NXT가능여부 문자열 N 20 Y: 가능
+요청 예시
 {
 "mrkt_tp": "0"
 }
-Response Example
+응답 예시
 {
 "return_msg": "정상적으로 처리되었습니다",
 "return_code": 0,
@@ -11693,9 +11693,9 @@ Response Example
 "auditInfo": "정상",
 229 / 526
 
-# Page 230
+# 페이지 230
 
-Response Example
+응답 예시
 "regDay": "20160630",
 "lastPrice": "00000336",
 "state": "증거금100%",
@@ -11727,7 +11727,7 @@ Response Example
 }
 230 / 526
 
-# Page 231
+# 페이지 231
 
 키움 REST API
 API 정보
@@ -11735,64 +11735,64 @@ API 정보
 API 명 종목정보 조회
 API ID ka10100
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body code 종목코드 String N 단축코드
-Body name 종목명 String N 40
-Body listCount 상장주식수 String N
-Body auditInfo 감리구분 String N
-Body regDay 상장일 String N
-Body lastPrice 전일종가 String N
-Body state 종목상태 String N
-Body marketCode 시장구분코드 String N
-Body marketName 시장명 String N
-Body upName 업종명 String N
-Body upSizeName 회사크기분류 String N
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 code 종목코드 문자열 N 단축코드
+본문 name 종목명 문자열 N 40
+본문 listCount 상장주식수 문자열 N
+본문 auditInfo 감리구분 문자열 N
+본문 regDay 상장일 문자열 N
+본문 lastPrice 전일종가 문자열 N
+본문 state 종목상태 문자열 N
+본문 marketCode 시장구분코드 문자열 N
+본문 marketName 시장명 문자열 N
+본문 upName 업종명 문자열 N
+본문 upSizeName 회사크기분류 문자열 N
 231 / 526
 
-# Page 232
+# 페이지 232
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body companyClassName 회사분류 String N 코스닥만 존재함
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 companyClassName 회사분류 문자열 N 코스닥만 존재함
 0: 해당없음, 2: 정리매매, 3: 단기과열, 4: 투자위험, 5:
-Body orderWarning 투자유의종목여부 String N
+본문 orderWarning 투자유의종목여부 문자열 N
 투자경과, 1: ETF투자주의요망(ETF인 경우만 전달
-Body nxtEnable NXT가능여부 String N Y: 가능
-Request Example
+본문 nxtEnable NXT가능여부 문자열 N Y: 가능
+요청 예시
 {
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "code": "005930",
 "name": "삼성전자",
@@ -11813,7 +11813,7 @@ Response Example
 }
 232 / 526
 
-# Page 233
+# 페이지 233
 
 키움 REST API
 API 정보
@@ -11821,55 +11821,55 @@ API 정보
 API 명 업종코드 리스트
 API ID ka10101
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 0:코스피(거래소),1:코스닥,2:KOSPI200,4:KOSPI100,7:KRX100(
-Body mrkt_tp 시장구분 String Y 1
+본문 mrkt_tp 시장구분 문자열 Y 1
 통합지수)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body list 업종코드리스트 LIST N
-Body - marketCode 시장구분코드 LIST N
-Body - code 코드 String N
-Body - name 업종명 String N
-Body - group 그룹 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 list 업종코드리스트 목록 N
+본문 - marketCode 시장구분코드 목록 N
+본문 - code 코드 문자열 N
+본문 - name 업종명 문자열 N
+본문 - group 그룹 문자열 N
+요청 예시
 {
 "mrkt_tp": "0"
 }
-Response Example
+응답 예시
 {
 "return_msg": "정상적으로 처리되었습니다",
 "list": [
 233 / 526
 
-# Page 234
+# 페이지 234
 
-Response Example
+응답 예시
 {
 "marketCode": "0",
 "code": "001",
@@ -11941,7 +11941,7 @@ Response Example
 }
 234 / 526
 
-# Page 235
+# 페이지 235
 
 키움 REST API
 API 정보
@@ -11949,41 +11949,41 @@ API 정보
 API 명 회원사 리스트
 API ID ka10102
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body list 회원사코드리스트 LIST N
-Body - code 코드 String N
-Body - name 업종명 String N
-Body - gb 구분 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 list 회원사코드리스트 목록 N
+본문 - code 코드 문자열 N
+본문 - name 업종명 문자열 N
+본문 - gb 구분 문자열 N
+요청 예시
 {}
-Response Example
+응답 예시
 {
 "return_msg": "정상적으로 처리되었습니다",
 "list": [
@@ -11996,9 +11996,9 @@ Response Example
 "code": "002",
 235 / 526
 
-# Page 236
+# 페이지 236
 
-Response Example
+응답 예시
 "name": "신한금융투자",
 "gb": "0"
 },
@@ -12047,7 +12047,7 @@ Response Example
 }
 236 / 526
 
-# Page 237
+# 페이지 237
 
 키움 REST API
 API 정보
@@ -12055,93 +12055,93 @@ API 정보
 API 명 기관외국인연속매매현황요청
 API ID ka10131
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/frgnistt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 1:최근일, 3:3일, 5:5일, 10:10일, 20:20일, 120:120일,
-Body dt 기간 String Y 3
+본문 dt 기간 문자열 Y 3
 0:시작일자/종료일자로 조회
-Body strt_dt 시작일자 String N 8 YYYYMMDD
-Body end_dt 종료일자 String N 8 YYYYMMDD
-Body mrkt_tp 장구분 String Y 3 001:코스피, 101:코스닥
-Body netslmt_tp 순매도수구분 String Y 1 2:순매수(고정값)
-Body stk_inds_tp 종목업종구분 String Y 1 0:종목(주식),1:업종
-Body amt_qty_tp 금액수량구분 String Y 1 0:금액, 1:수량
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 strt_dt 시작일자 문자열 N 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 N 8 YYYYMMDD
+본문 mrkt_tp 장구분 문자열 Y 3 001:코스피, 101:코스닥
+본문 netslmt_tp 순매도수구분 문자열 Y 1 2:순매수(고정값)
+본문 stk_inds_tp 종목업종구분 문자열 Y 1 0:종목(주식),1:업종
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 0:금액, 1:수량
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 orgn_frgnr_cont_trde 기관외국인연속매매
-Body LIST N
+본문 목록 N
 _prst 현황
-Body - rank 순위 String N
-Body - stk_cd 종목코드 String N 6
+본문 - rank 순위 문자열 N
+본문 - stk_cd 종목코드 문자열 N 6
 237 / 526
 
-# Page 238
+# 페이지 238
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - stk_nm 종목명 String N 40
-Body - prid_stkpc_flu_rt 기간중주가등락률 String N
-Body - orgn_nettrde_amt 기관순매매금액 String N
-Body - orgn_nettrde_qty 기관순매매량 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - stk_nm 종목명 문자열 N 40
+본문 - prid_stkpc_flu_rt 기간중주가등락률 문자열 N
+본문 - orgn_nettrde_amt 기관순매매금액 문자열 N
+본문 - orgn_nettrde_qty 기관순매매량 문자열 N
 - orgn_cont_netprps 기관계연속순매수일
-Body String N
+본문 문자열 N
 _dys 수
 - orgn_cont_netprps
-Body 기관계연속순매수량 String N
+본문 기관계연속순매수량 문자열 N
 _qty
 - orgn_cont_netprps 기관계연속순매수금
-Body String N
+본문 문자열 N
 _amt 액
-Body - frgnr_nettrde_qty 외국인순매매량 String N
-Body - frgnr_nettrde_amt 외국인순매매액 String N
+본문 - frgnr_nettrde_qty 외국인순매매량 문자열 N
+본문 - frgnr_nettrde_amt 외국인순매매액 문자열 N
 - frgnr_cont_netprps 외국인연속순매수일
-Body String N
+본문 문자열 N
 _dys 수
 - frgnr_cont_netprps
-Body 외국인연속순매수량 String N
+본문 외국인연속순매수량 문자열 N
 _qty
 - frgnr_cont_netprps 외국인연속순매수금
-Body String N
+본문 문자열 N
 _amt 액
-Body - nettrde_qty 순매매량 String N
-Body - nettrde_amt 순매매액 String N
+본문 - nettrde_qty 순매매량 문자열 N
+본문 - nettrde_amt 순매매액 문자열 N
 - tot_cont_netprps_d
-Body 합계연속순매수일수 String N
+본문 합계연속순매수일수 문자열 N
 ys
 -
-Body 합계연속순매매수량 String N
+본문 합계연속순매매수량 문자열 N
 tot_cont_nettrde_qty
 - tot_cont_netprps_a
-Body 합계연속순매수금액 String N
+본문 합계연속순매수금액 문자열 N
 mt
-Request Example
+요청 예시
 {
 "dt": "1",
 "strt_dt": "",
@@ -12152,7 +12152,7 @@ Request Example
 "amt_qty_tp": "0",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "orgn_frgnr_cont_trde_prst": [
 {
@@ -12171,9 +12171,9 @@ Response Example
 "frgnr_cont_netprps_qty": "+1",
 238 / 526
 
-# Page 239
+# 페이지 239
 
-Response Example
+응답 예시
 "frgnr_cont_netprps_amt": "+0",
 "nettrde_qty": "+173",
 "nettrde_amt": "+48",
@@ -12208,7 +12208,7 @@ Response Example
 }
 239 / 526
 
-# Page 240
+# 페이지 240
 
 키움 REST API
 API 정보
@@ -12216,70 +12216,70 @@ API 정보
 API 명 당일매매일지요청
 API ID ka10170
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body base_dt 기준일자 String N 8 YYYYMMDD(공백입력시 금일데이터,최근 2개월까지 제공)
-Body ottks_tp 단주구분 String Y 1 1:당일매수에 대한 당일매도,2:당일매도 전체
-Body ch_crd_tp 현금신용구분 String Y 1 0:전체, 1:현금매매만, 2:신용매매만
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tot_sell_amt 총매도금액 String N
-Body tot_buy_amt 총매수금액 String N
-Body tot_cmsn_tax 총수수료_세금 String N
-Body tot_exct_amt 총정산금액 String N
-Body tot_pl_amt 총손익금액 String N
-Body tot_prft_rt 총수익률 String N
-Body tdy_trde_diary 당일매매일지 LIST N
-Body - stk_nm 종목명 String N 40
-Body - buy_avg_pric 매수평균가 String N
+본문 base_dt 기준일자 문자열 N 8 YYYYMMDD(공백입력시 금일데이터,최근 2개월까지 제공)
+본문 ottks_tp 단주구분 문자열 Y 1 1:당일매수에 대한 당일매도,2:당일매도 전체
+본문 ch_crd_tp 현금신용구분 문자열 Y 1 0:전체, 1:현금매매만, 2:신용매매만
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tot_sell_amt 총매도금액 문자열 N
+본문 tot_buy_amt 총매수금액 문자열 N
+본문 tot_cmsn_tax 총수수료_세금 문자열 N
+본문 tot_exct_amt 총정산금액 문자열 N
+본문 tot_pl_amt 총손익금액 문자열 N
+본문 tot_prft_rt 총수익률 문자열 N
+본문 tdy_trde_diary 당일매매일지 목록 N
+본문 - stk_nm 종목명 문자열 N 40
+본문 - buy_avg_pric 매수평균가 문자열 N
 240 / 526
 
-# Page 241
+# 페이지 241
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - buy_qty 매수수량 String N
-Body - sel_avg_pric 매도평균가 String N
-Body - sell_qty 매도수량 String N
-Body - cmsn_alm_tax 수수료_제세금 String N
-Body - pl_amt 손익금액 String N
-Body - sell_amt 매도금액 String N
-Body - buy_amt 매수금액 String N
-Body - prft_rt 수익률 String N
-Body - stk_cd 종목코드 String N 6
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - buy_qty 매수수량 문자열 N
+본문 - sel_avg_pric 매도평균가 문자열 N
+본문 - sell_qty 매도수량 문자열 N
+본문 - cmsn_alm_tax 수수료_제세금 문자열 N
+본문 - pl_amt 손익금액 문자열 N
+본문 - sell_amt 매도금액 문자열 N
+본문 - buy_amt 매수금액 문자열 N
+본문 - prft_rt 수익률 문자열 N
+본문 - stk_cd 종목코드 문자열 N 6
+요청 예시
 {
 "base_dt": "20241120",
 "ottks_tp": "1",
 "ch_crd_tp": "0"
 }
-Response Example
+응답 예시
 {
 "tot_sell_amt": "48240",
 "tot_buy_amt": "48240",
@@ -12307,7 +12307,7 @@ Response Example
 }
 241 / 526
 
-# Page 242
+# 페이지 242
 
 키움 REST API
 API 정보
@@ -12315,54 +12315,54 @@ API 정보
 API 명 조건검색 목록조회
 API ID ka10171
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 조건검색은 영웅문4에서 만드실 수 있습니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm TR명 String Y 7 CNSRLST고정값
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body return_code 결과코드 String N 정상 : 0
-Body return_msg 결과메시지 String N 정상인 경우는 메시지 없음
-Body trnm 서비스명 String N 7 CNSRLST 고정값
-Body data 조건검색식 목록 LIST N
-Body - seq 조건검색식 일련번호 String N
-Body - name 조건검색식 명 String N
-Request Example
+본문 trnm TR명 문자열 Y 7 CNSRLST고정값
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 return_code 결과코드 문자열 N 정상 : 0
+본문 return_msg 결과메시지 문자열 N 정상인 경우는 메시지 없음
+본문 trnm 서비스명 문자열 N 7 CNSRLST 고정값
+본문 data 조건검색식 목록 목록 N
+본문 - seq 조건검색식 일련번호 문자열 N
+본문 - name 조건검색식 명 문자열 N
+요청 예시
 {
 "trnm": "CNSRLST"
 }
-Response Example
+응답 예시
 {
 'trnm': 'CNSRLST',
 242 / 526
 
-# Page 243
+# 페이지 243
 
-Response Example
+응답 예시
 'return_code': 0,
 'return_msg': '',
 'data': [
@@ -12375,7 +12375,7 @@ Response Example
 }
 243 / 526
 
-# Page 244
+# 페이지 244
 
 키움 REST API
 API 정보
@@ -12383,67 +12383,67 @@ API 정보
 API 명 조건검색 요청 일반
 API ID ka10172
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 조건검색은 영웅문4에서 만드실 수 있습니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 7 CNSRREQ 고정값
-Body seq 조건검색식 일련번호 String Y 3
-Body search_type 조회타입 String Y 0:조건검색
-Body stex_tp 거래소구분 String Y 1 K:KRX
-Body cont_yn 연속조회여부 String N 1 Y:연속조회요청,N:연속조회미요청
-Body next_key 연속조회키 String N 20
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body return_code 결과코드 String N 정상:0 나머지:에러
-Body return_msg 결과메시지 String N 정상인 경우는 메시지 없음
-Body trnm 서비스명 String N CNSRREQ
-Body seq 조건검색식 일련번호 String N
-Body cont_yn 연속조회여부 String N 연속 데이터가 존재하는경우 Y, 없으면 N
-Body next_key 연속조회키 String N 연속조회여부가Y일경우 다음 조회시 필요한 조회값
+본문 trnm 서비스명 문자열 Y 7 CNSRREQ 고정값
+본문 seq 조건검색식 일련번호 문자열 Y 3
+본문 search_type 조회타입 문자열 Y 0:조건검색
+본문 stex_tp 거래소구분 문자열 Y 1 K:KRX
+본문 cont_yn 연속조회여부 문자열 N 1 Y:연속조회요청,N:연속조회미요청
+본문 next_key 연속조회키 문자열 N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 return_code 결과코드 문자열 N 정상:0 나머지:에러
+본문 return_msg 결과메시지 문자열 N 정상인 경우는 메시지 없음
+본문 trnm 서비스명 문자열 N CNSRREQ
+본문 seq 조건검색식 일련번호 문자열 N
+본문 cont_yn 연속조회여부 문자열 N 연속 데이터가 존재하는경우 Y, 없으면 N
+본문 next_key 연속조회키 문자열 N 연속조회여부가Y일경우 다음 조회시 필요한 조회값
 244 / 526
 
-# Page 245
+# 페이지 245
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 검색결과데이터 LIST N
-Body - 9001 종목코드 String N
-Body - 302 종목명 String N
-Body - 10 현재가 String N
-Body - 25 전일대비기호 String N
-Body - 11 전일대비 String N
-Body - 12 등락율 String N
-Body - 13 누적거래량 String N
-Body - 16 시가 String N
-Body - 17 고가 String N
-Body - 18 저가 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 검색결과데이터 목록 N
+본문 - 9001 종목코드 문자열 N
+본문 - 302 종목명 문자열 N
+본문 - 10 현재가 문자열 N
+본문 - 25 전일대비기호 문자열 N
+본문 - 11 전일대비 문자열 N
+본문 - 12 등락율 문자열 N
+본문 - 13 누적거래량 문자열 N
+본문 - 16 시가 문자열 N
+본문 - 17 고가 문자열 N
+본문 - 18 저가 문자열 N
+요청 예시
 {
 "trnm": "CNSRREQ",
 "seq": "4",
@@ -12452,7 +12452,7 @@ Request Example
 "cont_yn": "N",
 "next_key": ""
 }
-Response Example
+응답 예시
 {
 'trnm': 'CNSRREQ',
 'seq': '2 ',
@@ -12495,9 +12495,9 @@ Response Example
 '16': '000000000',
 245 / 526
 
-# Page 246
+# 페이지 246
 
-Response Example
+응답 예시
 '17': '000000000',
 '18': '000000000'
 },
@@ -12529,7 +12529,7 @@ Response Example
 }
 246 / 526
 
-# Page 247
+# 페이지 247
 
 키움 REST API
 API 정보
@@ -12537,74 +12537,74 @@ API 정보
 API 명 조건검색 요청 실시간
 API ID ka10173
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 조건검색 실시간 조회는 시스템 내부구조상 조건검색 목록 조회를 먼저 진행한 후에 실시간 조회를 이용할 수 있습니다.
 조건검색은 영웅문4에서 만드실 수 있습니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 7 CNSRREQ 고정값
-Body seq 조건검색식 일련번호 String Y 3
-Body search_type 조회타입 String Y 1 1: 조건검색+실시간조건검색
-Body stex_tp 거래소구분 String Y 1 K:KRX
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body 조회 데이터
-Body return_code 결과코드 String N 정상:0 나머지:에러
-Body return_msg 결과메시지 String N 정상인 경우는 메시지 없음
-Body trnm 서비스명 String N CNSRREQ
-Body seq 조건검색식 일련번호 String N
-Body data 검색결과데이터 LIST N
-Body - jmcode 종목코드 String N
-Body 실시간 데이터
+본문 trnm 서비스명 문자열 Y 7 CNSRREQ 고정값
+본문 seq 조건검색식 일련번호 문자열 Y 3
+본문 search_type 조회타입 문자열 Y 1 1: 조건검색+실시간조건검색
+본문 stex_tp 거래소구분 문자열 Y 1 K:KRX
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 조회 데이터
+본문 return_code 결과코드 문자열 N 정상:0 나머지:에러
+본문 return_msg 결과메시지 문자열 N 정상인 경우는 메시지 없음
+본문 trnm 서비스명 문자열 N CNSRREQ
+본문 seq 조건검색식 일련번호 문자열 N
+본문 data 검색결과데이터 목록 N
+본문 - jmcode 종목코드 문자열 N
+본문 실시간 데이터
 247 / 526
 
-# Page 248
+# 페이지 248
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 검색결과데이터 LIST Y
-Body trnm 서비스명 String Y REAL
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Body - name 실시간 항목명 String Y 종목코드
-Body - values 실시간 수신 값 Object Y
-Body - - 841 일련번호 String Y
-Body - - 9001 종목코드 String Y
-Body - - 843 삽입삭제 구분 String Y I: 삽입, D: 삭제
-Body - - 20 체결시간 String Y
-Body - - 907 매도/수 구분 String Y
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 검색결과데이터 목록 Y
+본문 trnm 서비스명 문자열 Y REAL
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 Y 종목코드
+본문 - values 실시간 수신 값 Object Y
+본문 - - 841 일련번호 문자열 Y
+본문 - - 9001 종목코드 문자열 Y
+본문 - - 843 삽입삭제 구분 문자열 Y I: 삽입, D: 삭제
+본문 - - 20 체결시간 문자열 Y
+본문 - - 907 매도/수 구분 문자열 Y
+요청 예시
 {
 "trnm": "CNSRREQ",
 "seq": "4",
 "search_type": "1",
 "stex_tp": "K"
 }
-Response Example
+응답 예시
 #조회데이터
 {
 'trnm': 'CNSRREQ',
@@ -12650,9 +12650,9 @@ Response Example
 {
 248 / 526
 
-# Page 249
+# 페이지 249
 
-Response Example
+응답 예시
 'values': {
 '841': '4',
 '9001': '005930',
@@ -12669,7 +12669,7 @@ Response Example
 }
 249 / 526
 
-# Page 250
+# 페이지 250
 
 키움 REST API
 API 정보
@@ -12677,61 +12677,61 @@ API 정보
 API 명 조건검색 실시간 해제
 API ID ka10174
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 조건검색은 영웅문4에서 만드실 수 있습니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 7 CNSRCLR 고정값
-Body seq 조건검색식 일련번호 String Y
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body return_code 결과코드 String Y 정상:0 나머지:에러
-Body return_msg 결과메시지 String Y 정상인 경우는 메시지 없음
-Body trnm 서비스명 String Y CNSRCLR 고정값
-Body seq 조건검색식 일련번호 String Y
-Request Example
+본문 trnm 서비스명 문자열 Y 7 CNSRCLR 고정값
+본문 seq 조건검색식 일련번호 문자열 Y
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 return_code 결과코드 문자열 Y 정상:0 나머지:에러
+본문 return_msg 결과메시지 문자열 Y 정상인 경우는 메시지 없음
+본문 trnm 서비스명 문자열 Y CNSRCLR 고정값
+본문 seq 조건검색식 일련번호 문자열 Y
+요청 예시
 {
 "trnm": "CNSRCLR",
 "seq": "1"
 }
-Response Example
+응답 예시
 {
 'trnm': 'CNSRCLR',
 'seq' : '1',
 250 / 526
 
-# Page 251
+# 페이지 251
 
-Response Example
+응답 예시
 'return_code': 0,
 'return_msg': ''
 }
 251 / 526
 
-# Page 252
+# 페이지 252
 
 키움 REST API
 API 정보
@@ -12739,86 +12739,86 @@ API 정보
 API 명 업종현재가요청
 API ID ka20001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/sect
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 1 0:코스피, 1:코스닥, 2:코스피200
+본문 mrkt_tp 시장구분 문자열 Y 1 0:코스피, 1:코스닥, 2:코스피200
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body cur_prc 현재가 String N 20
-Body pred_pre_sig 전일대비기호 String N 20
-Body pred_pre 전일대비 String N 20
-Body flu_rt 등락률 String N 20
-Body trde_qty 거래량 String N 20
-Body trde_prica 거래대금 String N 20
-Body trde_frmatn_stk_num 거래형성종목수 String N 20
-Body trde_frmatn_rt 거래형성비율 String N 20
-Body open_pric 시가 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 cur_prc 현재가 문자열 N 20
+본문 pred_pre_sig 전일대비기호 문자열 N 20
+본문 pred_pre 전일대비 문자열 N 20
+본문 flu_rt 등락률 문자열 N 20
+본문 trde_qty 거래량 문자열 N 20
+본문 trde_prica 거래대금 문자열 N 20
+본문 trde_frmatn_stk_num 거래형성종목수 문자열 N 20
+본문 trde_frmatn_rt 거래형성비율 문자열 N 20
+본문 open_pric 시가 문자열 N 20
 252 / 526
 
-# Page 253
+# 페이지 253
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body high_pric 고가 String N 20
-Body low_pric 저가 String N 20
-Body upl 상한 String N 20
-Body rising 상승 String N 20
-Body stdns 보합 String N 20
-Body fall 하락 String N 20
-Body lst 하한 String N 20
-Body 52wk_hgst_pric 52주최고가 String N 20
-Body 52wk_hgst_pric_dt 52주최고가일 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 high_pric 고가 문자열 N 20
+본문 low_pric 저가 문자열 N 20
+본문 upl 상한 문자열 N 20
+본문 rising 상승 문자열 N 20
+본문 stdns 보합 문자열 N 20
+본문 fall 하락 문자열 N 20
+본문 lst 하한 문자열 N 20
+본문 52wk_hgst_pric 52주최고가 문자열 N 20
+본문 52wk_hgst_pric_dt 52주최고가일 문자열 N 20
 52wk_hgst_pric_pre_
-Body 52주최고가대비율 String N 20
+본문 52주최고가대비율 문자열 N 20
 rt
-Body 52wk_lwst_pric 52주최저가 String N 20
-Body 52wk_lwst_pric_dt 52주최저가일 String N 20
+본문 52wk_lwst_pric 52주최저가 문자열 N 20
+본문 52wk_lwst_pric_dt 52주최저가일 문자열 N 20
 52wk_lwst_pric_pre_r
-Body 52주최저가대비율 String N 20
+본문 52주최저가대비율 문자열 N 20
 t
-Body inds_cur_prc_tm 업종현재가_시간별 LIST N
-Body - tm_n 시간n String N 20
-Body - cur_prc_n 현재가n String N 20
-Body - pred_pre_sig_n 전일대비기호n String N 20
-Body - pred_pre_n 전일대비n String N 20
-Body - flu_rt_n 등락률n String N 20
-Body - trde_qty_n 거래량n String N 20
-Body - acc_trde_qty_n 누적거래량n String N 20
-Request Example
+본문 inds_cur_prc_tm 업종현재가_시간별 목록 N
+본문 - tm_n 시간n 문자열 N 20
+본문 - cur_prc_n 현재가n 문자열 N 20
+본문 - pred_pre_sig_n 전일대비기호n 문자열 N 20
+본문 - pred_pre_n 전일대비n 문자열 N 20
+본문 - flu_rt_n 등락률n 문자열 N 20
+본문 - trde_qty_n 거래량n 문자열 N 20
+본문 - acc_trde_qty_n 누적거래량n 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "0",
 "inds_cd": "001"
 }
-Response Example
+응답 예시
 {
 "cur_prc": "-2394.49",
 "pred_pre_sig": "5",
@@ -12842,9 +12842,9 @@ Response Example
 "52wk_lwst_pric": "-1608.07",
 253 / 526
 
-# Page 254
+# 페이지 254
 
-Response Example
+응답 예시
 "52wk_lwst_pric_dt": "20241031",
 "52wk_lwst_pric_pre_rt": "+48.90",
 "inds_cur_prc_tm": [
@@ -12894,7 +12894,7 @@ Response Example
 }
 254 / 526
 
-# Page 255
+# 페이지 255
 
 키움 REST API
 API 정보
@@ -12902,67 +12902,67 @@ API 정보
 API 명 업종별주가요청
 API ID ka20002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/sect
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 1 0:코스피, 1:코스닥, 2:코스피200
+본문 mrkt_tp 시장구분 문자열 Y 1 0:코스피, 1:코스닥, 2:코스피200
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inds_stkpc 업종별주가 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - now_trde_qty 현재거래량 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inds_stkpc 업종별주가 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - now_trde_qty 현재거래량 문자열 N 20
 255 / 526
 
-# Page 256
+# 페이지 256
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "0",
 "inds_cd": "001",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "inds_stkpc": [
 {
@@ -13020,9 +13020,9 @@ Response Example
 "open_pric": "67500",
 256 / 526
 
-# Page 257
+# 페이지 257
 
-Response Example
+응답 예시
 "high_pric": "+68100",
 "low_pric": "-66000"
 },
@@ -13046,7 +13046,7 @@ Response Example
 }
 257 / 526
 
-# Page 258
+# 페이지 258
 
 키움 REST API
 API 정보
@@ -13054,64 +13054,64 @@ API 정보
 API 명 전업종지수요청
 API ID ka20003
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/sect
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body inds_cd 업종코드 String Y 3 001:종합(KOSPI), 101:종합(KOSDAQ)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body all_inds_idex 전업종지수 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
-Body - wght 비중 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - upl 상한 String N 20
+본문 inds_cd 업종코드 문자열 Y 3 001:종합(KOSPI), 101:종합(KOSDAQ)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 all_inds_idex 전업종지수 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - wght 비중 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - upl 상한 문자열 N 20
 258 / 526
 
-# Page 259
+# 페이지 259
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - rising 상승 String N 20
-Body - stdns 보합 String N 20
-Body - fall 하락 String N 20
-Body - lst 하한 String N 20
-Body - flo_stk_num 상장종목수 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - rising 상승 문자열 N 20
+본문 - stdns 보합 문자열 N 20
+본문 - fall 하락 문자열 N 20
+본문 - lst 하한 문자열 N 20
+본문 - flo_stk_num 상장종목수 문자열 N 20
+요청 예시
 {
 "inds_cd": "001"
 }
-Response Example
+응답 예시
 {
 "all_inds_idex": [
 {
@@ -13171,7 +13171,7 @@ Response Example
 }
 259 / 526
 
-# Page 260
+# 페이지 260
 
 키움 REST API
 API 정보
@@ -13179,62 +13179,62 @@ API 정보
 API 명 업종틱차트조회요청
 API ID ka20004
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Body tic_scope 틱범위 String Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inds_cd 업종코드 String N 20
-Body inds_tic_chart_qry 업종틱차트조회 LIST N
-Body - cur_prc 현재가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_qty 거래량 String N 20
-Body - cntr_tm 체결시간 String N 20
-Body - open_pric 시가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - high_pric 고가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - low_pric 저가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - pred_pre 전일대비 String N 20 현재가 - 전일종가
+본문 tic_scope 틱범위 문자열 Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inds_cd 업종코드 문자열 N 20
+본문 inds_tic_chart_qry 업종틱차트조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_qty 거래량 문자열 N 20
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - open_pric 시가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - high_pric 고가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - low_pric 저가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - pred_pre 전일대비 문자열 N 20 현재가 - 전일종가
 260 / 526
 
-# Page 261
+# 페이지 261
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pred_pre_sig 전일대비 기호 String N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pred_pre_sig 전일대비 기호 문자열 N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
+요청 예시
 {
 "inds_cd": "001",
 "tic_scope": "1"
 }
-Response Example
+응답 예시
 {
 "inds_cd": "001",
 "inds_tic_chart_qry": [
@@ -13264,7 +13264,7 @@ Response Example
 }
 261 / 526
 
-# Page 262
+# 페이지 262
 
 키움 REST API
 API 정보
@@ -13272,63 +13272,63 @@ API 정보
 API 명 업종분봉조회요청
 API ID ka20005
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Body tic_scope 틱범위 String Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inds_cd 업종코드 String N 20
-Body inds_min_pole_qry 업종분봉조회 LIST N
-Body - cur_prc 현재가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_qty 거래량 String N 20
-Body - cntr_tm 체결시간 String N 20
-Body - open_pric 시가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - high_pric 고가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - low_pric 저가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - acc_trde_qty 누적거래량 String N 20
+본문 tic_scope 틱범위 문자열 Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inds_cd 업종코드 문자열 N 20
+본문 inds_min_pole_qry 업종분봉조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_qty 거래량 문자열 N 20
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - open_pric 시가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - high_pric 고가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - low_pric 저가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - acc_trde_qty 누적거래량 문자열 N 20
 262 / 526
 
-# Page 263
+# 페이지 263
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pred_pre 전일대비 String N 20 현재가 - 전일종가
-Body - pred_pre_sig 전일대비 기호 String N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pred_pre 전일대비 문자열 N 20 현재가 - 전일종가
+본문 - pred_pre_sig 전일대비 기호 문자열 N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
+요청 예시
 {
 "inds_cd": "001",
 "tic_scope": "5"
 }
-Response Example
+응답 예시
 {
 "inds_cd": "001",
 "inds_dt_pole_qry": [
@@ -13356,7 +13356,7 @@ Response Example
 }
 263 / 526
 
-# Page 264
+# 페이지 264
 
 키움 REST API
 API 정보
@@ -13364,57 +13364,57 @@ API 정보
 API 명 업종일봉조회요청
 API ID ka20006
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inds_cd 업종코드 String N 20
-Body inds_dt_pole_qry 업종일봉조회 LIST N
-Body - cur_prc 현재가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_qty 거래량 String N 20
-Body - dt 일자 String N 20
-Body - open_pric 시가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - high_pric 고가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - low_pric 저가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_prica 거래대금 String N 20
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inds_cd 업종코드 문자열 N 20
+본문 inds_dt_pole_qry 업종일봉조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_qty 거래량 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - open_pric 시가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - high_pric 고가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - low_pric 저가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_prica 거래대금 문자열 N 20
 264 / 526
 
-# Page 265
+# 페이지 265
 
-Request Example
+요청 예시
 {
 "inds_cd": "001",
 "base_dt": "20250905"
 }
-Response Example
+응답 예시
 {
 "inds_cd": "001",
 "inds_dt_pole_qry": [
@@ -13442,7 +13442,7 @@ Response Example
 }
 265 / 526
 
-# Page 266
+# 페이지 266
 
 키움 REST API
 API 정보
@@ -13450,57 +13450,57 @@ API 정보
 API 명 업종주봉조회요청
 API ID ka20007
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 8 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 8 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Body base_dt 기준일자 String Y 3 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inds_cd 업종코드 String N 20
-Body inds_stk_pole_qry 업종주봉조회 LIST N
-Body - cur_prc 현재가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_qty 거래량 String N 20
-Body - dt 일자 String N 20
-Body - open_pric 시가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - high_pric 고가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - low_pric 저가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_prica 거래대금 String N 20
+본문 base_dt 기준일자 문자열 Y 3 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inds_cd 업종코드 문자열 N 20
+본문 inds_stk_pole_qry 업종주봉조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_qty 거래량 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - open_pric 시가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - high_pric 고가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - low_pric 저가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_prica 거래대금 문자열 N 20
 266 / 526
 
-# Page 267
+# 페이지 267
 
-Request Example
+요청 예시
 {
 "inds_cd": "001",
 "base_dt": "20250905"
 }
-Response Example
+응답 예시
 {
 "inds_cd": "001",
 "inds_stk_pole_qry": [
@@ -13528,7 +13528,7 @@ Response Example
 }
 267 / 526
 
-# Page 268
+# 페이지 268
 
 키움 REST API
 API 정보
@@ -13536,57 +13536,57 @@ API 정보
 API 명 업종월봉조회요청
 API ID ka20008
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inds_cd 업종코드 String N 20
-Body inds_mth_pole_qry 업종월봉조회 LIST N
-Body - cur_prc 현재가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_qty 거래량 String N 20
-Body - dt 일자 String N 20
-Body - open_pric 시가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - high_pric 고가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - low_pric 저가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_prica 거래대금 String N 20
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inds_cd 업종코드 문자열 N 20
+본문 inds_mth_pole_qry 업종월봉조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_qty 거래량 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - open_pric 시가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - high_pric 고가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - low_pric 저가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_prica 거래대금 문자열 N 20
 268 / 526
 
-# Page 269
+# 페이지 269
 
-Request Example
+요청 예시
 {
 "inds_cd": "002",
 "base_dt": "20250905"
 }
-Response Example
+응답 예시
 {
 "inds_cd": "002",
 "inds_mth_pole_qry": [
@@ -13614,7 +13614,7 @@ Response Example
 }
 269 / 526
 
-# Page 270
+# 페이지 270
 
 키움 REST API
 API 정보
@@ -13622,87 +13622,87 @@ API 정보
 API 명 업종현재가일별요청
 API ID ka20009
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/sect
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 1 0:코스피, 1:코스닥, 2:코스피200
+본문 mrkt_tp 시장구분 문자열 Y 1 0:코스피, 1:코스닥, 2:코스피200
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body cur_prc 현재가 String N 20
-Body pred_pre_sig 전일대비기호 String N 20
-Body pred_pre 전일대비 String N 20
-Body flu_rt 등락률 String N 20
-Body trde_qty 거래량 String N 20
-Body trde_prica 거래대금 String N 20
-Body trde_frmatn_stk_num 거래형성종목수 String N 20
-Body trde_frmatn_rt 거래형성비율 String N 20
-Body open_pric 시가 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 cur_prc 현재가 문자열 N 20
+본문 pred_pre_sig 전일대비기호 문자열 N 20
+본문 pred_pre 전일대비 문자열 N 20
+본문 flu_rt 등락률 문자열 N 20
+본문 trde_qty 거래량 문자열 N 20
+본문 trde_prica 거래대금 문자열 N 20
+본문 trde_frmatn_stk_num 거래형성종목수 문자열 N 20
+본문 trde_frmatn_rt 거래형성비율 문자열 N 20
+본문 open_pric 시가 문자열 N 20
 270 / 526
 
-# Page 271
+# 페이지 271
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body high_pric 고가 String N 20
-Body low_pric 저가 String N 20
-Body upl 상한 String N 20
-Body rising 상승 String N 20
-Body stdns 보합 String N 20
-Body fall 하락 String N 20
-Body lst 하한 String N 20
-Body 52wk_hgst_pric 52주최고가 String N 20
-Body 52wk_hgst_pric_dt 52주최고가일 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 high_pric 고가 문자열 N 20
+본문 low_pric 저가 문자열 N 20
+본문 upl 상한 문자열 N 20
+본문 rising 상승 문자열 N 20
+본문 stdns 보합 문자열 N 20
+본문 fall 하락 문자열 N 20
+본문 lst 하한 문자열 N 20
+본문 52wk_hgst_pric 52주최고가 문자열 N 20
+본문 52wk_hgst_pric_dt 52주최고가일 문자열 N 20
 52wk_hgst_pric_pre_
-Body 52주최고가대비율 String N 20
+본문 52주최고가대비율 문자열 N 20
 rt
-Body 52wk_lwst_pric 52주최저가 String N 20
-Body 52wk_lwst_pric_dt 52주최저가일 String N 20
+본문 52wk_lwst_pric 52주최저가 문자열 N 20
+본문 52wk_lwst_pric_dt 52주최저가일 문자열 N 20
 52wk_lwst_pric_pre_r
-Body 52주최저가대비율 String N 20
+본문 52주최저가대비율 문자열 N 20
 t
 inds_cur_prc_daly_re
-Body 업종현재가_일별반복 LIST N
+본문 업종현재가_일별반복 목록 N
 pt
-Body - dt_n 일자n String N 20
-Body - cur_prc_n 현재가n String N 20
-Body - pred_pre_sig_n 전일대비기호n String N 20
-Body - pred_pre_n 전일대비n String N 20
-Body - flu_rt_n 등락률n String N 20
-Body - acc_trde_qty_n 누적거래량n String N 20
-Request Example
+본문 - dt_n 일자n 문자열 N 20
+본문 - cur_prc_n 현재가n 문자열 N 20
+본문 - pred_pre_sig_n 전일대비기호n 문자열 N 20
+본문 - pred_pre_n 전일대비n 문자열 N 20
+본문 - flu_rt_n 등락률n 문자열 N 20
+본문 - acc_trde_qty_n 누적거래량n 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "0",
 "inds_cd": "001"
 }
-Response Example
+응답 예시
 {
 "cur_prc": "-2384.71",
 "pred_pre_sig": "5",
@@ -13727,9 +13727,9 @@ Response Example
 "52wk_lwst_pric_dt": "20241031",
 271 / 526
 
-# Page 272
+# 페이지 272
 
-Response Example
+응답 예시
 "52wk_lwst_pric_pre_rt": "+48.30",
 "inds_cur_prc_daly_rept": [
 {
@@ -13762,7 +13762,7 @@ Response Example
 }
 272 / 526
 
-# Page 273
+# 페이지 273
 
 키움 REST API
 API 정보
@@ -13770,57 +13770,57 @@ API 정보
 API 명 업종년봉조회요청
 API ID ka20019
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 001:종합(KOSPI), 002:대형주, 003:중형주, 004:소형주
-Body inds_cd 업종코드 String Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
+본문 inds_cd 업종코드 문자열 Y 3 101:종합(KOSDAQ), 201:KOSPI200, 302:KOSTAR, 701:
 KRX100 나머지 ※ 업종코드 참고
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inds_cd 업종코드 String N 20
-Body inds_yr_pole_qry 업종년봉조회 LIST N
-Body - cur_prc 현재가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_qty 거래량 String N 20
-Body - dt 일자 String N 20
-Body - open_pric 시가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - high_pric 고가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - low_pric 저가 String N 20 지수 값은 소수점 제거 후 100배 값으로 반환
-Body - trde_prica 거래대금 String N 20
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inds_cd 업종코드 문자열 N 20
+본문 inds_yr_pole_qry 업종년봉조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_qty 거래량 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - open_pric 시가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - high_pric 고가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - low_pric 저가 문자열 N 20 지수 값은 소수점 제거 후 100배 값으로 반환
+본문 - trde_prica 거래대금 문자열 N 20
 273 / 526
 
-# Page 274
+# 페이지 274
 
-Request Example
+요청 예시
 {
 "inds_cd": "001",
 "base_dt": "20250905"
 }
-Response Example
+응답 예시
 {
 "inds_cd": "001",
 "inds_yr_pole_qry": [
@@ -13848,7 +13848,7 @@ Response Example
 }
 274 / 526
 
-# Page 275
+# 페이지 275
 
 키움 REST API
 API 정보
@@ -13856,58 +13856,58 @@ API 정보
 API 명 대차거래추이요청(종목별)
 API ID ka20068
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/slb
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body strt_dt 시작일자 String N 8 YYYYMMDD
-Body end_dt 종료일자 String N 8 YYYYMMDD
-Body all_tp 전체구분 String N 1 0:종목코드 입력종목만 표시
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body dbrt_trde_trnsn 대차거래추이 LIST N
-Body - dt 일자 String N 20
-Body - dbrt_trde_cntrcnt 대차거래체결주수 String N 20
-Body - dbrt_trde_rpy 대차거래상환주수 String N 20
-Body - dbrt_trde_irds 대차거래증감 String N 20
-Body - rmnd 잔고주수 String N 20
-Body - remn_amt 잔고금액 String N 20
-Request Example
+본문 strt_dt 시작일자 문자열 N 8 YYYYMMDD
+본문 end_dt 종료일자 문자열 N 8 YYYYMMDD
+본문 all_tp 전체구분 문자열 N 1 0:종목코드 입력종목만 표시
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 dbrt_trde_trnsn 대차거래추이 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - dbrt_trde_cntrcnt 대차거래체결주수 문자열 N 20
+본문 - dbrt_trde_rpy 대차거래상환주수 문자열 N 20
+본문 - dbrt_trde_irds 대차거래증감 문자열 N 20
+본문 - rmnd 잔고주수 문자열 N 20
+본문 - remn_amt 잔고금액 문자열 N 20
+요청 예시
 275 / 526
 
-# Page 276
+# 페이지 276
 
-Request Example
+요청 예시
 {
 "strt_dt": "20250401",
 "end_dt": "20250430",
 "all_tp": "0",
 "stk_cd": "005930"
 }
-Response Example
+응답 예시
 {
 "dbrt_trde_trnsn": [
 {
@@ -13956,7 +13956,7 @@ Response Example
 }
 276 / 526
 
-# Page 277
+# 페이지 277
 
 키움 REST API
 API 정보
@@ -13964,76 +13964,76 @@ API 정보
 API 명 ELW가격급등락요청
 API ID ka30001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body flu_tp 등락구분 String Y 1 1:급등, 2:급락
-Body tm_tp 시간구분 String Y 1 1:분전, 2:일전
-Body tm 시간 String Y 2 분 혹은 일입력 (예 1, 3, 5)
+본문 flu_tp 등락구분 문자열 Y 1 1:급등, 2:급락
+본문 tm_tp 시간구분 문자열 Y 1 1:분전, 2:일전
+본문 tm 시간 문자열 Y 2 분 혹은 일입력 (예 1, 3, 5)
 0:전체, 10:만주이상, 50:5만주이상, 100:10만주이상,
-Body trde_qty_tp 거래량구분 String Y 4
+본문 trde_qty_tp 거래량구분 문자열 Y 4
 300:30만주이상, 500:50만주이상, 1000:백만주이상
 전체:000000000000, 한국투자증권:3, 미래대우:5, 신영:6,
-Body isscomp_cd 발행사코드 String Y 12
+본문 isscomp_cd 발행사코드 문자열 Y 12
 NK투자증권:12, KB증권:17
 전체:000000000000, KOSPI200:201, KOSDAQ150:150,
-Body bsis_aset_cd 기초자산코드 String Y 12
+본문 bsis_aset_cd 기초자산코드 문자열 Y 12
 삼성전자:005930, KT:030200..
 000:전체, 001:콜, 002:풋, 003:DC, 004:DP, 005:EX,
-Body rght_tp 권리구분 String Y 3
+본문 rght_tp 권리구분 문자열 Y 3
 006:조기종료콜, 007:조기종료풋
 전체:000000000000, 한국투자증권:3, 미래대우:5, 신영:6,
-Body lpcd LP코드 String Y 12
+본문 lpcd LP코드 문자열 Y 12
 NK투자증권:12, KB증권:17
-Body trde_end_elwskip 거래종료ELW제외 String Y 1 0:포함, 1:제외
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body base_pric_tm 기준가시간 String N 20
+본문 trde_end_elwskip 거래종료ELW제외 문자열 Y 1 0:포함, 1:제외
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 base_pric_tm 기준가시간 문자열 N 20
 277 / 526
 
-# Page 278
+# 페이지 278
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body elwpric_jmpflu ELW가격급등락 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - rank 순위 String N 20
-Body - stk_nm 종목명 String N 40
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 elwpric_jmpflu ELW가격급등락 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - rank 순위 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
 - trde_end_elwbase_
-Body 거래종료ELW기준가 String N 20
+본문 거래종료ELW기준가 문자열 N 20
 pric
-Body - cur_prc 현재가 String N 20
-Body - base_pre 기준대비 String N 20
-Body - trde_qty 거래량 String N 20
-Body - jmp_rt 급등율 String N 20
-Request Example
+본문 - cur_prc 현재가 문자열 N 20
+본문 - base_pre 기준대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - jmp_rt 급등율 문자열 N 20
+요청 예시
 {
 "flu_tp": "1",
 "tm_tp": "2",
@@ -14045,7 +14045,7 @@ Request Example
 "lpcd": "000000000000",
 "trde_end_elwskip": "0"
 }
-Response Example
+응답 예시
 {
 "base_pric_tm": "기준가(11/21)",
 "elwpric_jmpflu": [
@@ -14067,7 +14067,7 @@ Response Example
 }
 278 / 526
 
-# Page 279
+# 페이지 279
 
 키움 REST API
 API 정보
@@ -14075,63 +14075,63 @@ API 정보
 API 명 거래원별ELW순매매상위요청
 API ID ka30002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 3자리, 영웅문4 0273화면참조 (교보:001, 신한금융투자:002,
-Body isscomp_cd 발행사코드 String Y 3
+본문 isscomp_cd 발행사코드 문자열 Y 3
 한국투자증권:003, 대신:004, 미래대우:005, ,,,)
 0:전체, 5:5천주, 10:만주, 50:5만주, 100:10만주, 500:50만주,
-Body trde_qty_tp 거래량구분 String Y 4
+본문 trde_qty_tp 거래량구분 문자열 Y 4
 1000:백만주
-Body trde_tp 매매구분 String Y 1 1:순매수, 2:순매도
-Body dt 기간 String Y 2 1:전일, 5:5일, 10:10일, 40:40일, 60:60일
-Body trde_end_elwskip 거래종료ELW제외 String Y 1 0:포함, 1:제외
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 trde_tp 매매구분 문자열 Y 1 1:순매수, 2:순매도
+본문 dt 기간 문자열 Y 2 1:전일, 5:5일, 10:10일, 40:40일, 60:60일
+본문 trde_end_elwskip 거래종료ELW제외 문자열 Y 1 0:포함, 1:제외
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 trde_ori_elwnettrde_ 거래원별ELW순매매
-Body LIST N
+본문 목록 N
 upper 상위
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - stkpc_flu 주가등락 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - stkpc_flu 주가등락 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
 279 / 526
 
-# Page 280
+# 페이지 280
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - netprps 순매수 String N 20
-Body - buy_trde_qty 매수거래량 String N 20
-Body - sel_trde_qty 매도거래량 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - netprps 순매수 문자열 N 20
+본문 - buy_trde_qty 매수거래량 문자열 N 20
+본문 - sel_trde_qty 매도거래량 문자열 N 20
+요청 예시
 {
 "isscomp_cd": "003",
 "trde_qty_tp": "0",
@@ -14139,7 +14139,7 @@ Request Example
 "dt": "60",
 "trde_end_elwskip": "0"
 }
-Response Example
+응답 예시
 {
 "trde_ori_elwnettrde_upper": [
 {
@@ -14188,7 +14188,7 @@ Response Example
 }
 280 / 526
 
-# Page 281
+# 페이지 281
 
 키움 REST API
 API 정보
@@ -14196,61 +14196,61 @@ API 정보
 API 명 ELWLP보유일별추이요청
 API ID ka30003
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body bsis_aset_cd 기초자산코드 String Y 12
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body elwlpposs_daly_trnsn ELWLP보유일별추이 LIST N
-Body - dt 일자 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_tp 대비구분 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - chg_qty 변동수량 String N 20
-Body - lprmnd_qty LP보유수량 String N 20
+본문 bsis_aset_cd 기초자산코드 문자열 Y 12
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 elwlpposs_daly_trnsn ELWLP보유일별추이 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_tp 대비구분 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - chg_qty 변동수량 문자열 N 20
+본문 - lprmnd_qty LP보유수량 문자열 N 20
 281 / 526
 
-# Page 282
+# 페이지 282
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - wght 비중 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - wght 비중 문자열 N 20
+요청 예시
 {
 "bsis_aset_cd": "57KJ99",
 "base_dt": "20241122"
 }
-Response Example
+응답 예시
 {
 "elwlpposs_daly_trnsn": [
 {
@@ -14271,7 +14271,7 @@ Response Example
 }
 282 / 526
 
-# Page 283
+# 페이지 283
 
 키움 REST API
 API 정보
@@ -14279,72 +14279,72 @@ API 정보
 API 명 ELW괴리율요청
 API ID ka30004
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 전체:000000000000, 한국투자증권:3, 미래대우:5, 신영:6,
-Body isscomp_cd 발행사코드 String Y 12
+본문 isscomp_cd 발행사코드 문자열 Y 12
 NK투자증권:12, KB증권:17
 전체:000000000000, KOSPI200:201, KOSDAQ150:150,
-Body bsis_aset_cd 기초자산코드 String Y 12
+본문 bsis_aset_cd 기초자산코드 문자열 Y 12
 삼성전자:005930, KT:030200..
 000: 전체, 001: 콜, 002: 풋, 003: DC, 004: DP, 005: EX, 006:
-Body rght_tp 권리구분 String Y 3
+본문 rght_tp 권리구분 문자열 Y 3
 조기종료콜, 007: 조기종료풋
 전체:000000000000, 한국투자증권:3, 미래대우:5, 신영:6,
-Body lpcd LP코드 String Y 12
+본문 lpcd LP코드 문자열 Y 12
 NK투자증권:12, KB증권:17
-Body trde_end_elwskip 거래종료ELW제외 String Y 1 1:거래종료ELW제외, 0:거래종료ELW포함
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body elwdispty_rt ELW괴리율 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - isscomp_nm 발행사명 String N 20
-Body - sqnc 회차 String N 20
-Body - base_aset_nm 기초자산명 String N 20
+본문 trde_end_elwskip 거래종료ELW제외 문자열 Y 1 1:거래종료ELW제외, 0:거래종료ELW포함
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 elwdispty_rt ELW괴리율 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - isscomp_nm 발행사명 문자열 N 20
+본문 - sqnc 회차 문자열 N 20
+본문 - base_aset_nm 기초자산명 문자열 N 20
 283 / 526
 
-# Page 284
+# 페이지 284
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - rght_tp 권리구분 String N 20
-Body - dispty_rt 괴리율 String N 20
-Body - basis 베이시스 String N 20
-Body - srvive_dys 잔존일수 String N 20
-Body - theory_pric 이론가 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_tp 대비구분 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - stk_nm 종목명 String N 40
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - rght_tp 권리구분 문자열 N 20
+본문 - dispty_rt 괴리율 문자열 N 20
+본문 - basis 베이시스 문자열 N 20
+본문 - srvive_dys 잔존일수 문자열 N 20
+본문 - theory_pric 이론가 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_tp 대비구분 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+요청 예시
 {
 "isscomp_cd": "000000000000",
 "bsis_aset_cd": "000000000000",
@@ -14352,7 +14352,7 @@ Request Example
 "lpcd": "000000000000",
 "trde_end_elwskip": "0"
 }
-Response Example
+응답 예시
 {
 "elwdispty_rt": [
 {
@@ -14396,9 +14396,9 @@ Response Example
 "base_aset_nm": "삼성전자",
 284 / 526
 
-# Page 285
+# 페이지 285
 
-Response Example
+응답 예시
 "rght_tp": "콜",
 "dispty_rt": "0",
 "basis": "+5.00",
@@ -14417,7 +14417,7 @@ Response Example
 }
 285 / 526
 
-# Page 286
+# 페이지 286
 
 키움 REST API
 API 정보
@@ -14425,106 +14425,106 @@ API 정보
 API 명 ELW조건검색요청
 API ID ka30005
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 12자리입력(전체:000000000000, 한국투자증권:000,,,3,
-Body isscomp_cd 발행사코드 String Y 12 미래대우:000,,,5, 신영:000,,,6, NK투자증권:000,,,12,
+본문 isscomp_cd 발행사코드 문자열 Y 12 미래대우:000,,,5, 신영:000,,,6, NK투자증권:000,,,12,
 KB증권:000,,,17)
 전체일때만 12자리입력(전체:000000000000, KOSPI200:201,
-Body bsis_aset_cd 기초자산코드 String Y 12
+본문 bsis_aset_cd 기초자산코드 문자열 Y 12
 KOSDAQ150:150, 삼정전자:005930, KT:030200,,)
 0:전체, 1:콜, 2:풋, 3:DC, 4:DP, 5:EX, 6:조기종료콜,
-Body rght_tp 권리구분 String Y 1
+본문 rght_tp 권리구분 문자열 Y 1
 7:조기종료풋
 전체일때만 12자리입력(전체:000000000000,
-Body lpcd LP코드 String Y 12 한국투자증권:003, 미래대우:005, 신영:006, NK투자증권:012,
+본문 lpcd LP코드 문자열 Y 12 한국투자증권:003, 미래대우:005, 신영:006, NK투자증권:012,
 KB증권:017)
 0:정렬없음, 1:상승율순, 2:상승폭순, 3:하락율순, 4:하락폭순,
-Body sort_tp 정렬구분 String Y 1
+본문 sort_tp 정렬구분 문자열 Y 1
 5:거래량순, 6:거래대금순, 7:잔존일순
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body elwcnd_qry ELW조건검색 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - isscomp_nm 발행사명 String N 20
-Body - sqnc 회차 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 elwcnd_qry ELW조건검색 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - isscomp_nm 발행사명 문자열 N 20
+본문 - sqnc 회차 문자열 N 20
 286 / 526
 
-# Page 287
+# 페이지 287
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - base_aset_nm 기초자산명 String N 20
-Body - rght_tp 권리구분 String N 20
-Body - expr_dt 만기일 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_tp 대비구분 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_qty_pre 거래량대비 String N 20
-Body - trde_prica 거래대금 String N 20
-Body - pred_trde_qty 전일거래량 String N 20
-Body - sel_bid 매도호가 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - prty 패리티 String N 20
-Body - gear_rt 기어링비율 String N 20
-Body - pl_qutr_rt 손익분기율 String N 20
-Body - cfp 자본지지점 String N 20
-Body - theory_pric 이론가 String N 20
-Body - innr_vltl 내재변동성 String N 20
-Body - delta 델타 String N 20
-Body - lvrg 레버리지 String N 20
-Body - exec_pric 행사가격 String N 20
-Body - cnvt_rt 전환비율 String N 20
-Body - lpposs_rt LP보유비율 String N 20
-Body - pl_qutr_pt 손익분기점 String N 20
-Body - fin_trde_dt 최종거래일 String N 20
-Body - flo_dt 상장일 String N 20
-Body - lpinitlast_suply_dt LP초종공급일 String N 20
-Body - stk_nm 종목명 String N 40
-Body - srvive_dys 잔존일수 String N 20
-Body - dispty_rt 괴리율 String N 20
-Body - lpmmcm_nm LP회원사명 String N 20
-Body - lpmmcm_nm_1 LP회원사명1 String N 20
-Body - lpmmcm_nm_2 LP회원사명2 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - base_aset_nm 기초자산명 문자열 N 20
+본문 - rght_tp 권리구분 문자열 N 20
+본문 - expr_dt 만기일 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_tp 대비구분 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_qty_pre 거래량대비 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - pred_trde_qty 전일거래량 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - prty 패리티 문자열 N 20
+본문 - gear_rt 기어링비율 문자열 N 20
+본문 - pl_qutr_rt 손익분기율 문자열 N 20
+본문 - cfp 자본지지점 문자열 N 20
+본문 - theory_pric 이론가 문자열 N 20
+본문 - innr_vltl 내재변동성 문자열 N 20
+본문 - delta 델타 문자열 N 20
+본문 - lvrg 레버리지 문자열 N 20
+본문 - exec_pric 행사가격 문자열 N 20
+본문 - cnvt_rt 전환비율 문자열 N 20
+본문 - lpposs_rt LP보유비율 문자열 N 20
+본문 - pl_qutr_pt 손익분기점 문자열 N 20
+본문 - fin_trde_dt 최종거래일 문자열 N 20
+본문 - flo_dt 상장일 문자열 N 20
+본문 - lpinitlast_suply_dt LP초종공급일 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - srvive_dys 잔존일수 문자열 N 20
+본문 - dispty_rt 괴리율 문자열 N 20
+본문 - lpmmcm_nm LP회원사명 문자열 N 20
+본문 - lpmmcm_nm_1 LP회원사명1 문자열 N 20
+본문 - lpmmcm_nm_2 LP회원사명2 문자열 N 20
 - xraymont_cntr_qty_ Xray순간체결량정리
-Body String N 20
+본문 문자열 N 20
 arng_trde_tp 매매구분
 - xraymont_cntr_qty_ Xray순간체결량증거
-Body String N 20
+본문 문자열 N 20
 profa_100tp 금100구분
 287 / 526
 
-# Page 288
+# 페이지 288
 
-Request Example
+요청 예시
 {
 "isscomp_cd": "000000000017",
 "bsis_aset_cd": "201",
@@ -14532,7 +14532,7 @@ Request Example
 "lpcd": "000000000000",
 "sort_tp": "0"
 }
-Response Example
+응답 예시
 {
 "elwcnd_qry":
 [
@@ -14583,7 +14583,7 @@ Response Example
 }
 288 / 526
 
-# Page 289
+# 페이지 289
 
 키움 REST API
 API 정보
@@ -14591,66 +14591,66 @@ API 정보
 API 명 ELW등락율순위요청
 API ID ka30009
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body sort_tp 정렬구분 String Y 1 1:상승률, 2:상승폭, 3:하락률, 4:하락폭
+본문 sort_tp 정렬구분 문자열 Y 1 1:상승률, 2:상승폭, 3:하락률, 4:하락폭
 000:전체, 001:콜, 002:풋, 003:DC, 004:DP, 006:조기종료콜,
-Body rght_tp 권리구분 String Y 3
+본문 rght_tp 권리구분 문자열 Y 3
 007:조기종료풋
-Body trde_end_skip 거래종료제외 String Y 1 1:거래종료제외, 0:거래종료포함
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body elwflu_rt_rank ELW등락율순위 LIST N
-Body - rank 순위 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - sel_req 매도잔량 String N 20
+본문 trde_end_skip 거래종료제외 문자열 Y 1 1:거래종료제외, 0:거래종료포함
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 elwflu_rt_rank ELW등락율순위 목록 N
+본문 - rank 순위 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - sel_req 매도잔량 문자열 N 20
 289 / 526
 
-# Page 290
+# 페이지 290
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - buy_req 매수잔량 String N 20
-Body - trde_qty 거래량 String N 20
-Body - trde_prica 거래대금 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - buy_req 매수잔량 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+요청 예시
 {
 "sort_tp": "1",
 "rght_tp": "000",
 "trde_end_skip": "0"
 }
-Response Example
+응답 예시
 {
 "elwflu_rt_rank": [
 {
@@ -14672,7 +14672,7 @@ Response Example
 }
 290 / 526
 
-# Page 291
+# 페이지 291
 
 키움 REST API
 API 정보
@@ -14680,67 +14680,67 @@ API 정보
 API 명 ELW잔량순위요청
 API ID ka30010
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body sort_tp 정렬구분 String Y 1 1:순매수잔량상위, 2: 순매도 잔량상위
+본문 sort_tp 정렬구분 문자열 Y 1 1:순매수잔량상위, 2: 순매도 잔량상위
 000: 전체, 001: 콜, 002: 풋, 003: DC, 004: DP, 006:
-Body rght_tp 권리구분 String Y 3
+본문 rght_tp 권리구분 문자열 Y 3
 조기종료콜, 007: 조기종료풋
-Body trde_end_skip 거래종료제외 String Y 1 1:거래종료제외, 0:거래종료포함
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body elwreq_rank ELW잔량순위 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - rank 순위 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락률 String N 20
-Body - trde_qty 거래량 String N 20
+본문 trde_end_skip 거래종료제외 문자열 Y 1 1:거래종료제외, 0:거래종료포함
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 elwreq_rank ELW잔량순위 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - rank 순위 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락률 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
 291 / 526
 
-# Page 292
+# 페이지 292
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - sel_req 매도잔량 String N 20
-Body - buy_req 매수잔량 String N 20
-Body - netprps_req 순매수잔량 String N 20
-Body - trde_prica 거래대금 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - sel_req 매도잔량 문자열 N 20
+본문 - buy_req 매수잔량 문자열 N 20
+본문 - netprps_req 순매수잔량 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+요청 예시
 {
 "sort_tp": "1",
 "rght_tp": "000",
 "trde_end_skip": "0"
 }
-Response Example
+응답 예시
 {
 "elwreq_rank": [
 {
@@ -14763,7 +14763,7 @@ Response Example
 }
 292 / 526
 
-# Page 293
+# 페이지 293
 
 키움 REST API
 API 정보
@@ -14771,54 +14771,54 @@ API 정보
 API 명 ELW근접율요청
 API ID ka30011
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body elwalacc_rt ELW근접율 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - alacc_rt 근접율 String N 20
-Request Example
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 elwalacc_rt ELW근접율 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - alacc_rt 근접율 문자열 N 20
+요청 예시
 {
 "stk_cd": "57JBHH"
 293 / 526
 
-# Page 294
+# 페이지 294
 
-Request Example
+요청 예시
 }
-Response Example
+응답 예시
 {
 "elwalacc_rt": [
 {
@@ -14837,7 +14837,7 @@ Response Example
 }
 294 / 526
 
-# Page 295
+# 페이지 295
 
 키움 REST API
 API 정보
@@ -14845,125 +14845,125 @@ API 정보
 API 명 ELW종목상세정보요청
 API ID ka30012
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/elw
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body aset_cd 자산코드 String N 20
-Body cur_prc 현재가 String N 20
-Body pred_pre_sig 전일대비기호 String N 20
-Body pred_pre 전일대비 String N 20
-Body flu_rt 등락율 String N 20
-Body lpmmcm_nm LP회원사명 String N 20
-Body lpmmcm_nm_1 LP회원사명1 String N 20
-Body lpmmcm_nm_2 LP회원사명2 String N 20
-Body elwrght_cntn ELW권리내용 String N 20
-Body elwexpr_evlt_pric ELW만기평가가격 String N 20
-Body elwtheory_pric ELW이론가 String N 20
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 aset_cd 자산코드 문자열 N 20
+본문 cur_prc 현재가 문자열 N 20
+본문 pred_pre_sig 전일대비기호 문자열 N 20
+본문 pred_pre 전일대비 문자열 N 20
+본문 flu_rt 등락율 문자열 N 20
+본문 lpmmcm_nm LP회원사명 문자열 N 20
+본문 lpmmcm_nm_1 LP회원사명1 문자열 N 20
+본문 lpmmcm_nm_2 LP회원사명2 문자열 N 20
+본문 elwrght_cntn ELW권리내용 문자열 N 20
+본문 elwexpr_evlt_pric ELW만기평가가격 문자열 N 20
+본문 elwtheory_pric ELW이론가 문자열 N 20
 295 / 526
 
-# Page 296
+# 페이지 296
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body dispty_rt 괴리율 String N 20
-Body elwinnr_vltl ELW내재변동성 String N 20
-Body exp_rght_pric 예상권리가 String N 20
-Body elwpl_qutr_rt ELW손익분기율 String N 20
-Body elwexec_pric ELW행사가 String N 20
-Body elwcnvt_rt ELW전환비율 String N 20
-Body elwcmpn_rt ELW보상율 String N 20
-Body elwpric_rising_part_rt ELW가격상승참여율 String N 20
-Body elwrght_type ELW권리유형 String N 20
-Body elwsrvive_dys ELW잔존일수 String N 20
-Body stkcnt 주식수 String N 20
-Body elwlpord_pos ELWLP주문가능 String N 20
-Body lpposs_rt LP보유비율 String N 20
-Body lprmnd_qty LP보유수량 String N 20
-Body elwspread ELW스프레드 String N 20
-Body elwprty ELW패리티 String N 20
-Body elwgear ELW기어링 String N 20
-Body elwflo_dt ELW상장일 String N 20
-Body elwfin_trde_dt ELW최종거래일 String N 20
-Body expr_dt 만기일 String N 20
-Body exec_dt 행사일 String N 20
-Body lpsuply_end_dt LP공급종료일 String N 20
-Body elwpay_dt ELW지급일 String N 20
-Body elwinvt_ix_comput ELW투자지표산출 String N
-Body elwpay_agnt ELW지급대리인 String N
-Body elwappr_way ELW결재방법 String N
-Body elwrght_exec_way ELW권리행사방식 String N
-Body elwpblicte_orgn ELW발행기관 String N
-Body dcsn_pay_amt 확정지급액 String N
-Body kobarr KO베리어 String N
-Body iv IV String N
-Body clsprd_end_elwocr 종기종료ELW발생 String N
-Body bsis_aset_1 기초자산1 String N
-Body bsis_aset_comp_rt_1 기초자산구성비율1 String N
-Body bsis_aset_2 기초자산2 String N
-Body bsis_aset_comp_rt_2 기초자산구성비율2 String N
-Body bsis_aset_3 기초자산3 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 dispty_rt 괴리율 문자열 N 20
+본문 elwinnr_vltl ELW내재변동성 문자열 N 20
+본문 exp_rght_pric 예상권리가 문자열 N 20
+본문 elwpl_qutr_rt ELW손익분기율 문자열 N 20
+본문 elwexec_pric ELW행사가 문자열 N 20
+본문 elwcnvt_rt ELW전환비율 문자열 N 20
+본문 elwcmpn_rt ELW보상율 문자열 N 20
+본문 elwpric_rising_part_rt ELW가격상승참여율 문자열 N 20
+본문 elwrght_type ELW권리유형 문자열 N 20
+본문 elwsrvive_dys ELW잔존일수 문자열 N 20
+본문 stkcnt 주식수 문자열 N 20
+본문 elwlpord_pos ELWLP주문가능 문자열 N 20
+본문 lpposs_rt LP보유비율 문자열 N 20
+본문 lprmnd_qty LP보유수량 문자열 N 20
+본문 elwspread ELW스프레드 문자열 N 20
+본문 elwprty ELW패리티 문자열 N 20
+본문 elwgear ELW기어링 문자열 N 20
+본문 elwflo_dt ELW상장일 문자열 N 20
+본문 elwfin_trde_dt ELW최종거래일 문자열 N 20
+본문 expr_dt 만기일 문자열 N 20
+본문 exec_dt 행사일 문자열 N 20
+본문 lpsuply_end_dt LP공급종료일 문자열 N 20
+본문 elwpay_dt ELW지급일 문자열 N 20
+본문 elwinvt_ix_comput ELW투자지표산출 문자열 N
+본문 elwpay_agnt ELW지급대리인 문자열 N
+본문 elwappr_way ELW결재방법 문자열 N
+본문 elwrght_exec_way ELW권리행사방식 문자열 N
+본문 elwpblicte_orgn ELW발행기관 문자열 N
+본문 dcsn_pay_amt 확정지급액 문자열 N
+본문 kobarr KO베리어 문자열 N
+본문 iv IV 문자열 N
+본문 clsprd_end_elwocr 종기종료ELW발생 문자열 N
+본문 bsis_aset_1 기초자산1 문자열 N
+본문 bsis_aset_comp_rt_1 기초자산구성비율1 문자열 N
+본문 bsis_aset_2 기초자산2 문자열 N
+본문 bsis_aset_comp_rt_2 기초자산구성비율2 문자열 N
+본문 bsis_aset_3 기초자산3 문자열 N
 296 / 526
 
-# Page 297
+# 페이지 297
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body bsis_aset_comp_rt_3 기초자산구성비율3 String N
-Body bsis_aset_4 기초자산4 String N
-Body bsis_aset_comp_rt_4 기초자산구성비율4 String N
-Body bsis_aset_5 기초자산5 String N
-Body bsis_aset_comp_rt_5 기초자산구성비율5 String N
-Body fr_dt 평가시작일자 String N
-Body to_dt 평가종료일자 String N
-Body fr_tm 평가시작시간 String N
-Body evlt_end_tm 평가종료시간 String N
-Body evlt_pric 평가가격 String N
-Body evlt_fnsh_yn 평가완료여부 String N
-Body all_hgst_pric 전체최고가 String N
-Body all_lwst_pric 전체최저가 String N
-Body imaf_hgst_pric 직후최고가 String N
-Body imaf_lwst_pric 직후최저가 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 bsis_aset_comp_rt_3 기초자산구성비율3 문자열 N
+본문 bsis_aset_4 기초자산4 문자열 N
+본문 bsis_aset_comp_rt_4 기초자산구성비율4 문자열 N
+본문 bsis_aset_5 기초자산5 문자열 N
+본문 bsis_aset_comp_rt_5 기초자산구성비율5 문자열 N
+본문 fr_dt 평가시작일자 문자열 N
+본문 to_dt 평가종료일자 문자열 N
+본문 fr_tm 평가시작시간 문자열 N
+본문 evlt_end_tm 평가종료시간 문자열 N
+본문 evlt_pric 평가가격 문자열 N
+본문 evlt_fnsh_yn 평가완료여부 문자열 N
+본문 all_hgst_pric 전체최고가 문자열 N
+본문 all_lwst_pric 전체최저가 문자열 N
+본문 imaf_hgst_pric 직후최고가 문자열 N
+본문 imaf_lwst_pric 직후최저가 문자열 N
 sndhalf_mrkt_hgst_p
-Body 후반장최고가 String N
+본문 후반장최고가 문자열 N
 ric
 sndhalf_mrkt_lwst_pr
-Body 후반장최저가 String N
+본문 후반장최저가 문자열 N
 ic
-Request Example
+요청 예시
 {
 "stk_cd": "57JBHH"
 }
-Response Example
+응답 예시
 {
 "aset_cd":"201",
 "cur_prc":"10",
@@ -14996,9 +14996,9 @@ Response Example
 "elwgear":"4317.90",
 297 / 526
 
-# Page 298
+# 페이지 298
 
-Response Example
+응답 예시
 "elwflo_dt":"20240124",
 "elwfin_trde_dt":"20241212",
 "expr_dt":"20241216",
@@ -15041,7 +15041,7 @@ Response Example
 }
 298 / 526
 
-# Page 299
+# 페이지 299
 
 키움 REST API
 API 정보
@@ -15049,43 +15049,43 @@ API 정보
 API 명 ETF수익율요청
 API ID ka40001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Body etfobjt_idex_cd ETF대상지수코드 String Y 3
-Body dt 기간 String Y 1 0:1주, 1:1달, 2:6개월, 3:1년
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body etfprft_rt_lst ETF수익율 LIST N
-Body - etfprft_rt ETF수익률 String N 20
-Body - cntr_prft_rt 체결수익률 String N 20
-Body - for_netprps_qty 외인순매수수량 String N 20
-Body - orgn_netprps_qty 기관순매수수량 String N 20
-Request Example
+본문 stk_cd 종목코드 문자열 Y 6
+본문 etfobjt_idex_cd ETF대상지수코드 문자열 Y 3
+본문 dt 기간 문자열 Y 1 0:1주, 1:1달, 2:6개월, 3:1년
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 etfprft_rt_lst ETF수익율 목록 N
+본문 - etfprft_rt ETF수익률 문자열 N 20
+본문 - cntr_prft_rt 체결수익률 문자열 N 20
+본문 - for_netprps_qty 외인순매수수량 문자열 N 20
+본문 - orgn_netprps_qty 기관순매수수량 문자열 N 20
+요청 예시
 {
 "stk_cd": "069500",
 "etfobjt_idex_cd": "207",
@@ -15093,9 +15093,9 @@ Request Example
 }
 299 / 526
 
-# Page 300
+# 페이지 300
 
-Response Example
+응답 예시
 {
 "etfprft_rt_lst": [
 {
@@ -15110,7 +15110,7 @@ Response Example
 }
 300 / 526
 
-# Page 301
+# 페이지 301
 
 키움 REST API
 API 정보
@@ -15118,54 +15118,54 @@ API 정보
 API 명 ETF종목정보요청
 API ID ka40002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_nm 종목명 String N 40
-Body etfobjt_idex_nm ETF대상지수명 String N 20
-Body wonju_pric 원주가격 String N 20
-Body etftxon_type ETF과세유형 String N 20
-Body etntxon_type ETN과세유형 String N 20
-Request Example
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_nm 종목명 문자열 N 40
+본문 etfobjt_idex_nm ETF대상지수명 문자열 N 20
+본문 wonju_pric 원주가격 문자열 N 20
+본문 etftxon_type ETF과세유형 문자열 N 20
+본문 etntxon_type ETN과세유형 문자열 N 20
+요청 예시
 {
 "stk_cd": "069500"
 }
-Response Example
+응답 예시
 {
 "stk_nm": "KODEX 200",
 "etfobjt_idex_nm": "",
 "wonju_pric": "10",
 301 / 526
 
-# Page 302
+# 페이지 302
 
-Response Example
+응답 예시
 "etftxon_type": "보유기간과세",
 "etntxon_type": "보유기간과세",
 "return_code": 0,
@@ -15173,7 +15173,7 @@ Response Example
 }
 302 / 526
 
-# Page 303
+# 페이지 303
 
 키움 REST API
 API 정보
@@ -15181,63 +15181,63 @@ API 정보
 API 명 ETF일별추이요청
 API ID ka40003
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body etfdaly_trnsn ETF일별추이 LIST N
-Body - cntr_dt 체결일자 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - pre_rt 대비율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - nav NAV String N 20
-Body - acc_trde_prica 누적거래대금 String N 20
-Body - navidex_dispty_rt NAV/지수괴리율 String N 20
-Body - navetfdispty_rt NAV/ETF괴리율 String N 20
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 etfdaly_trnsn ETF일별추이 목록 N
+본문 - cntr_dt 체결일자 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - pre_rt 대비율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - nav NAV 문자열 N 20
+본문 - acc_trde_prica 누적거래대금 문자열 N 20
+본문 - navidex_dispty_rt NAV/지수괴리율 문자열 N 20
+본문 - navetfdispty_rt NAV/ETF괴리율 문자열 N 20
 303 / 526
 
-# Page 304
+# 페이지 304
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - trace_eor_rt 추적오차율 String N 20
-Body - trace_cur_prc 추적현재가 String N 20
-Body - trace_pred_pre 추적전일대비 String N 20
-Body - trace_pre_sig 추적대비기호 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - trace_eor_rt 추적오차율 문자열 N 20
+본문 - trace_cur_prc 추적현재가 문자열 N 20
+본문 - trace_pred_pre 추적전일대비 문자열 N 20
+본문 - trace_pre_sig 추적대비기호 문자열 N 20
+요청 예시
 {
 "stk_cd": "069500"
 }
-Response Example
+응답 예시
 {
 "etfdaly_trnsn": [
 {
@@ -15294,7 +15294,7 @@ Response Example
 }
 304 / 526
 
-# Page 305
+# 페이지 305
 
 키움 REST API
 API 정보
@@ -15302,72 +15302,72 @@ API 정보
 API 명 ETF전체시세요청
 API ID ka40004
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
 0:전체, 1:비과세, 2:보유기간과세, 3:회사형, 4:외국,
-Body txon_type 과세유형 String Y 1
+본문 txon_type 과세유형 문자열 Y 1
 5:비과세해외(보유기간관세)
-Body navpre NAV대비 String Y 1 0:전체, 1:NAV > 전일종가, 2:NAV < 전일종가
+본문 navpre NAV대비 문자열 Y 1 0:전체, 1:NAV > 전일종가, 2:NAV < 전일종가
 0000:전체, 3020:KODEX(삼성), 3027:KOSEF(키움),
-Body mngmcomp 운용사 String Y 4 3191:TIGER(미래에셋), 3228:KINDEX(한국투자),
+본문 mngmcomp 운용사 문자열 Y 4 3191:TIGER(미래에셋), 3228:KINDEX(한국투자),
 3023:KStar(KB), 3022:아리랑(한화), 9999:기타운용사
-Body txon_yn 과세여부 String Y 1 0:전체, 1:과세, 2:비과세
-Body trace_idex 추적지수 String Y 1 0:전체
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body etfall_mrpr ETF전체시세 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_cls 종목분류 String N 20
-Body - stk_nm 종목명 String N 40
-Body - close_pric 종가 String N 20
+본문 txon_yn 과세여부 문자열 Y 1 0:전체, 1:과세, 2:비과세
+본문 trace_idex 추적지수 문자열 Y 1 0:전체
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 etfall_mrpr ETF전체시세 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_cls 종목분류 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - close_pric 종가 문자열 N 20
 305 / 526
 
-# Page 306
+# 페이지 306
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - pre_rt 대비율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - nav NAV String N 20
-Body - trace_eor_rt 추적오차율 String N 20
-Body - txbs 과표기준 String N 20
-Body - dvid_bf_base 배당전기준 String N 20
-Body - pred_dvida 전일배당금 String N 20
-Body - trace_idex_nm 추적지수명 String N 20
-Body - drng 배수 String N 20
-Body - trace_idex_cd 추적지수코드 String N 20
-Body - trace_idex 추적지수 String N 20
-Body - trace_flu_rt 추적등락율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - pre_rt 대비율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - nav NAV 문자열 N 20
+본문 - trace_eor_rt 추적오차율 문자열 N 20
+본문 - txbs 과표기준 문자열 N 20
+본문 - dvid_bf_base 배당전기준 문자열 N 20
+본문 - pred_dvida 전일배당금 문자열 N 20
+본문 - trace_idex_nm 추적지수명 문자열 N 20
+본문 - drng 배수 문자열 N 20
+본문 - trace_idex_cd 추적지수코드 문자열 N 20
+본문 - trace_idex 추적지수 문자열 N 20
+본문 - trace_flu_rt 추적등락율 문자열 N 20
+요청 예시
 {
 "txon_type": "0",
 "navpre": "0",
@@ -15376,7 +15376,7 @@ Request Example
 "trace_idex": "0",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "etfall_mrpr": [
 {
@@ -15413,9 +15413,9 @@ Response Example
 "txbs": "",
 306 / 526
 
-# Page 307
+# 페이지 307
 
-Response Example
+응답 예시
 "dvid_bf_base": "",
 "pred_dvida": "",
 "trace_idex_nm": "KOSPI200",
@@ -15450,7 +15450,7 @@ Response Example
 }
 307 / 526
 
-# Page 308
+# 페이지 308
 
 키움 REST API
 API 정보
@@ -15458,72 +15458,72 @@ API 정보
 API 명 ETF시간대별추이요청
 API ID ka40006
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_nm 종목명 String N 40
-Body etfobjt_idex_nm ETF대상지수명 String N 20
-Body wonju_pric 원주가격 String N 20
-Body etftxon_type ETF과세유형 String N 20
-Body etntxon_type ETN과세유형 String N 20
-Body etftisl_trnsn ETF시간대별추이 LIST N
-Body - tm 시간 String N 20
-Body - close_pric 종가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_nm 종목명 문자열 N 40
+본문 etfobjt_idex_nm ETF대상지수명 문자열 N 20
+본문 wonju_pric 원주가격 문자열 N 20
+본문 etftxon_type ETF과세유형 문자열 N 20
+본문 etntxon_type ETN과세유형 문자열 N 20
+본문 etftisl_trnsn ETF시간대별추이 목록 N
+본문 - tm 시간 문자열 N 20
+본문 - close_pric 종가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
 308 / 526
 
-# Page 309
+# 페이지 309
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - trde_qty 거래량 String N 20
-Body - nav NAV String N 20
-Body - trde_prica 거래대금 String N 20
-Body - navidex NAV지수 String N 20
-Body - navetf NAVETF String N 20
-Body - trace 추적 String N 20
-Body - trace_idex 추적지수 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - trde_qty 거래량 문자열 N 20
+본문 - nav NAV 문자열 N 20
+본문 - trde_prica 거래대금 문자열 N 20
+본문 - navidex NAV지수 문자열 N 20
+본문 - navetf NAVETF 문자열 N 20
+본문 - trace 추적 문자열 N 20
+본문 - trace_idex 추적지수 문자열 N 20
 -
-Body 추적지수전일대비 String N 20
+본문 추적지수전일대비 문자열 N 20
 trace_idex_pred_pre
 - trace_idex_pred_pr 추적지수전일대비기
-Body String N 20
+본문 문자열 N 20
 e_sig 호
-Request Example
+요청 예시
 {
 "stk_cd": "069500"
 }
-Response Example
+응답 예시
 {
 "stk_nm": "KODEX 200",
 "etfobjt_idex_nm": "KOSPI200",
@@ -15569,7 +15569,7 @@ Response Example
 }
 309 / 526
 
-# Page 310
+# 페이지 310
 
 키움 REST API
 API 정보
@@ -15577,63 +15577,63 @@ API 정보
 API 명 ETF시간대별체결요청
 API ID ka40007
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_cls 종목분류 String N 20
-Body stk_nm 종목명 String N 40
-Body etfobjt_idex_nm ETF대상지수명 String N 20
-Body etfobjt_idex_cd ETF대상지수코드 String N 20
-Body objt_idex_pre_rt 대상지수대비율 String N 20
-Body wonju_pric 원주가격 String N 20
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cls 종목분류 문자열 N 20
+본문 stk_nm 종목명 문자열 N 40
+본문 etfobjt_idex_nm ETF대상지수명 문자열 N 20
+본문 etfobjt_idex_cd ETF대상지수코드 문자열 N 20
+본문 objt_idex_pre_rt 대상지수대비율 문자열 N 20
+본문 wonju_pric 원주가격 문자열 N 20
 ETF시간대별체결배
-Body etftisl_cntr_array LIST N
+본문 etftisl_cntr_array 목록 N
 열
-Body - cntr_tm 체결시간 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
 310 / 526
 
-# Page 311
+# 페이지 311
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - trde_qty 거래량 String N 20
-Body - stex_tp 거래소구분 String N 20 KRX , NXT , 통합
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - trde_qty 거래량 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20 KRX , NXT , 통합
+요청 예시
 {
 "stk_cd": "069500"
 }
-Response Example
+응답 예시
 {
 "stk_cls": "20",
 "stk_nm": "KODEX 200",
@@ -15656,7 +15656,7 @@ Response Example
 }
 311 / 526
 
-# Page 312
+# 페이지 312
 
 키움 REST API
 API 정보
@@ -15664,61 +15664,61 @@ API 정보
 API 명 ETF일자별체결요청
 API ID ka40008
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body cntr_tm 체결시간 String N 20
-Body cur_prc 현재가 String N 20
-Body pre_sig 대비기호 String N 20
-Body pred_pre 전일대비 String N 20
-Body trde_qty 거래량 String N 20
-Body etfnetprps_qty_array ETF순매수수량배열 LIST N
-Body - dt 일자 String N 20
-Body - cur_prc_n 현재가n String N 20
-Body - pre_sig_n 대비기호n String N 20
-Body - pred_pre_n 전일대비n String N 20
-Body - acc_trde_qty 누적거래량 String N 20
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 cntr_tm 체결시간 문자열 N 20
+본문 cur_prc 현재가 문자열 N 20
+본문 pre_sig 대비기호 문자열 N 20
+본문 pred_pre 전일대비 문자열 N 20
+본문 trde_qty 거래량 문자열 N 20
+본문 etfnetprps_qty_array ETF순매수수량배열 목록 N
+본문 - dt 일자 문자열 N 20
+본문 - cur_prc_n 현재가n 문자열 N 20
+본문 - pre_sig_n 대비기호n 문자열 N 20
+본문 - pred_pre_n 전일대비n 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
 312 / 526
 
-# Page 313
+# 페이지 313
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - for_netprps_qty 외인순매수수량 String N 20
-Body - orgn_netprps_qty 기관순매수수량 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - for_netprps_qty 외인순매수수량 문자열 N 20
+본문 - orgn_netprps_qty 기관순매수수량 문자열 N 20
+요청 예시
 {
 "stk_cd": "069500"
 }
-Response Example
+응답 예시
 {
 "cntr_tm": "130747",
 "cur_prc": "+4900",
@@ -15777,7 +15777,7 @@ Response Example
 }
 313 / 526
 
-# Page 314
+# 페이지 314
 
 키움 REST API
 API 정보
@@ -15785,61 +15785,61 @@ API 정보
 API 명 ETF시간대별체결요청
 API ID ka40009
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body etfnavarray ETFNAV배열 LIST N
-Body - nav NAV String N 20
-Body - navpred_pre NAV전일대비 String N 20
-Body - navflu_rt NAV등락율 String N 20
-Body - trace_eor_rt 추적오차율 String N 20
-Body - dispty_rt 괴리율 String N 20
-Body - stkcnt 주식수 String N 20
-Body - base_pric 기준가 String N 20
-Body - for_rmnd_qty 외인보유수량 String N 20
-Body - repl_pric 대용가 String N 20
-Body - conv_pric 환산가격 String N 20
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 etfnavarray ETFNAV배열 목록 N
+본문 - nav NAV 문자열 N 20
+본문 - navpred_pre NAV전일대비 문자열 N 20
+본문 - navflu_rt NAV등락율 문자열 N 20
+본문 - trace_eor_rt 추적오차율 문자열 N 20
+본문 - dispty_rt 괴리율 문자열 N 20
+본문 - stkcnt 주식수 문자열 N 20
+본문 - base_pric 기준가 문자열 N 20
+본문 - for_rmnd_qty 외인보유수량 문자열 N 20
+본문 - repl_pric 대용가 문자열 N 20
+본문 - conv_pric 환산가격 문자열 N 20
 314 / 526
 
-# Page 315
+# 페이지 315
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - drstk DR/주 String N 20
-Body - wonju_pric 원주가격 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - drstk DR/주 문자열 N 20
+본문 - wonju_pric 원주가격 문자열 N 20
+요청 예시
 {
 "stk_cd": "069500"
 }
-Response Example
+응답 예시
 {
 "etfnavarray": [
 {
@@ -15904,7 +15904,7 @@ Response Example
 }
 315 / 526
 
-# Page 316
+# 페이지 316
 
 키움 REST API
 API 정보
@@ -15912,53 +15912,53 @@ API 정보
 API 명 ETF시간대별추이요청
 API ID ka40010
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/etf
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 6
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body etftisl_trnsn ETF시간대별추이 LIST N
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - trde_qty 거래량 String N 20
-Body - for_netprps 외인순매수 String N 20
-Request Example
+본문 stk_cd 종목코드 문자열 Y 6
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 etftisl_trnsn ETF시간대별추이 목록 N
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - for_netprps 외인순매수 문자열 N 20
+요청 예시
 {
 "stk_cd": "069500"
 }
-Response Example
+응답 예시
 {
 "etftisl_trnsn": [
 316 / 526
 
-# Page 317
+# 페이지 317
 
-Response Example
+응답 예시
 {
 "cur_prc": "4450",
 "pre_sig": "3",
@@ -16028,7 +16028,7 @@ Response Example
 }
 317 / 526
 
-# Page 318
+# 페이지 318
 
 키움 REST API
 API 정보
@@ -16036,66 +16036,66 @@ API 정보
 API 명 금현물체결추이
 API ID ka50010
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gold_cntr 금현물체결추이 LIST N
-Body - cntr_pric 체결가 String N 20
-Body - pred_pre 전일 대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 누적 거래량 String N 20
-Body - acc_trde_prica 누적 거래대금 String N 20
-Body - cntr_trde_qty 거래량(체결량) String N 20
-Body - tm 체결시간 String N 20
-Body - pre_sig 전일대비기호 String N 20
-Body - pri_sel_bid_unit 매도호가 String N 20
-Body - pri_buy_bid_unit 매수호가 String N 20
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gold_cntr 금현물체결추이 목록 N
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - pred_pre 전일 대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 누적 거래량 문자열 N 20
+본문 - acc_trde_prica 누적 거래대금 문자열 N 20
+본문 - cntr_trde_qty 거래량(체결량) 문자열 N 20
+본문 - tm 체결시간 문자열 N 20
+본문 - pre_sig 전일대비기호 문자열 N 20
+본문 - pri_sel_bid_unit 매도호가 문자열 N 20
+본문 - pri_buy_bid_unit 매수호가 문자열 N 20
 318 / 526
 
-# Page 319
+# 페이지 319
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 전일 거래량 대비
-Body - trde_pre String N 20
+본문 - trde_pre 문자열 N 20
 비율
 전일 거래량 대비
-Body - trde_tern_rt String N 20
+본문 - trde_tern_rt 문자열 N 20
 순간 거래량 비율
-Body - cntr_str 체결강도 String N 20
-Request Example
+본문 - cntr_str 체결강도 문자열 N 20
+요청 예시
 {
 "stk_cd": "M04020000"
 }
-Response Example
+응답 예시
 {
 "gold_cntr": [
 {
@@ -16134,7 +16134,7 @@ Response Example
 }
 319 / 526
 
-# Page 320
+# 페이지 320
 
 키움 REST API
 API 정보
@@ -16142,64 +16142,64 @@ API 정보
 API 명 금현물일별추이
 API ID ka50012
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gold_daly_trnsn 금현물일별추이 LIST N
-Body - cur_prc 종가 String N 20
-Body - pred_pre 전일 대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 누적 거래량 String N 20
-Body - acc_trde_prica 누적 거래대금(백만) String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - dt 일자 String N 20
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gold_daly_trnsn 금현물일별추이 목록 N
+본문 - cur_prc 종가 문자열 N 20
+본문 - pred_pre 전일 대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 누적 거래량 문자열 N 20
+본문 - acc_trde_prica 누적 거래대금(백만) 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - dt 일자 문자열 N 20
 320 / 526
 
-# Page 321
+# 페이지 321
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pre_sig 전일대비기호 String N 20
-Body - orgn_netprps 기관 순매수 수량 String N 20
-Body - for_netprps 외국인 순매수 수량 String N 20
-Body - ind_netprps 순매매량(개인) String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pre_sig 전일대비기호 문자열 N 20
+본문 - orgn_netprps 기관 순매수 수량 문자열 N 20
+본문 - for_netprps 외국인 순매수 수량 문자열 N 20
+본문 - ind_netprps 순매매량(개인) 문자열 N 20
+요청 예시
 {
 "stk_cd": "M04020000",
 "base_dt": "20250820"
 }
-Response Example
+응답 예시
 {
 "gold_daly_trnsn": [
 {
@@ -16238,7 +16238,7 @@ Response Example
 }
 321 / 526
 
-# Page 322
+# 페이지 322
 
 키움 REST API
 API 정보
@@ -16246,62 +16246,62 @@ API 정보
 API 명 금현물틱차트조회요청
 API ID ka50079
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body tic_scope 틱범위 String Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gds_tic_chart_qry 금현물틱차트조회 LIST N
-Body - cur_prc 현재가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - trde_qty 거래량 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N
-Body - cntr_tm 체결시간 String N 20
-Body - dt 일자 String N 20
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 tic_scope 틱범위 문자열 Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gds_tic_chart_qry 금현물틱차트조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - dt 일자 문자열 N 20
 322 / 526
 
-# Page 323
+# 페이지 323
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pred_pre_sig 전일대비기호 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+요청 예시
 {
 "stk_cd": "M04020000",
 "tic_scope": "",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "gds_tic_chart_qry": [
 {
@@ -16332,7 +16332,7 @@ Response Example
 }
 323 / 526
 
-# Page 324
+# 페이지 324
 
 키움 REST API
 API 정보
@@ -16340,65 +16340,65 @@ API 정보
 API 명 금현물분봉차트조회요청
 API ID ka50080
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
 1:1분, 3:3분, 5:5분, 10:10분, 15:15분, 30:30분, 45:45분,
-Body tic_scope 틱범위 String Y 3
+본문 tic_scope 틱범위 문자열 Y 3
 60:60분
-Body upd_stkpc_tp 수정주가구분 String N 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gds_min_chart_qry 금현물분봉차트조회 LIST N
-Body - cur_prc 현재가 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - acc_trde_qty 누적거래량 String N 20
-Body - trde_qty 거래량 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - cntr_tm 체결시간 String N 20
+본문 upd_stkpc_tp 수정주가구분 문자열 N 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gds_min_chart_qry 금현물분봉차트조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - cntr_tm 체결시간 문자열 N 20
 324 / 526
 
-# Page 325
+# 페이지 325
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - dt 일자 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - dt 일자 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+요청 예시
 {
 "stk_cd": "M04020000",
 "tic_scope": "",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "gds_min_chart_qry": [
 {
@@ -16431,7 +16431,7 @@ Response Example
 }
 325 / 526
 
-# Page 326
+# 페이지 326
 
 키움 REST API
 API 정보
@@ -16439,57 +16439,57 @@ API 정보
 API 명 금현물일봉차트조회요청
 API ID ka50081
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gds_day_chart_qry 금현물일봉차트조회 LIST N
-Body - cur_prc 현재가 String N 20
-Body - acc_trde_qty 누적 거래량 String N 20
-Body - acc_trde_prica 누적 거래대금 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - dt 일자 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gds_day_chart_qry 금현물일봉차트조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20
+본문 - acc_trde_qty 누적 거래량 문자열 N 20
+본문 - acc_trde_prica 누적 거래대금 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
 326 / 526
 
-# Page 327
+# 페이지 327
 
-Request Example
+요청 예시
 {
 "stk_cd": "M04020000",
 "base_dt": "20250826",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "gds_day_chart_qry": [
 {
@@ -16518,7 +16518,7 @@ Response Example
 }
 327 / 526
 
-# Page 328
+# 페이지 328
 
 키움 REST API
 API 정보
@@ -16526,57 +16526,57 @@ API 정보
 API 명 금현물주봉차트조회요청
 API ID ka50082
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gds_week_chart_qry 금현물일봉차트조회 LIST N
-Body - cur_prc 현재가 String N 20
-Body - acc_trde_qty 누적 거래량 String N 20
-Body - acc_trde_prica 누적 거래대금 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - dt 일자 String N 20
-Request Example
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gds_week_chart_qry 금현물일봉차트조회 목록 N
+본문 - cur_prc 현재가 문자열 N 20
+본문 - acc_trde_qty 누적 거래량 문자열 N 20
+본문 - acc_trde_prica 누적 거래대금 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - dt 일자 문자열 N 20
+요청 예시
 328 / 526
 
-# Page 329
+# 페이지 329
 
-Request Example
+요청 예시
 {
 "stk_cd": "M04020000",
 "base_dt": "20250826",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "gds_week_chart_qry": [
 {
@@ -16603,7 +16603,7 @@ Response Example
 }
 329 / 526
 
-# Page 330
+# 페이지 330
 
 키움 REST API
 API 정보
@@ -16611,59 +16611,59 @@ API 정보
 API 명 금현물월봉차트조회요청
 API ID ka50083
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body base_dt 기준일자 String Y 8 YYYYMMDD
-Body upd_stkpc_tp 수정주가구분 String Y 1 0 or 1
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 base_dt 기준일자 문자열 Y 8 YYYYMMDD
+본문 upd_stkpc_tp 수정주가구분 문자열 Y 1 0 or 1
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 gds_month_chart_qr
-Body 금현물일봉차트조회 LIST N
+본문 금현물일봉차트조회 목록 N
 y
-Body - cur_prc 현재가 String N 20
-Body - acc_trde_qty 누적 거래량 String N 20
-Body - acc_trde_prica 누적 거래대금 String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - dt 일자 String N 20
-Request Example
+본문 - cur_prc 현재가 문자열 N 20
+본문 - acc_trde_qty 누적 거래량 문자열 N 20
+본문 - acc_trde_prica 누적 거래대금 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - dt 일자 문자열 N 20
+요청 예시
 330 / 526
 
-# Page 331
+# 페이지 331
 
-Request Example
+요청 예시
 {
 "stk_cd": "M04020000",
 "base_dt": "20250826",
 "upd_stkpc_tp": "1"
 }
-Response Example
+응답 예시
 {
 "gds_month_chart_qry": [
 {
@@ -16690,7 +16690,7 @@ Response Example
 }
 331 / 526
 
-# Page 332
+# 페이지 332
 
 키움 REST API
 API 정보
@@ -16698,58 +16698,58 @@ API 정보
 API 명 금현물예상체결
 API ID ka50087
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gold_expt_exec 금현물예상체결 LIST N
-Body - exp_cntr_pric 예상 체결가 String N 20
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gold_expt_exec 금현물예상체결 목록 N
+본문 - exp_cntr_pric 예상 체결가 문자열 N 20
 예상 체결가
-Body - exp_pred_pre String N 20
+본문 - exp_pred_pre 문자열 N 20
 전일대비
-Body - exp_flu_rt 예상 체결가 등락율 String N 20
-Body - exp_acc_trde_qty 예상 체결 수량(누적) String N 20
-Body - exp_cntr_trde_qty 예상 체결 수량 String N 20
-Body - exp_tm 예상 체결 시간 String N 20
+본문 - exp_flu_rt 예상 체결가 등락율 문자열 N 20
+본문 - exp_acc_trde_qty 예상 체결 수량(누적) 문자열 N 20
+본문 - exp_cntr_trde_qty 예상 체결 수량 문자열 N 20
+본문 - exp_tm 예상 체결 시간 문자열 N 20
 예상 체결가
-Body - exp_pre_sig String N 20
+본문 - exp_pre_sig 문자열 N 20
 전일대비기호
-Body - stex_tp 거래소 구분 String N
-Request Example
+본문 - stex_tp 거래소 구분 문자열 N
+요청 예시
 332 / 526
 
-# Page 333
+# 페이지 333
 
-Request Example
+요청 예시
 {
 "stk_cd": "M04020000"
 }
-Response Example
+응답 예시
 {
 "gold_expt_exec": [
 {
@@ -16778,7 +16778,7 @@ Response Example
 }
 333 / 526
 
-# Page 334
+# 페이지 334
 
 키움 REST API
 API 정보
@@ -16786,56 +16786,56 @@ API 정보
 API 명 금현물당일틱차트조회요청
 API ID ka50091
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body tic_scope 틱범위 String Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gds_tic_chart_qry 금현물일봉차트조회 LIST N
-Body - cntr_pric 체결가 String N 20
-Body - pred_pre 전일 대비(원) String N 20
-Body - trde_qty 거래량(체결량) String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - cntr_tm 체결시간 String N 20
-Body - dt 일자 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 tic_scope 틱범위 문자열 Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gds_tic_chart_qry 금현물일봉차트조회 목록 N
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - pred_pre 전일 대비(원) 문자열 N 20
+본문 - trde_qty 거래량(체결량) 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - dt 일자 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
 334 / 526
 
-# Page 335
+# 페이지 335
 
-Request Example
+요청 예시
 {
 "stk_cd": "M04020000",
 "tic_scope": "1"
 }
-Response Example
+응답 예시
 {
 "gds_tic_chart_qry": [
 {
@@ -16866,7 +16866,7 @@ Response Example
 }
 335 / 526
 
-# Page 336
+# 페이지 336
 
 키움 REST API
 API 정보
@@ -16874,62 +16874,62 @@ API 정보
 API 명 금현물당일분봉차트조회요청
 API ID ka50092
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/chart
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body tic_scope 틱범위 String Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gds_min_chart_qry 금현물일봉차트조회 LIST N
-Body - cntr_pric 체결가 String N 20
-Body - pred_pre 전일 대비(원) String N 20
-Body - acc_trde_qty 누적 거래량 String N 20
-Body - acc_trde_prica 누적 거래대금 String N 20
-Body - trde_qty 거래량(체결량) String N 20
-Body - open_pric 시가 String N 20
-Body - high_pric 고가 String N 20
-Body - low_pric 저가 String N 20
-Body - cntr_tm 체결시간 String N 20
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 tic_scope 틱범위 문자열 Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gds_min_chart_qry 금현물일봉차트조회 목록 N
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - pred_pre 전일 대비(원) 문자열 N 20
+본문 - acc_trde_qty 누적 거래량 문자열 N 20
+본문 - acc_trde_prica 누적 거래대금 문자열 N 20
+본문 - trde_qty 거래량(체결량) 문자열 N 20
+본문 - open_pric 시가 문자열 N 20
+본문 - high_pric 고가 문자열 N 20
+본문 - low_pric 저가 문자열 N 20
+본문 - cntr_tm 체결시간 문자열 N 20
 336 / 526
 
-# Page 337
+# 페이지 337
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - dt 일자 String N 20
-Body - pred_pre_sig 전일대비기호 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - dt 일자 문자열 N 20
+본문 - pred_pre_sig 전일대비기호 문자열 N 20
+요청 예시
 {
 "stk_cd": "M04020000",
 "tic_scope": "1"
 }
-Response Example
+응답 예시
 {
 "gds_min_chart_qry": [
 {
@@ -16964,7 +16964,7 @@ Response Example
 }
 337 / 526
 
-# Page 338
+# 페이지 338
 
 키움 REST API
 API 정보
@@ -16972,55 +16972,55 @@ API 정보
 API 명 금현물 시세정보
 API ID ka50100
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body pred_pre_sig 전일대비기호 String N 20
-Body pred_pre 전일대비 String N 20
-Body flu_rt 등락율 String N 20
-Body trde_qty 거래량 String N 20
-Body open_pric 시가 String N 20
-Body high_pric 고가 String N 20
-Body low_pric 저가 String N 20
-Body pred_rt 전일비 String N 20
-Body upl_pric 상한가 String N 20
-Body lst_pric 하한가 String N 20
-Body pred_close_pric 전일종가 String N 20
+본문 stk_cd 종목코드 문자열 Y 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 pred_pre_sig 전일대비기호 문자열 N 20
+본문 pred_pre 전일대비 문자열 N 20
+본문 flu_rt 등락율 문자열 N 20
+본문 trde_qty 거래량 문자열 N 20
+본문 open_pric 시가 문자열 N 20
+본문 high_pric 고가 문자열 N 20
+본문 low_pric 저가 문자열 N 20
+본문 pred_rt 전일비 문자열 N 20
+본문 upl_pric 상한가 문자열 N 20
+본문 lst_pric 하한가 문자열 N 20
+본문 pred_close_pric 전일종가 문자열 N 20
 338 / 526
 
-# Page 339
+# 페이지 339
 
-Request Example
+요청 예시
 {
 "stk_cd": "M04020000"
 }
-Response Example
+응답 예시
 {
 "pred_pre_sig": "2",
 "pred_pre": "+870",
@@ -17038,7 +17038,7 @@ Response Example
 }
 339 / 526
 
-# Page 340
+# 페이지 340
 
 키움 REST API
 API 정보
@@ -17046,70 +17046,70 @@ API 정보
 API 명 금현물 호가
 API ID ka50101
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body tic_scope 틱범위 String Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body gold_bid 금현물호가 LIST N
-Body - cntr_pric 체결가 String N 20
-Body - pred_pre 전일 대비(원) String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 누적 거래량 String N 20
-Body - acc_trde_prica 누적 거래대금 String N 20
-Body - cntr_trde_qty 거래량(체결량) String N 20
-Body - tm 체결시간 String N 20
-Body - pre_sig 전일대비기호 String N 20
-Body - pri_sel_bid_unit 매도호가 String N 20
+본문 stk_cd 종목코드 문자열 Y 20 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 tic_scope 틱범위 문자열 Y 2 1:1틱, 3:3틱, 5:5틱, 10:10틱, 30:30틱
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 gold_bid 금현물호가 목록 N
+본문 - cntr_pric 체결가 문자열 N 20
+본문 - pred_pre 전일 대비(원) 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 누적 거래량 문자열 N 20
+본문 - acc_trde_prica 누적 거래대금 문자열 N 20
+본문 - cntr_trde_qty 거래량(체결량) 문자열 N 20
+본문 - tm 체결시간 문자열 N 20
+본문 - pre_sig 전일대비기호 문자열 N 20
+본문 - pri_sel_bid_unit 매도호가 문자열 N 20
 340 / 526
 
-# Page 341
+# 페이지 341
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - pri_buy_bid_unit 매수호가 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - pri_buy_bid_unit 매수호가 문자열 N 20
 전일 거래량 대비
-Body - trde_pre String N 20
+본문 - trde_pre 문자열 N 20
 비율
 전일 거래량 대비
-Body - trde_tern_rt String N
+본문 - trde_tern_rt 문자열 N
 순간 거래량 비율
-Body - cntr_str 체결강도 String N 20
-Body - lpmmcm_nm_1 K.O 접근도 String N 20
-Body - stex_tp 거래소구분 String N 20
-Request Example
+본문 - cntr_str 체결강도 문자열 N 20
+본문 - lpmmcm_nm_1 K.O 접근도 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20
+요청 예시
 {
 "stk_cd": "M04020000",
 "tic_scope": "1"
 }
-Response Example
+응답 예시
 {
 "gold_bid": [
 {
@@ -17152,7 +17152,7 @@ Response Example
 }
 341 / 526
 
-# Page 342
+# 페이지 342
 
 키움 REST API
 API 정보
@@ -17160,87 +17160,87 @@ API 정보
 API 명 금현물투자자현황
 API ID ka52301
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/frgnistt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body inve_trad_stat 금현물투자자현황 LIST N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 inve_trad_stat 금현물투자자현황 목록 N
 투자자별 매도
-Body - all_dfrt_trst_sell_qty String N 20
+본문 - all_dfrt_trst_sell_qty 문자열 N 20
 수량(천)
 투자자별 매도 수량
-Body - sell_qty_irds String N 20
+본문 - sell_qty_irds 문자열 N 20
 증감(천)
 - 투자자별 매도
-Body String N 20
+본문 문자열 N 20
 all_dfrt_trst_sell_amt 금액(억)
 투자자별 매도 금액
-Body - sell_amt_irds String N 20
+본문 - sell_amt_irds 문자열 N 20
 증감(억)
 - 투자자별 매수
-Body String N 20
+본문 문자열 N 20
 all_dfrt_trst_buy_qty 수량(천)
 투자자별 매수 수량
-Body - buy_qty_irds String N 20
+본문 - buy_qty_irds 문자열 N 20
 증감(천)
 - 투자자별 매수
-Body String N 20
+본문 문자열 N 20
 all_dfrt_trst_buy_amt 금액(억)
-Body - buy_amt_irds 투자자별 매수 금액 String N 20
+본문 - buy_amt_irds 투자자별 매수 금액 문자열 N 20
 342 / 526
 
-# Page 343
+# 페이지 343
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 증감(억)
 - all_dfrt_trst_netprp 투자자별 순매수
-Body String N 20
+본문 문자열 N 20
 s_qty 수량(천)
 투자자별 순매수
-Body - netprps_qty_irds String N 20
+본문 - netprps_qty_irds 문자열 N 20
 수량 증감(천)
 - all_dfrt_trst_netprp 투자자별 순매수
-Body String N 20
+본문 문자열 N 20
 s_amt 금액(억)
 투자자별 순매수
-Body - netprps_amt_irds String N 20
+본문 - netprps_amt_irds 문자열 N 20
 금액 증감(억)
-Body - sell_uv 투자자별 매도 단가 String N 20
-Body - buy_uv 투자자별 매수 단가 String N 20
-Body - stk_nm 투자자 구분명 String N 20
-Body - acc_netprps_amt 누적 순매수 금액(억) String N 20
-Body - acc_netprps_qty 누적 순매수 수량(천) String N 20
-Body - stk_cd 투자자 코드 String N 20
-Request Example
+본문 - sell_uv 투자자별 매도 단가 문자열 N 20
+본문 - buy_uv 투자자별 매수 단가 문자열 N 20
+본문 - stk_nm 투자자 구분명 문자열 N 20
+본문 - acc_netprps_amt 누적 순매수 금액(억) 문자열 N 20
+본문 - acc_netprps_qty 누적 순매수 수량(천) 문자열 N 20
+본문 - stk_cd 투자자 코드 문자열 N 20
+요청 예시
 {}
-Response Example
+응답 예시
 {
 "inve_trad_stat": [
 {
@@ -17286,9 +17286,9 @@ Response Example
 {
 343 / 526
 
-# Page 344
+# 페이지 344
 
-Response Example
+응답 예시
 "all_dfrt_trst_sell_qty": "0",
 "sell_qty_irds": "0",
 "all_dfrt_trst_sell_amt": "0",
@@ -17314,7 +17314,7 @@ Response Example
 }
 344 / 526
 
-# Page 345
+# 페이지 345
 
 키움 REST API
 API 정보
@@ -17322,61 +17322,61 @@ API 정보
 API 명 테마그룹별요청
 API ID ka90001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/thme
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body qry_tp 검색구분 String Y 1 0:전체검색, 1:테마검색, 2:종목검색
-Body stk_cd 종목코드 String N 6 검색하려는 종목코드
-Body date_tp 날짜구분 String Y 2 n일전 (1일 ~ 99일 날짜입력)
-Body thema_nm 테마명 String N 50 검색하려는 테마명
+본문 qry_tp 검색구분 문자열 Y 1 0:전체검색, 1:테마검색, 2:종목검색
+본문 stk_cd 종목코드 문자열 N 6 검색하려는 종목코드
+본문 date_tp 날짜구분 문자열 Y 2 n일전 (1일 ~ 99일 날짜입력)
+본문 thema_nm 테마명 문자열 N 50 검색하려는 테마명
 1:상위기간수익률, 2:하위기간수익률, 3:상위등락률,
-Body flu_pl_amt_tp 등락수익구분 String Y 1
+본문 flu_pl_amt_tp 등락수익구분 문자열 Y 1
 4:하위등락률
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body thema_grp 테마그룹별 LIST N
-Body - thema_grp_cd 테마그룹코드 String N 20
-Body - thema_nm 테마명 String N 20
-Body - stk_num 종목수 String N 20
-Body - flu_sig 등락기호 String N 20
-Body - flu_rt 등락율 String N 20
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 thema_grp 테마그룹별 목록 N
+본문 - thema_grp_cd 테마그룹코드 문자열 N 20
+본문 - thema_nm 테마명 문자열 N 20
+본문 - stk_num 종목수 문자열 N 20
+본문 - flu_sig 등락기호 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
 345 / 526
 
-# Page 346
+# 페이지 346
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - rising_stk_num 상승종목수 String N 20
-Body - fall_stk_num 하락종목수 String N 20
-Body - dt_prft_rt 기간수익률 String N 20
-Body - main_stk 주요종목 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - rising_stk_num 상승종목수 문자열 N 20
+본문 - fall_stk_num 하락종목수 문자열 N 20
+본문 - dt_prft_rt 기간수익률 문자열 N 20
+본문 - main_stk 주요종목 문자열 N 20
+요청 예시
 {
 "qry_tp": "0",
 "stk_cd": "",
@@ -17385,7 +17385,7 @@ Request Example
 "flu_pl_amt_tp": "1",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "thema_grp": [
 {
@@ -17427,7 +17427,7 @@ Response Example
 }
 346 / 526
 
-# Page 347
+# 페이지 347
 
 키움 REST API
 API 정보
@@ -17435,67 +17435,67 @@ API 정보
 API 명 테마구성종목요청
 API ID ka90002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/thme
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body date_tp 날짜구분 String N 1 1일 ~ 99일 날짜입력
-Body thema_grp_cd 테마그룹코드 String Y 6 테마그룹코드 번호
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body flu_rt 등락률 String N 20
-Body dt_prft_rt 기간수익률 String N 20
-Body thema_comp_stk 테마구성종목 LIST N
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - flu_sig 등락기호 String N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
+본문 date_tp 날짜구분 문자열 N 1 1일 ~ 99일 날짜입력
+본문 thema_grp_cd 테마그룹코드 문자열 Y 6 테마그룹코드 번호
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 flu_rt 등락률 문자열 N 20
+본문 dt_prft_rt 기간수익률 문자열 N 20
+본문 thema_comp_stk 테마구성종목 목록 N
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - flu_sig 등락기호 문자열 N 20 1: 상한가, 2:상승, 3:보합, 4:하한가, 5:하락
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
 347 / 526
 
-# Page 348
+# 페이지 348
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - acc_trde_qty 누적거래량 String N 20
-Body - sel_bid 매도호가 String N 20
-Body - sel_req 매도잔량 String N 20
-Body - buy_bid 매수호가 String N 20
-Body - buy_req 매수잔량 String N 20
-Body - dt_prft_rt_n 기간수익률n String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - sel_bid 매도호가 문자열 N 20
+본문 - sel_req 매도잔량 문자열 N 20
+본문 - buy_bid 매수호가 문자열 N 20
+본문 - buy_req 매수잔량 문자열 N 20
+본문 - dt_prft_rt_n 기간수익률n 문자열 N 20
+요청 예시
 {
 "date_tp": "2",
 "thema_grp_cd": "100",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "flu_rt": "0.00",
 "dt_prft_rt": "0.00",
@@ -17551,9 +17551,9 @@ Response Example
 "flu_rt": "0.00",
 348 / 526
 
-# Page 349
+# 페이지 349
 
-Response Example
+응답 예시
 "acc_trde_qty": "0",
 "sel_bid": "0",
 "sel_req": "0",
@@ -17567,7 +17567,7 @@ Response Example
 }
 349 / 526
 
-# Page 350
+# 페이지 350
 
 키움 REST API
 API 정보
@@ -17575,68 +17575,68 @@ API 정보
 API 명 프로그램순매수상위50요청
 API ID ka90003
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trde_upper_tp 매매상위구분 String Y 1 1:순매도상위, 2:순매수상위
-Body amt_qty_tp 금액수량구분 String Y 2 1:금액, 2:수량
-Body mrkt_tp 시장구분 String Y 10 P00101:코스피, P10102:코스닥
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 trde_upper_tp 매매상위구분 문자열 Y 1 1:순매도상위, 2:순매수상위
+본문 amt_qty_tp 금액수량구분 문자열 Y 2 1:금액, 2:수량
+본문 mrkt_tp 시장구분 문자열 Y 10 P00101:코스피, P10102:코스닥
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 prm_netprps_upper_ 프로그램순매수상위
-Body LIST N
+본문 목록 N
 50 50
-Body - rank 순위 String N 20
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
-Body - cur_prc 현재가 String N 20
-Body - flu_sig 등락기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
+본문 - rank 순위 문자열 N 20
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - cur_prc 현재가 문자열 N 20
+본문 - flu_sig 등락기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
 350 / 526
 
-# Page 351
+# 페이지 351
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - acc_trde_qty 누적거래량 String N 20
-Body - prm_sell_amt 프로그램매도금액 String N 20
-Body - prm_buy_amt 프로그램매수금액 String N 20
-Body - prm_netprps_amt 프로그램순매수금액 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - acc_trde_qty 누적거래량 문자열 N 20
+본문 - prm_sell_amt 프로그램매도금액 문자열 N 20
+본문 - prm_buy_amt 프로그램매수금액 문자열 N 20
+본문 - prm_netprps_amt 프로그램순매수금액 문자열 N 20
+요청 예시
 {
 "trde_upper_tp": "1",
 "amt_qty_tp": "1",
 "mrkt_tp": "P00101",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "prm_trde_trnsn": [
 {
@@ -17685,7 +17685,7 @@ Response Example
 }
 351 / 526
 
-# Page 352
+# 페이지 352
 
 키움 REST API
 API 정보
@@ -17693,72 +17693,72 @@ API 정보
 API 명 종목별프로그램매매현황요청
 API ID ka90004
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dt 일자 String Y 8 YYYYMMDD
-Body mrkt_tp 시장구분 String Y 10 P00101:코스피, P10102:코스닥
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tot_1 매수체결수량합계 String N 20
-Body tot_2 매수체결금액합계 String N 20
-Body tot_3 매도체결수량합계 String N 20
-Body tot_4 매도체결금액합계 String N 20
-Body tot_5 순매수대금합계 String N 20
-Body tot_6 합계6 String N 20
+본문 dt 일자 문자열 Y 8 YYYYMMDD
+본문 mrkt_tp 시장구분 문자열 Y 10 P00101:코스피, P10102:코스닥
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tot_1 매수체결수량합계 문자열 N 20
+본문 tot_2 매수체결금액합계 문자열 N 20
+본문 tot_3 매도체결수량합계 문자열 N 20
+본문 tot_4 매도체결금액합계 문자열 N 20
+본문 tot_5 순매수대금합계 문자열 N 20
+본문 tot_6 합계6 문자열 N 20
 종목별프로그램매매
-Body stk_prm_trde_prst LIST N
+본문 stk_prm_trde_prst 목록 N
 현황
-Body - stk_cd 종목코드 String N 20
-Body - stk_nm 종목명 String N 40
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
 352 / 526
 
-# Page 353
+# 페이지 353
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - cur_prc 현재가 String N 20
-Body - flu_sig 등락기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - buy_cntr_qty 매수체결수량 String N 20
-Body - buy_cntr_amt 매수체결금액 String N 20
-Body - sel_cntr_qty 매도체결수량 String N 20
-Body - sel_cntr_amt 매도체결금액 String N 20
-Body - netprps_prica 순매수대금 String N 20
-Body - all_trde_rt 전체거래비율 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - cur_prc 현재가 문자열 N 20
+본문 - flu_sig 등락기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - buy_cntr_qty 매수체결수량 문자열 N 20
+본문 - buy_cntr_amt 매수체결금액 문자열 N 20
+본문 - sel_cntr_qty 매도체결수량 문자열 N 20
+본문 - sel_cntr_amt 매도체결금액 문자열 N 20
+본문 - netprps_prica 순매수대금 문자열 N 20
+본문 - all_trde_rt 전체거래비율 문자열 N 20
+요청 예시
 {
 "dt": "20241125",
 "mrkt_tp": "P00101",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "tot_1": "0",
 "tot_2": "2",
@@ -17808,9 +17808,9 @@ Response Example
 },
 353 / 526
 
-# Page 354
+# 페이지 354
 
-Response Example
+응답 예시
 {
 "stk_cd": "005930",
 "stk_nm": "삼성전자",
@@ -17830,7 +17830,7 @@ Response Example
 }
 354 / 526
 
-# Page 355
+# 페이지 355
 
 키움 REST API
 API 정보
@@ -17838,81 +17838,81 @@ API 정보
 API 명 프로그램매매추이요청 시간대별
 API ID ka90005
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body date 날짜 String Y 8 YYYYMMDD
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액(백만원), 2:수량(천주)
+본문 date 날짜 문자열 Y 8 YYYYMMDD
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액(백만원), 2:수량(천주)
 코스피- 거래소구분값 1일경우:P00101, 2일경우:P001_NX01,
 3일경우:P001_AL01
-Body mrkt_tp 시장구분 String Y 10
+본문 mrkt_tp 시장구분 문자열 Y 10
 코스닥- 거래소구분값 1일경우:P10102, 2일경우:P101_NX02,
 3일경우:P101_AL02
-Body min_tic_tp 분틱구분 String Y 1 0:틱, 1:분
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body prm_trde_trnsn 프로그램매매추이 LIST N
-Body - cntr_tm 체결시간 String N 20
-Body - dfrt_trde_sel 차익거래매도 String N 20
-Body - dfrt_trde_buy 차익거래매수 String N 20
-Body - dfrt_trde_netprps 차익거래순매수 String N 20
-Body - ndiffpro_trde_sel 비차익거래매도 String N 20
+본문 min_tic_tp 분틱구분 문자열 Y 1 0:틱, 1:분
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 prm_trde_trnsn 프로그램매매추이 목록 N
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - dfrt_trde_sel 차익거래매도 문자열 N 20
+본문 - dfrt_trde_buy 차익거래매수 문자열 N 20
+본문 - dfrt_trde_netprps 차익거래순매수 문자열 N 20
+본문 - ndiffpro_trde_sel 비차익거래매도 문자열 N 20
 355 / 526
 
-# Page 356
+# 페이지 356
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - ndiffpro_trde_buy 비차익거래매수 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - ndiffpro_trde_buy 비차익거래매수 문자열 N 20
 - ndiffpro_trde_netpr
-Body 비차익거래순매수 String N 20
+본문 비차익거래순매수 문자열 N 20
 ps
-Body - dfrt_trde_sell_qty 차익거래매도수량 String N 20
-Body - dfrt_trde_buy_qty 차익거래매수수량 String N 20
+본문 - dfrt_trde_sell_qty 차익거래매도수량 문자열 N 20
+본문 - dfrt_trde_buy_qty 차익거래매수수량 문자열 N 20
 - dfrt_trde_netprps_
-Body 차익거래순매수수량 String N 20
+본문 차익거래순매수수량 문자열 N 20
 qty
 - ndiffpro_trde_sell_
-Body 비차익거래매도수량 String N 20
+본문 비차익거래매도수량 문자열 N 20
 qty
 - ndiffpro_trde_buy_
-Body 비차익거래매수수량 String N 20
+본문 비차익거래매수수량 문자열 N 20
 qty
 - ndiffpro_trde_netpr 비차익거래순매수수
-Body String N 20
+본문 문자열 N 20
 ps_qty 량
-Body - all_sel 전체매도 String N 20
-Body - all_buy 전체매수 String N 20
-Body - all_netprps 전체순매수 String N 20
-Body - kospi200 KOSPI200 String N 20
-Body - basis BASIS String N 20
-Request Example
+본문 - all_sel 전체매도 문자열 N 20
+본문 - all_buy 전체매수 문자열 N 20
+본문 - all_netprps 전체순매수 문자열 N 20
+본문 - kospi200 KOSPI200 문자열 N 20
+본문 - basis BASIS 문자열 N 20
+요청 예시
 {
 "date": "20241101",
 "amt_qty_tp": "1",
@@ -17920,7 +17920,7 @@ Request Example
 "min_tic_tp": "1",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "prm_trde_trnsn": [
 {
@@ -17955,9 +17955,9 @@ Response Example
 "dfrt_trde_buy_qty": "0",
 356 / 526
 
-# Page 357
+# 페이지 357
 
-Response Example
+응답 예시
 "dfrt_trde_netprps_qty": "0",
 "ndiffpro_trde_sell_qty": "0",
 "ndiffpro_trde_buy_qty": "0",
@@ -17974,7 +17974,7 @@ Response Example
 }
 357 / 526
 
-# Page 358
+# 페이지 358
 
 키움 REST API
 API 정보
@@ -17982,61 +17982,61 @@ API 정보
 API 명 프로그램매매차익잔고추이요청
 API ID ka90006
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body date 날짜 String Y 8 YYYYMMDD
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 date 날짜 문자열 Y 8 YYYYMMDD
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 prm_trde_dfrt_remn_ 프로그램매매차익잔
-Body LIST N
+본문 목록 N
 trnsn 고추이
-Body - dt 일자 String N 20
-Body - buy_dfrt_trde_qty 매수차익거래수량 String N 20
-Body - buy_dfrt_trde_amt 매수차익거래금액 String N 20
+본문 - dt 일자 문자열 N 20
+본문 - buy_dfrt_trde_qty 매수차익거래수량 문자열 N 20
+본문 - buy_dfrt_trde_amt 매수차익거래금액 문자열 N 20
 - buy_dfrt_trde_irds_
-Body 매수차익거래증감액 String N 20
+본문 매수차익거래증감액 문자열 N 20
 amt
-Body - sel_dfrt_trde_qty 매도차익거래수량 String N 20
-Body - sel_dfrt_trde_amt 매도차익거래금액 String N 20
+본문 - sel_dfrt_trde_qty 매도차익거래수량 문자열 N 20
+본문 - sel_dfrt_trde_amt 매도차익거래금액 문자열 N 20
 - sel_dfrt_trde_irds_a
-Body 매도차익거래증감액 String N 20
+본문 매도차익거래증감액 문자열 N 20
 mt
-Request Example
+요청 예시
 358 / 526
 
-# Page 359
+# 페이지 359
 
-Request Example
+요청 예시
 {
 "date": "20241125",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "prm_trde_dfrt_remn_trnsn": [
 {
@@ -18090,7 +18090,7 @@ Response Example
 }
 359 / 526
 
-# Page 360
+# 페이지 360
 
 키움 REST API
 API 정보
@@ -18098,66 +18098,66 @@ API 정보
 API 명 프로그램매매누적추이요청
 API ID ka90007
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body date 날짜 String Y 8 YYYYMMDD (종료일기준 1년간 데이터만 조회가능)
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액, 2:수량
-Body mrkt_tp 시장구분 String Y 5 0:코스피 , 1:코스닥
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 date 날짜 문자열 Y 8 YYYYMMDD (종료일기준 1년간 데이터만 조회가능)
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액, 2:수량
+본문 mrkt_tp 시장구분 문자열 Y 5 0:코스피 , 1:코스닥
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 프로그램매매누적추
-Body prm_trde_acc_trnsn LIST N
+본문 prm_trde_acc_trnsn 목록 N
 이
-Body - dt 일자 String N 20
-Body - kospi200 KOSPI200 String N 20
-Body - basis BASIS String N 20
-Body - dfrt_trde_tdy 차익거래당일 String N 20
-Body - dfrt_trde_acc 차익거래누적 String N 20
-Body - ndiffpro_trde_tdy 비차익거래당일 String N 20
-Body - ndiffpro_trde_acc 비차익거래누적 String N 20
+본문 - dt 일자 문자열 N 20
+본문 - kospi200 KOSPI200 문자열 N 20
+본문 - basis BASIS 문자열 N 20
+본문 - dfrt_trde_tdy 차익거래당일 문자열 N 20
+본문 - dfrt_trde_acc 차익거래누적 문자열 N 20
+본문 - ndiffpro_trde_tdy 비차익거래당일 문자열 N 20
+본문 - ndiffpro_trde_acc 비차익거래누적 문자열 N 20
 360 / 526
 
-# Page 361
+# 페이지 361
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - all_tdy 전체당일 String N 20
-Body - all_acc 전체누적 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - all_tdy 전체당일 문자열 N 20
+본문 - all_acc 전체누적 문자열 N 20
+요청 예시
 {
 "date": "20240525",
 "amt_qty_tp": "1",
 "mrkt_tp": "0",
 "stex_tp": "3"
 }
-Response Example
+응답 예시
 {
 "prm_trde_acc_trnsn": [
 {
@@ -18210,7 +18210,7 @@ Response Example
 }
 361 / 526
 
-# Page 362
+# 페이지 362
 
 키움 REST API
 API 정보
@@ -18218,79 +18218,79 @@ API 정보
 API 명 종목시간별프로그램매매추이요청
 API ID ka90008
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액, 2:수량
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액, 2:수량
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 6
+본문 stk_cd 종목코드 문자열 Y 6
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body date 날짜 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 date 날짜 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 stk_tm_prm_trde_trn 종목시간별프로그램
-Body LIST N
+본문 목록 N
 sn 매매추이
-Body - tm 시간 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - prm_sell_amt 프로그램매도금액 String N 20
+본문 - tm 시간 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - prm_sell_amt 프로그램매도금액 문자열 N 20
 362 / 526
 
-# Page 363
+# 페이지 363
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - prm_buy_amt 프로그램매수금액 String N 20
-Body - prm_netprps_amt 프로그램순매수금액 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - prm_buy_amt 프로그램매수금액 문자열 N 20
+본문 - prm_netprps_amt 프로그램순매수금액 문자열 N 20
 - prm_netprps_amt_i 프로그램순매수금액
-Body String N 20
+본문 문자열 N 20
 rds 증감
-Body - prm_sell_qty 프로그램매도수량 String N 20
-Body - prm_buy_qty 프로그램매수수량 String N 20
-Body - prm_netprps_qty 프로그램순매수수량 String N 20
+본문 - prm_sell_qty 프로그램매도수량 문자열 N 20
+본문 - prm_buy_qty 프로그램매수수량 문자열 N 20
+본문 - prm_netprps_qty 프로그램순매수수량 문자열 N 20
 - prm_netprps_qty_ir 프로그램순매수수량
-Body String N 20
+본문 문자열 N 20
 ds 증감
-Body - base_pric_tm 기준가시간 String N 20
-Body - dbrt_trde_rpy_sum 대차거래상환주수합 String N 20
-Body - remn_rcvord_sum 잔고수주합 String N 20
-Body - stex_tp 거래소구분 String N 20 KRX , NXT , 통합
-Request Example
+본문 - base_pric_tm 기준가시간 문자열 N 20
+본문 - dbrt_trde_rpy_sum 대차거래상환주수합 문자열 N 20
+본문 - remn_rcvord_sum 잔고수주합 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20 KRX , NXT , 통합
+요청 예시
 {
 "amt_qty_tp": "1",
 "stk_cd": "005930",
 "date": "20241125"
 }
-Response Example
+응답 예시
 {
 "stk_tm_prm_trde_trnsn": [
 {
@@ -18334,9 +18334,9 @@ Response Example
 "stex_tp": "KRX"
 363 / 526
 
-# Page 364
+# 페이지 364
 
-Response Example
+응답 예시
 }
 ],
 "return_code": 0,
@@ -18344,7 +18344,7 @@ Response Example
 }
 364 / 526
 
-# Page 365
+# 페이지 365
 
 키움 REST API
 API 정보
@@ -18352,77 +18352,77 @@ API 정보
 API 명 외국인기관매매상위요청
 API ID ka90009
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/rkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body mrkt_tp 시장구분 String Y 3 000:전체, 001:코스피, 101:코스닥
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액(천만), 2:수량(천)
-Body qry_dt_tp 조회일자구분 String Y 1 0:조회일자 미포함, 1:조회일자 포함
+본문 mrkt_tp 시장구분 문자열 Y 3 000:전체, 001:코스피, 101:코스닥
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액(천만), 2:수량(천)
+본문 qry_dt_tp 조회일자구분 문자열 Y 1 0:조회일자 미포함, 1:조회일자 포함
 YYYYMMDD
-Body date 날짜 String N 8
+본문 date 날짜 문자열 N 8
 (연도4자리, 월 2자리, 일 2자리 형식)
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT, 3:통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT, 3:통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 frgnr_orgn_trde_upp
-Body 외국인기관매매상위 LIST N
+본문 외국인기관매매상위 목록 N
 er
-Body - for_netslmt_stk_cd 외인순매도종목코드 String N 20
-Body - for_netslmt_stk_nm 외인순매도종목명 String N 20
-Body - for_netslmt_amt 외인순매도금액 String N 20
-Body - for_netslmt_qty 외인순매도수량 String N 20
-Body - for_netprps_stk_cd 외인순매수종목코드 String N 20
+본문 - for_netslmt_stk_cd 외인순매도종목코드 문자열 N 20
+본문 - for_netslmt_stk_nm 외인순매도종목명 문자열 N 20
+본문 - for_netslmt_amt 외인순매도금액 문자열 N 20
+본문 - for_netslmt_qty 외인순매도수량 문자열 N 20
+본문 - for_netprps_stk_cd 외인순매수종목코드 문자열 N 20
 365 / 526
 
-# Page 366
+# 페이지 366
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - for_netprps_stk_nm 외인순매수종목명 String N 20
-Body - for_netprps_amt 외인순매수금액 String N 20
-Body - for_netprps_qty 외인순매수수량 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - for_netprps_stk_nm 외인순매수종목명 문자열 N 20
+본문 - for_netprps_amt 외인순매수금액 문자열 N 20
+본문 - for_netprps_qty 외인순매수수량 문자열 N 20
 -
-Body 기관순매도종목코드 String N 20
+본문 기관순매도종목코드 문자열 N 20
 orgn_netslmt_stk_cd
 - orgn_netslmt_stk_n
-Body 기관순매도종목명 String N 20
+본문 기관순매도종목명 문자열 N 20
 m
-Body - orgn_netslmt_amt 기관순매도금액 String N 20
-Body - orgn_netslmt_qty 기관순매도수량 String N 20
+본문 - orgn_netslmt_amt 기관순매도금액 문자열 N 20
+본문 - orgn_netslmt_qty 기관순매도수량 문자열 N 20
 -
-Body 기관순매수종목코드 String N 20
+본문 기관순매수종목코드 문자열 N 20
 orgn_netprps_stk_cd
 - orgn_netprps_stk_n
-Body 기관순매수종목명 String N 20
+본문 기관순매수종목명 문자열 N 20
 m
-Body - orgn_netprps_amt 기관순매수금액 String N 20
-Body - orgn_netprps_qty 기관순매수수량 String N 20
-Request Example
+본문 - orgn_netprps_amt 기관순매수금액 문자열 N 20
+본문 - orgn_netprps_qty 기관순매수수량 문자열 N 20
+요청 예시
 {
 "mrkt_tp": "000",
 "amt_qty_tp": "1",
@@ -18430,7 +18430,7 @@ Request Example
 "date": "20241101",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "frgnr_orgn_trde_upper": [
 {
@@ -18470,9 +18470,9 @@ Response Example
 "orgn_netprps_qty": "-50312"
 366 / 526
 
-# Page 367
+# 페이지 367
 
-Response Example
+응답 예시
 }
 ],
 "return_code": 0,
@@ -18480,7 +18480,7 @@ Response Example
 }
 367 / 526
 
-# Page 368
+# 페이지 368
 
 키움 REST API
 API 정보
@@ -18488,81 +18488,81 @@ API 정보
 API 명 프로그램매매추이요청 일자별
 API ID ka90010
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body date 날짜 String Y 8 YYYYMMDD
-Body amt_qty_tp 금액수량구분 String Y 1 1:금액(백만원), 2:수량(천주)
+본문 date 날짜 문자열 Y 8 YYYYMMDD
+본문 amt_qty_tp 금액수량구분 문자열 Y 1 1:금액(백만원), 2:수량(천주)
 코스피- 거래소구분값 1일경우:P00101, 2일경우:P001_NX01,
 3일경우:P001_AL01
-Body mrkt_tp 시장구분 String Y 10
+본문 mrkt_tp 시장구분 문자열 Y 10
 코스닥- 거래소구분값 1일경우:P10102, 2일경우:P101_NX02,
 3일경우:P001_AL02
-Body min_tic_tp 분틱구분 String Y 1 0:틱, 1:분
-Body stex_tp 거래소구분 String Y 1 1:KRX, 2:NXT 3.통합
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body prm_trde_trnsn 프로그램매매추이 LIST N
-Body - cntr_tm 체결시간 String N 20
-Body - dfrt_trde_sel 차익거래매도 String N 20
-Body - dfrt_trde_buy 차익거래매수 String N 20
-Body - dfrt_trde_netprps 차익거래순매수 String N 20
-Body - ndiffpro_trde_sel 비차익거래매도 String N 20
+본문 min_tic_tp 분틱구분 문자열 Y 1 0:틱, 1:분
+본문 stex_tp 거래소구분 문자열 Y 1 1:KRX, 2:NXT 3.통합
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 prm_trde_trnsn 프로그램매매추이 목록 N
+본문 - cntr_tm 체결시간 문자열 N 20
+본문 - dfrt_trde_sel 차익거래매도 문자열 N 20
+본문 - dfrt_trde_buy 차익거래매수 문자열 N 20
+본문 - dfrt_trde_netprps 차익거래순매수 문자열 N 20
+본문 - ndiffpro_trde_sel 비차익거래매도 문자열 N 20
 368 / 526
 
-# Page 369
+# 페이지 369
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - ndiffpro_trde_buy 비차익거래매수 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - ndiffpro_trde_buy 비차익거래매수 문자열 N 20
 - ndiffpro_trde_netpr
-Body 비차익거래순매수 String N 20
+본문 비차익거래순매수 문자열 N 20
 ps
-Body - dfrt_trde_sell_qty 차익거래매도수량 String N 20
-Body - dfrt_trde_buy_qty 차익거래매수수량 String N 20
+본문 - dfrt_trde_sell_qty 차익거래매도수량 문자열 N 20
+본문 - dfrt_trde_buy_qty 차익거래매수수량 문자열 N 20
 - dfrt_trde_netprps_
-Body 차익거래순매수수량 String N 20
+본문 차익거래순매수수량 문자열 N 20
 qty
 - ndiffpro_trde_sell_
-Body 비차익거래매도수량 String N 20
+본문 비차익거래매도수량 문자열 N 20
 qty
 - ndiffpro_trde_buy_
-Body 비차익거래매수수량 String N 20
+본문 비차익거래매수수량 문자열 N 20
 qty
 - ndiffpro_trde_netpr 비차익거래순매수수
-Body String N 20
+본문 문자열 N 20
 ps_qty 량
-Body - all_sel 전체매도 String N 20
-Body - all_buy 전체매수 String N 20
-Body - all_netprps 전체순매수 String N 20
-Body - kospi200 KOSPI200 String N 20
-Body - basis BASIS String N 20
-Request Example
+본문 - all_sel 전체매도 문자열 N 20
+본문 - all_buy 전체매수 문자열 N 20
+본문 - all_netprps 전체순매수 문자열 N 20
+본문 - kospi200 KOSPI200 문자열 N 20
+본문 - basis BASIS 문자열 N 20
+요청 예시
 {
 "date": "20241125",
 "amt_qty_tp": "1",
@@ -18570,7 +18570,7 @@ Request Example
 "min_tic_tp": "0",
 "stex_tp": "1"
 }
-Response Example
+응답 예시
 {
 "prm_trde_trnsn": [
 {
@@ -18605,9 +18605,9 @@ Response Example
 "dfrt_trde_buy_qty": "0",
 369 / 526
 
-# Page 370
+# 페이지 370
 
-Response Example
+응답 예시
 "dfrt_trde_netprps_qty": "-0",
 "ndiffpro_trde_sell_qty": "1",
 "ndiffpro_trde_buy_qty": "7",
@@ -18624,7 +18624,7 @@ Response Example
 }
 370 / 526
 
-# Page 371
+# 페이지 371
 
 키움 REST API
 API 정보
@@ -18632,53 +18632,53 @@ API 정보
 API 명 대차거래내역요청
 API ID ka90012
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/slb
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dt 일자 String Y 8 YYYYMMDD
-Body mrkt_tp 시장구분 String Y 3 001:코스피, 101:코스닥
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body dbrt_trde_prps 대차거래내역 LIST N
-Body - stk_nm 종목명 String N 40
-Body - stk_cd 종목코드 String N 20
-Body - dbrt_trde_cntrcnt 대차거래체결주수 String N 20
-Body - dbrt_trde_rpy 대차거래상환주수 String N 20
-Body - rmnd 잔고주수 String N 20
-Body - remn_amt 잔고금액 String N 20
-Request Example
+본문 dt 일자 문자열 Y 8 YYYYMMDD
+본문 mrkt_tp 시장구분 문자열 Y 3 001:코스피, 101:코스닥
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 dbrt_trde_prps 대차거래내역 목록 N
+본문 - stk_nm 종목명 문자열 N 40
+본문 - stk_cd 종목코드 문자열 N 20
+본문 - dbrt_trde_cntrcnt 대차거래체결주수 문자열 N 20
+본문 - dbrt_trde_rpy 대차거래상환주수 문자열 N 20
+본문 - rmnd 잔고주수 문자열 N 20
+본문 - remn_amt 잔고금액 문자열 N 20
+요청 예시
 {
 "dt": "20241101",
 "mrkt_tp": "101"
 }
 371 / 526
 
-# Page 372
+# 페이지 372
 
-Response Example
+응답 예시
 {
 "dbrt_trde_prps": [
 {
@@ -18743,7 +18743,7 @@ Response Example
 }
 372 / 526
 
-# Page 373
+# 페이지 373
 
 키움 REST API
 API 정보
@@ -18751,79 +18751,79 @@ API 정보
 API 명 종목일별프로그램매매추이요청
 API ID ka90013
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/mrkcond
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body amt_qty_tp 금액수량구분 String N 1 1:금액, 2:수량
+본문 amt_qty_tp 금액수량구분 문자열 N 1 1:금액, 2:수량
 거래소별 종목코드
-Body stk_cd 종목코드 String Y 20
+본문 stk_cd 종목코드 문자열 Y 20
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body date 날짜 String N 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 date 날짜 문자열 N 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 stk_daly_prm_trde_tr 종목일별프로그램매
-Body LIST N
+본문 목록 N
 nsn 매추이
-Body - dt 일자 String N 20
-Body - cur_prc 현재가 String N 20
-Body - pre_sig 대비기호 String N 20
-Body - pred_pre 전일대비 String N 20
-Body - flu_rt 등락율 String N 20
-Body - trde_qty 거래량 String N 20
-Body - prm_sell_amt 프로그램매도금액 String N 20
+본문 - dt 일자 문자열 N 20
+본문 - cur_prc 현재가 문자열 N 20
+본문 - pre_sig 대비기호 문자열 N 20
+본문 - pred_pre 전일대비 문자열 N 20
+본문 - flu_rt 등락율 문자열 N 20
+본문 - trde_qty 거래량 문자열 N 20
+본문 - prm_sell_amt 프로그램매도금액 문자열 N 20
 373 / 526
 
-# Page 374
+# 페이지 374
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - prm_buy_amt 프로그램매수금액 String N 20
-Body - prm_netprps_amt 프로그램순매수금액 String N 20
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - prm_buy_amt 프로그램매수금액 문자열 N 20
+본문 - prm_netprps_amt 프로그램순매수금액 문자열 N 20
 - prm_netprps_amt_i 프로그램순매수금액
-Body String N 20
+본문 문자열 N 20
 rds 증감
-Body - prm_sell_qty 프로그램매도수량 String N 20
-Body - prm_buy_qty 프로그램매수수량 String N 20
-Body - prm_netprps_qty 프로그램순매수수량 String N 20
+본문 - prm_sell_qty 프로그램매도수량 문자열 N 20
+본문 - prm_buy_qty 프로그램매수수량 문자열 N 20
+본문 - prm_netprps_qty 프로그램순매수수량 문자열 N 20
 - prm_netprps_qty_ir 프로그램순매수수량
-Body String N 20
+본문 문자열 N 20
 ds 증감
-Body - base_pric_tm 기준가시간 String N 20
-Body - dbrt_trde_rpy_sum 대차거래상환주수합 String N 20
-Body - remn_rcvord_sum 잔고수주합 String N 20
-Body - stex_tp 거래소구분 String N 20 KRX , NXT , 통합
-Request Example
+본문 - base_pric_tm 기준가시간 문자열 N 20
+본문 - dbrt_trde_rpy_sum 대차거래상환주수합 문자열 N 20
+본문 - remn_rcvord_sum 잔고수주합 문자열 N 20
+본문 - stex_tp 거래소구분 문자열 N 20 KRX , NXT , 통합
+요청 예시
 {
 "amt_qty_tp": "",
 "stk_cd": "005930",
 "date": ""
 }
-Response Example
+응답 예시
 {
 "stk_daly_prm_trde_trnsn": [
 {
@@ -18867,9 +18867,9 @@ Response Example
 "stex_tp": "KRX"
 374 / 526
 
-# Page 375
+# 페이지 375
 
-Response Example
+응답 예시
 }
 ],
 "return_code": 0,
@@ -18877,7 +18877,7 @@ Response Example
 }
 375 / 526
 
-# Page 376
+# 페이지 376
 
 키움 REST API
 API 정보
@@ -18885,180 +18885,180 @@ API 정보
 API 명 예수금상세현황요청
 API ID kt00001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body qry_tp 조회구분 String Y 1 3:추정조회, 2:일반조회
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body entr 예수금 String N 15
-Body profa_ch 주식증거금현금 String N 15
-Body bncr_profa_ch 수익증권증거금현금 String N 15
+본문 qry_tp 조회구분 문자열 Y 1 3:추정조회, 2:일반조회
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 entr 예수금 문자열 N 15
+본문 profa_ch 주식증거금현금 문자열 N 15
+본문 bncr_profa_ch 수익증권증거금현금 문자열 N 15
 익일수익증권매도정
-Body nxdy_bncr_sell_exct String N 15
+본문 nxdy_bncr_sell_exct 문자열 N 15
 산대금
 fc_stk_krw_repl_set_a 해외주식원화대용설
-Body String N 15
+본문 문자열 N 15
 mt 정금
-Body crd_grnta_ch 신용보증금현금 String N 15
-Body crd_grnt_ch 신용담보금현금 String N 15
-Body add_grnt_ch 추가담보금현금 String N 15
-Body etc_profa 기타증거금 String N 15
-Body uncl_stk_amt 미수확보금 String N 15
+본문 crd_grnta_ch 신용보증금현금 문자열 N 15
+본문 crd_grnt_ch 신용담보금현금 문자열 N 15
+본문 add_grnt_ch 추가담보금현금 문자열 N 15
+본문 etc_profa 기타증거금 문자열 N 15
+본문 uncl_stk_amt 미수확보금 문자열 N 15
 376 / 526
 
-# Page 377
+# 페이지 377
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body shrts_prica 공매도대금 String N 15
-Body crd_set_grnta 신용설정평가금 String N 15
-Body chck_ina_amt 수표입금액 String N 15
-Body etc_chck_ina_amt 기타수표입금액 String N 15
-Body crd_grnt_ruse 신용담보재사용 String N 15
-Body knx_asset_evltv 코넥스기본예탁금 String N 15
-Body elwdpst_evlta ELW예탁평가금 String N 15
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 shrts_prica 공매도대금 문자열 N 15
+본문 crd_set_grnta 신용설정평가금 문자열 N 15
+본문 chck_ina_amt 수표입금액 문자열 N 15
+본문 etc_chck_ina_amt 기타수표입금액 문자열 N 15
+본문 crd_grnt_ruse 신용담보재사용 문자열 N 15
+본문 knx_asset_evltv 코넥스기본예탁금 문자열 N 15
+본문 elwdpst_evlta ELW예탁평가금 문자열 N 15
 신용대주권리예정금
-Body crd_ls_rght_frcs_amt String N 15
+본문 crd_ls_rght_frcs_amt 문자열 N 15
 액
-Body lvlh_join_amt 생계형가입금액 String N 15
-Body lvlh_trns_alowa 생계형입금가능금액 String N 15
+본문 lvlh_join_amt 생계형가입금액 문자열 N 15
+본문 lvlh_trns_alowa 생계형입금가능금액 문자열 N 15
 대용금평가금액(합계
-Body repl_amt String N 15
+본문 repl_amt 문자열 N 15
 )
-Body remn_repl_evlta 잔고대용평가금액 String N 15
+본문 remn_repl_evlta 잔고대용평가금액 문자열 N 15
 위탁대용잔고평가금
-Body trst_remn_repl_evlta String N 15
+본문 trst_remn_repl_evlta 문자열 N 15
 액
 수익증권대용평가금
-Body bncr_remn_repl_evlta String N 15
+본문 bncr_remn_repl_evlta 문자열 N 15
 액
-Body profa_repl 위탁증거금대용 String N 15
-Body crd_grnta_repl 신용보증금대용 String N 15
-Body crd_grnt_repl 신용담보금대용 String N 15
-Body add_grnt_repl 추가담보금대용 String N 15
-Body rght_repl_amt 권리대용금 String N 15
-Body pymn_alow_amt 출금가능금액 String N 15
+본문 profa_repl 위탁증거금대용 문자열 N 15
+본문 crd_grnta_repl 신용보증금대용 문자열 N 15
+본문 crd_grnt_repl 신용담보금대용 문자열 N 15
+본문 add_grnt_repl 추가담보금대용 문자열 N 15
+본문 rght_repl_amt 권리대용금 문자열 N 15
+본문 pymn_alow_amt 출금가능금액 문자열 N 15
 wrap_pymn_alow_a
-Body 랩출금가능금액 String N 15
+본문 랩출금가능금액 문자열 N 15
 mt
-Body ord_alow_amt 주문가능금액 String N 15
+본문 ord_alow_amt 주문가능금액 문자열 N 15
 수익증권매수가능금
-Body bncr_buy_alowa String N 15
+본문 bncr_buy_alowa 문자열 N 15
 액
 20%종목주문가능금
-Body 20stk_ord_alow_amt String N 15
+본문 20stk_ord_alow_amt 문자열 N 15
 액
 30%종목주문가능금
-Body 30stk_ord_alow_amt String N 15
+본문 30stk_ord_alow_amt 문자열 N 15
 액
 40%종목주문가능금
-Body 40stk_ord_alow_amt String N 15
+본문 40stk_ord_alow_amt 문자열 N 15
 액
 100stk_ord_alow_am 100%종목주문가능금
-Body String N 15
+본문 문자열 N 15
 t 액
-Body ch_uncla 현금미수금 String N 15
-Body ch_uncla_dlfe 현금미수연체료 String N 15
-Body ch_uncla_tot 현금미수금합계 String N 15
-Body crd_int_npay 신용이자미납 String N 15
-Body int_npay_amt_dlfe 신용이자미납연체료 String N 15
+본문 ch_uncla 현금미수금 문자열 N 15
+본문 ch_uncla_dlfe 현금미수연체료 문자열 N 15
+본문 ch_uncla_tot 현금미수금합계 문자열 N 15
+본문 crd_int_npay 신용이자미납 문자열 N 15
+본문 int_npay_amt_dlfe 신용이자미납연체료 문자열 N 15
 377 / 526
 
-# Page 378
+# 페이지 378
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body int_npay_amt_tot 신용이자미납합계 String N 15
-Body etc_loana 기타대여금 String N 15
-Body etc_loana_dlfe 기타대여금연체료 String N 15
-Body etc_loan_tot 기타대여금합계 String N 15
-Body nrpy_loan 미상환융자금 String N 15
-Body loan_sum 융자금합계 String N 15
-Body ls_sum 대주금합계 String N 15
-Body crd_grnt_rt 신용담보비율 String N 15
-Body mdstrm_usfe 중도이용료 String N 15
-Body min_ord_alow_yn 최소주문가능금액 String N 15
-Body loan_remn_evlt_amt 대출총평가금액 String N 15
-Body dpst_grntl_remn 예탁담보대출잔고 String N 15
-Body sell_grntl_remn 매도담보대출잔고 String N 15
-Body d1_entra d+1추정예수금 String N 15
-Body d1_slby_exct_amt d+1매도매수정산금 String N 15
-Body d1_buy_exct_amt d+1매수정산금 String N 15
-Body d1_out_rep_mor d+1미수변제소요금 String N 15
-Body d1_sel_exct_amt d+1매도정산금 String N 15
-Body d1_pymn_alow_amt d+1출금가능금액 String N 15
-Body d2_entra d+2추정예수금 String N 15
-Body d2_slby_exct_amt d+2매도매수정산금 String N 15
-Body d2_buy_exct_amt d+2매수정산금 String N 15
-Body d2_out_rep_mor d+2미수변제소요금 String N 15
-Body d2_sel_exct_amt d+2매도정산금 String N 15
-Body d2_pymn_alow_amt d+2출금가능금액 String N 15
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 int_npay_amt_tot 신용이자미납합계 문자열 N 15
+본문 etc_loana 기타대여금 문자열 N 15
+본문 etc_loana_dlfe 기타대여금연체료 문자열 N 15
+본문 etc_loan_tot 기타대여금합계 문자열 N 15
+본문 nrpy_loan 미상환융자금 문자열 N 15
+본문 loan_sum 융자금합계 문자열 N 15
+본문 ls_sum 대주금합계 문자열 N 15
+본문 crd_grnt_rt 신용담보비율 문자열 N 15
+본문 mdstrm_usfe 중도이용료 문자열 N 15
+본문 min_ord_alow_yn 최소주문가능금액 문자열 N 15
+본문 loan_remn_evlt_amt 대출총평가금액 문자열 N 15
+본문 dpst_grntl_remn 예탁담보대출잔고 문자열 N 15
+본문 sell_grntl_remn 매도담보대출잔고 문자열 N 15
+본문 d1_entra d+1추정예수금 문자열 N 15
+본문 d1_slby_exct_amt d+1매도매수정산금 문자열 N 15
+본문 d1_buy_exct_amt d+1매수정산금 문자열 N 15
+본문 d1_out_rep_mor d+1미수변제소요금 문자열 N 15
+본문 d1_sel_exct_amt d+1매도정산금 문자열 N 15
+본문 d1_pymn_alow_amt d+1출금가능금액 문자열 N 15
+본문 d2_entra d+2추정예수금 문자열 N 15
+본문 d2_slby_exct_amt d+2매도매수정산금 문자열 N 15
+본문 d2_buy_exct_amt d+2매수정산금 문자열 N 15
+본문 d2_out_rep_mor d+2미수변제소요금 문자열 N 15
+본문 d2_sel_exct_amt d+2매도정산금 문자열 N 15
+본문 d2_pymn_alow_amt d+2출금가능금액 문자열 N 15
 50%종목주문가능금
-Body 50stk_ord_alow_amt String N 15
+본문 50stk_ord_alow_amt 문자열 N 15
 액
 60%종목주문가능금
-Body 60stk_ord_alow_amt String N 15
+본문 60stk_ord_alow_amt 문자열 N 15
 액
-Body stk_entr_prst 종목별예수금 LIST N
-Body - crnc_cd 통화코드 String N 3
-Body - fx_entr 외화예수금 String N 15
-Body - fc_krw_repl_evlta 원화대용평가금 String N 15
-Body - fc_trst_profa 해외주식증거금 String N 15
-Body - pymn_alow_amt 출금가능금액 String N 15
+본문 stk_entr_prst 종목별예수금 목록 N
+본문 - crnc_cd 통화코드 문자열 N 3
+본문 - fx_entr 외화예수금 문자열 N 15
+본문 - fc_krw_repl_evlta 원화대용평가금 문자열 N 15
+본문 - fc_trst_profa 해외주식증거금 문자열 N 15
+본문 - pymn_alow_amt 출금가능금액 문자열 N 15
 - 출금가능금액(예수금
-Body String N 15
+본문 문자열 N 15
 pymn_alow_amt_entr )
 주문가능금액(예수금
-Body - ord_alow_amt_entr String N 15
+본문 - ord_alow_amt_entr 문자열 N 15
 )
 378 / 526
 
-# Page 379
+# 페이지 379
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - fc_uncla 외화미수(합계) String N 15
-Body - fc_ch_uncla 외화현금미수금 String N 15
-Body - dly_amt 연체료 String N 15
-Body - d1_fx_entr d+1외화예수금 String N 15
-Body - d2_fx_entr d+2외화예수금 String N 15
-Body - d3_fx_entr d+3외화예수금 String N 15
-Body - d4_fx_entr d+4외화예수금 String N 15
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - fc_uncla 외화미수(합계) 문자열 N 15
+본문 - fc_ch_uncla 외화현금미수금 문자열 N 15
+본문 - dly_amt 연체료 문자열 N 15
+본문 - d1_fx_entr d+1외화예수금 문자열 N 15
+본문 - d2_fx_entr d+2외화예수금 문자열 N 15
+본문 - d3_fx_entr d+3외화예수금 문자열 N 15
+본문 - d4_fx_entr d+4외화예수금 문자열 N 15
+요청 예시
 {
 "qry_tp": "3"
 }
-Response Example
+응답 예시
 {
 "entr": "000000000017534",
 "profa_ch": "000000000032193",
@@ -19114,9 +19114,9 @@ Response Example
 "min_ord_alow_yn": "000000000000000",
 379 / 526
 
-# Page 380
+# 페이지 380
 
-Response Example
+응답 예시
 "loan_remn_evlt_amt": "000000000000000",
 "dpst_grntl_remn": "000000000000000",
 "sell_grntl_remn": "000000000000000",
@@ -19140,7 +19140,7 @@ Response Example
 }
 380 / 526
 
-# Page 381
+# 페이지 381
 
 키움 REST API
 API 정보
@@ -19148,61 +19148,61 @@ API 정보
 API 명 일별추정예탁자산현황요청
 API ID kt00002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body start_dt 시작조회기간 String Y 8 YYYYMMDD
-Body end_dt 종료조회기간 String Y 8 YYYYMMDD
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 start_dt 시작조회기간 문자열 Y 8 YYYYMMDD
+본문 end_dt 종료조회기간 문자열 Y 8 YYYYMMDD
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 daly_prsm_dpst_aset 일별추정예탁자산현
-Body LIST N
+본문 목록 N
 _amt_prst 황
-Body - dt 일자 String N 8
-Body - entr 예수금 String N 12
-Body - grnt_use_amt 담보대출금 String N 12
-Body - crd_loan 신용융자금 String N 12
-Body - ls_grnt 대주담보금 String N 12
-Body - repl_amt 대용금 String N 12
+본문 - dt 일자 문자열 N 8
+본문 - entr 예수금 문자열 N 12
+본문 - grnt_use_amt 담보대출금 문자열 N 12
+본문 - crd_loan 신용융자금 문자열 N 12
+본문 - ls_grnt 대주담보금 문자열 N 12
+본문 - repl_amt 대용금 문자열 N 12
 -
-Body 추정예탁자산 String N 12
+본문 추정예탁자산 문자열 N 12
 prsm_dpst_aset_amt
 - prsm_dpst_aset_a 추정예탁자산수익증
-Body String N 12
+본문 문자열 N 12
 mt_bncr_skip 권제외
 381 / 526
 
-# Page 382
+# 페이지 382
 
-Request Example
+요청 예시
 {
 "start_dt": "20241111",
 "end_dt": "20241125"
 }
-Response Example
+응답 예시
 {
 "daly_prsm_dpst_aset_amt_prst": [
 {
@@ -19251,7 +19251,7 @@ Response Example
 }
 382 / 526
 
-# Page 383
+# 페이지 383
 
 키움 REST API
 API 정보
@@ -19259,41 +19259,41 @@ API 정보
 API 명 추정자산조회요청
 API ID kt00003
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body qry_tp 상장폐지조회구분 String Y 1 0:전체, 1:상장폐지종목제외
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body prsm_dpst_aset_amt 추정예탁자산 String N 12
-Request Example
+본문 qry_tp 상장폐지조회구분 문자열 Y 1 0:전체, 1:상장폐지종목제외
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 prsm_dpst_aset_amt 추정예탁자산 문자열 N 12
+요청 예시
 {
 "qry_tp": "0"
 }
-Response Example
+응답 예시
 {
 "prsm_dpst_aset_amt": "00000530218",
 "return_code": 0,
@@ -19301,7 +19301,7 @@ Response Example
 }
 383 / 526
 
-# Page 384
+# 페이지 384
 
 키움 REST API
 API 정보
@@ -19309,84 +19309,84 @@ API 정보
 API 명 계좌평가현황요청
 API ID kt00004
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body qry_tp 상장폐지조회구분 String Y 1 0:전체, 1:상장폐지종목제외
-Body dmst_stex_tp 국내거래소구분 String Y 6 KRX:한국거래소,NXT:넥스트트레이드
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body acnt_nm 계좌명 String N 30
-Body brch_nm 지점명 String N 30
-Body entr 예수금 String N 12
-Body d2_entra D+2추정예수금 String N 12
-Body tot_est_amt 유가잔고평가액 String N 12
-Body aset_evlt_amt 예탁자산평가액 String N 12
-Body tot_pur_amt 총매입금액 String N 12
-Body prsm_dpst_aset_amt 추정예탁자산 String N 12
-Body tot_grnt_sella 매도담보대출금 String N 12
-Body tdy_lspft_amt 당일투자원금 String N 12
+본문 qry_tp 상장폐지조회구분 문자열 Y 1 0:전체, 1:상장폐지종목제외
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 6 KRX:한국거래소,NXT:넥스트트레이드
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 acnt_nm 계좌명 문자열 N 30
+본문 brch_nm 지점명 문자열 N 30
+본문 entr 예수금 문자열 N 12
+본문 d2_entra D+2추정예수금 문자열 N 12
+본문 tot_est_amt 유가잔고평가액 문자열 N 12
+본문 aset_evlt_amt 예탁자산평가액 문자열 N 12
+본문 tot_pur_amt 총매입금액 문자열 N 12
+본문 prsm_dpst_aset_amt 추정예탁자산 문자열 N 12
+본문 tot_grnt_sella 매도담보대출금 문자열 N 12
+본문 tdy_lspft_amt 당일투자원금 문자열 N 12
 384 / 526
 
-# Page 385
+# 페이지 385
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body invt_bsamt 당월투자원금 String N 12
-Body lspft_amt 누적투자원금 String N 12
-Body tdy_lspft 당일투자손익 String N 12
-Body lspft2 당월투자손익 String N 12
-Body lspft 누적투자손익 String N 12
-Body tdy_lspft_rt 당일손익율 String N 12
-Body lspft_ratio 당월손익율 String N 12
-Body lspft_rt 누적손익율 String N 12
-Body stk_acnt_evlt_prst 종목별계좌평가현황 LIST N
-Body - stk_cd 종목코드 String N 12
-Body - stk_nm 종목명 String N 30
-Body - rmnd_qty 보유수량 String N 12
-Body - avg_prc 평균단가 String N 12
-Body - cur_prc 현재가 String N 12
-Body - evlt_amt 평가금액 String N 12
-Body - pl_amt 손익금액 String N 12
-Body - pl_rt 손익율 String N 12
-Body - loan_dt 대출일 String N 10
-Body - pur_amt 매입금액 String N 12
-Body - setl_remn 결제잔고 String N 12
-Body - pred_buyq 전일매수수량 String N 12
-Body - pred_sellq 전일매도수량 String N 12
-Body - tdy_buyq 금일매수수량 String N 12
-Body - tdy_sellq 금일매도수량 String N 12
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 invt_bsamt 당월투자원금 문자열 N 12
+본문 lspft_amt 누적투자원금 문자열 N 12
+본문 tdy_lspft 당일투자손익 문자열 N 12
+본문 lspft2 당월투자손익 문자열 N 12
+본문 lspft 누적투자손익 문자열 N 12
+본문 tdy_lspft_rt 당일손익율 문자열 N 12
+본문 lspft_ratio 당월손익율 문자열 N 12
+본문 lspft_rt 누적손익율 문자열 N 12
+본문 stk_acnt_evlt_prst 종목별계좌평가현황 목록 N
+본문 - stk_cd 종목코드 문자열 N 12
+본문 - stk_nm 종목명 문자열 N 30
+본문 - rmnd_qty 보유수량 문자열 N 12
+본문 - avg_prc 평균단가 문자열 N 12
+본문 - cur_prc 현재가 문자열 N 12
+본문 - evlt_amt 평가금액 문자열 N 12
+본문 - pl_amt 손익금액 문자열 N 12
+본문 - pl_rt 손익율 문자열 N 12
+본문 - loan_dt 대출일 문자열 N 10
+본문 - pur_amt 매입금액 문자열 N 12
+본문 - setl_remn 결제잔고 문자열 N 12
+본문 - pred_buyq 전일매수수량 문자열 N 12
+본문 - pred_sellq 전일매도수량 문자열 N 12
+본문 - tdy_buyq 금일매수수량 문자열 N 12
+본문 - tdy_sellq 금일매도수량 문자열 N 12
+요청 예시
 {
 "qry_tp": "0",
 "dmst_stex_tp": "KRX"
 }
-Response Example
+응답 예시
 {
 "acnt_nm": "김키움",
 "brch_nm": "키움은행",
@@ -19406,9 +19406,9 @@ Response Example
 "tdy_lspft_rt": "0.00",
 385 / 526
 
-# Page 386
+# 페이지 386
 
-Response Example
+응답 예시
 "lspft_ratio": "0.00",
 "lspft_rt": "0.00",
 "stk_acnt_evlt_prst": [
@@ -19435,7 +19435,7 @@ Response Example
 }
 386 / 526
 
-# Page 387
+# 페이지 387
 
 키움 REST API
 API 정보
@@ -19443,98 +19443,98 @@ API 정보
 API 명 체결잔고요청
 API ID kt00005
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 6 KRX:한국거래소,NXT:넥스트트레이드
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body entr 예수금 String N 12
-Body entr_d1 예수금D+1 String N 12
-Body entr_d2 예수금D+2 String N 12
-Body pymn_alow_amt 출금가능금액 String N 12
-Body uncl_stk_amt 미수확보금 String N 12
-Body repl_amt 대용금 String N 12
-Body rght_repl_amt 권리대용금 String N 12
-Body ord_alowa 주문가능현금 String N 12
-Body ch_uncla 현금미수금 String N 12
-Body crd_int_npay_gold 신용이자미납금 String N 12
-Body etc_loana 기타대여금 String N 12
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 6 KRX:한국거래소,NXT:넥스트트레이드
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 entr 예수금 문자열 N 12
+본문 entr_d1 예수금D+1 문자열 N 12
+본문 entr_d2 예수금D+2 문자열 N 12
+본문 pymn_alow_amt 출금가능금액 문자열 N 12
+본문 uncl_stk_amt 미수확보금 문자열 N 12
+본문 repl_amt 대용금 문자열 N 12
+본문 rght_repl_amt 권리대용금 문자열 N 12
+본문 ord_alowa 주문가능현금 문자열 N 12
+본문 ch_uncla 현금미수금 문자열 N 12
+본문 crd_int_npay_gold 신용이자미납금 문자열 N 12
+본문 etc_loana 기타대여금 문자열 N 12
 387 / 526
 
-# Page 388
+# 페이지 388
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body nrpy_loan 미상환융자금 String N 12
-Body profa_ch 증거금현금 String N 12
-Body repl_profa 증거금대용 String N 12
-Body stk_buy_tot_amt 주식매수총액 String N 12
-Body evlt_amt_tot 평가금액합계 String N 12
-Body tot_pl_tot 총손익합계 String N 12
-Body tot_pl_rt 총손익률 String N 12
-Body tot_re_buy_alowa 총재매수가능금액 String N 12
-Body 20ord_alow_amt 20%주문가능금액 String N 12
-Body 30ord_alow_amt 30%주문가능금액 String N 12
-Body 40ord_alow_amt 40%주문가능금액 String N 12
-Body 50ord_alow_amt 50%주문가능금액 String N 12
-Body 60ord_alow_amt 60%주문가능금액 String N 12
-Body 100ord_alow_amt 100%주문가능금액 String N 12
-Body crd_loan_tot 신용융자합계 String N 12
-Body crd_loan_ls_tot 신용융자대주합계 String N 12
-Body crd_grnt_rt 신용담보비율 String N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 nrpy_loan 미상환융자금 문자열 N 12
+본문 profa_ch 증거금현금 문자열 N 12
+본문 repl_profa 증거금대용 문자열 N 12
+본문 stk_buy_tot_amt 주식매수총액 문자열 N 12
+본문 evlt_amt_tot 평가금액합계 문자열 N 12
+본문 tot_pl_tot 총손익합계 문자열 N 12
+본문 tot_pl_rt 총손익률 문자열 N 12
+본문 tot_re_buy_alowa 총재매수가능금액 문자열 N 12
+본문 20ord_alow_amt 20%주문가능금액 문자열 N 12
+본문 30ord_alow_amt 30%주문가능금액 문자열 N 12
+본문 40ord_alow_amt 40%주문가능금액 문자열 N 12
+본문 50ord_alow_amt 50%주문가능금액 문자열 N 12
+본문 60ord_alow_amt 60%주문가능금액 문자열 N 12
+본문 100ord_alow_amt 100%주문가능금액 문자열 N 12
+본문 crd_loan_tot 신용융자합계 문자열 N 12
+본문 crd_loan_ls_tot 신용융자대주합계 문자열 N 12
+본문 crd_grnt_rt 신용담보비율 문자열 N 12
 dpst_grnt_use_amt_a
-Body 예탁담보대출금액 String N 12
+본문 예탁담보대출금액 문자열 N 12
 mt
-Body grnt_loan_amt 매도담보대출금액 String N 12
-Body stk_cntr_remn 종목별체결잔고 LIST N
-Body - crd_tp 신용구분 String N 2
-Body - loan_dt 대출일 String N 8
-Body - expr_dt 만기일 String N 8
-Body - stk_cd 종목번호 String N 12
-Body - stk_nm 종목명 String N 30
-Body - setl_remn 결제잔고 String N 12
-Body - cur_qty 현재잔고 String N 12
-Body - cur_prc 현재가 String N 12
-Body - buy_uv 매입단가 String N 12
-Body - pur_amt 매입금액 String N 12
-Body - evlt_amt 평가금액 String N 12
-Body - evltv_prft 평가손익 String N 12
-Body - pl_rt 손익률 String N 12
-Request Example
+본문 grnt_loan_amt 매도담보대출금액 문자열 N 12
+본문 stk_cntr_remn 종목별체결잔고 목록 N
+본문 - crd_tp 신용구분 문자열 N 2
+본문 - loan_dt 대출일 문자열 N 8
+본문 - expr_dt 만기일 문자열 N 8
+본문 - stk_cd 종목번호 문자열 N 12
+본문 - stk_nm 종목명 문자열 N 30
+본문 - setl_remn 결제잔고 문자열 N 12
+본문 - cur_qty 현재잔고 문자열 N 12
+본문 - cur_prc 현재가 문자열 N 12
+본문 - buy_uv 매입단가 문자열 N 12
+본문 - pur_amt 매입금액 문자열 N 12
+본문 - evlt_amt 평가금액 문자열 N 12
+본문 - evltv_prft 평가손익 문자열 N 12
+본문 - pl_rt 손익률 문자열 N 12
+요청 예시
 {
 "dmst_stex_tp": "KRX"
 }
 388 / 526
 
-# Page 389
+# 페이지 389
 
-Response Example
+응답 예시
 {
 "entr": "000000017534",
 "entr_d1": "000000017450",
@@ -19588,7 +19588,7 @@ Response Example
 }
 389 / 526
 
-# Page 390
+# 페이지 390
 
 키움 REST API
 API 정보
@@ -19596,77 +19596,77 @@ API 정보
 API 명 계좌별주문체결내역상세요청
 API ID kt00007
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body ord_dt 주문일자 String N 8 YYYYMMDD
-Body qry_tp 조회구분 String Y 1 1:주문순, 2:역순, 3:미체결, 4:체결내역만
-Body stk_bond_tp 주식채권구분 String Y 1 0:전체, 1:주식, 2:채권
-Body sell_tp 매도수구분 String Y 1 0:전체, 1:매도, 2:매수
-Body stk_cd 종목코드 String N 12 공백허용 (공백일때 전체종목)
-Body fr_ord_no 시작주문번호 String N 7 공백허용 (공백일때 전체주문)
+본문 ord_dt 주문일자 문자열 N 8 YYYYMMDD
+본문 qry_tp 조회구분 문자열 Y 1 1:주문순, 2:역순, 3:미체결, 4:체결내역만
+본문 stk_bond_tp 주식채권구분 문자열 Y 1 0:전체, 1:주식, 2:채권
+본문 sell_tp 매도수구분 문자열 Y 1 0:전체, 1:매도, 2:매수
+본문 stk_cd 종목코드 문자열 N 12 공백허용 (공백일때 전체종목)
+본문 fr_ord_no 시작주문번호 문자열 N 7 공백허용 (공백일때 전체주문)
 %:(전체),KRX:한국거래소,NXT:넥스트트레이드,SOR:최선주문
-Body dmst_stex_tp 국내거래소구분 String Y 6
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 6
 집행
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 acnt_ord_cntr_prps_ 계좌별주문체결내역
-Body LIST N
+본문 목록 N
 dtl 상세
-Body - ord_no 주문번호 String N 7
-Body - stk_cd 종목번호 String N 12
-Body - trde_tp 매매구분 String N 20
+본문 - ord_no 주문번호 문자열 N 7
+본문 - stk_cd 종목번호 문자열 N 12
+본문 - trde_tp 매매구분 문자열 N 20
 390 / 526
 
-# Page 391
+# 페이지 391
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - crd_tp 신용구분 String N 20
-Body - ord_qty 주문수량 String N 10
-Body - ord_uv 주문단가 String N 10
-Body - cnfm_qty 확인수량 String N 10
-Body - acpt_tp 접수구분 String N 20
-Body - rsrv_tp 반대여부 String N 20
-Body - ord_tm 주문시간 String N 8
-Body - ori_ord 원주문 String N 7
-Body - stk_nm 종목명 String N 40
-Body - io_tp_nm 주문구분 String N 20
-Body - loan_dt 대출일 String N 8
-Body - cntr_qty 체결수량 String N 10
-Body - cntr_uv 체결단가 String N 10
-Body - ord_remnq 주문잔량 String N 10
-Body - comm_ord_tp 통신구분 String N 20
-Body - mdfy_cncl 정정취소 String N 20
-Body - cnfm_tm 확인시간 String N 8
-Body - dmst_stex_tp 국내거래소구분 String N 8
-Body - cond_uv 스톱가 String N 10
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - crd_tp 신용구분 문자열 N 20
+본문 - ord_qty 주문수량 문자열 N 10
+본문 - ord_uv 주문단가 문자열 N 10
+본문 - cnfm_qty 확인수량 문자열 N 10
+본문 - acpt_tp 접수구분 문자열 N 20
+본문 - rsrv_tp 반대여부 문자열 N 20
+본문 - ord_tm 주문시간 문자열 N 8
+본문 - ori_ord 원주문 문자열 N 7
+본문 - stk_nm 종목명 문자열 N 40
+본문 - io_tp_nm 주문구분 문자열 N 20
+본문 - loan_dt 대출일 문자열 N 8
+본문 - cntr_qty 체결수량 문자열 N 10
+본문 - cntr_uv 체결단가 문자열 N 10
+본문 - ord_remnq 주문잔량 문자열 N 10
+본문 - comm_ord_tp 통신구분 문자열 N 20
+본문 - mdfy_cncl 정정취소 문자열 N 20
+본문 - cnfm_tm 확인시간 문자열 N 8
+본문 - dmst_stex_tp 국내거래소구분 문자열 N 8
+본문 - cond_uv 스톱가 문자열 N 10
+요청 예시
 {
 "ord_dt": "",
 "qry_tp": "1",
@@ -19676,7 +19676,7 @@ Request Example
 "fr_ord_no": "",
 "dmst_stex_tp": "%"
 }
-Response Example
+응답 예시
 {
 "acnt_ord_cntr_prps_dtl": [
 {
@@ -19701,9 +19701,9 @@ Response Example
 "mdfy_cncl": "",
 391 / 526
 
-# Page 392
+# 페이지 392
 
-Response Example
+응답 예시
 "cnfm_tm": "",
 "dmst_stex_tp": "KRX",
 "cond_uv": "0000000000"
@@ -19714,7 +19714,7 @@ Response Example
 }
 392 / 526
 
-# Page 393
+# 페이지 393
 
 키움 REST API
 API 정보
@@ -19722,70 +19722,70 @@ API 정보
 API 명 계좌별익일결제예정내역요청
 API ID kt00008
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body strt_dcd_seq 시작결제번호 String N 7
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body trde_dt 매매일자 String N 8
-Body setl_dt 결제일자 String N 8
-Body sell_amt_sum 매도정산합 String N 12
-Body buy_amt_sum 매수정산합 String N 12
+본문 strt_dcd_seq 시작결제번호 문자열 N 7
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 trde_dt 매매일자 문자열 N 8
+본문 setl_dt 결제일자 문자열 N 8
+본문 sell_amt_sum 매도정산합 문자열 N 12
+본문 buy_amt_sum 매수정산합 문자열 N 12
 acnt_nxdy_setl_frcs_p 계좌별익일결제예정
-Body LIST N
+본문 목록 N
 rps_array 내역배열
-Body - seq 일련번호 String N 7
-Body - stk_cd 종목번호 String N 12
-Body - loan_dt 대출일 String N 8
-Body - qty 수량 String N 12
-Body - engg_amt 약정금액 String N 12
-Body - cmsn 수수료 String N 12
+본문 - seq 일련번호 문자열 N 7
+본문 - stk_cd 종목번호 문자열 N 12
+본문 - loan_dt 대출일 문자열 N 8
+본문 - qty 수량 문자열 N 12
+본문 - engg_amt 약정금액 문자열 N 12
+본문 - cmsn 수수료 문자열 N 12
 393 / 526
 
-# Page 394
+# 페이지 394
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - incm_tax 소득세 String N 12
-Body - rstx 농특세 String N 12
-Body - stk_nm 종목명 String N 40
-Body - sell_tp 매도수구분 String N 10
-Body - unp 단가 String N 12
-Body - exct_amt 정산금액 String N 12
-Body - trde_tax 거래세 String N 12
-Body - resi_tax 주민세 String N 12
-Body - crd_tp 신용구분 String N 20
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - incm_tax 소득세 문자열 N 12
+본문 - rstx 농특세 문자열 N 12
+본문 - stk_nm 종목명 문자열 N 40
+본문 - sell_tp 매도수구분 문자열 N 10
+본문 - unp 단가 문자열 N 12
+본문 - exct_amt 정산금액 문자열 N 12
+본문 - trde_tax 거래세 문자열 N 12
+본문 - resi_tax 주민세 문자열 N 12
+본문 - crd_tp 신용구분 문자열 N 20
+요청 예시
 {
 "strt_dcd_seq": ""
 }
-Response Example
+응답 예시
 {
 "trde_dt": "20241122",
 "setl_dt": "20241126",
@@ -19832,7 +19832,7 @@ Response Example
 }
 394 / 526
 
-# Page 395
+# 페이지 395
 
 키움 REST API
 API 정보
@@ -19840,80 +19840,80 @@ API 정보
 API 명 계좌별주문체결현황요청
 API ID kt00009
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body ord_dt 주문일자 String N 8 YYYYMMDD
-Body stk_bond_tp 주식채권구분 String Y 1 0:전체, 1:주식, 2:채권
-Body mrkt_tp 시장구분 String Y 1 0:전체, 1:코스피, 2:코스닥, 3:OTCBB, 4:ECN
-Body sell_tp 매도수구분 String Y 1 0:전체, 1:매도, 2:매수
-Body qry_tp 조회구분 String Y 1 0:전체, 1:체결
-Body stk_cd 종목코드 String N 12 전문 조회할 종목코드
-Body fr_ord_no 시작주문번호 String N 7
+본문 ord_dt 주문일자 문자열 N 8 YYYYMMDD
+본문 stk_bond_tp 주식채권구분 문자열 Y 1 0:전체, 1:주식, 2:채권
+본문 mrkt_tp 시장구분 문자열 Y 1 0:전체, 1:코스피, 2:코스닥, 3:OTCBB, 4:ECN
+본문 sell_tp 매도수구분 문자열 Y 1 0:전체, 1:매도, 2:매수
+본문 qry_tp 조회구분 문자열 Y 1 0:전체, 1:체결
+본문 stk_cd 종목코드 문자열 N 12 전문 조회할 종목코드
+본문 fr_ord_no 시작주문번호 문자열 N 7
 %:(전체),KRX:한국거래소,NXT:넥스트트레이드,SOR:최선주문
-Body dmst_stex_tp 국내거래소구분 String Y 6
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 6
 집행
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body sell_grntl_engg_amt 매도약정금액 String N 12
-Body buy_engg_amt 매수약정금액 String N 12
-Body engg_amt 약정금액 String N 12
-Body acnt_ord_cntr_prst_a 계좌별주문체결현황 LIST N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 sell_grntl_engg_amt 매도약정금액 문자열 N 12
+본문 buy_engg_amt 매수약정금액 문자열 N 12
+본문 engg_amt 약정금액 문자열 N 12
+본문 acnt_ord_cntr_prst_a 계좌별주문체결현황 목록 N
 395 / 526
 
-# Page 396
+# 페이지 396
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 rray 배열
-Body - stk_bond_tp 주식채권구분 String N 1
-Body - ord_no 주문번호 String N 7
-Body - stk_cd 종목번호 String N 12
-Body - trde_tp 매매구분 String N 15
-Body - io_tp_nm 주문유형구분 String N 20
-Body - ord_qty 주문수량 String N 10
-Body - ord_uv 주문단가 String N 10
-Body - cnfm_qty 확인수량 String N 10
-Body - rsrv_oppo 예약/반대 String N 4
-Body - cntr_no 체결번호 String N 7
-Body - acpt_tp 접수구분 String N 8
-Body - orig_ord_no 원주문번호 String N 7
-Body - stk_nm 종목명 String N 20
-Body - setl_tp 결제구분 String N 8
-Body - crd_deal_tp 신용거래구분 String N 20
-Body - cntr_qty 체결수량 String N 10
-Body - cntr_uv 체결단가 String N 10
-Body - comm_ord_tp 통신구분 String N 8
-Body - mdfy_cncl_tp 정정/취소구분 String N 12
-Body - cntr_tm 체결시간 String N 8
-Body - dmst_stex_tp 국내거래소구분 String N 6
-Body - cond_uv 스톱가 String N 10
-Request Example
+본문 - stk_bond_tp 주식채권구분 문자열 N 1
+본문 - ord_no 주문번호 문자열 N 7
+본문 - stk_cd 종목번호 문자열 N 12
+본문 - trde_tp 매매구분 문자열 N 15
+본문 - io_tp_nm 주문유형구분 문자열 N 20
+본문 - ord_qty 주문수량 문자열 N 10
+본문 - ord_uv 주문단가 문자열 N 10
+본문 - cnfm_qty 확인수량 문자열 N 10
+본문 - rsrv_oppo 예약/반대 문자열 N 4
+본문 - cntr_no 체결번호 문자열 N 7
+본문 - acpt_tp 접수구분 문자열 N 8
+본문 - orig_ord_no 원주문번호 문자열 N 7
+본문 - stk_nm 종목명 문자열 N 20
+본문 - setl_tp 결제구분 문자열 N 8
+본문 - crd_deal_tp 신용거래구분 문자열 N 20
+본문 - cntr_qty 체결수량 문자열 N 10
+본문 - cntr_uv 체결단가 문자열 N 10
+본문 - comm_ord_tp 통신구분 문자열 N 8
+본문 - mdfy_cncl_tp 정정/취소구분 문자열 N 12
+본문 - cntr_tm 체결시간 문자열 N 8
+본문 - dmst_stex_tp 국내거래소구분 문자열 N 6
+본문 - cond_uv 스톱가 문자열 N 10
+요청 예시
 {
 "ord_dt": "",
 "stk_bond_tp": "0",
@@ -19924,7 +19924,7 @@ Request Example
 "fr_ord_no": "",
 "dmst_stex_tp": "KRX"
 }
-Response Example
+응답 예시
 {
 "sell_grntl_engg_amt": "000000000000",
 "buy_engg_amt": "000000004900",
@@ -19940,9 +19940,9 @@ Response Example
 "ord_uv": "0000000000",
 396 / 526
 
-# Page 397
+# 페이지 397
 
-Response Example
+응답 예시
 "cnfm_qty": "0000000000",
 "rsrv_oppo": "",
 "cntr_no": "0000001",
@@ -19965,7 +19965,7 @@ Response Example
 }
 397 / 526
 
-# Page 398
+# 페이지 398
 
 키움 REST API
 API 정보
@@ -19973,105 +19973,105 @@ API 정보
 API 명 주문인출가능금액요청
 API ID kt00010
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body io_amt 입출금액 String N 12
-Body stk_cd 종목번호 String Y 12
-Body trde_tp 매매구분 String Y 1 1:매도, 2:매수
-Body trde_qty 매매수량 String N 10
-Body uv 매수가격 String Y 10
-Body exp_buy_unp 예상매수단가 String N 10
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 io_amt 입출금액 문자열 N 12
+본문 stk_cd 종목번호 문자열 Y 12
+본문 trde_tp 매매구분 문자열 Y 1 1:매도, 2:매수
+본문 trde_qty 매매수량 문자열 N 10
+본문 uv 매수가격 문자열 Y 10
+본문 exp_buy_unp 예상매수단가 문자열 N 10
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 profa_20ord_alow_a 증거금20%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금20%주문가능
-Body profa_20ord_alowq String N 10
+본문 profa_20ord_alowq 문자열 N 10
 수량
 profa_30ord_alow_a 증거금30%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금30%주문가능
-Body profa_30ord_alowq String N 10
+본문 profa_30ord_alowq 문자열 N 10
 수량
 398 / 526
 
-# Page 399
+# 페이지 399
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 profa_40ord_alow_a 증거금40%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금40%주문가능
-Body profa_40ord_alowq String N 10
+본문 profa_40ord_alowq 문자열 N 10
 수량
 profa_50ord_alow_a 증거금50%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금50%주문가능
-Body profa_50ord_alowq String N 10
+본문 profa_50ord_alowq 문자열 N 10
 수량
 profa_60ord_alow_a 증거금60%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금60%주문가능
-Body profa_60ord_alowq String N 10
+본문 profa_60ord_alowq 문자열 N 10
 수량
 profa_rdex_60ord_al 증거금감면60%주문
-Body String N 12
+본문 문자열 N 12
 ow_amt 가능금
 profa_rdex_60ord_al 증거금감면60%주문
-Body String N 10
+본문 문자열 N 10
 owq 가능수
 profa_100ord_alow_a 증거금100%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금100%주문가능
-Body profa_100ord_alowq String N 10
+본문 profa_100ord_alowq 문자열 N 10
 수량
-Body pred_reu_alowa 전일재사용가능금액 String N 12
-Body tdy_reu_alowa 금일재사용가능금액 String N 12
-Body entr 예수금 String N 12
-Body repl_amt 대용금 String N 12
-Body uncla 미수금 String N 12
-Body ord_pos_repl 주문가능대용 String N 12
-Body ord_alowa 주문가능현금 String N 12
-Body wthd_alowa 인출가능금액 String N 12
-Body nxdy_wthd_alowa 익일인출가능금액 String N 12
-Body pur_amt 매입금액 String N 12
-Body cmsn 수수료 String N 12
-Body pur_exct_amt 매입정산금 String N 12
-Body d2entra D2추정예수금 String N 12
-Body profa_rdex_aplc_tp 증거금감면적용구분 String N 1 0:일반,1:60%감면
-Request Example
+본문 pred_reu_alowa 전일재사용가능금액 문자열 N 12
+본문 tdy_reu_alowa 금일재사용가능금액 문자열 N 12
+본문 entr 예수금 문자열 N 12
+본문 repl_amt 대용금 문자열 N 12
+본문 uncla 미수금 문자열 N 12
+본문 ord_pos_repl 주문가능대용 문자열 N 12
+본문 ord_alowa 주문가능현금 문자열 N 12
+본문 wthd_alowa 인출가능금액 문자열 N 12
+본문 nxdy_wthd_alowa 익일인출가능금액 문자열 N 12
+본문 pur_amt 매입금액 문자열 N 12
+본문 cmsn 수수료 문자열 N 12
+본문 pur_exct_amt 매입정산금 문자열 N 12
+본문 d2entra D2추정예수금 문자열 N 12
+본문 profa_rdex_aplc_tp 증거금감면적용구분 문자열 N 1 0:일반,1:60%감면
+요청 예시
 {
 "io_amt": "",
 "stk_cd": "005930",
@@ -20080,15 +20080,15 @@ Request Example
 "uv": "267000",
 "exp_buy_unp": ""
 }
-Response Example
+응답 예시
 {
 "profa_20ord_alow_amt": "000000012550",
 "profa_20ord_alowq": "0000000000",
 399 / 526
 
-# Page 400
+# 페이지 400
 
-Response Example
+응답 예시
 "profa_30ord_alow_amt": "000000012550",
 "profa_30ord_alowq": "0000000000",
 "profa_40ord_alow_amt": "000000012550",
@@ -20120,7 +20120,7 @@ Response Example
 }
 400 / 526
 
-# Page 401
+# 페이지 401
 
 키움 REST API
 API 정보
@@ -20128,150 +20128,150 @@ API 정보
 API 명 증거금율별주문가능수량조회요청
 API ID kt00011
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목번호 String Y 12
-Body uv 매수가격 String N 10
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_profa_rt 종목증거금율 String N 15
-Body profa_rt 계좌증거금율 String N 15
-Body aplc_rt 적용증거금율 String N 15
+본문 stk_cd 종목번호 문자열 Y 12
+본문 uv 매수가격 문자열 N 10
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_profa_rt 종목증거금율 문자열 N 15
+본문 profa_rt 계좌증거금율 문자열 N 15
+본문 aplc_rt 적용증거금율 문자열 N 15
 profa_20ord_alow_a 증거금20%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금20%주문가능
-Body profa_20ord_alowq String N 12
+본문 profa_20ord_alowq 문자열 N 12
 수량
 profa_20pred_reu_a 증거금20%전일재사
-Body String N 12
+본문 문자열 N 12
 mt 용금액
 증거금20%금일재사
-Body profa_20tdy_reu_amt String N 12
+본문 profa_20tdy_reu_amt 문자열 N 12
 용금액
 profa_30ord_alow_a 증거금30%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 401 / 526
 
-# Page 402
+# 페이지 402
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 증거금30%주문가능
-Body profa_30ord_alowq String N 12
+본문 profa_30ord_alowq 문자열 N 12
 수량
 profa_30pred_reu_a 증거금30%전일재사
-Body String N 12
+본문 문자열 N 12
 mt 용금액
 증거금30%금일재사
-Body profa_30tdy_reu_amt String N 12
+본문 profa_30tdy_reu_amt 문자열 N 12
 용금액
 profa_40ord_alow_a 증거금40%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금40%주문가능
-Body profa_40ord_alowq String N 12
+본문 profa_40ord_alowq 문자열 N 12
 수량
 profa_40pred_reu_a 증거금40전일재사용
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금40%금일재사
-Body profa_40tdy_reu_amt String N 12
+본문 profa_40tdy_reu_amt 문자열 N 12
 용금액
 profa_50ord_alow_a 증거금50%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금50%주문가능
-Body profa_50ord_alowq String N 12
+본문 profa_50ord_alowq 문자열 N 12
 수량
 profa_50pred_reu_a 증거금50%전일재사
-Body String N 12
+본문 문자열 N 12
 mt 용금액
 증거금50%금일재사
-Body profa_50tdy_reu_amt String N 12
+본문 profa_50tdy_reu_amt 문자열 N 12
 용금액
 profa_60ord_alow_a 증거금60%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금60%주문가능
-Body profa_60ord_alowq String N 12
+본문 profa_60ord_alowq 문자열 N 12
 수량
 profa_60pred_reu_a 증거금60%전일재사
-Body String N 12
+본문 문자열 N 12
 mt 용금액
 증거금60%금일재사
-Body profa_60tdy_reu_amt String N 12
+본문 profa_60tdy_reu_amt 문자열 N 12
 용금액
 profa_100ord_alow_a 증거금100%주문가능
-Body String N 12
+본문 문자열 N 12
 mt 금액
 증거금100%주문가능
-Body profa_100ord_alowq String N 12
+본문 profa_100ord_alowq 문자열 N 12
 수량
 profa_100pred_reu_a 증거금100%전일재사
-Body String N 12
+본문 문자열 N 12
 mt 용금액
 profa_100tdy_reu_a 증거금100%금일재사
-Body String N 12
+본문 문자열 N 12
 mt 용금액
 미수불가주문가능금
-Body min_ord_alow_amt String N 12
+본문 min_ord_alow_amt 문자열 N 12
 액
 미수불가주문가능수
-Body min_ord_alowq String N 12
+본문 min_ord_alowq 문자열 N 12
 량
 미수불가전일재사용
-Body min_pred_reu_amt String N 12
+본문 min_pred_reu_amt 문자열 N 12
 금액
 미수불가금일재사용
-Body min_tdy_reu_amt String N 12
+본문 min_tdy_reu_amt 문자열 N 12
 금액
-Body entr 예수금 String N 12
-Body repl_amt 대용금 String N 12
-Body uncla 미수금 String N 12
+본문 entr 예수금 문자열 N 12
+본문 repl_amt 대용금 문자열 N 12
+본문 uncla 미수금 문자열 N 12
 402 / 526
 
-# Page 403
+# 페이지 403
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body ord_pos_repl 주문가능대용 String N 12
-Body ord_alowa 주문가능현금 String N 12
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 ord_pos_repl 주문가능대용 문자열 N 12
+본문 ord_alowa 주문가능현금 문자열 N 12
+요청 예시
 {
 "stk_cd": "005930",
 "uv": ""
 }
-Response Example
+응답 예시
 {
 "stk_profa_rt": "20%",
 "profa_rt": "100%",
@@ -20314,7 +20314,7 @@ Response Example
 }
 403 / 526
 
-# Page 404
+# 페이지 404
 
 키움 REST API
 API 정보
@@ -20322,108 +20322,108 @@ API 정보
 API 명 신용보증금율별주문가능수량조회요청
 API ID kt00012
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목번호 String Y 12
-Body uv 매수가격 String N 10
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body stk_assr_rt 종목보증금율 String N 1
-Body stk_assr_rt_nm 종목보증금율명 String N 4
+본문 stk_cd 종목번호 문자열 Y 12
+본문 uv 매수가격 문자열 N 10
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_assr_rt 종목보증금율 문자열 N 1
+본문 stk_assr_rt_nm 종목보증금율명 문자열 N 4
 assr_30ord_alow_am 보증금30%주문가능
-Body String N 12
+본문 문자열 N 12
 t 금액
 보증금30%주문가능
-Body assr_30ord_alowq String N 12
+본문 assr_30ord_alowq 문자열 N 12
 수량
 보증금30%전일재사
-Body assr_30pred_reu_amt String N 12
+본문 assr_30pred_reu_amt 문자열 N 12
 용금액
 보증금30%금일재사
-Body assr_30tdy_reu_amt String N 12
+본문 assr_30tdy_reu_amt 문자열 N 12
 용금액
 assr_40ord_alow_am 보증금40%주문가능
-Body String N 12
+본문 문자열 N 12
 t 금액
-Body assr_40ord_alowq 보증금40%주문가능 String N 12
+본문 assr_40ord_alowq 보증금40%주문가능 문자열 N 12
 404 / 526
 
-# Page 405
+# 페이지 405
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 수량
 보증금40%전일재사
-Body assr_40pred_reu_amt String N 12
+본문 assr_40pred_reu_amt 문자열 N 12
 용금액
 보증금40%금일재사
-Body assr_40tdy_reu_amt String N 12
+본문 assr_40tdy_reu_amt 문자열 N 12
 용금액
 assr_50ord_alow_am 보증금50%주문가능
-Body String N 12
+본문 문자열 N 12
 t 금액
 보증금50%주문가능
-Body assr_50ord_alowq String N 12
+본문 assr_50ord_alowq 문자열 N 12
 수량
 보증금50%전일재사
-Body assr_50pred_reu_amt String N 12
+본문 assr_50pred_reu_amt 문자열 N 12
 용금액
 보증금50%금일재사
-Body assr_50tdy_reu_amt String N 12
+본문 assr_50tdy_reu_amt 문자열 N 12
 용금액
 assr_60ord_alow_am 보증금60%주문가능
-Body String N 12
+본문 문자열 N 12
 t 금액
 보증금60%주문가능
-Body assr_60ord_alowq String N 12
+본문 assr_60ord_alowq 문자열 N 12
 수량
 보증금60%전일재사
-Body assr_60pred_reu_amt String N 12
+본문 assr_60pred_reu_amt 문자열 N 12
 용금액
 보증금60%금일재사
-Body assr_60tdy_reu_amt String N 12
+본문 assr_60tdy_reu_amt 문자열 N 12
 용금액
-Body entr 예수금 String N 12
-Body repl_amt 대용금 String N 12
-Body uncla 미수금 String N 12
-Body ord_pos_repl 주문가능대용 String N 12
-Body ord_alowa 주문가능현금 String N 12
-Body out_alowa 미수가능금액 String N 12
-Body out_pos_qty 미수가능수량 String N 12
-Body min_amt 미수불가금액 String N 12
-Body min_qty 미수불가수량 String N 12
-Request Example
+본문 entr 예수금 문자열 N 12
+본문 repl_amt 대용금 문자열 N 12
+본문 uncla 미수금 문자열 N 12
+본문 ord_pos_repl 주문가능대용 문자열 N 12
+본문 ord_alowa 주문가능현금 문자열 N 12
+본문 out_alowa 미수가능금액 문자열 N 12
+본문 out_pos_qty 미수가능수량 문자열 N 12
+본문 min_amt 미수불가금액 문자열 N 12
+본문 min_qty 미수불가수량 문자열 N 12
+요청 예시
 {
 "stk_cd": "005930",
 "uv": ""
 }
-Response Example
+응답 예시
 {
 "stk_assr_rt": "B",
 "stk_assr_rt_nm": "45%",
@@ -20441,9 +20441,9 @@ Response Example
 "assr_50tdy_reu_amt": "000000048994",
 405 / 526
 
-# Page 406
+# 페이지 406
 
-Response Example
+응답 예시
 "assr_60ord_alow_amt": "001656022569",
 "assr_60ord_alowq": "000000000000",
 "assr_60pred_reu_amt": "000000000000",
@@ -20462,7 +20462,7 @@ Response Example
 }
 406 / 526
 
-# Page 407
+# 페이지 407
 
 키움 REST API
 API 정보
@@ -20470,121 +20470,121 @@ API 정보
 API 명 증거금세부내역조회요청
 API ID kt00013
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tdy_reu_objt_amt 금일재사용대상금액 String N 15
-Body tdy_reu_use_amt 금일재사용사용금액 String N 15
-Body tdy_reu_alowa 금일재사용가능금액 String N 15
-Body tdy_reu_lmtt_amt 금일재사용제한금액 String N 15
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tdy_reu_objt_amt 금일재사용대상금액 문자열 N 15
+본문 tdy_reu_use_amt 금일재사용사용금액 문자열 N 15
+본문 tdy_reu_alowa 금일재사용가능금액 문자열 N 15
+본문 tdy_reu_lmtt_amt 금일재사용제한금액 문자열 N 15
 금일재사용가능금액
-Body tdy_reu_alowa_fin String N 15
+본문 tdy_reu_alowa_fin 문자열 N 15
 최종
-Body pred_reu_objt_amt 전일재사용대상금액 String N 15
-Body pred_reu_use_amt 전일재사용사용금액 String N 15
-Body pred_reu_alowa 전일재사용가능금액 String N 15
-Body pred_reu_lmtt_amt 전일재사용제한금액 String N 15
+본문 pred_reu_objt_amt 전일재사용대상금액 문자열 N 15
+본문 pred_reu_use_amt 전일재사용사용금액 문자열 N 15
+본문 pred_reu_alowa 전일재사용가능금액 문자열 N 15
+본문 pred_reu_lmtt_amt 전일재사용제한금액 문자열 N 15
 전일재사용가능금액
-Body pred_reu_alowa_fin String N 15
+본문 pred_reu_alowa_fin 문자열 N 15
 최종
-Body ch_amt 현금금액 String N 15
+본문 ch_amt 현금금액 문자열 N 15
 407 / 526
 
-# Page 408
+# 페이지 408
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body ch_profa 현금증거금 String N 15
-Body use_pos_ch 사용가능현금 String N 15
-Body ch_use_lmtt_amt 현금사용제한금액 String N 15
-Body use_pos_ch_fin 사용가능현금최종 String N 15
-Body repl_amt_amt 대용금액 String N 15
-Body repl_profa 대용증거금 String N 15
-Body use_pos_repl 사용가능대용 String N 15
-Body repl_use_lmtt_amt 대용사용제한금액 String N 15
-Body use_pos_repl_fin 사용가능대용최종 String N 15
-Body crd_grnta_ch 신용보증금현금 String N 15
-Body crd_grnta_repl 신용보증금대용 String N 15
-Body crd_grnt_ch 신용담보금현금 String N 15
-Body crd_grnt_repl 신용담보금대용 String N 15
-Body uncla 미수금 String N 12
-Body ls_grnt_reu_gold 대주담보금재사용금 String N 15
-Body 20ord_alow_amt 20%주문가능금액 String N 15
-Body 30ord_alow_amt 30%주문가능금액 String N 15
-Body 40ord_alow_amt 40%주문가능금액 String N 15
-Body 50ord_alow_amt 50%주문가능금액 String N 15
-Body 60ord_alow_amt 60%주문가능금액 String N 15
-Body 100ord_alow_amt 100%주문가능금액 String N 15
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 ch_profa 현금증거금 문자열 N 15
+본문 use_pos_ch 사용가능현금 문자열 N 15
+본문 ch_use_lmtt_amt 현금사용제한금액 문자열 N 15
+본문 use_pos_ch_fin 사용가능현금최종 문자열 N 15
+본문 repl_amt_amt 대용금액 문자열 N 15
+본문 repl_profa 대용증거금 문자열 N 15
+본문 use_pos_repl 사용가능대용 문자열 N 15
+본문 repl_use_lmtt_amt 대용사용제한금액 문자열 N 15
+본문 use_pos_repl_fin 사용가능대용최종 문자열 N 15
+본문 crd_grnta_ch 신용보증금현금 문자열 N 15
+본문 crd_grnta_repl 신용보증금대용 문자열 N 15
+본문 crd_grnt_ch 신용담보금현금 문자열 N 15
+본문 crd_grnt_repl 신용담보금대용 문자열 N 15
+본문 uncla 미수금 문자열 N 12
+본문 ls_grnt_reu_gold 대주담보금재사용금 문자열 N 15
+본문 20ord_alow_amt 20%주문가능금액 문자열 N 15
+본문 30ord_alow_amt 30%주문가능금액 문자열 N 15
+본문 40ord_alow_amt 40%주문가능금액 문자열 N 15
+본문 50ord_alow_amt 50%주문가능금액 문자열 N 15
+본문 60ord_alow_amt 60%주문가능금액 문자열 N 15
+본문 100ord_alow_amt 100%주문가능금액 문자열 N 15
 tdy_crd_rpya_loss_a 금일신용상환손실금
-Body String N 15
+본문 문자열 N 15
 mt 액
 pred_crd_rpya_loss_a 전일신용상환손실금
-Body String N 15
+본문 문자열 N 15
 mt 액
 tdy_ls_rpya_loss_repl 금일대주상환손실대
-Body String N 15
+본문 문자열 N 15
 _profa 용증거금
 pred_ls_rpya_loss_re 전일대주상환손실대
-Body String N 15
+본문 문자열 N 15
 pl_profa 용증거금
 evlt_repl_amt_spg_us 평가대용금(현물사용
-Body String N 15
+본문 문자열 N 15
 e_skip 제외)
-Body evlt_repl_rt 평가대용비율 String N 15
-Body crd_repl_profa 신용대용증거금 String N 15
-Body ch_ord_repl_profa 현금주문대용증거금 String N 15
-Body crd_ord_repl_profa 신용주문대용증거금 String N 15
-Body crd_repl_conv_gold 신용대용환산금 String N 15
+본문 evlt_repl_rt 평가대용비율 문자열 N 15
+본문 crd_repl_profa 신용대용증거금 문자열 N 15
+본문 ch_ord_repl_profa 현금주문대용증거금 문자열 N 15
+본문 crd_ord_repl_profa 신용주문대용증거금 문자열 N 15
+본문 crd_repl_conv_gold 신용대용환산금 문자열 N 15
 대용가능금액(현금제
-Body repl_alowa String N 15
+본문 repl_alowa 문자열 N 15
 한)
 대용가능금액2(신용
-Body repl_alowa_2 String N 15
+본문 repl_alowa_2 문자열 N 15
 제한)
 408 / 526
 
-# Page 409
+# 페이지 409
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body ch_repl_lck_gold 현금대용부족금 String N 15
-Body crd_repl_lck_gold 신용대용부족금 String N 15
-Body ch_ord_alow_repla 현금주문가능대용금 String N 15
-Body crd_ord_alow_repla 신용주문가능대용금 String N 15
-Body d2vexct_entr D2가정산예수금 String N 15
-Body d2ch_ord_alow_amt D2현금주문가능금액 String N 15
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 ch_repl_lck_gold 현금대용부족금 문자열 N 15
+본문 crd_repl_lck_gold 신용대용부족금 문자열 N 15
+본문 ch_ord_alow_repla 현금주문가능대용금 문자열 N 15
+본문 crd_ord_alow_repla 신용주문가능대용금 문자열 N 15
+본문 d2vexct_entr D2가정산예수금 문자열 N 15
+본문 d2ch_ord_alow_amt D2현금주문가능금액 문자열 N 15
+요청 예시
 {}
-Response Example
+응답 예시
 {
 "tdy_reu_objt_amt": "000000000000000",
 "tdy_reu_use_amt": "000000000000000",
@@ -20641,7 +20641,7 @@ Response Example
 }
 409 / 526
 
-# Page 410
+# 페이지 410
 
 키움 REST API
 API 정보
@@ -20649,119 +20649,119 @@ API 정보
 API 명 위탁종합거래내역요청
 API ID kt00015
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body strt_dt 시작일자 String Y 8
-Body end_dt 종료일자 String Y 8
+본문 strt_dt 시작일자 문자열 Y 8
+본문 end_dt 종료일자 문자열 Y 8
 0:전체,1:입출금,2:입출고,3:매매,4:매수,5:매도,6:입금,7:출금,A:
 예탁담보대출입금,B:매도담보대출입금,C:현금상환(융자,담보
-Body tp 구분 String Y 1
+본문 tp 구분 문자열 Y 1
 상환),F:환전,M:입출금+환전,G:외화매수,H:외화매도,I:환전정
 산입금,J:환전정산출금
-Body stk_cd 종목코드 String N 12
-Body crnc_cd 통화코드 String N 3
-Body gds_tp 상품구분 String Y 1 0:전체, 1:국내주식, 2:수익증권, 3:해외주식, 4:금융상품
-Body frgn_stex_code 해외거래소코드 String N 10
-Body dmst_stex_tp 국내거래소구분 String Y 6 %:(전체),KRX:한국거래소,NXT:넥스트트레이드
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 stk_cd 종목코드 문자열 N 12
+본문 crnc_cd 통화코드 문자열 N 3
+본문 gds_tp 상품구분 문자열 Y 1 0:전체, 1:국내주식, 2:수익증권, 3:해외주식, 4:금융상품
+본문 frgn_stex_code 해외거래소코드 문자열 N 10
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 6 %:(전체),KRX:한국거래소,NXT:넥스트트레이드
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 trst_ovrl_trde_prps_a 위탁종합거래내역배
-Body LIST N
+본문 목록 N
 rray 열
-Body - trde_dt 거래일자 String N 8
+본문 - trde_dt 거래일자 문자열 N 8
 410 / 526
 
-# Page 411
+# 페이지 411
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - trde_no 거래번호 String N 9
-Body - rmrk_nm 적요명 String N 60
-Body - crd_deal_tp_nm 신용거래구분명 String N 20
-Body - exct_amt 정산금액 String N 15
-Body - loan_amt_rpya 대출금상환 String N 15
-Body - fc_trde_amt 거래금액(외) String N 15
-Body - fc_exct_amt 정산금액(외) String N 15
-Body - entra_remn 예수금잔고 String N 15
-Body - crnc_cd 통화코드 String N 3
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - trde_no 거래번호 문자열 N 9
+본문 - rmrk_nm 적요명 문자열 N 60
+본문 - crd_deal_tp_nm 신용거래구분명 문자열 N 20
+본문 - exct_amt 정산금액 문자열 N 15
+본문 - loan_amt_rpya 대출금상환 문자열 N 15
+본문 - fc_trde_amt 거래금액(외) 문자열 N 15
+본문 - fc_exct_amt 정산금액(외) 문자열 N 15
+본문 - entra_remn 예수금잔고 문자열 N 15
+본문 - crnc_cd 통화코드 문자열 N 3
 1:입출금, 2:펀드, 3:ELS, 4:채권, 5:해외채권, 6:외화RP,
-Body - trde_ocr_tp 거래종류구분 String N 2
+본문 - trde_ocr_tp 거래종류구분 문자열 N 2
 7:외화발행어음
-Body - trde_kind_nm 거래종류명 String N 20
-Body - stk_nm 종목명 String N 40
-Body - trde_amt 거래금액 String N 15
-Body - trde_agri_tax 거래및농특세 String N 15
-Body - rpy_diffa 상환차금 String N 15
-Body - fc_trde_tax 거래세(외) String N 15
-Body - dly_sum 연체합 String N 15
-Body - fc_entra 외화예수금잔고 String N 15
-Body - mdia_tp_nm 매체구분명 String N 20
-Body - io_tp 입출구분 String N 1
-Body - io_tp_nm 입출구분명 String N 10
-Body - orig_deal_no 원거래번호 String N 9
-Body - stk_cd 종목코드 String N 12
-Body - trde_qty_jwa_cnt 거래수량/좌수 String N 30
-Body - cmsn 수수료 String N 15
-Body - int_ls_usfe 이자/대주이용 String N 15
-Body - fc_cmsn 수수료(외) String N 15
-Body - fc_dly_sum 연체합(외) String N 15
-Body - vlbl_nowrm 유가금잔 String N 30
-Body - proc_tm 처리시간 String N 111
-Body - isin_cd ISIN코드 String N 12
-Body - stex_cd 거래소코드 String N 10
-Body - stex_nm 거래소명 String N 20
-Body - trde_unit 거래단가/환율 String N 20
-Body - incm_resi_tax 소득/주민세 String N 15
-Body - loan_dt 대출일 String N 8
+본문 - trde_kind_nm 거래종류명 문자열 N 20
+본문 - stk_nm 종목명 문자열 N 40
+본문 - trde_amt 거래금액 문자열 N 15
+본문 - trde_agri_tax 거래및농특세 문자열 N 15
+본문 - rpy_diffa 상환차금 문자열 N 15
+본문 - fc_trde_tax 거래세(외) 문자열 N 15
+본문 - dly_sum 연체합 문자열 N 15
+본문 - fc_entra 외화예수금잔고 문자열 N 15
+본문 - mdia_tp_nm 매체구분명 문자열 N 20
+본문 - io_tp 입출구분 문자열 N 1
+본문 - io_tp_nm 입출구분명 문자열 N 10
+본문 - orig_deal_no 원거래번호 문자열 N 9
+본문 - stk_cd 종목코드 문자열 N 12
+본문 - trde_qty_jwa_cnt 거래수량/좌수 문자열 N 30
+본문 - cmsn 수수료 문자열 N 15
+본문 - int_ls_usfe 이자/대주이용 문자열 N 15
+본문 - fc_cmsn 수수료(외) 문자열 N 15
+본문 - fc_dly_sum 연체합(외) 문자열 N 15
+본문 - vlbl_nowrm 유가금잔 문자열 N 30
+본문 - proc_tm 처리시간 문자열 N 111
+본문 - isin_cd ISIN코드 문자열 N 12
+본문 - stex_cd 거래소코드 문자열 N 10
+본문 - stex_nm 거래소명 문자열 N 20
+본문 - trde_unit 거래단가/환율 문자열 N 20
+본문 - incm_resi_tax 소득/주민세 문자열 N 15
+본문 - loan_dt 대출일 문자열 N 8
 411 / 526
 
-# Page 412
+# 페이지 412
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - uncl_ocr 미수(원/주) String N 30
-Body - rpym_sum 변제합 String N 30
-Body - cntr_dt 체결일 String N 8
-Body - rcpy_no 출납번호 String N 20
-Body - prcsr 처리자 String N 20
-Body - proc_brch 처리점 String N 20
-Body - trde_stle 매매형태 String N 40
-Body - txon_base_pric 과세기준가 String N 15
-Body - tax_sum_cmsn 세금수수료합 String N 15
-Body - frgn_pay_txam 외국납부세액(외) String N 15
-Body - fc_uncl_ocr 미수(외) String N 15
-Body - rpym_sum_fr 변제합(외) String N 30
-Body - rcpmnyer 입금자 String N 20
-Body - trde_prtc_tp 거래내역구분 String N 2
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - uncl_ocr 미수(원/주) 문자열 N 30
+본문 - rpym_sum 변제합 문자열 N 30
+본문 - cntr_dt 체결일 문자열 N 8
+본문 - rcpy_no 출납번호 문자열 N 20
+본문 - prcsr 처리자 문자열 N 20
+본문 - proc_brch 처리점 문자열 N 20
+본문 - trde_stle 매매형태 문자열 N 40
+본문 - txon_base_pric 과세기준가 문자열 N 15
+본문 - tax_sum_cmsn 세금수수료합 문자열 N 15
+본문 - frgn_pay_txam 외국납부세액(외) 문자열 N 15
+본문 - fc_uncl_ocr 미수(외) 문자열 N 15
+본문 - rpym_sum_fr 변제합(외) 문자열 N 30
+본문 - rcpmnyer 입금자 문자열 N 20
+본문 - trde_prtc_tp 거래내역구분 문자열 N 2
+요청 예시
 {
 "strt_dt": "20241121",
 "end_dt": "20241125",
@@ -20772,7 +20772,7 @@ Request Example
 "frgn_stex_code": "",
 "dmst_stex_tp": "%"
 }
-Response Example
+응답 예시
 {
 "acnt_no": "6081-2***-11 [김키움]",
 "trst_ovrl_trde_prps_array": [
@@ -20807,9 +20807,9 @@ Response Example
 "fc_cmsn": "0.00",
 412 / 526
 
-# Page 413
+# 페이지 413
 
-Response Example
+응답 예시
 "fc_dly_sum": "0.00",
 "vlbl_nowrm": "21",
 "proc_tm": "08:12:35",
@@ -20840,7 +20840,7 @@ Response Example
 }
 413 / 526
 
-# Page 414
+# 페이지 414
 
 키움 REST API
 API 정보
@@ -20848,89 +20848,89 @@ API 정보
 API 명 일별계좌수익률상세현황요청
 API ID kt00016
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body fr_dt 평가시작일 String Y 8
-Body to_dt 평가종료일 String Y 8
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body mang_empno 관리사원번호 String N 8
-Body mngr_nm 관리자명 String N 8
-Body dept_nm 관리자지점 String N 30
-Body entr_fr 예수금_초 String N 30
-Body entr_to 예수금_말 String N 12
-Body scrt_evlt_amt_fr 유가증권평가금액_초 String N 12
-Body scrt_evlt_amt_to 유가증권평가금액_말 String N 12
-Body ls_grnt_fr 대주담보금_초 String N 12
-Body ls_grnt_to 대주담보금_말 String N 12
-Body crd_loan_fr 신용융자금_초 String N 12
+본문 fr_dt 평가시작일 문자열 Y 8
+본문 to_dt 평가종료일 문자열 Y 8
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 mang_empno 관리사원번호 문자열 N 8
+본문 mngr_nm 관리자명 문자열 N 8
+본문 dept_nm 관리자지점 문자열 N 30
+본문 entr_fr 예수금_초 문자열 N 30
+본문 entr_to 예수금_말 문자열 N 12
+본문 scrt_evlt_amt_fr 유가증권평가금액_초 문자열 N 12
+본문 scrt_evlt_amt_to 유가증권평가금액_말 문자열 N 12
+본문 ls_grnt_fr 대주담보금_초 문자열 N 12
+본문 ls_grnt_to 대주담보금_말 문자열 N 12
+본문 crd_loan_fr 신용융자금_초 문자열 N 12
 414 / 526
 
-# Page 415
+# 페이지 415
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body crd_loan_to 신용융자금_말 String N 12
-Body ch_uncla_fr 현금미수금_초 String N 12
-Body ch_uncla_to 현금미수금_말 String N 12
-Body krw_asgna_fr 원화대용금_초 String N 12
-Body krw_asgna_to 원화대용금_말 String N 12
-Body ls_evlta_fr 대주평가금_초 String N 12
-Body ls_evlta_to 대주평가금_말 String N 12
-Body rght_evlta_fr 권리평가금_초 String N 12
-Body rght_evlta_to 권리평가금_말 String N 12
-Body loan_amt_fr 대출금_초 String N 12
-Body loan_amt_to 대출금_말 String N 12
-Body etc_loana_fr 기타대여금_초 String N 12
-Body etc_loana_to 기타대여금_말 String N 12
-Body crd_int_npay_gold_fr 신용이자미납금_초 String N 12
-Body crd_int_npay_gold_to 신용이자미납금_말 String N 12
-Body crd_int_fr 신용이자_초 String N 12
-Body crd_int_to 신용이자_말 String N 12
-Body tot_amt_fr 순자산액계_초 String N 12
-Body tot_amt_to 순자산액계_말 String N 12
-Body invt_bsamt 투자원금평잔 String N 12
-Body evltv_prft 평가손익 String N 12
-Body prft_rt 수익률 String N 12
-Body tern_rt 회전율 String N 12
-Body termin_tot_trns 기간내총입금 String N 12
-Body termin_tot_pymn 기간내총출금 String N 12
-Body termin_tot_inq 기간내총입고 String N 12
-Body termin_tot_outq 기간내총출고 String N 12
-Body futr_repl_sella 선물대용매도금액 String N 12
-Body trst_repl_sella 위탁대용매도금액 String N 12
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 crd_loan_to 신용융자금_말 문자열 N 12
+본문 ch_uncla_fr 현금미수금_초 문자열 N 12
+본문 ch_uncla_to 현금미수금_말 문자열 N 12
+본문 krw_asgna_fr 원화대용금_초 문자열 N 12
+본문 krw_asgna_to 원화대용금_말 문자열 N 12
+본문 ls_evlta_fr 대주평가금_초 문자열 N 12
+본문 ls_evlta_to 대주평가금_말 문자열 N 12
+본문 rght_evlta_fr 권리평가금_초 문자열 N 12
+본문 rght_evlta_to 권리평가금_말 문자열 N 12
+본문 loan_amt_fr 대출금_초 문자열 N 12
+본문 loan_amt_to 대출금_말 문자열 N 12
+본문 etc_loana_fr 기타대여금_초 문자열 N 12
+본문 etc_loana_to 기타대여금_말 문자열 N 12
+본문 crd_int_npay_gold_fr 신용이자미납금_초 문자열 N 12
+본문 crd_int_npay_gold_to 신용이자미납금_말 문자열 N 12
+본문 crd_int_fr 신용이자_초 문자열 N 12
+본문 crd_int_to 신용이자_말 문자열 N 12
+본문 tot_amt_fr 순자산액계_초 문자열 N 12
+본문 tot_amt_to 순자산액계_말 문자열 N 12
+본문 invt_bsamt 투자원금평잔 문자열 N 12
+본문 evltv_prft 평가손익 문자열 N 12
+본문 prft_rt 수익률 문자열 N 12
+본문 tern_rt 회전율 문자열 N 12
+본문 termin_tot_trns 기간내총입금 문자열 N 12
+본문 termin_tot_pymn 기간내총출금 문자열 N 12
+본문 termin_tot_inq 기간내총입고 문자열 N 12
+본문 termin_tot_outq 기간내총출고 문자열 N 12
+본문 futr_repl_sella 선물대용매도금액 문자열 N 12
+본문 trst_repl_sella 위탁대용매도금액 문자열 N 12
+요청 예시
 {
 "fr_dt": "20241111",
 "to_dt": "20241125"
 }
-Response Example
+응답 예시
 {
 "mang_empno": "081",
 "mngr_nm": "키움은행",
@@ -20939,9 +20939,9 @@ Response Example
 "entr_to": "000000017534",
 415 / 526
 
-# Page 416
+# 페이지 416
 
-Response Example
+응답 예시
 "scrt_evlt_amt_fr": "000000000000",
 "scrt_evlt_amt_to": "000000000000",
 "ls_grnt_fr": "000000000000",
@@ -20981,7 +20981,7 @@ Response Example
 }
 416 / 526
 
-# Page 417
+# 페이지 417
 
 키움 REST API
 API 정보
@@ -20989,80 +20989,80 @@ API 정보
 API 명 계좌별당일현황요청
 API ID kt00017
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body d2_entra D+2추정예수금 String N 12
-Body crd_int_npay_gold 신용이자미납금 String N 12
-Body etc_loana 기타대여금 String N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 d2_entra D+2추정예수금 문자열 N 12
+본문 crd_int_npay_gold 신용이자미납금 문자열 N 12
+본문 etc_loana 기타대여금 문자열 N 12
 일반주식평가금액D+
-Body gnrl_stk_evlt_amt_d2 String N 12
+본문 gnrl_stk_evlt_amt_d2 문자열 N 12
 2
 dpst_grnt_use_amt_d
-Body 예탁담보대출금D+2 String N 12
+본문 예탁담보대출금D+2 문자열 N 12
 2
 예탁담보주식평가금
-Body crd_stk_evlt_amt_d2 String N 12
+본문 crd_stk_evlt_amt_d2 문자열 N 12
 액D+2
-Body crd_loan_d2 신용융자금D+2 String N 12
-Body crd_loan_evlta_d2 신용융자평가금D+2 String N 12
-Body crd_ls_grnt_d2 신용대주담보금D+2 String N 12
-Body crd_ls_evlta_d2 신용대주평가금D+2 String N 12
-Body ina_amt 입금금액 String N 12
+본문 crd_loan_d2 신용융자금D+2 문자열 N 12
+본문 crd_loan_evlta_d2 신용융자평가금D+2 문자열 N 12
+본문 crd_ls_grnt_d2 신용대주담보금D+2 문자열 N 12
+본문 crd_ls_evlta_d2 신용대주평가금D+2 문자열 N 12
+본문 ina_amt 입금금액 문자열 N 12
 417 / 526
 
-# Page 418
+# 페이지 418
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body outa 출금금액 String N 12
-Body inq_amt 입고금액 String N 12
-Body outq_amt 출고금액 String N 12
-Body sell_amt 매도금액 String N 12
-Body buy_amt 매수금액 String N 12
-Body cmsn 수수료 String N 12
-Body tax 세금 String N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 outa 출금금액 문자열 N 12
+본문 inq_amt 입고금액 문자열 N 12
+본문 outq_amt 출고금액 문자열 N 12
+본문 sell_amt 매도금액 문자열 N 12
+본문 buy_amt 매수금액 문자열 N 12
+본문 cmsn 수수료 문자열 N 12
+본문 tax 세금 문자열 N 12
 stk_pur_cptal_loan_a
-Body 주식매입자금대출금 String N 12
+본문 주식매입자금대출금 문자열 N 12
 mt
-Body rp_evlt_amt RP평가금액 String N 12
-Body bd_evlt_amt 채권평가금액 String N 12
-Body elsevlt_amt ELS평가금액 String N 12
-Body crd_int_amt 신용이자금액 String N 12
+본문 rp_evlt_amt RP평가금액 문자열 N 12
+본문 bd_evlt_amt 채권평가금액 문자열 N 12
+본문 elsevlt_amt ELS평가금액 문자열 N 12
+본문 crd_int_amt 신용이자금액 문자열 N 12
 sel_prica_grnt_loan_i 매도대금담보대출이
-Body String N 12
+본문 문자열 N 12
 nt_amt_amt 자금액
-Body dvida_amt 배당금액 String N 12
-Request Example
+본문 dvida_amt 배당금액 문자열 N 12
+요청 예시
 {}
-Response Example
+응답 예시
 {
 "d2_entra": "000000012550",
 "crd_int_npay_gold": "000000000000",
@@ -21094,7 +21094,7 @@ Response Example
 }
 418 / 526
 
-# Page 419
+# 페이지 419
 
 키움 REST API
 API 정보
@@ -21102,84 +21102,84 @@ API 정보
 API 명 계좌평가잔고내역요청
 API ID kt00018
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body qry_tp 조회구분 String Y 1 1:합산, 2:개별
-Body dmst_stex_tp 국내거래소구분 String Y 6 KRX:한국거래소,NXT:넥스트트레이드
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tot_pur_amt 총매입금액 String N 15
-Body tot_evlt_amt 총평가금액 String N 15
-Body tot_evlt_pl 총평가손익금액 String N 15
-Body tot_prft_rt 총수익률(%) String N 12
-Body prsm_dpst_aset_amt 추정예탁자산 String N 15
-Body tot_loan_amt 총대출금 String N 15
-Body tot_crd_loan_amt 총융자금액 String N 15
-Body tot_crd_ls_amt 총대주금액 String N 15
+본문 qry_tp 조회구분 문자열 Y 1 1:합산, 2:개별
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 6 KRX:한국거래소,NXT:넥스트트레이드
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tot_pur_amt 총매입금액 문자열 N 15
+본문 tot_evlt_amt 총평가금액 문자열 N 15
+본문 tot_evlt_pl 총평가손익금액 문자열 N 15
+본문 tot_prft_rt 총수익률(%) 문자열 N 12
+본문 prsm_dpst_aset_amt 추정예탁자산 문자열 N 15
+본문 tot_loan_amt 총대출금 문자열 N 15
+본문 tot_crd_loan_amt 총융자금액 문자열 N 15
+본문 tot_crd_ls_amt 총대주금액 문자열 N 15
 acnt_evlt_remn_indv_ 계좌평가잔고개별합
-Body LIST N
+본문 목록 N
 tot 산
-Body - stk_cd 종목번호 String N 12
+본문 - stk_cd 종목번호 문자열 N 12
 419 / 526
 
-# Page 420
+# 페이지 420
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - stk_nm 종목명 String N 40
-Body - evltv_prft 평가손익 String N 15
-Body - prft_rt 수익률(%) String N 12
-Body - pur_pric 매입가 String N 15
-Body - pred_close_pric 전일종가 String N 12
-Body - rmnd_qty 보유수량 String N 15
-Body - trde_able_qty 매매가능수량 String N 15
-Body - cur_prc 현재가 String N 12
-Body - pred_buyq 전일매수수량 String N 15
-Body - pred_sellq 전일매도수량 String N 15
-Body - tdy_buyq 금일매수수량 String N 15
-Body - tdy_sellq 금일매도수량 String N 15
-Body - pur_amt 매입금액 String N 15
-Body - pur_cmsn 매입수수료 String N 15
-Body - evlt_amt 평가금액 String N 15
-Body - sell_cmsn 평가수수료 String N 15
-Body - tax 세금 String N 15
-Body - sum_cmsn 수수료합 String N 15 매입수수료 + 평가수수료
-Body - poss_rt 보유비중(%) String N 12
-Body - crd_tp 신용구분 String N 2
-Body - crd_tp_nm 신용구분명 String N 4
-Body - crd_loan_dt 대출일 String N 8
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - stk_nm 종목명 문자열 N 40
+본문 - evltv_prft 평가손익 문자열 N 15
+본문 - prft_rt 수익률(%) 문자열 N 12
+본문 - pur_pric 매입가 문자열 N 15
+본문 - pred_close_pric 전일종가 문자열 N 12
+본문 - rmnd_qty 보유수량 문자열 N 15
+본문 - trde_able_qty 매매가능수량 문자열 N 15
+본문 - cur_prc 현재가 문자열 N 12
+본문 - pred_buyq 전일매수수량 문자열 N 15
+본문 - pred_sellq 전일매도수량 문자열 N 15
+본문 - tdy_buyq 금일매수수량 문자열 N 15
+본문 - tdy_sellq 금일매도수량 문자열 N 15
+본문 - pur_amt 매입금액 문자열 N 15
+본문 - pur_cmsn 매입수수료 문자열 N 15
+본문 - evlt_amt 평가금액 문자열 N 15
+본문 - sell_cmsn 평가수수료 문자열 N 15
+본문 - tax 세금 문자열 N 15
+본문 - sum_cmsn 수수료합 문자열 N 15 매입수수료 + 평가수수료
+본문 - poss_rt 보유비중(%) 문자열 N 12
+본문 - crd_tp 신용구분 문자열 N 2
+본문 - crd_tp_nm 신용구분명 문자열 N 4
+본문 - crd_loan_dt 대출일 문자열 N 8
+요청 예시
 {
 "qry_tp": "1",
 "dmst_stex_tp": "KRX"
 }
-Response Example
+응답 예시
 {
 "tot_pur_amt": "000000017598258",
 "tot_evlt_amt": "000000025789890",
@@ -21203,9 +21203,9 @@ Response Example
 "pred_buyq": "000000000000000",
 420 / 526
 
-# Page 421
+# 페이지 421
 
-Response Example
+응답 예시
 "pred_sellq": "000000000000000",
 "tdy_buyq": "000000000000000",
 "tdy_sellq": "000000000000000",
@@ -21251,7 +21251,7 @@ Response Example
 }
 421 / 526
 
-# Page 422
+# 페이지 422
 
 키움 REST API
 API 정보
@@ -21259,55 +21259,55 @@ API 정보
 API 명 주식 매수주문
 API ID kt10000
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/ordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 3 KRX,NXT,SOR
-Body stk_cd 종목코드 String Y 12
-Body ord_qty 주문수량 String Y 12
-Body ord_uv 주문단가 String N 12
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 3 KRX,NXT,SOR
+본문 stk_cd 종목코드 문자열 Y 12
+본문 ord_qty 주문수량 문자열 Y 12
+본문 ord_uv 주문단가 문자열 N 12
 0:보통 , 3:시장가 , 5:조건부지정가 , 81:장마감후시간외 ,
 61:장시작전시간외, 62:시간외단일가 , 6:최유리지정가 ,
 7:최우선지정가 , 10:보통(IOC) , 13:시장가(IOC) ,
-Body trde_tp 매매구분 String Y 2
+본문 trde_tp 매매구분 문자열 Y 2
 16:최유리(IOC) , 20:보통(FOK) , 23:시장가(FOK) ,
 26:최유리(FOK) ,
 28:스톱지정가,29:중간가,30:중간가(IOC),31:중간가(FOK)
-Body cond_uv 조건단가 String N 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body dmst_stex_tp 국내거래소구분 String N 6
-Request Example
+본문 cond_uv 조건단가 문자열 N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 dmst_stex_tp 국내거래소구분 문자열 N 6
+요청 예시
 {
 422 / 526
 
-# Page 423
+# 페이지 423
 
-Request Example
+요청 예시
 "dmst_stex_tp": "KRX",
 "stk_cd": "005930",
 "ord_qty": "1",
@@ -21315,7 +21315,7 @@ Request Example
 "trde_tp": "3",
 "cond_uv": ""
 }
-Response Example
+응답 예시
 {
 "ord_no" : "00024"
 "return_code":0,
@@ -21323,7 +21323,7 @@ Response Example
 }
 423 / 526
 
-# Page 424
+# 페이지 424
 
 키움 REST API
 API 정보
@@ -21331,55 +21331,55 @@ API 정보
 API 명 주식 매도주문
 API ID kt10001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/ordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 3 KRX,NXT,SOR
-Body stk_cd 종목코드 String Y 12
-Body ord_qty 주문수량 String Y 12
-Body ord_uv 주문단가 String N 12
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 3 KRX,NXT,SOR
+본문 stk_cd 종목코드 문자열 Y 12
+본문 ord_qty 주문수량 문자열 Y 12
+본문 ord_uv 주문단가 문자열 N 12
 0:보통 , 3:시장가 , 5:조건부지정가 , 81:장마감후시간외 ,
 61:장시작전시간외, 62:시간외단일가 , 6:최유리지정가 ,
 7:최우선지정가 , 10:보통(IOC) , 13:시장가(IOC) ,
-Body trde_tp 매매구분 String Y 2
+본문 trde_tp 매매구분 문자열 Y 2
 16:최유리(IOC) , 20:보통(FOK) , 23:시장가(FOK) ,
 26:최유리(FOK) ,
 28:스톱지정가,29:중간가,30:중간가(IOC),31:중간가(FOK)
-Body cond_uv 조건단가 String N 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body dmst_stex_tp 국내거래소구분 String N 6
-Request Example
+본문 cond_uv 조건단가 문자열 N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 dmst_stex_tp 국내거래소구분 문자열 N 6
+요청 예시
 {
 424 / 526
 
-# Page 425
+# 페이지 425
 
-Request Example
+요청 예시
 "dmst_stex_tp": "KRX",
 "stk_cd": "005930",
 "ord_qty": "1",
@@ -21387,7 +21387,7 @@ Request Example
 "trde_tp": "3",
 "cond_uv": ""
 }
-Response Example
+응답 예시
 {
 "ord_no": "0000138",
 "dmst_stex_tp": "KRX",
@@ -21396,7 +21396,7 @@ Response Example
 }
 425 / 526
 
-# Page 426
+# 페이지 426
 
 키움 REST API
 API 정보
@@ -21404,59 +21404,59 @@ API 정보
 API 명 주식 정정주문
 API ID kt10002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/ordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 3 KRX,NXT,SOR
-Body orig_ord_no 원주문번호 String Y 7
-Body stk_cd 종목코드 String Y 12
-Body mdfy_qty 정정수량 String Y 12
-Body mdfy_uv 정정단가 String Y 12
-Body mdfy_cond_uv 정정조건단가 String N 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body base_orig_ord_no 모주문번호 String N 7
-Body mdfy_qty 정정수량 String N 12
-Body dmst_stex_tp 국내거래소구분 String N 6
-Request Example
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 3 KRX,NXT,SOR
+본문 orig_ord_no 원주문번호 문자열 Y 7
+본문 stk_cd 종목코드 문자열 Y 12
+본문 mdfy_qty 정정수량 문자열 Y 12
+본문 mdfy_uv 정정단가 문자열 Y 12
+본문 mdfy_cond_uv 정정조건단가 문자열 N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 base_orig_ord_no 모주문번호 문자열 N 7
+본문 mdfy_qty 정정수량 문자열 N 12
+본문 dmst_stex_tp 국내거래소구분 문자열 N 6
+요청 예시
 {
 "dmst_stex_tp": "KRX",
 426 / 526
 
-# Page 427
+# 페이지 427
 
-Request Example
+요청 예시
 "orig_ord_no": "0000139",
 "stk_cd": "005930",
 "mdfy_qty": "1",
 "mdfy_uv": "199700",
 "mdfy_cond_uv": ""
 }
-Response Example
+응답 예시
 {
 "ord_no": "0000140",
 "base_orig_ord_no": "0000139",
@@ -21467,7 +21467,7 @@ Response Example
 }
 427 / 526
 
-# Page 428
+# 페이지 428
 
 키움 REST API
 API 정보
@@ -21475,54 +21475,54 @@ API 정보
 API 명 주식 취소주문
 API ID kt10003
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/ordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 3 KRX,NXT,SOR
-Body orig_ord_no 원주문번호 String Y 7
-Body stk_cd 종목코드 String Y 12
-Body cncl_qty 취소수량 String Y 12 '0' 입력시 잔량 전부 취소
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body base_orig_ord_no 모주문번호 String N 7
-Body cncl_qty 취소수량 String N 12
-Request Example
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 3 KRX,NXT,SOR
+본문 orig_ord_no 원주문번호 문자열 Y 7
+본문 stk_cd 종목코드 문자열 Y 12
+본문 cncl_qty 취소수량 문자열 Y 12 '0' 입력시 잔량 전부 취소
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 base_orig_ord_no 모주문번호 문자열 N 7
+본문 cncl_qty 취소수량 문자열 N 12
+요청 예시
 {
 "dmst_stex_tp": "KRX",
 "orig_ord_no": "0000140",
 "stk_cd": "005930",
 "cncl_qty": "1"
 }
-Response Example
+응답 예시
 428 / 526
 
-# Page 429
+# 페이지 429
 
-Response Example
+응답 예시
 {
 "ord_no": "0000141",
 "base_orig_ord_no": "0000139",
@@ -21532,7 +21532,7 @@ Response Example
 }
 429 / 526
 
-# Page 430
+# 페이지 430
 
 키움 REST API
 API 정보
@@ -21540,55 +21540,55 @@ API 정보
 API 명 신용 매수주문
 API ID kt10006
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/crdordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 3 KRX,NXT,SOR
-Body stk_cd 종목코드 String Y 12
-Body ord_qty 주문수량 String Y 12
-Body ord_uv 주문단가 String N 12
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 3 KRX,NXT,SOR
+본문 stk_cd 종목코드 문자열 Y 12
+본문 ord_qty 주문수량 문자열 Y 12
+본문 ord_uv 주문단가 문자열 N 12
 0:보통 , 3:시장가 , 5:조건부지정가 , 81:장마감후시간외 ,
 61:장시작전시간외, 62:시간외단일가 , 6:최유리지정가 ,
 7:최우선지정가 , 10:보통(IOC) , 13:시장가(IOC) ,
-Body trde_tp 매매구분 String Y 2
+본문 trde_tp 매매구분 문자열 Y 2
 16:최유리(IOC) , 20:보통(FOK) , 23:시장가(FOK) ,
 26:최유리(FOK) ,
 28:스톱지정가,29:중간가,30:중간가(IOC),31:중간가(FOK)
-Body cond_uv 조건단가 String N 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body dmst_stex_tp 국내거래소구분 String N 6
-Request Example
+본문 cond_uv 조건단가 문자열 N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 dmst_stex_tp 국내거래소구분 문자열 N 6
+요청 예시
 {
 430 / 526
 
-# Page 431
+# 페이지 431
 
-Request Example
+요청 예시
 "dmst_stex_tp": "KRX",
 "stk_cd": "005930",
 "ord_qty": "1",
@@ -21596,7 +21596,7 @@ Request Example
 "trde_tp": "0",
 "cond_uv": ""
 }
-Response Example
+응답 예시
 {
 "ord_no": "0001615",
 "dmst_stex_tp": "KRX",
@@ -21605,7 +21605,7 @@ Response Example
 }
 431 / 526
 
-# Page 432
+# 페이지 432
 
 키움 REST API
 API 정보
@@ -21613,55 +21613,55 @@ API 정보
 API 명 신용 매도주문
 API ID kt10007
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/crdordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 3 KRX,NXT,SOR
-Body stk_cd 종목코드 String Y 12
-Body ord_qty 주문수량 String Y 12
-Body ord_uv 주문단가 String N 12
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 3 KRX,NXT,SOR
+본문 stk_cd 종목코드 문자열 Y 12
+본문 ord_qty 주문수량 문자열 Y 12
+본문 ord_uv 주문단가 문자열 N 12
 0:보통 , 3:시장가 , 5:조건부지정가 , 81:장마감후시간외 ,
 61:장시작전시간외, 62:시간외단일가 , 6:최유리지정가 ,
 7:최우선지정가 , 10:보통(IOC) , 13:시장가(IOC) ,
-Body trde_tp 매매구분 String Y 2
+본문 trde_tp 매매구분 문자열 Y 2
 16:최유리(IOC) , 20:보통(FOK) , 23:시장가(FOK) ,
 26:최유리(FOK) ,
 28:스톱지정가,29:중간가,30:중간가(IOC),31:중간가(FOK)
-Body crd_deal_tp 신용거래구분 String Y 2 33:융자 , 99:융자합
-Body crd_loan_dt 대출일 String N 8 YYYYMMDD(융자일경우필수)
-Body cond_uv 조건단가 String N 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body dmst_stex_tp 국내거래소구분 String N 6
+본문 crd_deal_tp 신용거래구분 문자열 Y 2 33:융자 , 99:융자합
+본문 crd_loan_dt 대출일 문자열 N 8 YYYYMMDD(융자일경우필수)
+본문 cond_uv 조건단가 문자열 N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 dmst_stex_tp 국내거래소구분 문자열 N 6
 432 / 526
 
-# Page 433
+# 페이지 433
 
-Request Example
+요청 예시
 {
 "dmst_stex_tp": "KRX",
 "stk_cd": "005930",
@@ -21672,7 +21672,7 @@ Request Example
 "crd_loan_dt": "",
 "cond_uv": ""
 }
-Response Example
+응답 예시
 {
 "ord_no": "0001614",
 "dmst_stex_tp": "KRX",
@@ -21681,7 +21681,7 @@ Response Example
 }
 433 / 526
 
-# Page 434
+# 페이지 434
 
 키움 REST API
 API 정보
@@ -21689,59 +21689,59 @@ API 정보
 API 명 신용 정정주문
 API ID kt10008
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/crdordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 3 KRX,NXT,SOR
-Body orig_ord_no 원주문번호 String Y 7
-Body stk_cd 종목코드 String Y 12
-Body mdfy_qty 정정수량 String Y 12
-Body mdfy_uv 정정단가 String Y 12
-Body mdfy_cond_uv 정정조건단가 String N 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body base_orig_ord_no 모주문번호 String N 7
-Body mdfy_qty 정정수량 String N 12
-Body dmst_stex_tp 국내거래소구분 String N 6
-Request Example
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 3 KRX,NXT,SOR
+본문 orig_ord_no 원주문번호 문자열 Y 7
+본문 stk_cd 종목코드 문자열 Y 12
+본문 mdfy_qty 정정수량 문자열 Y 12
+본문 mdfy_uv 정정단가 문자열 Y 12
+본문 mdfy_cond_uv 정정조건단가 문자열 N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 base_orig_ord_no 모주문번호 문자열 N 7
+본문 mdfy_qty 정정수량 문자열 N 12
+본문 dmst_stex_tp 국내거래소구분 문자열 N 6
+요청 예시
 {
 "dmst_stex_tp": "KRX",
 434 / 526
 
-# Page 435
+# 페이지 435
 
-Request Example
+요청 예시
 "orig_ord_no": "0000455",
 "stk_cd": "005930",
 "mdfy_qty": "1",
 "mdfy_uv": "2590",
 "mdfy_cond_uv": ""
 }
-Response Example
+응답 예시
 {
 "ord_no": "0000509",
 "base_orig_ord_no": "0000454",
@@ -21752,7 +21752,7 @@ Response Example
 }
 435 / 526
 
-# Page 436
+# 페이지 436
 
 키움 REST API
 API 정보
@@ -21760,54 +21760,54 @@ API 정보
 API 명 신용 취소주문
 API ID kt10009
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/crdordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body dmst_stex_tp 국내거래소구분 String Y 3 KRX,NXT,SOR
-Body orig_ord_no 원주문번호 String Y 7
-Body stk_cd 종목코드 String Y 12
-Body cncl_qty 취소수량 String Y 12 '0' 입력시 잔량 전부 취소
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body base_orig_ord_no 모주문번호 String N 7
-Body cncl_qty 취소수량 String N 12
-Request Example
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 3 KRX,NXT,SOR
+본문 orig_ord_no 원주문번호 문자열 Y 7
+본문 stk_cd 종목코드 문자열 Y 12
+본문 cncl_qty 취소수량 문자열 Y 12 '0' 입력시 잔량 전부 취소
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 base_orig_ord_no 모주문번호 문자열 N 7
+본문 cncl_qty 취소수량 문자열 N 12
+요청 예시
 {
 "dmst_stex_tp": "KRX",
 "orig_ord_no": "0001615",
 "stk_cd": "005930",
 "cncl_qty": "1"
 }
-Response Example
+응답 예시
 436 / 526
 
-# Page 437
+# 페이지 437
 
-Response Example
+응답 예시
 {
 "ord_no": "0001695",
 "base_orig_ord_no": "0001614",
@@ -21817,7 +21817,7 @@ Response Example
 }
 437 / 526
 
-# Page 438
+# 페이지 438
 
 키움 REST API
 API 정보
@@ -21825,57 +21825,57 @@ API 정보
 API 명 신용융자 가능종목요청
 API ID kt20016
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body crd_stk_grde_tp 신용종목등급구분 String N 1 %:전체, A:A군, B:B군, C:C군, D:D군, E:E군
-Body mrkt_deal_tp 시장거래구분 String Y 1 %:전체, 1:코스피, 0:코스닥
-Body stk_cd 종목코드 String N 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body crd_loan_able 신용융자가능여부 String N 40
-Body crd_loan_pos_stk 신용융자가능종목 LIST N
-Body - stk_cd 종목코드 String N 12
-Body - stk_nm 종목명 String N 40
-Body - crd_assr_rt 신용보증금율 String N 4
-Body - repl_pric 대용가 String N 12
-Body - pred_close_pric 전일종가 String N 12
-Body - crd_limit_over_yn 신용한도초과여부 String N 1
-Body - crd_limit_over_txt 신용한도초과 String N 40 N:공란,Y:회사한도 초과
+본문 crd_stk_grde_tp 신용종목등급구분 문자열 N 1 %:전체, A:A군, B:B군, C:C군, D:D군, E:E군
+본문 mrkt_deal_tp 시장거래구분 문자열 Y 1 %:전체, 1:코스피, 0:코스닥
+본문 stk_cd 종목코드 문자열 N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 crd_loan_able 신용융자가능여부 문자열 N 40
+본문 crd_loan_pos_stk 신용융자가능종목 목록 N
+본문 - stk_cd 종목코드 문자열 N 12
+본문 - stk_nm 종목명 문자열 N 40
+본문 - crd_assr_rt 신용보증금율 문자열 N 4
+본문 - repl_pric 대용가 문자열 N 12
+본문 - pred_close_pric 전일종가 문자열 N 12
+본문 - crd_limit_over_yn 신용한도초과여부 문자열 N 1
+본문 - crd_limit_over_txt 신용한도초과 문자열 N 40 N:공란,Y:회사한도 초과
 438 / 526
 
-# Page 439
+# 페이지 439
 
-Request Example
+요청 예시
 {
 "crd_stk_grde_tp": "A",
 "mrkt_deal_tp": "%",
 "stk_cd": "039490"
 }
-Response Example
+응답 예시
 {
 "crd_loan_able": "",
 "crd_loan_pos_stk": [
@@ -21903,7 +21903,7 @@ Response Example
 }
 439 / 526
 
-# Page 440
+# 페이지 440
 
 키움 REST API
 API 정보
@@ -21911,41 +21911,41 @@ API 정보
 API 명 신용융자 가능문의
 API ID kt20017
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/stkinfo
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body crd_alow_yn 신용가능여부 String N 40
-Request Example
+본문 stk_cd 종목코드 문자열 Y 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 crd_alow_yn 신용가능여부 문자열 N 40
+요청 예시
 {
 "stk_cd": "039490"
 }
-Response Example
+응답 예시
 {
 "crd_alow_yn": "< A군 신용융자 가능 >",
 "return_code": 0,
@@ -21953,7 +21953,7 @@ Response Example
 }
 440 / 526
 
-# Page 441
+# 페이지 441
 
 키움 REST API
 API 정보
@@ -21961,60 +21961,60 @@ API 정보
 API 명 금현물 매수주문
 API ID kt50000
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/ordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 12 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body ord_qty 주문수량 String Y 12
-Body ord_uv 주문단가 String N 12
-Body trde_tp 매매구분 String Y 2 00:보통, 10:보통(IOC), 20:보통(FOK)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Request Example
+본문 stk_cd 종목코드 문자열 Y 12 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 ord_qty 주문수량 문자열 Y 12
+본문 ord_uv 주문단가 문자열 N 12
+본문 trde_tp 매매구분 문자열 Y 2 00:보통, 10:보통(IOC), 20:보통(FOK)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+요청 예시
 {
 "stk_cd": "M04020000",
 "ord_qty": "1",
 "ord_uv": "160000",
 "trde_tp": "00"
 }
-Response Example
+응답 예시
 {
 "ord_no": "0000010",
 "return_code": 0,
 441 / 526
 
-# Page 442
+# 페이지 442
 
-Response Example
+응답 예시
 "return_msg": "매수주문이 완료되었습니다."
 }
 442 / 526
 
-# Page 443
+# 페이지 443
 
 키움 REST API
 API 정보
@@ -22022,60 +22022,60 @@ API 정보
 API 명 금현물 매도주문
 API ID kt50001
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/ordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 12 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body ord_qty 주문수량 String Y 12
-Body ord_uv 주문단가 String N 12
-Body trde_tp 매매구분 String Y 2 00:보통, 10:보통(IOC), 20:보통(FOK)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Request Example
+본문 stk_cd 종목코드 문자열 Y 12 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 ord_qty 주문수량 문자열 Y 12
+본문 ord_uv 주문단가 문자열 N 12
+본문 trde_tp 매매구분 문자열 Y 2 00:보통, 10:보통(IOC), 20:보통(FOK)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+요청 예시
 {
 "stk_cd": "M04020000",
 "ord_qty": "1",
 "ord_uv": "160000",
 "trde_tp": "00"
 }
-Response Example
+응답 예시
 {
 "ord_no": "0000016",
 "return_code": 0,
 443 / 526
 
-# Page 444
+# 페이지 444
 
-Response Example
+응답 예시
 "return_msg": "매도주문이 완료되었습니다."
 }
 444 / 526
 
-# Page 445
+# 페이지 445
 
 키움 REST API
 API 정보
@@ -22083,54 +22083,54 @@ API 정보
 API 명 금현물 정정주문
 API ID kt50002
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/ordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body stk_cd 종목코드 String Y 12 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body orig_ord_no 원주문번호 String Y 7
-Body mdfy_qty 정정수량 String Y 12
-Body mdfy_uv 정정단가 String Y 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body base_orig_ord_no 모주문번호 String N 7
-Body mdfy_qty 정정수량 String N 12
-Request Example
+본문 stk_cd 종목코드 문자열 Y 12 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 orig_ord_no 원주문번호 문자열 Y 7
+본문 mdfy_qty 정정수량 문자열 Y 12
+본문 mdfy_uv 정정단가 문자열 Y 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 base_orig_ord_no 모주문번호 문자열 N 7
+본문 mdfy_qty 정정수량 문자열 N 12
+요청 예시
 {
 "stk_cd": "M04020000",
 "orig_ord_no": "0000012",
 "mdfy_qty": "1",
 "mdfy_uv": "150000"
 }
-Response Example
+응답 예시
 445 / 526
 
-# Page 446
+# 페이지 446
 
-Response Example
+응답 예시
 {
 "ord_no": "0000013",
 "base_orig_ord_no": "0000012",
@@ -22140,7 +22140,7 @@ Response Example
 }
 446 / 526
 
-# Page 447
+# 페이지 447
 
 키움 REST API
 API 정보
@@ -22148,54 +22148,54 @@ API 정보
 API 명 금현물 취소주문
 API ID kt50003
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/ordr
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body orig_ord_no 원주문번호 String Y 7
-Body stk_cd 종목코드 String Y 12 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
-Body cncl_qty 취소수량 String Y 12 '0' 입력시 잔량 전부 취소
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body ord_no 주문번호 String N 7
-Body base_orig_ord_no 모주문번호 String N 7
-Body cncl_qty 취소수량 String N 12
-Request Example
+본문 orig_ord_no 원주문번호 문자열 Y 7
+본문 stk_cd 종목코드 문자열 Y 12 M04020000 금 99.99_1kg, M04020100 미니금 99.99_100g
+본문 cncl_qty 취소수량 문자열 Y 12 '0' 입력시 잔량 전부 취소
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_no 주문번호 문자열 N 7
+본문 base_orig_ord_no 모주문번호 문자열 N 7
+본문 cncl_qty 취소수량 문자열 N 12
+요청 예시
 {
 "orig_ord_no": "0000014",
 "stk_cd": "M04020000",
 "cncl_qty": "1"
 }
-Response Example
+응답 예시
 {
 "ord_no": "0000015",
 447 / 526
 
-# Page 448
+# 페이지 448
 
-Response Example
+응답 예시
 "base_orig_ord_no": "0000014",
 "cncl_qty": "000000000001",
 "return_code": 0,
@@ -22203,7 +22203,7 @@ Response Example
 }
 448 / 526
 
-# Page 449
+# 페이지 449
 
 키움 REST API
 API 정보
@@ -22211,70 +22211,70 @@ API 정보
 API 명 금현물 잔고확인
 API ID kt50020
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body tot_entr 예수금 String N 12
-Body net_entr 추정예수금 String N 12
-Body tot_est_amt 잔고평가액 String N 12
-Body net_amt 예탁자산평가액 String N 12
-Body tot_book_amt2 총매입금액 String N 12
-Body tot_dep_amt 추정예탁자산 String N 12
-Body paym_alowa 출금가능금액 String N 12
-Body pl_amt 실현손익 String N 12
-Body gold_acnt_evlt_prst 금현물계좌평가현황 LIST N
-Body - stk_cd 종목코드 String N 30
-Body - stk_nm 종목명 String N 12
-Body - real_qty 보유수량 String N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 tot_entr 예수금 문자열 N 12
+본문 net_entr 추정예수금 문자열 N 12
+본문 tot_est_amt 잔고평가액 문자열 N 12
+본문 net_amt 예탁자산평가액 문자열 N 12
+본문 tot_book_amt2 총매입금액 문자열 N 12
+본문 tot_dep_amt 추정예탁자산 문자열 N 12
+본문 paym_alowa 출금가능금액 문자열 N 12
+본문 pl_amt 실현손익 문자열 N 12
+본문 gold_acnt_evlt_prst 금현물계좌평가현황 목록 N
+본문 - stk_cd 종목코드 문자열 N 30
+본문 - stk_nm 종목명 문자열 N 12
+본문 - real_qty 보유수량 문자열 N 12
 449 / 526
 
-# Page 450
+# 페이지 450
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - avg_prc 평균단가 String N 12
-Body - cur_prc 현재가 String N 12
-Body - est_amt 평가금액 String N 12
-Body - est_lspft 손익금액 String N 12
-Body - est_ratio 손익율 String N 12
-Body - cmsn 수수료 String N 12
-Body - vlad_tax 부가가치세 String N 12
-Body - book_amt2 매입금액 String N 12
-Body - pl_prch_prc 손익분기매입가 String N 12
-Body - qty 결제잔고 String N 12
-Body - buy_qty 매수수량 String N 12
-Body - sell_qty 매도수량 String N 12
-Body - able_qty 가능수량 String N 12
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - avg_prc 평균단가 문자열 N 12
+본문 - cur_prc 현재가 문자열 N 12
+본문 - est_amt 평가금액 문자열 N 12
+본문 - est_lspft 손익금액 문자열 N 12
+본문 - est_ratio 손익율 문자열 N 12
+본문 - cmsn 수수료 문자열 N 12
+본문 - vlad_tax 부가가치세 문자열 N 12
+본문 - book_amt2 매입금액 문자열 N 12
+본문 - pl_prch_prc 손익분기매입가 문자열 N 12
+본문 - qty 결제잔고 문자열 N 12
+본문 - buy_qty 매수수량 문자열 N 12
+본문 - sell_qty 매도수량 문자열 N 12
+본문 - able_qty 가능수량 문자열 N 12
+요청 예시
 {}
-Response Example
+응답 예시
 {
 "tot_entr": "000098740486",
 "net_entr": "000098740486",
@@ -22320,9 +22320,9 @@ Response Example
 "buy_qty": "000000000000",
 450 / 526
 
-# Page 451
+# 페이지 451
 
-Response Example
+응답 예시
 "sell_qty": "000000000000",
 "able_qty": "000000000006"
 }
@@ -22332,7 +22332,7 @@ Response Example
 }
 451 / 526
 
-# Page 452
+# 페이지 452
 
 키움 REST API
 API 정보
@@ -22340,61 +22340,61 @@ API 정보
 API 명 금현물 예수금
 API ID kt50021
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body entra 예수금 String N 15
-Body profa_ch 증거금현금 String N 15
-Body chck_ina_amt 수표입금액 String N 15
-Body etc_loan 기타대여금 String N 15
-Body etc_loan_dlfe 기타대여금연체료 String N 15
-Body etc_loan_tot 기타대여금합계 String N 15
-Body prsm_entra 추정예수금 String N 15
-Body buy_exct_amt 매수정산금 String N 15
-Body sell_exct_amt 매도정산금 String N 15
-Body sell_buy_exct_amt 매도매수정산금 String N 15
-Body dly_amt 미수변제소요금 String N 15
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 entra 예수금 문자열 N 15
+본문 profa_ch 증거금현금 문자열 N 15
+본문 chck_ina_amt 수표입금액 문자열 N 15
+본문 etc_loan 기타대여금 문자열 N 15
+본문 etc_loan_dlfe 기타대여금연체료 문자열 N 15
+본문 etc_loan_tot 기타대여금합계 문자열 N 15
+본문 prsm_entra 추정예수금 문자열 N 15
+본문 buy_exct_amt 매수정산금 문자열 N 15
+본문 sell_exct_amt 매도정산금 문자열 N 15
+본문 sell_buy_exct_amt 매도매수정산금 문자열 N 15
+본문 dly_amt 미수변제소요금 문자열 N 15
 prsm_pymn_alow_a
-Body 추정출금가능금액 String N 15
+본문 추정출금가능금액 문자열 N 15
 mt
 452 / 526
 
-# Page 453
+# 페이지 453
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body pymn_alow_amt 출금가능금액 String N 15
-Body ord_alow_amt 주문가능금액 String N 15
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 pymn_alow_amt 출금가능금액 문자열 N 15
+본문 ord_alow_amt 주문가능금액 문자열 N 15
+요청 예시
 {}
-Response Example
+응답 예시
 {
 "entra": "000000098740486",
 "profa_ch": "000000000000000",
@@ -22415,7 +22415,7 @@ Response Example
 }
 453 / 526
 
-# Page 454
+# 페이지 454
 
 키움 REST API
 API 정보
@@ -22423,74 +22423,74 @@ API 정보
 API 명 금현물 주문체결전체조회
 API ID kt50030
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body ord_dt 주문일자 String Y 8
-Body qry_tp 조회구분 String N 1 1: 주문순, 2: 역순
-Body mrkt_deal_tp 시장구분 String Y 1
-Body stk_bond_tp 주식채권구분 String Y 1 0:전체, 1:주식, 2:채권
-Body slby_tp 매도수구분 String Y 1 0:전체, 1:매도, 2:매수
-Body stk_cd 종목코드 String N 12
-Body fr_ord_no 시작주문번호 String N 7
-Body dmst_stex_tp 국내거래소구분 String N 6 %:(전체), KRX, NXT, SOR
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body acnt_ord_cntr_prst 계좌별주문체결현황 LIST N
-Body - stk_bond_tp 주식채권구분 String N 1
-Body - ord_no 주문번호 String N 7
-Body - stk_cd 상품코드 String N 12
+본문 ord_dt 주문일자 문자열 Y 8
+본문 qry_tp 조회구분 문자열 N 1 1: 주문순, 2: 역순
+본문 mrkt_deal_tp 시장구분 문자열 Y 1
+본문 stk_bond_tp 주식채권구분 문자열 Y 1 0:전체, 1:주식, 2:채권
+본문 slby_tp 매도수구분 문자열 Y 1 0:전체, 1:매도, 2:매수
+본문 stk_cd 종목코드 문자열 N 12
+본문 fr_ord_no 시작주문번호 문자열 N 7
+본문 dmst_stex_tp 국내거래소구분 문자열 N 6 %:(전체), KRX, NXT, SOR
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 acnt_ord_cntr_prst 계좌별주문체결현황 목록 N
+본문 - stk_bond_tp 주식채권구분 문자열 N 1
+본문 - ord_no 주문번호 문자열 N 7
+본문 - stk_cd 상품코드 문자열 N 12
 454 / 526
 
-# Page 455
+# 페이지 455
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - trde_tp 매매구분 String N 12
-Body - io_tp_nm 주문유형구분 String N 20
-Body - ord_qty 주문수량 String N 10
-Body - ord_uv 주문단가 String N 10
-Body - cnfm_qty 확인수량 String N 10
-Body - data_send_end_tp 접수구분 String N 12
-Body - mrkt_deal_tp 시장구분 String N 1
-Body - rsrv_tp 예약/반대여부 String N 4
-Body - orig_ord_no 원주문번호 String N 7
-Body - stk_nm 종목명 String N 40
-Body - dcd_tp_nm 결제구분 String N 4
-Body - crd_deal_tp 신용거래구분 String N 20
-Body - cntr_qty 체결수량 String N 10
-Body - cntr_uv 체결단가 String N 10
-Body - ord_remnq 미체결수량 String N 10
-Body - comm_ord_tp 통신구분 String N 10
-Body - mdfy_cncl_tp 정정취소구분 String N 20
-Body - dmst_stex_tp 국내거래소구분 String N 6
-Body - cond_uv 스톱가 String N 10
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - trde_tp 매매구분 문자열 N 12
+본문 - io_tp_nm 주문유형구분 문자열 N 20
+본문 - ord_qty 주문수량 문자열 N 10
+본문 - ord_uv 주문단가 문자열 N 10
+본문 - cnfm_qty 확인수량 문자열 N 10
+본문 - data_send_end_tp 접수구분 문자열 N 12
+본문 - mrkt_deal_tp 시장구분 문자열 N 1
+본문 - rsrv_tp 예약/반대여부 문자열 N 4
+본문 - orig_ord_no 원주문번호 문자열 N 7
+본문 - stk_nm 종목명 문자열 N 40
+본문 - dcd_tp_nm 결제구분 문자열 N 4
+본문 - crd_deal_tp 신용거래구분 문자열 N 20
+본문 - cntr_qty 체결수량 문자열 N 10
+본문 - cntr_uv 체결단가 문자열 N 10
+본문 - ord_remnq 미체결수량 문자열 N 10
+본문 - comm_ord_tp 통신구분 문자열 N 10
+본문 - mdfy_cncl_tp 정정취소구분 문자열 N 20
+본문 - dmst_stex_tp 국내거래소구분 문자열 N 6
+본문 - cond_uv 스톱가 문자열 N 10
+요청 예시
 {
 "ord_dt": "20250821",
 "qry_tp": "1",
@@ -22501,7 +22501,7 @@ Request Example
 "fr_ord_no": "",
 "dmst_stex_tp": "KRX"
 }
-Response Example
+응답 예시
 {
 "acnt_ord_cntr_prst": [
 {
@@ -22525,9 +22525,9 @@ Response Example
 "ord_remnq": "",
 455 / 526
 
-# Page 456
+# 페이지 456
 
-Response Example
+응답 예시
 "comm_ord_tp": "REST API",
 "mdfy_cncl_tp": "",
 "dmst_stex_tp": "KRX",
@@ -22563,7 +22563,7 @@ Response Example
 }
 456 / 526
 
-# Page 457
+# 페이지 457
 
 키움 REST API
 API 정보
@@ -22571,77 +22571,77 @@ API 정보
 API 명 금현물 주문체결조회
 API ID kt50031
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body ord_dt 주문일자 String N 8 YYYYMMDD
-Body qry_tp 조회구분 String Y 1 1:주문순, 2:역순, 3:미체결, 4:체결내역만
-Body stk_bond_tp 주식채권구분 String Y 1 0:전체, 1:주식, 2:채권
-Body sell_tp 매도수구분 String Y 1 0:전체, 1:매도, 2:매수
-Body stk_cd 종목코드 String N 12 공백허용 (공백일때 전체종목)
-Body fr_ord_no 시작주문번호 String N 7 공백허용 (공백일때 전체주문)
+본문 ord_dt 주문일자 문자열 N 8 YYYYMMDD
+본문 qry_tp 조회구분 문자열 Y 1 1:주문순, 2:역순, 3:미체결, 4:체결내역만
+본문 stk_bond_tp 주식채권구분 문자열 Y 1 0:전체, 1:주식, 2:채권
+본문 sell_tp 매도수구분 문자열 Y 1 0:전체, 1:매도, 2:매수
+본문 stk_cd 종목코드 문자열 N 12 공백허용 (공백일때 전체종목)
+본문 fr_ord_no 시작주문번호 문자열 N 7 공백허용 (공백일때 전체주문)
 %:(전체),KRX:한국거래소,NXT:넥스트트레이드,SOR:최선주문
-Body dmst_stex_tp 국내거래소구분 String Y 6
+본문 dmst_stex_tp 국내거래소구분 문자열 Y 6
 집행
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 acnt_ord_cntr_prps_ 계좌별주문체결내역
-Body LIST N
+본문 목록 N
 dtl 상세
-Body - ord_no 주문번호 String N 7
-Body - stk_cd 종목번호 String N 12
-Body - trde_tp 매매구분 String N 20
+본문 - ord_no 주문번호 문자열 N 7
+본문 - stk_cd 종목번호 문자열 N 12
+본문 - trde_tp 매매구분 문자열 N 20
 457 / 526
 
-# Page 458
+# 페이지 458
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - crd_tp 신용구분 String N 20
-Body - ord_qty 주문수량 String N 10
-Body - ord_uv 주문단가 String N 10
-Body - cnfm_qty 확인수량 String N 10
-Body - acpt_tp 접수구분 String N 20
-Body - rsrv_tp 반대여부 String N 20
-Body - ord_tm 주문시간 String N 8
-Body - ori_ord 원주문 String N 7
-Body - stk_nm 종목명 String N 40
-Body - io_tp_nm 주문구분 String N 20
-Body - loan_dt 대출일 String N 8
-Body - cntr_qty 체결수량 String N 10
-Body - cntr_uv 체결단가 String N 10
-Body - ord_remnq 주문잔량 String N 10
-Body - comm_ord_tp 통신구분 String N 20
-Body - mdfy_cncl 정정취소 String N 20
-Body - cnfm_tm 확인시간 String N 8
-Body - dmst_stex_tp 국내거래소구분 String N 8
-Body - cond_uv 스톱가 String N 10
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - crd_tp 신용구분 문자열 N 20
+본문 - ord_qty 주문수량 문자열 N 10
+본문 - ord_uv 주문단가 문자열 N 10
+본문 - cnfm_qty 확인수량 문자열 N 10
+본문 - acpt_tp 접수구분 문자열 N 20
+본문 - rsrv_tp 반대여부 문자열 N 20
+본문 - ord_tm 주문시간 문자열 N 8
+본문 - ori_ord 원주문 문자열 N 7
+본문 - stk_nm 종목명 문자열 N 40
+본문 - io_tp_nm 주문구분 문자열 N 20
+본문 - loan_dt 대출일 문자열 N 8
+본문 - cntr_qty 체결수량 문자열 N 10
+본문 - cntr_uv 체결단가 문자열 N 10
+본문 - ord_remnq 주문잔량 문자열 N 10
+본문 - comm_ord_tp 통신구분 문자열 N 20
+본문 - mdfy_cncl 정정취소 문자열 N 20
+본문 - cnfm_tm 확인시간 문자열 N 8
+본문 - dmst_stex_tp 국내거래소구분 문자열 N 8
+본문 - cond_uv 스톱가 문자열 N 10
+요청 예시
 {
 "ord_dt": "20250821",
 "qry_tp": "1",
@@ -22651,7 +22651,7 @@ Request Example
 "fr_ord_no": "",
 "dmst_stex_tp": "%"
 }
-Response Example
+응답 예시
 {
 "acnt_ord_cntr_prps_dtl": [
 {
@@ -22676,9 +22676,9 @@ Response Example
 "mdfy_cncl": "",
 458 / 526
 
-# Page 459
+# 페이지 459
 
-Response Example
+응답 예시
 "cnfm_tm": "",
 "dmst_stex_tp": "KRX",
 "cond_uv": "0000000000"
@@ -22713,7 +22713,7 @@ Response Example
 }
 459 / 526
 
-# Page 460
+# 페이지 460
 
 키움 REST API
 API 정보
@@ -22721,82 +22721,82 @@ API 정보
 API 명 금현물 거래내역조회
 API ID kt50032
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 각 일자별로 계좌번호/계좌일련번호/지점코드/종목코드/매도 매수구분/ 매체 값이 같은 거래끼리는 수수료 및 부가가치세가 합산됩니다. 또한, 각 합계는
 마지막 거래 내역에만 노출됩니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body strt_dt 시작일자 String N 8
-Body end_dt 종료일자 String N 8
-Body tp 구분 String N 1 0:전체, 1:입출금, 2:출고, 3:매매, 4:매수, 5:매도, 6:입금, 7:출금
-Body stk_cd 종목코드 String N 12
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body acnt_print 계좌번호 String N 62 계좌번호 출력용
-Body gold_trde_hist 금현물거래내역 LIST N
-Body - deal_dt 거래일자 String N
-Body - deal_no 거래번호 String N
-Body - rmrk_nm 적요명 String N
-Body - deal_qty 거래수량 String N
-Body - gold_spot_vat 금현물부가가치세 String N
-Body - exct_amt 정산금액 String N
+본문 strt_dt 시작일자 문자열 N 8
+본문 end_dt 종료일자 문자열 N 8
+본문 tp 구분 문자열 N 1 0:전체, 1:입출금, 2:출고, 3:매매, 4:매수, 5:매도, 6:입금, 7:출금
+본문 stk_cd 종목코드 문자열 N 12
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 acnt_print 계좌번호 문자열 N 62 계좌번호 출력용
+본문 gold_trde_hist 금현물거래내역 목록 N
+본문 - deal_dt 거래일자 문자열 N
+본문 - deal_no 거래번호 문자열 N
+본문 - rmrk_nm 적요명 문자열 N
+본문 - deal_qty 거래수량 문자열 N
+본문 - gold_spot_vat 금현물부가가치세 문자열 N
+본문 - exct_amt 정산금액 문자열 N
 460 / 526
 
-# Page 461
+# 페이지 461
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - dly_sum 연체합 String N
-Body - entra_remn 예수금잔고 String N
-Body - mdia_nm 메체구분명 String N
-Body - orig_deal_no 원거래번호 String N
-Body - stk_nm 종목명 String N
-Body - uv_exrt 거래단가 String N
-Body - cmsn 수수료 String N
-Body - uncl_ocr 미수(원/g) String N
-Body - rpym_sum 변제합 String N
-Body - spot_remn 현물잔고 String N
-Body - proc_time 처리시간 String N
-Body - rcpy_no 출납번호 String N
-Body - stk_cd 종목코드 String N
-Body - deal_amt 거래금액 String N
-Body - tax_tot_amt 소득/주민세 String N
-Body - cntr_dt 체결일 String N
-Body - proc_brch_nm 처리점 String N
-Body - prcsr 처리자 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - dly_sum 연체합 문자열 N
+본문 - entra_remn 예수금잔고 문자열 N
+본문 - mdia_nm 메체구분명 문자열 N
+본문 - orig_deal_no 원거래번호 문자열 N
+본문 - stk_nm 종목명 문자열 N
+본문 - uv_exrt 거래단가 문자열 N
+본문 - cmsn 수수료 문자열 N
+본문 - uncl_ocr 미수(원/g) 문자열 N
+본문 - rpym_sum 변제합 문자열 N
+본문 - spot_remn 현물잔고 문자열 N
+본문 - proc_time 처리시간 문자열 N
+본문 - rcpy_no 출납번호 문자열 N
+본문 - stk_cd 종목코드 문자열 N
+본문 - deal_amt 거래금액 문자열 N
+본문 - tax_tot_amt 소득/주민세 문자열 N
+본문 - cntr_dt 체결일 문자열 N
+본문 - proc_brch_nm 처리점 문자열 N
+본문 - prcsr 처리자 문자열 N
+요청 예시
 {
 "strt_dt": "20250819",
 "end_dt": "20250820",
 "tp": "0",
 "stk_cd": ""
 }
-Response Example
+응답 예시
 {
 "acnt_print": "****-****-** [***]",
 "gold_trde_hist": [
@@ -22826,9 +22826,9 @@ Response Example
 "proc_brch_nm": "온라인지점13",
 461 / 526
 
-# Page 462
+# 페이지 462
 
-Response Example
+응답 예시
 "prcsr": "DAILY"
 },
 {
@@ -22863,7 +22863,7 @@ Response Example
 }
 462 / 526
 
-# Page 463
+# 페이지 463
 
 키움 REST API
 API 정보
@@ -22871,76 +22871,76 @@ API 정보
 API 명 금현물 미체결조회
 API ID kt50075
 기본정보
-Method POST
+메서드 POST
 운영 도메인 https://api.kiwoom.com
 모의투자 도메인 https://mockapi.kiwoom.com(KRX만 지원가능)
 URL /api/dostk/acnt
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body ord_dt 주문일자 String Y 8
-Body qry_tp 조회구분 String N 1 1: 주문순, 2: 역순
-Body mrkt_deal_tp 시장구분 String Y 1
-Body stk_bond_tp 주식채권구분 String Y 1 0:전체, 1:주식, 2:채권
-Body sell_tp 매도수구분 String Y 1 0:전체, 1:매도, 2:매수
-Body stk_cd 종목코드 String N 12
-Body fr_ord_no 시작주문번호 String N 7
-Body dmst_stex_tp 국내거래소구분 String N 6 %:(전체), KRX, NXT, SOR
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 ord_dt 주문일자 문자열 Y 8
+본문 qry_tp 조회구분 문자열 N 1 1: 주문순, 2: 역순
+본문 mrkt_deal_tp 시장구분 문자열 Y 1
+본문 stk_bond_tp 주식채권구분 문자열 Y 1 0:전체, 1:주식, 2:채권
+본문 sell_tp 매도수구분 문자열 Y 1 0:전체, 1:매도, 2:매수
+본문 stk_cd 종목코드 문자열 N 12
+본문 fr_ord_no 시작주문번호 문자열 N 7
+본문 dmst_stex_tp 국내거래소구분 문자열 N 6 %:(전체), KRX, NXT, SOR
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 계좌별주문미체결현
-Body acnt_ord_oso_prst LIST N
+본문 acnt_ord_oso_prst 목록 N
 황
-Body - stk_bond_tp 주식채권구분 String N 1
-Body - ord_no 주문번호 String N 7
-Body - stk_cd 상품코드 String N 12
+본문 - stk_bond_tp 주식채권구분 문자열 N 1
+본문 - ord_no 주문번호 문자열 N 7
+본문 - stk_cd 상품코드 문자열 N 12
 463 / 526
 
-# Page 464
+# 페이지 464
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - trde_tp 매매구분 String N 12
-Body - io_tp_nm 주문유형구분 String N 20
-Body - ord_qty 주문수량 String N 10
-Body - ord_uv 주문단가 String N 10
-Body - cnfm_qty 확인수량 String N 10
-Body - data_send_end_tp 접수구분 String N 12
-Body - mrkt_deal_tp 시장구분 String N 1
-Body - rsrv_tp 예약/반대여부 String N 4
-Body - orig_ord_no 원주문번호 String N 7
-Body - stk_nm 종목명 String N 40
-Body - dcd_tp_nm 결제구분 String N 4
-Body - crd_deal_tp 신용거래구분 String N 20
-Body - cntr_qty 체결수량 String N 10
-Body - cntr_uv 체결단가 String N 10
-Body - ord_remnq 미체결수량 String N 10
-Body - comm_ord_tp 통신구분 String N 10
-Body - mdfy_cncl_tp 정정취소구분 String N 20
-Body - dmst_stex_tp 국내거래소구분 String N 6
-Body - cond_uv 스톱가 String N 10
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - trde_tp 매매구분 문자열 N 12
+본문 - io_tp_nm 주문유형구분 문자열 N 20
+본문 - ord_qty 주문수량 문자열 N 10
+본문 - ord_uv 주문단가 문자열 N 10
+본문 - cnfm_qty 확인수량 문자열 N 10
+본문 - data_send_end_tp 접수구분 문자열 N 12
+본문 - mrkt_deal_tp 시장구분 문자열 N 1
+본문 - rsrv_tp 예약/반대여부 문자열 N 4
+본문 - orig_ord_no 원주문번호 문자열 N 7
+본문 - stk_nm 종목명 문자열 N 40
+본문 - dcd_tp_nm 결제구분 문자열 N 4
+본문 - crd_deal_tp 신용거래구분 문자열 N 20
+본문 - cntr_qty 체결수량 문자열 N 10
+본문 - cntr_uv 체결단가 문자열 N 10
+본문 - ord_remnq 미체결수량 문자열 N 10
+본문 - comm_ord_tp 통신구분 문자열 N 10
+본문 - mdfy_cncl_tp 정정취소구분 문자열 N 20
+본문 - dmst_stex_tp 국내거래소구분 문자열 N 6
+본문 - cond_uv 스톱가 문자열 N 10
+요청 예시
 {
 "ord_dt": "20250821",
 "qry_tp": "1",
@@ -22951,7 +22951,7 @@ Request Example
 "fr_ord_no": "",
 "dmst_stex_tp": "KRX"
 }
-Response Example
+응답 예시
 {
 "acnt_ord_oso_prst": [
 {
@@ -22975,9 +22975,9 @@ Response Example
 "ord_remnq": "0000000001",
 464 / 526
 
-# Page 465
+# 페이지 465
 
-Response Example
+응답 예시
 "comm_ord_tp": "REST API",
 "mdfy_cncl_tp": "",
 "dmst_stex_tp": "KRX",
@@ -23013,7 +23013,7 @@ Response Example
 }
 465 / 526
 
-# Page 466
+# 페이지 466
 
 키움 REST API
 API 정보
@@ -23021,116 +23021,116 @@ API 정보
 API 명 주문체결
 API ID 00
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 실시간 항목 00(주문체결)은 종목코드(item) 등록과 상관 없이 ACCESS TOKEN을 발급한 계좌에 주문 접수, 체결, 정정, 취소 등 매매가 발생할 경우 데이터가
 수신됩니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1
+본문 refresh 기존등록유지여부 문자열 Y 1
 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
-Body - item 실시간 등록 요소 String N 100
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 data 실시간 등록 리스트 LIST
+본문 - item 실시간 등록 요소 문자열 N 100
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
 466 / 526
 
-# Page 467
+# 페이지 467
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 9201 계좌번호 String N
-Body - - 9203 주문번호 String N
-Body - - 9205 관리자사번 String N
-Body - - 9001 종목코드,업종코드 String N
-Body - - 912 주문업무분류 String N
-Body - - 913 주문상태 String N 접수, 체결, 확인, 취소, 거부
-Body - - 302 종목명 String N
-Body - - 900 주문수량 String N
-Body - - 901 주문가격 String N
-Body - - 902 미체결수량 String N
-Body - - 903 체결누계금액 String N
-Body - - 904 원주문번호 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 9201 계좌번호 문자열 N
+본문 - - 9203 주문번호 문자열 N
+본문 - - 9205 관리자사번 문자열 N
+본문 - - 9001 종목코드,업종코드 문자열 N
+본문 - - 912 주문업무분류 문자열 N
+본문 - - 913 주문상태 문자열 N 접수, 체결, 확인, 취소, 거부
+본문 - - 302 종목명 문자열 N
+본문 - - 900 주문수량 문자열 N
+본문 - - 901 주문가격 문자열 N
+본문 - - 902 미체결수량 문자열 N
+본문 - - 903 체결누계금액 문자열 N
+본문 - - 904 원주문번호 문자열 N
 "+/-", 매도, 매수, 매도정정, 매수정정, 매수취소, 매도취소
-Body - - 905 주문구분 String N
+본문 - - 905 주문구분 문자열 N
 ※ 영웅문4에서 적색으로 표기되어있으면 +가, 청색으로
 표기되어있으면 -가 앞에 기재됩니다
 보통, 시장가, 조건부지정가, 최유리지정가, 최우선지정가,
 보통(IOC), 시장가(IOC), 최유리(IOC), 보통(FOK),
-Body - - 906 매매구분 String N 시장가(FOK), 최유리(FOK), 스톰지정가, 중간가, 중간가(IOC),
+본문 - - 906 매매구분 문자열 N 시장가(FOK), 최유리(FOK), 스톰지정가, 중간가, 중간가(IOC),
 중간가(FOK), 장전시간외, 장후시간외, 시간외대량,
 시간외바스켓, 시간외자사주, 시간외단일가
-Body - - 907 매도수구분 String N 1:매도, 2:매수
-Body - - 908 주문/체결시간 String N
-Body - - 909 체결번호 String N
-Body - - 910 체결가 String N
-Body - - 911 체결량 String N
-Body - - 10 현재가 String N
-Body - - 27 (최우선)매도호가 String N
-Body - - 28 (최우선)매수호가 String N
-Body - - 914 단위체결가 String N
-Body - - 915 단위체결량 String N
-Body - - 938 당일매매수수료 String N
-Body - - 939 당일매매세금 String N
+본문 - - 907 매도수구분 문자열 N 1:매도, 2:매수
+본문 - - 908 주문/체결시간 문자열 N
+본문 - - 909 체결번호 문자열 N
+본문 - - 910 체결가 문자열 N
+본문 - - 911 체결량 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 27 (최우선)매도호가 문자열 N
+본문 - - 28 (최우선)매수호가 문자열 N
+본문 - - 914 단위체결가 문자열 N
+본문 - - 915 단위체결량 문자열 N
+본문 - - 938 당일매매수수료 문자열 N
+본문 - - 939 당일매매세금 문자열 N
 467 / 526
 
-# Page 468
+# 페이지 468
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - - 919 거부사유 String N
-Body - - 920 화면번호 String N
-Body - - 921 터미널번호 String N
-Body - - 922 신용구분 String N 실시간 체결용
-Body - - 923 대출일 String N 실시간 체결용
-Body - - 10010 시간외단일가_현재가 String N
-Body - - 2134 거래소구분 String N 0:통합,1:KRX,2:NXT
-Body - - 2135 거래소구분명 String N 통합,KRX,NXT
-Body - - 2136 SOR여부 String N Y,N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - - 919 거부사유 문자열 N
+본문 - - 920 화면번호 문자열 N
+본문 - - 921 터미널번호 문자열 N
+본문 - - 922 신용구분 문자열 N 실시간 체결용
+본문 - - 923 대출일 문자열 N 실시간 체결용
+본문 - - 10010 시간외단일가_현재가 문자열 N
+본문 - - 2134 거래소구분 문자열 N 0:통합,1:KRX,2:NXT
+본문 - - 2135 거래소구분명 문자열 N 통합,KRX,NXT
+본문 - - 2136 SOR여부 문자열 N Y,N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -23146,7 +23146,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -23185,9 +23185,9 @@ Response Example
 '938':'0',
 468 / 526
 
-# Page 469
+# 페이지 469
 
-Response Example
+응답 예시
 '939':'0',
 '919':'0',
 '920':'',
@@ -23208,7 +23208,7 @@ Response Example
 }
 469 / 526
 
-# Page 470
+# 페이지 470
 
 키움 REST API
 API 정보
@@ -23216,104 +23216,104 @@ API 정보
 API 명 잔고
 API ID 04
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 실시간 항목 04(잔고)는 종목코드(item) 등록과 상관 없이 ACCESS TOKEN을 발급한 계좌에 주문 체결이 발생할 경우 데이터가 수신됩니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1
+본문 refresh 기존등록유지여부 문자열 Y 1
 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
-Body - item 실시간 등록 요소 String N 104
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 data 실시간 등록 리스트 LIST
+본문 - item 실시간 등록 요소 문자열 N 104
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
 470 / 526
 
-# Page 471
+# 페이지 471
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 9201 계좌번호 String N
-Body - - 9001 종목코드,업종코드 String N
-Body - - 917 신용구분 String N
-Body - - 916 대출일 String N
-Body - - 302 종목명 String N
-Body - - 10 현재가 String N
-Body - - 930 보유수량 String N
-Body - - 931 매입단가 String N
-Body - - 932 총매입가(당일누적) String N
-Body - - 933 주문가능수량 String N
-Body - - 945 당일순매수량 String N
-Body - - 946 매도/매수구분 String N 계약,주
-Body - - 950 당일총매도손익 String N
-Body - - 951 Extra Item String N
-Body - - 27 (최우선)매도호가 String N
-Body - - 28 (최우선)매수호가 String N
-Body - - 307 기준가 String N
-Body - - 8019 손익률(실현손익) String N
-Body - - 957 신용금액 String N
-Body - - 958 신용이자 String N
-Body - - 918 만기일 String N
-Body - - 990 당일실현손익(유가) String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 9201 계좌번호 문자열 N
+본문 - - 9001 종목코드,업종코드 문자열 N
+본문 - - 917 신용구분 문자열 N
+본문 - - 916 대출일 문자열 N
+본문 - - 302 종목명 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 930 보유수량 문자열 N
+본문 - - 931 매입단가 문자열 N
+본문 - - 932 총매입가(당일누적) 문자열 N
+본문 - - 933 주문가능수량 문자열 N
+본문 - - 945 당일순매수량 문자열 N
+본문 - - 946 매도/매수구분 문자열 N 계약,주
+본문 - - 950 당일총매도손익 문자열 N
+본문 - - 951 Extra Item 문자열 N
+본문 - - 27 (최우선)매도호가 문자열 N
+본문 - - 28 (최우선)매수호가 문자열 N
+본문 - - 307 기준가 문자열 N
+본문 - - 8019 손익률(실현손익) 문자열 N
+본문 - - 957 신용금액 문자열 N
+본문 - - 958 신용이자 문자열 N
+본문 - - 918 만기일 문자열 N
+본문 - - 990 당일실현손익(유가) 문자열 N
 당일실현손익율(유가
-Body - - 991 String N
+본문 - - 991 문자열 N
 )
-Body - - 992 당일실현손익(신용) String N
+본문 - - 992 당일실현손익(신용) 문자열 N
 당일실현손익율(신용
-Body - - 993 String N
+본문 - - 993 문자열 N
 )
-Body - - 959 담보대출수량 String N
-Body - - 924 Extra Item String N
-Request Example
+본문 - - 959 담보대출수량 문자열 N
+본문 - - 924 Extra Item 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
 471 / 526
 
-# Page 472
+# 페이지 472
 
-Request Example
+요청 예시
 "refresh": "1",
 "data": [
 {
@@ -23326,7 +23326,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -23375,7 +23375,7 @@ Response Example
 }
 472 / 526
 
-# Page 473
+# 페이지 473
 
 키움 REST API
 API 정보
@@ -23383,92 +23383,92 @@ API 정보
 API 명 주식기세
 API ID 0A
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
 특정 종목이 기세일때 발생하는 데이터로 시장에서 체결없이 현재가가 변경되는 대량매매나 거래소에서 종목 종가데이터 보정시 발생하는 실시간 입니다.
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1
+본문 refresh 기존등록유지여부 문자열 Y 1
 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
 473 / 526
 
-# Page 474
+# 페이지 474
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
 통신결과에대한메시지(등록,해지시에만 값 전송,데이터
-Body return_msg 결과메시지 String N
+본문 return_msg 결과메시지 문자열 N
 실시간 수신시 미전송)
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 10 현재가 String N
-Body - - 11 전일대비 String N
-Body - - 12 등락율 String N
-Body - - 27 (최우선)매도호가 String N
-Body - - 28 (최우선)매수호가 String N
-Body - - 13 누적거래량 String N
-Body - - 14 누적거래대금 String N
-Body - - 16 시가 String N
-Body - - 17 고가 String N
-Body - - 18 저가 String N
-Body - - 25 전일대비기호 String N
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 10 현재가 문자열 N
+본문 - - 11 전일대비 문자열 N
+본문 - - 12 등락율 문자열 N
+본문 - - 27 (최우선)매도호가 문자열 N
+본문 - - 28 (최우선)매수호가 문자열 N
+본문 - - 13 누적거래량 문자열 N
+본문 - - 14 누적거래대금 문자열 N
+본문 - - 16 시가 문자열 N
+본문 - - 17 고가 문자열 N
+본문 - - 18 저가 문자열 N
+본문 - - 25 전일대비기호 문자열 N
 전일거래량대비(계약
-Body - - 26 String N
+본문 - - 26 문자열 N
 ,주)
-Body - - 29 거래대금증감 String N
+본문 - - 29 거래대금증감 문자열 N
 전일거래량대비(비율
-Body - - 30 String N
+본문 - - 30 문자열 N
 )
-Body - - 31 거래회전율 String N
-Body - - 32 거래비용 String N
-Body - - 311 시가총액(억) String N
-Body - - 567 상한가발생시간 String N
-Body - - 568 하한가발생시간 String N
-Request Example
+본문 - - 31 거래회전율 문자열 N
+본문 - - 32 거래비용 문자열 N
+본문 - - 311 시가총액(억) 문자열 N
+본문 - - 567 상한가발생시간 문자열 N
+본문 - - 568 하한가발생시간 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -23484,12 +23484,12 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 474 / 526
 
-# Page 475
+# 페이지 475
 
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -23530,7 +23530,7 @@ Response Example
 }
 475 / 526
 
-# Page 476
+# 페이지 476
 
 키움 REST API
 API 정보
@@ -23538,122 +23538,122 @@ API 정보
 API 명 주식체결
 API ID 0B
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 476 / 526
 
-# Page 477
+# 페이지 477
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0B,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 20 체결시간 String N
-Body - - 10 현재가 String N
-Body - - 11 전일대비 String N
-Body - - 12 등락율 String N
-Body - - 27 (최우선)매도호가 String N
-Body - - 28 (최우선)매수호가 String N
-Body - - 15 거래량 String N +는 매수체결,-는 매도체결
-Body - - 13 누적거래량 String N
-Body - - 14 누적거래대금 String N
-Body - - 16 시가 String N
-Body - - 17 고가 String N
-Body - - 18 저가 String N
-Body - - 25 전일대비기호 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0B,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 20 체결시간 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 11 전일대비 문자열 N
+본문 - - 12 등락율 문자열 N
+본문 - - 27 (최우선)매도호가 문자열 N
+본문 - - 28 (최우선)매수호가 문자열 N
+본문 - - 15 거래량 문자열 N +는 매수체결,-는 매도체결
+본문 - - 13 누적거래량 문자열 N
+본문 - - 14 누적거래대금 문자열 N
+본문 - - 16 시가 문자열 N
+본문 - - 17 고가 문자열 N
+본문 - - 18 저가 문자열 N
+본문 - - 25 전일대비기호 문자열 N
 전일거래량대비(계약
-Body - - 26 String N
+본문 - - 26 문자열 N
 ,주)
-Body - - 29 거래대금증감 String N
+본문 - - 29 거래대금증감 문자열 N
 전일거래량대비(비율
-Body - - 30 String N
+본문 - - 30 문자열 N
 )
-Body - - 31 거래회전율 String N
-Body - - 32 거래비용 String N
-Body - - 228 체결강도 String N
-Body - - 311 시가총액(억) String N
-Body - - 290 장구분 String N 1: 장전 시간외 , 2: 장중 , 3: 장후 시간외
-Body - - 691 K.O 접근도 String N
-Body - - 567 상한가발생시간 String N
-Body - - 568 하한가발생시간 String N
+본문 - - 31 거래회전율 문자열 N
+본문 - - 32 거래비용 문자열 N
+본문 - - 228 체결강도 문자열 N
+본문 - - 311 시가총액(억) 문자열 N
+본문 - - 290 장구분 문자열 N 1: 장전 시간외 , 2: 장중 , 3: 장후 시간외
+본문 - - 691 K.O 접근도 문자열 N
+본문 - - 567 상한가발생시간 문자열 N
+본문 - - 568 하한가발생시간 문자열 N
 전일 동시간 거래량
-Body - - 851 String N
+본문 - - 851 문자열 N
 비율
-Body - - 1890 시가시간 String N
-Body - - 1891 고가시간 String N
-Body - - 1892 저가시간 String N
-Body - - 1030 매도체결량 String N
-Body - - 1031 매수체결량 String N
+본문 - - 1890 시가시간 문자열 N
+본문 - - 1891 고가시간 문자열 N
+본문 - - 1892 저가시간 문자열 N
+본문 - - 1030 매도체결량 문자열 N
+본문 - - 1031 매수체결량 문자열 N
 477 / 526
 
-# Page 478
+# 페이지 478
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - - 1032 매수비율 String N
-Body - - 1071 매도체결건수 String N
-Body - - 1072 매수체결건수 String N
-Body - - 1313 순간거래대금 String N
-Body - - 1315 매도체결량_단건 String N
-Body - - 1316 매수체결량_단건 String N
-Body - - 1314 순매수체결량 String N
-Body - - 1497 CFD증거금 String N
-Body - - 1498 유지증거금 String N
-Body - - 620 당일거래평균가 String N
-Body - - 732 CFD거래비용 String N
-Body - - 852 대주거래비용 String N
-Body - - 9081 거래소구분 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - - 1032 매수비율 문자열 N
+본문 - - 1071 매도체결건수 문자열 N
+본문 - - 1072 매수체결건수 문자열 N
+본문 - - 1313 순간거래대금 문자열 N
+본문 - - 1315 매도체결량_단건 문자열 N
+본문 - - 1316 매수체결량_단건 문자열 N
+본문 - - 1314 순매수체결량 문자열 N
+본문 - - 1497 CFD증거금 문자열 N
+본문 - - 1498 유지증거금 문자열 N
+본문 - - 620 당일거래평균가 문자열 N
+본문 - - 732 CFD거래비용 문자열 N
+본문 - - 852 대주거래비용 문자열 N
+본문 - - 9081 거래소구분 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -23669,7 +23669,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -23700,9 +23700,9 @@ Response Example
 '25': '5',
 478 / 526
 
-# Page 479
+# 페이지 479
 
-Response Example
+응답 예시
 '26': '-1057122',
 '29': '-22041267850',
 '30': '-96.64',
@@ -23739,7 +23739,7 @@ Response Example
 }
 479 / 526
 
-# Page 480
+# 페이지 480
 
 키움 REST API
 API 정보
@@ -23747,67 +23747,67 @@ API 정보
 API 명 주식우선호가
 API ID 0C
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 480 / 526
 
-# Page 481
+# 페이지 481
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 27 (최우선)매도호가 String N
-Body - - 28 (최우선)매수호가 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 27 (최우선)매도호가 문자열 N
+본문 - - 28 (최우선)매수호가 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -23823,7 +23823,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -23847,7 +23847,7 @@ Response Example
 }
 481 / 526
 
-# Page 482
+# 페이지 482
 
 키움 REST API
 API 정보
@@ -23855,296 +23855,296 @@ API 정보
 API 명 주식호가잔량
 API ID 0D
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 482 / 526
 
-# Page 483
+# 페이지 483
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 21 호가시간 String N
-Body - - 41 매도호가1 String N
-Body - - 61 매도호가수량1 String N
-Body - - 81 매도호가직전대비1 String N
-Body - - 51 매수호가1 String N
-Body - - 71 매수호가수량1 String N
-Body - - 91 매수호가직전대비1 String N
-Body - - 42 매도호가2 String N
-Body - - 62 매도호가수량2 String N
-Body - - 82 매도호가직전대비2 String N
-Body - - 52 매수호가2 String N
-Body - - 72 매수호가수량2 String N
-Body - - 92 매수호가직전대비2 String N
-Body - - 43 매도호가3 String N
-Body - - 63 매도호가수량3 String N
-Body - - 83 매도호가직전대비3 String N
-Body - - 53 매수호가3 String N
-Body - - 73 매수호가수량3 String N
-Body - - 93 매수호가직전대비3 String N
-Body - - 44 매도호가4 String N
-Body - - 64 매도호가수량4 String N
-Body - - 84 매도호가직전대비4 String N
-Body - - 54 매수호가4 String N
-Body - - 74 매수호가수량4 String N
-Body - - 94 매수호가직전대비4 String N
-Body - - 45 매도호가5 String N
-Body - - 65 매도호가수량5 String N
-Body - - 85 매도호가직전대비5 String N
-Body - - 55 매수호가5 String N
-Body - - 75 매수호가수량5 String N
-Body - - 95 매수호가직전대비5 String N
-Body - - 46 매도호가6 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 21 호가시간 문자열 N
+본문 - - 41 매도호가1 문자열 N
+본문 - - 61 매도호가수량1 문자열 N
+본문 - - 81 매도호가직전대비1 문자열 N
+본문 - - 51 매수호가1 문자열 N
+본문 - - 71 매수호가수량1 문자열 N
+본문 - - 91 매수호가직전대비1 문자열 N
+본문 - - 42 매도호가2 문자열 N
+본문 - - 62 매도호가수량2 문자열 N
+본문 - - 82 매도호가직전대비2 문자열 N
+본문 - - 52 매수호가2 문자열 N
+본문 - - 72 매수호가수량2 문자열 N
+본문 - - 92 매수호가직전대비2 문자열 N
+본문 - - 43 매도호가3 문자열 N
+본문 - - 63 매도호가수량3 문자열 N
+본문 - - 83 매도호가직전대비3 문자열 N
+본문 - - 53 매수호가3 문자열 N
+본문 - - 73 매수호가수량3 문자열 N
+본문 - - 93 매수호가직전대비3 문자열 N
+본문 - - 44 매도호가4 문자열 N
+본문 - - 64 매도호가수량4 문자열 N
+본문 - - 84 매도호가직전대비4 문자열 N
+본문 - - 54 매수호가4 문자열 N
+본문 - - 74 매수호가수량4 문자열 N
+본문 - - 94 매수호가직전대비4 문자열 N
+본문 - - 45 매도호가5 문자열 N
+본문 - - 65 매도호가수량5 문자열 N
+본문 - - 85 매도호가직전대비5 문자열 N
+본문 - - 55 매수호가5 문자열 N
+본문 - - 75 매수호가수량5 문자열 N
+본문 - - 95 매수호가직전대비5 문자열 N
+본문 - - 46 매도호가6 문자열 N
 483 / 526
 
-# Page 484
+# 페이지 484
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - - 66 매도호가수량6 String N
-Body - - 86 매도호가직전대비6 String N
-Body - - 56 매수호가6 String N
-Body - - 76 매수호가수량6 String N
-Body - - 96 매수호가직전대비6 String N
-Body - - 47 매도호가7 String N
-Body - - 67 매도호가수량7 String N
-Body - - 87 매도호가직전대비7 String N
-Body - - 57 매수호가7 String N
-Body - - 77 매수호가수량7 String N
-Body - - 97 매수호가직전대비7 String N
-Body - - 48 매도호가8 String N
-Body - - 68 매도호가수량8 String N
-Body - - 88 매도호가직전대비8 String N
-Body - - 58 매수호가8 String N
-Body - - 78 매수호가수량8 String N
-Body - - 98 매수호가직전대비8 String N
-Body - - 49 매도호가9 String N
-Body - - 69 매도호가수량9 String N
-Body - - 89 매도호가직전대비9 String N
-Body - - 59 매수호가9 String N
-Body - - 79 매수호가수량9 String N
-Body - - 99 매수호가직전대비9 String N
-Body - - 50 매도호가10 String N
-Body - - 70 매도호가수량10 String N
-Body - - 60 매수호가10 String N
-Body - - 90 매도호가직전대비10 String N
-Body - - 80 매수호가수량10 String N
-Body - - 100 매수호가직전대비10 String N
-Body - - 121 매도호가총잔량 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - - 66 매도호가수량6 문자열 N
+본문 - - 86 매도호가직전대비6 문자열 N
+본문 - - 56 매수호가6 문자열 N
+본문 - - 76 매수호가수량6 문자열 N
+본문 - - 96 매수호가직전대비6 문자열 N
+본문 - - 47 매도호가7 문자열 N
+본문 - - 67 매도호가수량7 문자열 N
+본문 - - 87 매도호가직전대비7 문자열 N
+본문 - - 57 매수호가7 문자열 N
+본문 - - 77 매수호가수량7 문자열 N
+본문 - - 97 매수호가직전대비7 문자열 N
+본문 - - 48 매도호가8 문자열 N
+본문 - - 68 매도호가수량8 문자열 N
+본문 - - 88 매도호가직전대비8 문자열 N
+본문 - - 58 매수호가8 문자열 N
+본문 - - 78 매수호가수량8 문자열 N
+본문 - - 98 매수호가직전대비8 문자열 N
+본문 - - 49 매도호가9 문자열 N
+본문 - - 69 매도호가수량9 문자열 N
+본문 - - 89 매도호가직전대비9 문자열 N
+본문 - - 59 매수호가9 문자열 N
+본문 - - 79 매수호가수량9 문자열 N
+본문 - - 99 매수호가직전대비9 문자열 N
+본문 - - 50 매도호가10 문자열 N
+본문 - - 70 매도호가수량10 문자열 N
+본문 - - 60 매수호가10 문자열 N
+본문 - - 90 매도호가직전대비10 문자열 N
+본문 - - 80 매수호가수량10 문자열 N
+본문 - - 100 매수호가직전대비10 문자열 N
+본문 - - 121 매도호가총잔량 문자열 N
 매도호가총잔량직전
-Body - - 122 String N
+본문 - - 122 문자열 N
 대비
-Body - - 125 매수호가총잔량 String N
+본문 - - 125 매수호가총잔량 문자열 N
 매수호가총잔량직전
-Body - - 126 String N
+본문 - - 126 문자열 N
 대비
-Body - - 23 예상체결가 String N
-Body - - 24 예상체결수량 String N
-Body - - 128 순매수잔량 String N
+본문 - - 23 예상체결가 문자열 N
+본문 - - 24 예상체결수량 문자열 N
+본문 - - 128 순매수잔량 문자열 N
 484 / 526
 
-# Page 485
+# 페이지 485
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - - 129 매수비율 String N
-Body - - 138 순매도잔량 String N
-Body - - 139 매도비율 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - - 129 매수비율 문자열 N
+본문 - - 138 순매도잔량 문자열 N
+본문 - - 139 매도비율 문자열 N
 예상체결가전일종가
-Body - - 200 String N
+본문 - - 200 문자열 N
 대비
 예상체결가전일종가
-Body - - 201 String N
+본문 - - 201 문자열 N
 대비등락율
 예상체결가전일종가
-Body - - 238 String N
+본문 - - 238 문자열 N
 대비기호
-Body - - 291 예상체결가 String N 예상체결 시간동안에만 유효한 값
-Body - - 292 예상체결량 String N
+본문 - - 291 예상체결가 문자열 N 예상체결 시간동안에만 유효한 값
+본문 - - 292 예상체결량 문자열 N
 예상체결가전일대비
-Body - - 293 String N
+본문 - - 293 문자열 N
 기호
-Body - - 294 예상체결가전일대비 String N
+본문 - - 294 예상체결가전일대비 문자열 N
 예상체결가전일대비
-Body - - 295 String N
+본문 - - 295 문자열 N
 등락율
-Body - - 621 LP매도호가수량1 String N
-Body - - 631 LP매수호가수량1 String N
-Body - - 622 LP매도호가수량2 String N
-Body - - 632 LP매수호가수량2 String N
-Body - - 623 LP매도호가수량3 String N
-Body - - 633 LP매수호가수량3 String N
-Body - - 624 LP매도호가수량4 String N
-Body - - 634 LP매수호가수량4 String N
-Body - - 625 LP매도호가수량5 String N
-Body - - 635 LP매수호가수량5 String N
-Body - - 626 LP매도호가수량6 String N
-Body - - 636 LP매수호가수량6 String N
-Body - - 627 LP매도호가수량7 String N
-Body - - 637 LP매수호가수량7 String N
-Body - - 628 LP매도호가수량8 String N
-Body - - 638 LP매수호가수량8 String N
-Body - - 629 LP매도호가수량9 String N
-Body - - 639 LP매수호가수량9 String N
-Body - - 630 LP매도호가수량10 String N
-Body - - 640 LP매수호가수량10 String N
-Body - - 13 누적거래량 String N
+본문 - - 621 LP매도호가수량1 문자열 N
+본문 - - 631 LP매수호가수량1 문자열 N
+본문 - - 622 LP매도호가수량2 문자열 N
+본문 - - 632 LP매수호가수량2 문자열 N
+본문 - - 623 LP매도호가수량3 문자열 N
+본문 - - 633 LP매수호가수량3 문자열 N
+본문 - - 624 LP매도호가수량4 문자열 N
+본문 - - 634 LP매수호가수량4 문자열 N
+본문 - - 625 LP매도호가수량5 문자열 N
+본문 - - 635 LP매수호가수량5 문자열 N
+본문 - - 626 LP매도호가수량6 문자열 N
+본문 - - 636 LP매수호가수량6 문자열 N
+본문 - - 627 LP매도호가수량7 문자열 N
+본문 - - 637 LP매수호가수량7 문자열 N
+본문 - - 628 LP매도호가수량8 문자열 N
+본문 - - 638 LP매수호가수량8 문자열 N
+본문 - - 629 LP매도호가수량9 문자열 N
+본문 - - 639 LP매수호가수량9 문자열 N
+본문 - - 630 LP매도호가수량10 문자열 N
+본문 - - 640 LP매수호가수량10 문자열 N
+본문 - - 13 누적거래량 문자열 N
 전일거래량대비예상
-Body - - 299 String N
+본문 - - 299 문자열 N
 체결율
-Body - - 215 장운영구분 String N
+본문 - - 215 장운영구분 문자열 N
 485 / 526
 
-# Page 486
+# 페이지 486
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - - 216 투자자별ticker String N
-Body - - 6044 KRX 매도호가잔량1 String N
-Body - - 6045 KRX 매도호가잔량2 String N
-Body - - 6046 KRX 매도호가잔량3 String N
-Body - - 6047 KRX 매도호가잔량4 String N
-Body - - 6048 KRX 매도호가잔량5 String N
-Body - - 6049 KRX 매도호가잔량6 String N
-Body - - 6050 KRX 매도호가잔량7 String N
-Body - - 6051 KRX 매도호가잔량8 String N
-Body - - 6052 KRX 매도호가잔량9 String N
-Body - - 6053 KRX 매도호가잔량10 String N
-Body - - 6054 KRX 매수호가잔량1 String N
-Body - - 6055 KRX 매수호가잔량2 String N
-Body - - 6056 KRX 매수호가잔량3 String N
-Body - - 6057 KRX 매수호가잔량4 String N
-Body - - 6058 KRX 매수호가잔량5 String N
-Body - - 6059 KRX 매수호가잔량6 String N
-Body - - 6060 KRX 매수호가잔량7 String N
-Body - - 6061 KRX 매수호가잔량8 String N
-Body - - 6062 KRX 매수호가잔량9 String N
-Body - - 6063 KRX 매수호가잔량10 String N
-Body - - 6064 KRX 매도호가총잔량 String N
-Body - - 6065 KRX 매수호가총잔량 String N
-Body - - 6066 NXT 매도호가잔량1 String N
-Body - - 6067 NXT 매도호가잔량2 String N
-Body - - 6068 NXT 매도호가잔량3 String N
-Body - - 6069 NXT 매도호가잔량4 String N
-Body - - 6070 NXT 매도호가잔량5 String N
-Body - - 6071 NXT 매도호가잔량6 String N
-Body - - 6072 NXT 매도호가잔량7 String N
-Body - - 6073 NXT 매도호가잔량8 String N
-Body - - 6074 NXT 매도호가잔량9 String N
-Body - - 6075 NXT 매도호가잔량10 String N
-Body - - 6076 NXT 매수호가잔량1 String N
-Body - - 6077 NXT 매수호가잔량2 String N
-Body - - 6078 NXT 매수호가잔량3 String N
-Body - - 6079 NXT 매수호가잔량4 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - - 216 투자자별ticker 문자열 N
+본문 - - 6044 KRX 매도호가잔량1 문자열 N
+본문 - - 6045 KRX 매도호가잔량2 문자열 N
+본문 - - 6046 KRX 매도호가잔량3 문자열 N
+본문 - - 6047 KRX 매도호가잔량4 문자열 N
+본문 - - 6048 KRX 매도호가잔량5 문자열 N
+본문 - - 6049 KRX 매도호가잔량6 문자열 N
+본문 - - 6050 KRX 매도호가잔량7 문자열 N
+본문 - - 6051 KRX 매도호가잔량8 문자열 N
+본문 - - 6052 KRX 매도호가잔량9 문자열 N
+본문 - - 6053 KRX 매도호가잔량10 문자열 N
+본문 - - 6054 KRX 매수호가잔량1 문자열 N
+본문 - - 6055 KRX 매수호가잔량2 문자열 N
+본문 - - 6056 KRX 매수호가잔량3 문자열 N
+본문 - - 6057 KRX 매수호가잔량4 문자열 N
+본문 - - 6058 KRX 매수호가잔량5 문자열 N
+본문 - - 6059 KRX 매수호가잔량6 문자열 N
+본문 - - 6060 KRX 매수호가잔량7 문자열 N
+본문 - - 6061 KRX 매수호가잔량8 문자열 N
+본문 - - 6062 KRX 매수호가잔량9 문자열 N
+본문 - - 6063 KRX 매수호가잔량10 문자열 N
+본문 - - 6064 KRX 매도호가총잔량 문자열 N
+본문 - - 6065 KRX 매수호가총잔량 문자열 N
+본문 - - 6066 NXT 매도호가잔량1 문자열 N
+본문 - - 6067 NXT 매도호가잔량2 문자열 N
+본문 - - 6068 NXT 매도호가잔량3 문자열 N
+본문 - - 6069 NXT 매도호가잔량4 문자열 N
+본문 - - 6070 NXT 매도호가잔량5 문자열 N
+본문 - - 6071 NXT 매도호가잔량6 문자열 N
+본문 - - 6072 NXT 매도호가잔량7 문자열 N
+본문 - - 6073 NXT 매도호가잔량8 문자열 N
+본문 - - 6074 NXT 매도호가잔량9 문자열 N
+본문 - - 6075 NXT 매도호가잔량10 문자열 N
+본문 - - 6076 NXT 매수호가잔량1 문자열 N
+본문 - - 6077 NXT 매수호가잔량2 문자열 N
+본문 - - 6078 NXT 매수호가잔량3 문자열 N
+본문 - - 6079 NXT 매수호가잔량4 문자열 N
 486 / 526
 
-# Page 487
+# 페이지 487
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - - 6080 NXT 매수호가잔량5 String N
-Body - - 6081 NXT 매수호가잔량6 String N
-Body - - 6082 NXT 매수호가잔량7 String N
-Body - - 6083 NXT 매수호가잔량8 String N
-Body - - 6084 NXT 매수호가잔량9 String N
-Body - - 6085 NXT 매수호가잔량10 String N
-Body - - 6086 NXT 매도호가총잔량 String N
-Body - - 6087 NXT 매수호가총잔량 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - - 6080 NXT 매수호가잔량5 문자열 N
+본문 - - 6081 NXT 매수호가잔량6 문자열 N
+본문 - - 6082 NXT 매수호가잔량7 문자열 N
+본문 - - 6083 NXT 매수호가잔량8 문자열 N
+본문 - - 6084 NXT 매수호가잔량9 문자열 N
+본문 - - 6085 NXT 매수호가잔량10 문자열 N
+본문 - - 6086 NXT 매도호가총잔량 문자열 N
+본문 - - 6087 NXT 매수호가총잔량 문자열 N
 KRX 중간가 매도
-Body - - 6100 String N
+본문 - - 6100 문자열 N
 총잔량 증감
 KRX 중간가 매도
-Body - - 6101 String N
+본문 - - 6101 문자열 N
 총잔량
-Body - - 6102 KRX 중간가 String N
+본문 - - 6102 KRX 중간가 문자열 N
 KRX 중간가 매수
-Body - - 6103 String N
+본문 - - 6103 문자열 N
 총잔량
 KRX 중간가 매수
-Body - - 6104 String N
+본문 - - 6104 문자열 N
 총잔량 증감
 NXT중간가 매도
-Body - - 6105 String N
+본문 - - 6105 문자열 N
 총잔량 증감
 NXT중간가 매도
-Body - - 6106 String N
+본문 - - 6106 문자열 N
 총잔량
-Body - - 6107 NXT중간가 String N
+본문 - - 6107 NXT중간가 문자열 N
 NXT중간가 매수
-Body - - 6108 String N
+본문 - - 6108 문자열 N
 총잔량
 NXT중간가 매수
-Body - - 6109 String N
+본문 - - 6109 문자열 N
 총잔량 증감
-Body - - 6110 KRX중간가대비 String N 기준가대비
-Body - - 6111 KRX중간가대비 기호 String N 기준가대비
+본문 - - 6110 KRX중간가대비 문자열 N 기준가대비
+본문 - - 6111 KRX중간가대비 기호 문자열 N 기준가대비
 KRX중간가대비등락
-Body - - 6112 String N 기준가대비
+본문 - - 6112 문자열 N 기준가대비
 율
-Body - - 6113 NXT중간가대비 String N 기준가대비
-Body - - 6114 NXT중간가대비 기호 String N 기준가대비
+본문 - - 6113 NXT중간가대비 문자열 N 기준가대비
+본문 - - 6114 NXT중간가대비 기호 문자열 N 기준가대비
 NXT중간가대비등락
-Body - - 6115 String N 기준가대비
+본문 - - 6115 문자열 N 기준가대비
 율
-Request Example
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -24161,11 +24161,11 @@ Request Example
 ]
 487 / 526
 
-# Page 488
+# 페이지 488
 
-Request Example
+요청 예시
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -24242,9 +24242,9 @@ Response Example
 '60': '-20250',
 488 / 526
 
-# Page 489
+# 페이지 489
 
-Response Example
+응답 예시
 '80': '1062405',
 '100': '0',
 '121': '12622527',
@@ -24326,9 +24326,9 @@ Response Example
 '6078':'0',
 489 / 526
 
-# Page 490
+# 페이지 490
 
-Response Example
+응답 예시
 '6079':'0',
 '6080':'0',
 '6081':'0',
@@ -24360,7 +24360,7 @@ Response Example
 }
 490 / 526
 
-# Page 491
+# 페이지 491
 
 키움 REST API
 API 정보
@@ -24368,80 +24368,80 @@ API 정보
 API 명 주식시간외호가
 API ID 0E
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 491 / 526
 
-# Page 492
+# 페이지 492
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
 거래소별 종목코드
-Body - item 실시간 등록 요소 String N
+본문 - item 실시간 등록 요소 문자열 N
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - values 실시간 값 리스트 LIST N
-Body - - 21 호가시간 String N
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 21 호가시간 문자열 N
 시간외매도호가총잔
-Body - - 131 String N
+본문 - - 131 문자열 N
 량
 시간외매도호가총잔
-Body - - 132 String N
+본문 - - 132 문자열 N
 량직전대비
 시간외매수호가총잔
-Body - - 135 String N
+본문 - - 135 문자열 N
 량
 시간외매수호가총잔
-Body - - 136 String N
+본문 - - 136 문자열 N
 량직전대비
-Request Example
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -24457,7 +24457,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -24484,7 +24484,7 @@ Response Example
 }
 492 / 526
 
-# Page 493
+# 페이지 493
 
 키움 REST API
 API 정보
@@ -24492,134 +24492,134 @@ API 정보
 API 명 주식당일거래원
 API ID 0F
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 493 / 526
 
-# Page 494
+# 페이지 494
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 141 매도거래원1 String N
-Body - - 161 매도거래원수량1 String N
-Body - - 166 매도거래원별증감1 String N
-Body - - 146 매도거래원코드1 String N
-Body - - 271 매도거래원색깔1 String N
-Body - - 151 매수거래원1 String N
-Body - - 171 매수거래원수량1 String N
-Body - - 176 매수거래원별증감1 String N
-Body - - 156 매수거래원코드1 String N
-Body - - 281 매수거래원색깔1 String N
-Body - - 142 매도거래원2 String N
-Body - - 162 매도거래원수량2 String N
-Body - - 167 매도거래원별증감2 String N
-Body - - 147 매도거래원코드2 String N
-Body - - 272 매도거래원색깔2 String N
-Body - - 152 매수거래원2 String N
-Body - - 172 매수거래원수량2 String N
-Body - - 177 매수거래원별증감2 String N
-Body - - 157 매수거래원코드2 String N
-Body - - 282 매수거래원색깔2 String N
-Body - - 143 매도거래원3 String N
-Body - - 163 매도거래원수량3 String N
-Body - - 168 매도거래원별증감3 String N
-Body - - 148 매도거래원코드3 String N
-Body - - 273 매도거래원색깔3 String N
-Body - - 153 매수거래원3 String N
-Body - - 173 매수거래원수량3 String N
-Body - - 178 매수거래원별증감3 String N
-Body - - 158 매수거래원코드3 String N
-Body - - 283 매수거래원색깔3 String N
-Body - - 144 매도거래원4 String N
-Body - - 164 매도거래원수량4 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 141 매도거래원1 문자열 N
+본문 - - 161 매도거래원수량1 문자열 N
+본문 - - 166 매도거래원별증감1 문자열 N
+본문 - - 146 매도거래원코드1 문자열 N
+본문 - - 271 매도거래원색깔1 문자열 N
+본문 - - 151 매수거래원1 문자열 N
+본문 - - 171 매수거래원수량1 문자열 N
+본문 - - 176 매수거래원별증감1 문자열 N
+본문 - - 156 매수거래원코드1 문자열 N
+본문 - - 281 매수거래원색깔1 문자열 N
+본문 - - 142 매도거래원2 문자열 N
+본문 - - 162 매도거래원수량2 문자열 N
+본문 - - 167 매도거래원별증감2 문자열 N
+본문 - - 147 매도거래원코드2 문자열 N
+본문 - - 272 매도거래원색깔2 문자열 N
+본문 - - 152 매수거래원2 문자열 N
+본문 - - 172 매수거래원수량2 문자열 N
+본문 - - 177 매수거래원별증감2 문자열 N
+본문 - - 157 매수거래원코드2 문자열 N
+본문 - - 282 매수거래원색깔2 문자열 N
+본문 - - 143 매도거래원3 문자열 N
+본문 - - 163 매도거래원수량3 문자열 N
+본문 - - 168 매도거래원별증감3 문자열 N
+본문 - - 148 매도거래원코드3 문자열 N
+본문 - - 273 매도거래원색깔3 문자열 N
+본문 - - 153 매수거래원3 문자열 N
+본문 - - 173 매수거래원수량3 문자열 N
+본문 - - 178 매수거래원별증감3 문자열 N
+본문 - - 158 매수거래원코드3 문자열 N
+본문 - - 283 매수거래원색깔3 문자열 N
+본문 - - 144 매도거래원4 문자열 N
+본문 - - 164 매도거래원수량4 문자열 N
 494 / 526
 
-# Page 495
+# 페이지 495
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - - 169 매도거래원별증감4 String N
-Body - - 149 매도거래원코드4 String N
-Body - - 274 매도거래원색깔4 String N
-Body - - 154 매수거래원4 String N
-Body - - 174 매수거래원수량4 String N
-Body - - 179 매수거래원별증감4 String N
-Body - - 159 매수거래원코드4 String N
-Body - - 284 매수거래원색깔4 String N
-Body - - 145 매도거래원5 String N
-Body - - 165 매도거래원수량5 String N
-Body - - 170 매도거래원별증감5 String N
-Body - - 150 매도거래원코드5 String N
-Body - - 275 매도거래원색깔5 String N
-Body - - 155 매수거래원5 String N
-Body - - 175 매수거래원수량5 String N
-Body - - 180 매수거래원별증감5 String N
-Body - - 160 매수거래원코드5 String N
-Body - - 285 매수거래원색깔5 String N
-Body - - 261 외국계매도추정합 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - - 169 매도거래원별증감4 문자열 N
+본문 - - 149 매도거래원코드4 문자열 N
+본문 - - 274 매도거래원색깔4 문자열 N
+본문 - - 154 매수거래원4 문자열 N
+본문 - - 174 매수거래원수량4 문자열 N
+본문 - - 179 매수거래원별증감4 문자열 N
+본문 - - 159 매수거래원코드4 문자열 N
+본문 - - 284 매수거래원색깔4 문자열 N
+본문 - - 145 매도거래원5 문자열 N
+본문 - - 165 매도거래원수량5 문자열 N
+본문 - - 170 매도거래원별증감5 문자열 N
+본문 - - 150 매도거래원코드5 문자열 N
+본문 - - 275 매도거래원색깔5 문자열 N
+본문 - - 155 매수거래원5 문자열 N
+본문 - - 175 매수거래원수량5 문자열 N
+본문 - - 180 매수거래원별증감5 문자열 N
+본문 - - 160 매수거래원코드5 문자열 N
+본문 - - 285 매수거래원색깔5 문자열 N
+본문 - - 261 외국계매도추정합 문자열 N
 외국계매도추정합변
-Body - - 262 String N
+본문 - - 262 문자열 N
 동
-Body - - 263 외국계매수추정합 String N
+본문 - - 263 외국계매수추정합 문자열 N
 외국계매수추정합변
-Body - - 264 String N
+본문 - - 264 문자열 N
 동
-Body - - 267 외국계순매수추정합 String N
-Body - - 268 외국계순매수변동 String N
-Body - - 337 거래소구분 String N
-Request Example
+본문 - - 267 외국계순매수추정합 문자열 N
+본문 - - 268 외국계순매수변동 문자열 N
+본문 - - 337 거래소구분 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -24635,14 +24635,14 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 495 / 526
 
-# Page 496
+# 페이지 496
 
-Response Example
+응답 예시
 'trnm': 'REG',
 'return_code': 0,
 'return_msg': ''
@@ -24719,7 +24719,7 @@ Response Example
 }
 496 / 526
 
-# Page 497
+# 페이지 497
 
 키움 REST API
 API 정보
@@ -24727,80 +24727,80 @@ API 정보
 API 명 ETF NAV
 API ID 0G
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 497 / 526
 
-# Page 498
+# 페이지 498
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 36 NAV String N
-Body - - 37 NAV전일대비 String N
-Body - - 38 NAV등락율 String N
-Body - - 39 추적오차율 String N
-Body - - 20 체결시간 String N
-Body - - 10 현재가 String N
-Body - - 11 전일대비 String N
-Body - - 12 등락율 String N
-Body - - 13 누적거래량 String N
-Body - - 25 전일대비기호 String N
-Body - - 667 ELW기어링비율 String N
-Body - - 668 ELW손익분기율 String N
-Body - - 669 ELW자본지지점 String N
-Body - - 265 NAV/지수괴리율 String N
-Body - - 266 NAV/ETF괴리율 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 36 NAV 문자열 N
+본문 - - 37 NAV전일대비 문자열 N
+본문 - - 38 NAV등락율 문자열 N
+본문 - - 39 추적오차율 문자열 N
+본문 - - 20 체결시간 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 11 전일대비 문자열 N
+본문 - - 12 등락율 문자열 N
+본문 - - 13 누적거래량 문자열 N
+본문 - - 25 전일대비기호 문자열 N
+본문 - - 667 ELW기어링비율 문자열 N
+본문 - - 668 ELW손익분기율 문자열 N
+본문 - - 669 ELW자본지지점 문자열 N
+본문 - - 265 NAV/지수괴리율 문자열 N
+본문 - - 266 NAV/ETF괴리율 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -24816,7 +24816,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -24832,9 +24832,9 @@ Response Example
 '37': '+9.57',
 498 / 526
 
-# Page 499
+# 페이지 499
 
-Response Example
+응답 예시
 '38': '+0.13',
 '39': '1.82',
 '20': '105732',
@@ -24855,7 +24855,7 @@ Response Example
 }
 499 / 526
 
-# Page 500
+# 페이지 500
 
 키움 REST API
 API 정보
@@ -24863,72 +24863,72 @@ API 정보
 API 명 주식예상체결
 API ID 0H
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 500 / 526
 
-# Page 501
+# 페이지 501
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 20 체결시간 String N
-Body - - 10 현재가 String N
-Body - - 11 전일대비 String N
-Body - - 12 등락율 String N
-Body - - 15 거래량 String N +는 매수체결, -는 매도체결
-Body - - 13 누적거래량 String N
-Body - - 25 전일대비기호 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 20 체결시간 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 11 전일대비 문자열 N
+본문 - - 12 등락율 문자열 N
+본문 - - 15 거래량 문자열 N +는 매수체결, -는 매도체결
+본문 - - 13 누적거래량 문자열 N
+본문 - - 25 전일대비기호 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -24944,7 +24944,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -24973,7 +24973,7 @@ Response Example
 }
 501 / 526
 
-# Page 502
+# 페이지 502
 
 키움 REST API
 API 정보
@@ -24981,64 +24981,64 @@ API 정보
 API 명 국제금환산가격
 API ID 0I
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST N
-Body - item 실시간 등록 요소 String N 100 MGD: 원/g, MGU: $/온스,소수점2자리
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0B,0B....)
+본문 data 실시간 등록 리스트 목록 N
+본문 - item 실시간 등록 요소 문자열 N 100 MGD: 원/g, MGU: $/온스,소수점2자리
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0B,0B....)
 502 / 526
 
-# Page 503
+# 페이지 503
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 10 현재가 String N
-Body - - 25 전일대비기호 String N 1:상한, 2:상승, 3:없음, 4:하한, 5:하락
-Body - - 11 전일대비 String N
-Body - - 12 등락율 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 10 현재가 문자열 N
+본문 - - 25 전일대비기호 문자열 N 1:상한, 2:상승, 3:없음, 4:하한, 5:하락
+본문 - - 11 전일대비 문자열 N
+본문 - - 12 등락율 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -25054,7 +25054,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -25080,7 +25080,7 @@ Response Example
 }
 503 / 526
 
-# Page 504
+# 페이지 504
 
 키움 REST API
 API 정보
@@ -25088,77 +25088,77 @@ API 정보
 API 명 업종지수
 API ID 0J
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 504 / 526
 
-# Page 505
+# 페이지 505
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 20 체결시간 String N
-Body - - 10 현재가 String N
-Body - - 11 전일대비 String N
-Body - - 12 등락율 String N
-Body - - 15 거래량 String N +는 매수체결,-는 매도체결
-Body - - 13 누적거래량 String N
-Body - - 14 누적거래대금 String N
-Body - - 16 시가 String N
-Body - - 17 고가 String N
-Body - - 18 저가 String N
-Body - - 25 전일대비기호 String N
-Body - - 26 전일거래량대비 String N 계약,주
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 20 체결시간 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 11 전일대비 문자열 N
+본문 - - 12 등락율 문자열 N
+본문 - - 15 거래량 문자열 N +는 매수체결,-는 매도체결
+본문 - - 13 누적거래량 문자열 N
+본문 - - 14 누적거래대금 문자열 N
+본문 - - 16 시가 문자열 N
+본문 - - 17 고가 문자열 N
+본문 - - 18 저가 문자열 N
+본문 - - 25 전일대비기호 문자열 N
+본문 - - 26 전일거래량대비 문자열 N 계약,주
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -25174,7 +25174,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -25196,9 +25196,9 @@ Response Example
 '16': '-1949.04',
 505 / 526
 
-# Page 506
+# 페이지 506
 
-Response Example
+응답 예시
 '17': '+1961.28',
 '18': '-1756.13',
 '25': '5',
@@ -25213,7 +25213,7 @@ Response Example
 }
 506 / 526
 
-# Page 507
+# 페이지 507
 
 키움 REST API
 API 정보
@@ -25221,79 +25221,79 @@ API 정보
 API 명 업종등락
 API ID 0U
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 507 / 526
 
-# Page 508
+# 페이지 508
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 20 체결시간 String N
-Body - - 252 상승종목수 String N
-Body - - 251 상한종목수 String N
-Body - - 253 보합종목수 String N
-Body - - 255 하락종목수 String N
-Body - - 254 하한종목수 String N
-Body - - 13 누적거래량 String N
-Body - - 14 누적거래대금 String N
-Body - - 10 현재가 String N
-Body - - 11 전일대비 String N
-Body - - 12 등락율 String N
-Body - - 256 거래형성종목수 String N 계약,주
-Body - - 257 거래형성비율 String N
-Body - - 25 전일대비기호 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 20 체결시간 문자열 N
+본문 - - 252 상승종목수 문자열 N
+본문 - - 251 상한종목수 문자열 N
+본문 - - 253 보합종목수 문자열 N
+본문 - - 255 하락종목수 문자열 N
+본문 - - 254 하한종목수 문자열 N
+본문 - - 13 누적거래량 문자열 N
+본문 - - 14 누적거래대금 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 11 전일대비 문자열 N
+본문 - - 12 등락율 문자열 N
+본문 - - 256 거래형성종목수 문자열 N 계약,주
+본문 - - 257 거래형성비율 문자열 N
+본문 - - 25 전일대비기호 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -25309,7 +25309,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -25327,9 +25327,9 @@ Response Example
 '253': '166',
 508 / 526
 
-# Page 509
+# 페이지 509
 
-Response Example
+응답 예시
 '255': '204',
 '254': '16',
 '13': '741784',
@@ -25350,7 +25350,7 @@ Response Example
 }
 509 / 526
 
-# Page 510
+# 페이지 510
 
 키움 REST API
 API 정보
@@ -25358,75 +25358,75 @@ API 정보
 API 명 주식종목정보
 API ID 0g
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 510 / 526
 
-# Page 511
+# 페이지 511
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 297 임의연장 String N
-Body - - 592 장전임의연장 String N
-Body - - 593 장후임의연장 String N
-Body - - 305 상한가 String N
-Body - - 306 하한가 String N
-Body - - 307 기준가 String N
-Body - - 689 조기종료ELW발생 String N
-Body - - 594 통화단위 String N
-Body - - 382 증거금율표시 String N
-Body - - 370 종목정보 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 297 임의연장 문자열 N
+본문 - - 592 장전임의연장 문자열 N
+본문 - - 593 장후임의연장 문자열 N
+본문 - - 305 상한가 문자열 N
+본문 - - 306 하한가 문자열 N
+본문 - - 307 기준가 문자열 N
+본문 - - 689 조기종료ELW발생 문자열 N
+본문 - - 594 통화단위 문자열 N
+본문 - - 382 증거금율표시 문자열 N
+본문 - - 370 종목정보 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -25442,7 +25442,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -25468,9 +25468,9 @@ Response Example
 'type': '0g',
 511 / 526
 
-# Page 512
+# 페이지 512
 
-Response Example
+응답 예시
 'name': '주식종목정보',
 'item': '005930'
 }
@@ -25479,7 +25479,7 @@ Response Example
 }
 512 / 526
 
-# Page 513
+# 페이지 513
 
 키움 REST API
 API 정보
@@ -25487,75 +25487,75 @@ API 정보
 API 명 ELW 이론가
 API ID 0m
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 513 / 526
 
-# Page 514
+# 페이지 514
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 20 체결시간 String N
-Body - - 10 현재가 String N
-Body - - 670 ELW이론가 String N
-Body - - 671 ELW내재변동성 String N
-Body - - 672 ELW델타 String N
-Body - - 673 ELW감마 String N
-Body - - 674 ELW쎄타 String N
-Body - - 675 ELW베가 String N
-Body - - 676 ELW로 String N
-Body - - 706 LP호가내재변동성 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 20 체결시간 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 670 ELW이론가 문자열 N
+본문 - - 671 ELW내재변동성 문자열 N
+본문 - - 672 ELW델타 문자열 N
+본문 - - 673 ELW감마 문자열 N
+본문 - - 674 ELW쎄타 문자열 N
+본문 - - 675 ELW베가 문자열 N
+본문 - - 676 ELW로 문자열 N
+본문 - - 706 LP호가내재변동성 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -25571,7 +25571,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -25597,9 +25597,9 @@ Response Example
 'type': '0m',
 514 / 526
 
-# Page 515
+# 페이지 515
 
-Response Example
+응답 예시
 'name': 'ELW 이론가',
 'item': '57JBHH'
 }
@@ -25608,7 +25608,7 @@ Response Example
 }
 515 / 526
 
-# Page 516
+# 페이지 516
 
 키움 REST API
 API 정보
@@ -25616,72 +25616,72 @@ API 정보
 API 명 장시작시간
 API ID 0s
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 516 / 526
 
-# Page 517
+# 페이지 517
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
 0:KRX장전,3:KRX장시작,P:NXT프리마켓개시,Q:NXT프리마켓
 종료,R:NXT메인마켓개시,S:NXT메인마켓 종료,T:NXT애프터마
-Body - - 215 장운영구분 String N
+본문 - - 215 장운영구분 문자열 N
 켓단일가개시,U:NXT애프터마켓개시,V:NXT종가매매종료,W:N
 XT애프터마켓종료
-Body - - 20 체결시간 String N
-Body - - 214 장시작예상잔여시간 String N
-Request Example
+본문 - - 20 체결시간 문자열 N
+본문 - - 214 장시작예상잔여시간 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -25697,7 +25697,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -25722,7 +25722,7 @@ Response Example
 }
 517 / 526
 
-# Page 518
+# 페이지 518
 
 키움 REST API
 API 정보
@@ -25730,71 +25730,71 @@ API 정보
 API 명 ELW 지표
 API ID 0u
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 518 / 526
 
-# Page 519
+# 페이지 519
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 20 체결시간 String N
-Body - - 666 ELW패리티 String N
-Body - - 1211 ELW프리미엄 String N
-Body - - 667 ELW기어링비율 String N
-Body - - 668 ELW손익분기율 String N
-Body - - 669 ELW자본지지점 String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 20 체결시간 문자열 N
+본문 - - 666 ELW패리티 문자열 N
+본문 - - 1211 ELW프리미엄 문자열 N
+본문 - - 667 ELW기어링비율 문자열 N
+본문 - - 668 ELW손익분기율 문자열 N
+본문 - - 669 ELW자본지지점 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -25810,7 +25810,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -25838,7 +25838,7 @@ Response Example
 }
 519 / 526
 
-# Page 520
+# 페이지 520
 
 키움 REST API
 API 정보
@@ -25846,82 +25846,82 @@ API 정보
 API 명 종목프로그램매매
 API ID 0w
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 520 / 526
 
-# Page 521
+# 페이지 521
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 20 체결시간 String N
-Body - - 10 현재가 String N
-Body - - 25 전일대비기호 String N
-Body - - 11 전일대비 String N
-Body - - 12 등락율 String N
-Body - - 13 누적거래량 String N
-Body - - 202 매도수량 String N
-Body - - 204 매도금액 String N
-Body - - 206 매수수량 String N
-Body - - 208 매수금액 String N
-Body - - 210 순매수수량 String N
-Body - - 211 순매수수량증감 String N 계약,주
-Body - - 212 순매수금액 String N
-Body - - 213 순매수금액증감 String N
-Body - - 214 장시작예상잔여시간 String N
-Body - - 215 장운영구분 String N
-Body - - 216 투자자별ticker String N
-Request Example
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 20 체결시간 문자열 N
+본문 - - 10 현재가 문자열 N
+본문 - - 25 전일대비기호 문자열 N
+본문 - - 11 전일대비 문자열 N
+본문 - - 12 등락율 문자열 N
+본문 - - 13 누적거래량 문자열 N
+본문 - - 202 매도수량 문자열 N
+본문 - - 204 매도금액 문자열 N
+본문 - - 206 매수수량 문자열 N
+본문 - - 208 매수금액 문자열 N
+본문 - - 210 순매수수량 문자열 N
+본문 - - 211 순매수수량증감 문자열 N 계약,주
+본문 - - 212 순매수금액 문자열 N
+본문 - - 213 순매수금액증감 문자열 N
+본문 - - 214 장시작예상잔여시간 문자열 N
+본문 - - 215 장운영구분 문자열 N
+본문 - - 216 투자자별ticker 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -25937,7 +25937,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -25949,9 +25949,9 @@ Response Example
 'data': [
 521 / 526
 
-# Page 522
+# 페이지 522
 
-Response Example
+응답 예시
 {
 'values': {
 '20': '113442',
@@ -25978,7 +25978,7 @@ Response Example
 }
 522 / 526
 
-# Page 523
+# 페이지 523
 
 키움 REST API
 API 정보
@@ -25986,86 +25986,86 @@ API 정보
 API 명 VI발동/해제
 API ID 1h
 기본정보
-Method POST
+메서드 POST
 운영 도메인 wss://api.kiwoom.com:10000
 모의투자 도메인 wss://mockapi.kiwoom.com:10000(KRX만 지원가능)
 URL /api/dostk/websocket
-Format JSON
+형식 JSON
 Content-Type application/json;charset=UTF-8
 개요
-Request
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
+요청
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
 토큰 지정시 토큰타입("Bearer") 붙혀서 호출
-Header authorization 접근토큰 String Y 1000
+헤더 authorization 접근토큰 문자열 Y 1000
 예) Bearer Egicyx...
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header cont-yn 연속조회여부 String N 1
+헤더 cont-yn 연속조회여부 문자열 N 1
 요청시 응답 Header의 cont-yn값 세팅
 응답 Header의 연속조회여부값이 Y일 경우 다음데이터
-Header next-key 연속조회키 String N 50
+헤더 next-key 연속조회키 문자열 N 50
 요청시 응답 Header의 next-key값 세팅
-Body trnm 서비스명 String Y 10 REG : 등록 , REMOVE : 해지
-Body grp_no 그룹번호 String Y 4
+본문 trnm 서비스명 문자열 Y 10 REG : 등록 , REMOVE : 해지
+본문 grp_no 그룹번호 문자열 Y 4
 등록(REG)시
 0:기존유지안함 1:기존유지(Default)
-Body refresh 기존등록유지여부 String Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
+본문 refresh 기존등록유지여부 문자열 Y 1 0일경우 기존등록한 item/type은 해지, 1일경우 기존등록한
 item/type 유지
 해지(REMOVE)시 값 불필요
-Body data 실시간 등록 리스트 LIST
+본문 data 실시간 등록 리스트 LIST
 거래소별 종목코드, 업종코드
-Body - item 실시간 등록 요소 String N 100
+본문 - item 실시간 등록 요소 문자열 N 100
 (KRX:039490,NXT:039490_NX,SOR:039490_AL)
-Body - type 실시간 항목 String Y 2 TR 명(0A,0B....)
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Header api-id TR명 String Y 10
-Header cont-yn 연속조회여부 String N 1 다음 데이터가 있을시 Y값 전달
-Header next-key 연속조회키 String N 50 다음 데이터가 있을시 다음 키값 전달
+본문 - type 실시간 항목 문자열 Y 2 TR 명(0A,0B....)
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+헤더 api-id TR명 문자열 Y 10
+헤더 cont-yn 연속조회여부 문자열 N 1 다음 데이터가 있을시 Y값 전달
+헤더 next-key 연속조회키 문자열 N 50 다음 데이터가 있을시 다음 키값 전달
 통신결과에대한 코드
-Body return_code 결과코드 String N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
+본문 return_code 결과코드 문자열 N (등록,해지요청시에만 값 전송 0:정상,1:오류 , 데이터 실시간
 수신시 미전송)
-Body return_msg 결과메시지 String N 통신결과에대한메시지
-Body trnm 서비스명 String N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
+본문 return_msg 결과메시지 문자열 N 통신결과에대한메시지
+본문 trnm 서비스명 문자열 N 등록,해지요청시 요청값 반환 , 실시간수신시 REAL 반환
 523 / 526
 
-# Page 524
+# 페이지 524
 
-Response
-Require
-구분 Element 한글명 Type Length Description
-d
-Body data 실시간 등록리스트 LIST N
-Body - type 실시간항목 String N TR 명(0A,0B....)
-Body - name 실시간 항목명 String N
-Body - item 실시간 등록 요소 String N 종목코드
-Body - values 실시간 값 리스트 LIST N
-Body - - 9001 종목코드 String N
-Body - - 302 종목명 String N
-Body - - 13 누적거래량 String N
-Body - - 14 누적거래대금 String N
-Body - - 9068 VI발동구분 String N
+응답
+필수 여부
+구분 요소 한글명 타입 길이 설명
+
+본문 data 실시간 등록리스트 목록 N
+본문 - type 실시간항목 문자열 N TR 명(0A,0B....)
+본문 - name 실시간 항목명 문자열 N
+본문 - item 실시간 등록 요소 문자열 N 종목코드
+본문 - values 실시간 값 리스트 목록 N
+본문 - - 9001 종목코드 문자열 N
+본문 - - 302 종목명 문자열 N
+본문 - - 13 누적거래량 문자열 N
+본문 - - 14 누적거래대금 문자열 N
+본문 - - 9068 VI발동구분 문자열 N
 KOSPI,KOSDAQ,전체
-Body - - 9008 String N
+본문 - - 9008 문자열 N
 구분
-Body - - 9075 장전구분 String N
-Body - - 1221 VI발동가격 String N
-Body - - 1223 매매체결처리시각 String N
-Body - - 1224 VI해제시각 String N
-Body - - 1225 VI적용구분 String N 정적/동적/동적+정적
-Body - - 1236 기준가격 정적 String N 계약,주
-Body - - 1237 기준가격 동적 String N
-Body - - 1238 괴리율 정적 String N
-Body - - 1239 괴리율 동적 String N
-Body - - 1489 VI발동가 등락율 String N
-Body - - 1490 VI발동횟수 String N
-Body - - 9069 발동방향구분 String N
-Body - - 1279 Extra Item String N
-Request Example
+본문 - - 9075 장전구분 문자열 N
+본문 - - 1221 VI발동가격 문자열 N
+본문 - - 1223 매매체결처리시각 문자열 N
+본문 - - 1224 VI해제시각 문자열 N
+본문 - - 1225 VI적용구분 문자열 N 정적/동적/동적+정적
+본문 - - 1236 기준가격 정적 문자열 N 계약,주
+본문 - - 1237 기준가격 동적 문자열 N
+본문 - - 1238 괴리율 정적 문자열 N
+본문 - - 1239 괴리율 동적 문자열 N
+본문 - - 1489 VI발동가 등락율 문자열 N
+본문 - - 1490 VI발동횟수 문자열 N
+본문 - - 9069 발동방향구분 문자열 N
+본문 - - 1279 Extra Item 문자열 N
+요청 예시
 {
 "trnm": "REG",
 "grp_no": "1",
@@ -26081,7 +26081,7 @@ Request Example
 }
 ]
 }
-Response Example
+응답 예시
 #요청
 {
 'trnm': 'REG',
@@ -26089,9 +26089,9 @@ Response Example
 'return_msg': ''
 524 / 526
 
-# Page 525
+# 페이지 525
 
-Response Example
+응답 예시
 }
 #실시간 수신
 {
@@ -26127,7 +26127,7 @@ Response Example
 }
 525 / 526
 
-# Page 526
+# 페이지 526
 
 키움 REST API
 No, 오류코드 오류메시지
