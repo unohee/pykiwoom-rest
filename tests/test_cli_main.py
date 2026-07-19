@@ -161,7 +161,7 @@ def test_order_handler_rejects_invalid_qty_before_client_creation(monkeypatch, c
         cli.cmd_order(_args(action="buy", code="005930", qty=-1, price=0))
 
     create_client.assert_not_called()
-    assert "positive integer" in capsys.readouterr().err
+    assert "양의 정수" in capsys.readouterr().err
 
 
 def test_cancel_order_uses_code_and_order_no_contract(monkeypatch, capsys):
@@ -169,9 +169,7 @@ def test_cancel_order_uses_code_and_order_no_contract(monkeypatch, capsys):
     client.cancel_order.return_value = {"return_code": 0}
     monkeypatch.setattr(cli, "_create_client", lambda: client)
 
-    cli.cmd_order(
-        _args(action="cancel", code="005930", order_no="123456", qty=1, price=0)
-    )
+    cli.cmd_order(_args(action="cancel", code="005930", order_no="123456", qty=1, price=0))
 
     client.cancel_order.assert_called_once_with("123456", "005930", 1)
     assert json.loads(capsys.readouterr().out)["data"]["order"]["action"] == "cancel"
@@ -210,7 +208,7 @@ def test_query_rejects_unsafe_method_on_safe_domain(monkeypatch, capsys):
         cli.cmd_query(_args(domain="stock", method="request", args=[]))
 
     client.stock.request.assert_not_called()
-    assert "Unsafe or unsupported query method" in capsys.readouterr().err
+    assert "안전하지 않거나 지원하지 않는 조회 메서드" in capsys.readouterr().err
 
 
 def test_account_balance_handles_flat_kt00018_response(monkeypatch, capsys):
@@ -270,7 +268,9 @@ def test_cancel_rejects_invalid_qty_but_does_not_require_price(monkeypatch):
 def test_cancel_parser_contract_success_and_failures():
     parser = cli.build_parser()
 
-    args = parser.parse_args(["order", "cancel", "005930", "--order-no", "123", "--qty", "1", "--price", "0", "--yes"])
+    args = parser.parse_args(
+        ["order", "cancel", "005930", "--order-no", "123", "--qty", "1", "--price", "0", "--yes"]
+    )
     assert args.action == "cancel"
     assert args.code == "005930"
     assert args.order_no == "123"
@@ -278,9 +278,13 @@ def test_cancel_parser_contract_success_and_failures():
     assert args.price == 0
 
     with pytest.raises(SystemExit):
-        parser.parse_args(["order", "cancel", "005930", "--order-no", "123", "--qty", "0", "--price", "0"])
+        parser.parse_args(
+            ["order", "cancel", "005930", "--order-no", "123", "--qty", "0", "--price", "0"]
+        )
     with pytest.raises(SystemExit):
-        parser.parse_args(["order", "cancel", "005930", "--order-no", "123", "--qty", "1", "--price", "-1"])
+        parser.parse_args(
+            ["order", "cancel", "005930", "--order-no", "123", "--qty", "1", "--price", "-1"]
+        )
 
 
 def test_query_blocks_token_method_before_client_creation(monkeypatch):

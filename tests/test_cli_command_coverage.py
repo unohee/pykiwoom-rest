@@ -91,7 +91,9 @@ class TestCliCommandCoverage:
 
         assert cli._extract_output({"data": {"output": {"x": 1}}}) == {"data": {"output": {"x": 1}}}
         assert cli._find_list_in_response({"metadata": {}, "nested": [{"x": 1}]}) == [{"x": 1}]
-        summary, holdings = cli._split_account_balance({"output1": {"cash": 1}, "output2": [{"stk_cd": "x"}]})
+        summary, holdings = cli._split_account_balance(
+            {"output1": {"cash": 1}, "output2": [{"stk_cd": "x"}]}
+        )
         assert summary == {"cash": 1} and holdings == [{"stk_cd": "x"}]
 
     def test_parser_helpers_schema_and_main_dispatch(self, monkeypatch, capsys):
@@ -99,7 +101,7 @@ class TestCliCommandCoverage:
         assert cli._non_negative_int_arg("0") == 0
         assert cli._is_safe_query_method("get_quote")
         assert not cli._is_safe_query_method("buy_stock")
-        with pytest.raises(Exception):
+        with pytest.raises(cli.argparse.ArgumentTypeError):
             cli._chart_interval_arg("2")
 
         monkeypatch.setattr(cli, "list_types", lambda: ["Stock"])
@@ -107,14 +109,20 @@ class TestCliCommandCoverage:
         assert "Stock" in capsys.readouterr().out
 
         called = []
-        monkeypatch.setattr(cli, "build_parser", lambda: MagicMock(parse_args=lambda: args(command="token"), print_help=MagicMock()))
+        monkeypatch.setattr(
+            cli,
+            "build_parser",
+            lambda: MagicMock(parse_args=lambda: args(command="token"), print_help=MagicMock()),
+        )
         monkeypatch.setattr(cli, "cmd_token", lambda parsed: called.append(parsed.command))
         monkeypatch.setattr(cli, "_close_clients", lambda: None)
         cli.main()
         assert called == ["token"]
 
     def test_output_market_client_and_close_helpers(self, monkeypatch):
-        cli._market_status.update(checked=False, is_holiday=None, last_business_day=None, notice="notice")
+        cli._market_status.update(
+            checked=False, is_holiday=None, last_business_day=None, notice="notice"
+        )
         stream = StringIO()
         cli._out({"data": {"rows": [{"x": 1}]}}, fmt="table", stream=stream)
         assert "notice" in stream.getvalue()
@@ -155,7 +163,9 @@ class TestCliCommandCoverage:
         monkeypatch.setattr(cli, "_create_client", lambda: client)
 
         cli.cmd_price(args(code="005930", orderbook=True))
-        cli.cmd_chart(args(code="005930", minute=False, weekly=False, monthly=False, yearly=False, count=1))
+        cli.cmd_chart(
+            args(code="005930", minute=False, weekly=False, monthly=False, yearly=False, count=1)
+        )
         cli.cmd_sector(args(all=True, code=None))
         cli.cmd_sector(args(all=False, code="0001"))
         cli.cmd_investor(args(code="005930", institution=False, program=False))
@@ -186,7 +196,9 @@ class TestCliCommandCoverage:
         class SchemaError(cli.SchemaTypeNotFound):
             pass
 
-        monkeypatch.setattr(cli, "get_schema", lambda _: (_ for _ in ()).throw(SchemaError("missing", ["Stock"])))
+        monkeypatch.setattr(
+            cli, "get_schema", lambda _: (_ for _ in ()).throw(SchemaError("missing", ["Stock"]))
+        )
         with pytest.raises(SystemExit):
             cli.cmd_schema(args(json=False, type_name="Missing"))
         assert "missing" in capsys.readouterr().err
@@ -220,9 +232,17 @@ class TestCliCommandCoverage:
         assert closed == [True]
         assert captured[-1]["error"] == "boom"
 
-    @pytest.mark.parametrize("fn,value", [(cli._positive_int_arg, "0"), (cli._positive_int_arg, "bad"), (cli._non_negative_int_arg, "-1"), (cli._non_negative_int_arg, "bad")])
+    @pytest.mark.parametrize(
+        "fn,value",
+        [
+            (cli._positive_int_arg, "0"),
+            (cli._positive_int_arg, "bad"),
+            (cli._non_negative_int_arg, "-1"),
+            (cli._non_negative_int_arg, "bad"),
+        ],
+    )
     def test_numeric_argument_errors(self, fn, value):
-        with pytest.raises(Exception):
+        with pytest.raises(cli.argparse.ArgumentTypeError):
             fn(value)
 
     def test_remapped_list_fallbacks_and_query_unknown_method(self, monkeypatch, captured):
@@ -235,7 +255,17 @@ class TestCliCommandCoverage:
         client.stock = MagicMock()
         monkeypatch.setattr(cli, "_create_client", lambda: client)
         rich = {"raw": False}
-        cli.cmd_chart(args(code="005930", minute=False, weekly=False, monthly=False, yearly=False, count=2, **rich))
+        cli.cmd_chart(
+            args(
+                code="005930",
+                minute=False,
+                weekly=False,
+                monthly=False,
+                yearly=False,
+                count=2,
+                **rich,
+            )
+        )
         cli.cmd_rank(args(type="volume", market="ALL", **rich))
         cli.cmd_sector(args(all=True, code=None, **rich))
         cli.cmd_investor(args(code="005930", institution=False, program=False, **rich))
@@ -302,7 +332,7 @@ class TestCliCommandCoverage:
             warnings.filterwarnings("ignore", category=RuntimeWarning, module="runpy")
             with pytest.raises(SystemExit):
                 runpy.run_module("pykiwoom_rest.cli.main", run_name="__main__")
-        assert "usage:" in capsys.readouterr().out
+        assert "사용법:" in capsys.readouterr().out
 
     def test_remaining_response_fallback_command_paths(self, monkeypatch, captured):
         client = MagicMock()
@@ -315,7 +345,9 @@ class TestCliCommandCoverage:
         client.get_foreign_trading.return_value = {"output": {"raw": "investor"}}
         monkeypatch.setattr(cli, "_create_client", lambda: client)
         cli.cmd_price(args(code="005930", orderbook=True))
-        cli.cmd_chart(args(code="005930", minute=False, weekly=False, monthly=False, yearly=False, count=1))
+        cli.cmd_chart(
+            args(code="005930", minute=False, weekly=False, monthly=False, yearly=False, count=1)
+        )
         cli.cmd_rank(args(type="amount", market="ALL"))
         cli.cmd_sector(args(all=True, code=None))
         cli.cmd_sector(args(all=False, code="0001"))
@@ -357,7 +389,10 @@ class TestCliCommandCoverage:
 
         for payload in ([], ["not-a-row"], {"x": 1}, {"x": {"y": {"z": {"q": {"r": 1}}}}}):
             cli._out(payload, fmt="table", stream=StringIO())
-        assert cli._split_account_balance({"output": "not-a-dict", "cash": 1}) == ({"output": "not-a-dict", "cash": 1}, None)
+        assert cli._split_account_balance({"output": "not-a-dict", "cash": 1}) == (
+            {"output": "not-a-dict", "cash": 1},
+            None,
+        )
         assert cli._find_list_in_response(None) is None
         assert cli._find_list_in_response({"output2": [{"row": 1}]}) == [{"row": 1}]
 

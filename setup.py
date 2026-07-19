@@ -15,8 +15,8 @@ with open(os.path.join(this_directory, 'requirements.txt'), encoding='utf-8') as
 
 setup(
     name='pykiwoom-rest',
-    version='2.1.0',
-    description='Kiwoom Securities REST API Python Wrapper',
+    version='2.2.0',
+    description='키움증권 REST API Python 래퍼와 CLI, MCP 서버',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='PyKiwoom-REST Development Team',
@@ -32,6 +32,15 @@ setup(
     package_dir={'': 'src'},
     python_requires='>=3.8',
     install_requires=requirements,
+    extras_require={
+        'mcp': ["mcp>=1.27,<2; python_version >= '3.10'"],
+    },
+    entry_points={
+        'console_scripts': [
+            'kiwoom=pykiwoom_rest.cli.main:main',
+            'kiwoom-mcp=pykiwoom_rest.mcp_cli:main',
+        ],
+    },
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

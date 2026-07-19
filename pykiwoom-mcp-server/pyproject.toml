@@ -4,19 +4,18 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pykiwoom-mcp-server"
-version = "0.1.0"
-description = "MCP Server for Kiwoom Securities REST API (pykiwoom-rest wrapper)"
+version = "0.2.0"
+description = "PyKiwoom-REST용 MCP stdio 서버"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
-    {name = "Your Name", email = "your.email@example.com"}
+    {name = "PyKiwoom-REST Development Team", email = "dev@pykiwoom-rest.io"}
 ]
 keywords = ["mcp", "kiwoom", "stock", "trading", "api", "korea"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -24,8 +23,8 @@ classifiers = [
 ]
 
 dependencies = [
-    "mcp>=0.9.0",
-    "pykiwoom-rest>=2.1.0",
+    "mcp>=1.27,<2",
+    "pykiwoom-rest>=2.2.0",
 ]
 
 [project.optional-dependencies]
@@ -55,3 +54,7 @@ ignore = ["E501"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 asyncio_mode = "auto"
+addopts = "-m 'not integration'"
+markers = [
+    "integration: 실제 서비스와 인증 정보가 필요한 테스트",
+]

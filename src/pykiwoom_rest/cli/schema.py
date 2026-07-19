@@ -1,4 +1,4 @@
-"""GraphQL SDL 스키마 — LLM introspection용 타입 정의"""
+"""GraphQL SDL 스키마 — LLM 탐색용 타입 정의."""
 
 import re
 
@@ -8,11 +8,11 @@ class SchemaTypeNotFound(ValueError):
 
     def __init__(self, type_name, types):
         self.available = types
-        super().__init__(f"Type '{type_name}' not found. Available: {', '.join(types)}")
+        super().__init__(f"타입 '{type_name}'을 찾을 수 없습니다. 사용 가능: {', '.join(types)}")
 
 
 SCHEMA_SDL = '''
-"""키움증권 REST API 스키마 (LLM introspection용)"""
+"""키움증권 REST API 스키마 (LLM 탐색용)"""
 
 scalar JSON
 
@@ -431,7 +431,7 @@ def get_schema(type_name=None):
 
     for i, line in enumerate(lines):
         if not capturing:
-            m = re.match(r'^(type|enum|input|scalar)\s+(\w+)', line)
+            m = re.match(r"^(type|enum|input|scalar)\s+(\w+)", line)
             if m and m.group(2) == type_name:
                 capturing = True
                 scalar_type = m.group(1) == "scalar"
@@ -460,4 +460,4 @@ def get_schema(type_name=None):
 
 def list_types():
     """스키마에 정의된 모든 타입명 반환."""
-    return re.findall(r'^(?:type|enum|input|scalar)\s+(\w+)', SCHEMA_SDL, re.MULTILINE)
+    return re.findall(r"^(?:type|enum|input|scalar)\s+(\w+)", SCHEMA_SDL, re.MULTILINE)

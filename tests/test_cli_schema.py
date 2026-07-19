@@ -76,7 +76,7 @@ def test_orderbook_field_map_accepts_official_ka10004_keys():
 
 
 def test_get_schema_raises_for_unknown_type():
-    with pytest.raises(ValueError, match="Type 'MissingType' not found"):
+    with pytest.raises(ValueError, match="타입 'MissingType'을 찾을 수 없습니다"):
         get_schema("MissingType")
 
 

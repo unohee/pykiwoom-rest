@@ -1,8 +1,8 @@
-"""키움증권 API 필드명 → LLM-friendly camelCase 변환"""
+"""키움증권 API 필드명 → LLM 친화형 camelCase 변환."""
 
 
 def remap(data: dict, field_map: dict) -> dict:
-    """필드명을 LLM-friendly 이름으로 변환. 맵에 없는 키도 원본 이름으로 유지."""
+    """필드명을 LLM 친화형 이름으로 변환하고, 맵에 없는 키는 원형을 유지한다."""
     result = {}
     for k, v in data.items():
         dest = field_map.get(k, k)
