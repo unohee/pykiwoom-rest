@@ -31,9 +31,14 @@ async def test_server_initializes_and_lists_tools(server_params):
             result = await session.list_tools()
 
     names = {tool.name for tool in result.tools}
+    by_name = {tool.name: tool for tool in result.tools}
     assert "list_endpoints" in names
     assert "get_stock_price" in names
     assert "subscribe_realtime_quote" not in names
+    assert by_name["revoke_token"].inputSchema["properties"]["token"]["type"] == [
+        "string",
+        "null",
+    ]
 
 
 @pytest.mark.asyncio

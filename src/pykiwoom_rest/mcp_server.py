@@ -54,14 +54,18 @@ def _json_default(value: Any) -> Any:
     return str(value)
 
 
-def _json_type(annotation: Any) -> tuple[str, dict[str, Any] | None]:
+def _json_type(annotation: Any) -> tuple[str | list[str], dict[str, Any] | None]:
     """Python 타입 힌트를 JSON Schema의 기본 타입으로 변환한다."""
     origin = get_origin(annotation)
     args = get_args(annotation)
 
     if origin in (Union, getattr(types, "UnionType", None)):
         concrete = [item for item in args if item is not type(None)]
-        return _json_type(concrete[0]) if concrete else ("string", None)
+        schema_type, extra = _json_type(concrete[0]) if concrete else ("string", None)
+        if len(concrete) != len(args):
+            variants = schema_type if isinstance(schema_type, list) else [schema_type]
+            return [*variants, "null"], extra
+        return schema_type, extra
     if annotation is bool:
         return "boolean", None
     if annotation is int:
@@ -125,13 +129,16 @@ def _category_for(name: str) -> str:
     return "etc"
 
 
-def _matches_json_type(value: Any, expected: str) -> bool:
+def _matches_json_type(value: Any, expected: str | list[str]) -> bool:
     """JSON Schema 기본 타입과 Python 값을 비교한다."""
+    if isinstance(expected, list):
+        return any(_matches_json_type(value, item) for item in expected)
     checks = {
         "array": lambda item: isinstance(item, list),
         "boolean": lambda item: isinstance(item, bool),
         "integer": lambda item: isinstance(item, int) and not isinstance(item, bool),
         "number": lambda item: isinstance(item, (int, float)) and not isinstance(item, bool),
+        "null": lambda item: item is None,
         "object": lambda item: isinstance(item, dict),
         "string": lambda item: isinstance(item, str),
     }
@@ -335,7 +342,8 @@ class PyKiwoomMCPServer:
         for name, value in arguments.items():
             expected = properties[name]["type"]
             if not _matches_json_type(value, expected):
-                return f"{name} 인자는 {expected} 타입이어야 합니다"
+                expected_text = ", ".join(expected) if isinstance(expected, list) else expected
+                return f"{name} 인자는 {expected_text} 타입이어야 합니다"
         return None
 
     def _list_endpoints(self, arguments: dict[str, Any]) -> list[TextContent]:

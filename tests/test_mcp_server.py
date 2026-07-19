@@ -79,7 +79,14 @@ async def test_real_kiwoom_registry_contract_without_credentials():
     assert "stock_code" in by_name["get_stock_price"].inputSchema["required"]
     assert by_name["buy_stock"].annotations.destructiveHint is True
     assert by_name["get_access_token"].annotations.destructiveHint is True
+    assert by_name["revoke_token"].inputSchema["properties"]["token"]["type"] == [
+        "string",
+        "null",
+    ]
     assert "subscribe_realtime_quote" not in by_name
+
+    revoke_info = real_server._method_registry["revoke_token"]
+    assert real_server._validate_arguments(revoke_info, {"token": None, "confirm": True}) is None
 
 
 @pytest.mark.asyncio
