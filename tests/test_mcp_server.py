@@ -89,6 +89,27 @@ async def test_real_kiwoom_registry_contract_without_credentials():
     assert real_server._validate_arguments(revoke_info, {"token": None, "confirm": True}) is None
 
 
+def test_real_state_changing_methods_always_require_confirmation():
+    real_server = PyKiwoomMCPServer()
+    changing_prefixes = (
+        "buy_",
+        "cancel_",
+        "logout",
+        "modify_",
+        "refresh_",
+        "revoke_",
+        "sell_",
+    )
+    changing_names = {
+        name
+        for name in real_server._method_registry
+        if name == "get_access_token" or name.startswith(changing_prefixes)
+    }
+
+    assert changing_names
+    assert all(real_server._method_registry[name]["destructive"] for name in changing_names)
+
+
 @pytest.mark.asyncio
 async def test_read_only_tool_runs_in_worker_thread(server):
     result = await server._call_tool("get_stock_price", {"stock_code": "005930"})
