@@ -1,0 +1,308 @@
+"""키움증권 API 필드명 → LLM 친화형 camelCase 변환."""
+
+
+def remap(data: dict, field_map: dict) -> dict:
+    """필드명을 LLM 친화형 이름으로 변환하고, 맵에 없는 키는 원형을 유지한다."""
+    result = {}
+    for k, v in data.items():
+        dest = field_map.get(k, k)
+        if dest not in result:
+            result[dest] = v
+        elif result[dest] != v:
+            conflict_key = k if k not in result else f"{k}_raw"
+            while conflict_key in result:
+                conflict_key = f"{conflict_key}_raw"
+            result[conflict_key] = v
+    return result
+
+
+def remap_keep_all(data: dict, field_map: dict) -> dict:
+    """필드명을 변환하되 맵에 없는 키도 원본 이름으로 유지."""
+    return remap(data, field_map)
+
+
+# ── 주식 현재가 (ka10001 실제 응답 기반) ──
+STOCK_PRICE = {
+    # 키움 고유 필드명 (ka10001 플랫 응답)
+    "stk_cd": "code",
+    "stk_nm": "name",
+    "cur_prc": "currentPrice",
+    "pre_sig": "changeSign",
+    "pred_pre": "change",
+    "flu_rt": "changeRate",
+    "open_pric": "open",
+    "high_pric": "high",
+    "low_pric": "low",
+    "trde_qty": "volume",
+    "trde_pre": "tradingValue",
+    "base_pric": "basePrice",
+    "upl_pric": "upperLimit",
+    "lst_pric": "lowerLimit",
+    "fav": "faceValue",
+    "cap": "capital",
+    "mac": "marketCap",
+    "mac_wght": "marketCapWeight",
+    "flo_stk": "floatingShares",
+    "dstr_stk": "listedShares",
+    "dstr_rt": "floatingRate",
+    "for_exh_rt": "foreignOwnershipRate",
+    "crd_rt": "creditRate",
+    "per": "per",
+    "eps": "eps",
+    "pbr": "pbr",
+    "bps": "bps",
+    "roe": "roe",
+    "ev": "ev",
+    "sale_amt": "revenue",
+    "bus_pro": "operatingProfit",
+    "cup_nga": "netIncome",
+    "250hgst": "high250d",
+    "250lwst": "low250d",
+    "250hgst_pric_dt": "high250dDate",
+    "250lwst_pric_dt": "low250dDate",
+    "oyr_hgst": "yearHigh",
+    "oyr_lwst": "yearLow",
+    "exp_cntr_pric": "expectedPrice",
+    "exp_cntr_qty": "expectedVolume",
+    "setl_mm": "settlementMonth",
+    "repl_pric": "replacementPrice",
+    # 한투 호환 필드명 (일부 응답에서 사용)
+    "stck_prpr": "currentPrice",
+    "prdy_vrss": "change",
+    "prdy_ctrt": "changeRate",
+    "prdy_vrss_sign": "changeSign",
+    "acml_vol": "volume",
+    "acml_tr_pbmn": "tradingValue",
+    "stck_oprc": "open",
+    "stck_hgpr": "high",
+    "stck_lwpr": "low",
+    "hts_kor_isnm": "name",
+    "mkt_cap": "marketCap",
+    "lstg_stk_cnt": "listedShares",
+}
+
+# ── 호가 (ka10004 output) ──
+ORDERBOOK = {
+    "stk_cd": "code",
+    "stk_nm": "name",
+    "askp1": "askPrice1",
+    "askp2": "askPrice2",
+    "askp3": "askPrice3",
+    "askp4": "askPrice4",
+    "askp5": "askPrice5",
+    "askp6": "askPrice6",
+    "askp7": "askPrice7",
+    "askp8": "askPrice8",
+    "askp9": "askPrice9",
+    "askp10": "askPrice10",
+    "sel_fpr_bid": "askPrice1",
+    "sel_2th_pre_bid": "askPrice2",
+    "sel_3th_pre_bid": "askPrice3",
+    "sel_4th_pre_bid": "askPrice4",
+    "sel_5th_pre_bid": "askPrice5",
+    "sel_6th_pre_bid": "askPrice6",
+    "sel_7th_pre_bid": "askPrice7",
+    "sel_8th_pre_bid": "askPrice8",
+    "sel_9th_pre_bid": "askPrice9",
+    "sel_10th_pre_bid": "askPrice10",
+    "bidp1": "bidPrice1",
+    "bidp2": "bidPrice2",
+    "bidp3": "bidPrice3",
+    "bidp4": "bidPrice4",
+    "bidp5": "bidPrice5",
+    "bidp6": "bidPrice6",
+    "bidp7": "bidPrice7",
+    "bidp8": "bidPrice8",
+    "bidp9": "bidPrice9",
+    "bidp10": "bidPrice10",
+    "buy_fpr_bid": "bidPrice1",
+    "buy_2th_pre_bid": "bidPrice2",
+    "buy_3th_pre_bid": "bidPrice3",
+    "buy_4th_pre_bid": "bidPrice4",
+    "buy_5th_pre_bid": "bidPrice5",
+    "buy_6th_pre_bid": "bidPrice6",
+    "buy_7th_pre_bid": "bidPrice7",
+    "buy_8th_pre_bid": "bidPrice8",
+    "buy_9th_pre_bid": "bidPrice9",
+    "buy_10th_pre_bid": "bidPrice10",
+    "askp_rsqn1": "askVolume1",
+    "askp_rsqn2": "askVolume2",
+    "askp_rsqn3": "askVolume3",
+    "askp_rsqn4": "askVolume4",
+    "askp_rsqn5": "askVolume5",
+    "askp_rsqn6": "askVolume6",
+    "askp_rsqn7": "askVolume7",
+    "askp_rsqn8": "askVolume8",
+    "askp_rsqn9": "askVolume9",
+    "askp_rsqn10": "askVolume10",
+    "sel_fpr_req": "askVolume1",
+    "sel_2th_pre_req": "askVolume2",
+    "sel_3th_pre_req": "askVolume3",
+    "sel_4th_pre_req": "askVolume4",
+    "sel_5th_pre_req": "askVolume5",
+    "sel_6th_pre_req": "askVolume6",
+    "sel_7th_pre_req": "askVolume7",
+    "sel_8th_pre_req": "askVolume8",
+    "sel_9th_pre_req": "askVolume9",
+    "sel_10th_pre_req": "askVolume10",
+    "bidp_rsqn1": "bidVolume1",
+    "bidp_rsqn2": "bidVolume2",
+    "bidp_rsqn3": "bidVolume3",
+    "bidp_rsqn4": "bidVolume4",
+    "bidp_rsqn5": "bidVolume5",
+    "bidp_rsqn6": "bidVolume6",
+    "bidp_rsqn7": "bidVolume7",
+    "bidp_rsqn8": "bidVolume8",
+    "bidp_rsqn9": "bidVolume9",
+    "bidp_rsqn10": "bidVolume10",
+    "buy_fpr_req": "bidVolume1",
+    "buy_2th_pre_req": "bidVolume2",
+    "buy_3th_pre_req": "bidVolume3",
+    "buy_4th_pre_req": "bidVolume4",
+    "buy_5th_pre_req": "bidVolume5",
+    "buy_6th_pre_req": "bidVolume6",
+    "buy_7th_pre_req": "bidVolume7",
+    "buy_8th_pre_req": "bidVolume8",
+    "buy_9th_pre_req": "bidVolume9",
+    "buy_10th_pre_req": "bidVolume10",
+    "total_askp_rsqn": "totalAskVolume",
+    "total_bidp_rsqn": "totalBidVolume",
+    "tot_sel_req": "totalAskVolume",
+    "tot_buy_req": "totalBidVolume",
+}
+
+# ── 차트 OHLCV ──
+CHART_PRICE = {
+    # 키움 고유 필드명 (일봉/주봉/월봉/년봉)
+    "dt": "date",
+    "tm": "time",
+    "cntr_tm": "timestamp",
+    "cur_prc": "close",
+    "open_pric": "open",
+    "high_pric": "high",
+    "low_pric": "low",
+    "trde_qty": "volume",
+    "trde_prica": "tradingValue",
+    "pred_pre": "change",
+    "pred_pre_sig": "changeSign",
+    "trde_tern_rt": "turnoverRate",
+    # 한투 호환 필드명
+    "stck_bsop_date": "date",
+    "stck_cntg_hour": "time",
+    "stck_oprc": "open",
+    "stck_hgpr": "high",
+    "stck_lwpr": "low",
+    "stck_clpr": "close",
+    "acml_vol": "volume",
+    "acml_tr_pbmn": "tradingValue",
+    "prdy_vrss": "change",
+    "prdy_ctrt": "changeRate",
+    # 기타
+    "opn_prc": "open",
+    "hgh_prc": "high",
+    "low_prc": "low",
+    "cls_prc": "close",
+    "trd_vol": "volume",
+    "trd_amt": "tradingValue",
+    "stk_dt": "date",
+}
+
+# ── 순위 공통 (output2 항목) ──
+RANKING = {
+    "stk_cd": "code",
+    "stk_nm": "name",
+    "cur_prc": "currentPrice",
+    "prdy_vrss": "change",
+    "prdy_ctrt": "changeRate",
+    "trd_vol": "volume",
+    "trd_amt": "tradingValue",
+    "acml_vol": "volume",
+    "acml_tr_pbmn": "tradingValue",
+    "stck_prpr": "currentPrice",
+    "hts_kor_isnm": "name",
+    "mksc_shrn_iscd": "code",
+    "data_rank": "rank",
+}
+
+# ── 계좌 잔고 ──
+ACCOUNT_BALANCE = {
+    "tot_asst_amt": "totalAsset",
+    "nass_amt": "netAsset",
+    "pchs_amt_smtl": "totalPurchase",
+    "evlu_amt_smtl": "totalEval",
+    "evlu_pfls_smtl": "totalProfitLoss",
+    "evlu_pfls_rt": "profitLossRate",
+    "dnca_tot_amt": "depositTotal",
+    "scts_evlu_amt": "stockEvalAmount",
+    "tot_evlu_amt": "totalEvalAmount",
+    "d2_auto_rdpt_amt": "d2AutoRedeem",
+    "tot_pur_amt": "totalPurchase",
+    "tot_evlt_amt": "totalEvalAmount",
+    "tot_evlt_pl": "totalProfitLoss",
+    "tot_prft_rt": "profitLossRate",
+    "prsm_dpst_aset_amt": "estimatedDepositAsset",
+    "tot_loan_amt": "totalLoan",
+    "tot_crd_loan_amt": "totalCreditLoan",
+    "tot_crd_ls_amt": "totalCreditShortLoan",
+}
+
+# ── 보유종목 ──
+HOLDING = {
+    "pdno": "code",
+    "prdt_name": "name",
+    "hldg_qty": "quantity",
+    "pchs_avg_pric": "avgPrice",
+    "pchs_amt": "purchaseAmount",
+    "prpr": "currentPrice",
+    "evlu_amt": "evalAmount",
+    "evlu_pfls_amt": "profitLoss",
+    "evlu_pfls_rt": "profitLossRate",
+    "stk_cd": "code",
+    "stk_nm": "name",
+    "rmnd_qty": "quantity",
+    "pur_pric": "avgPrice",
+    "pur_amt": "purchaseAmount",
+    "cur_prc": "currentPrice",
+    "evlt_amt": "evalAmount",
+    "evltv_prft": "profitLoss",
+    "prft_rt": "profitLossRate",
+    "pred_close_pric": "previousClose",
+    "trde_able_qty": "tradableQuantity",
+}
+
+# ── 업종 지수 ──
+SECTOR_INDEX = {
+    "bstp_cls_code": "sectorCode",
+    "bstp_cls_nm": "sectorName",
+    "bstp_nmix_prpr": "indexPrice",
+    "bstp_nmix_prdy_vrss": "change",
+    "bstp_nmix_prdy_ctrt": "changeRate",
+    "acml_vol": "volume",
+    "acml_tr_pbmn": "tradingValue",
+    "bstp_nmix_oprc": "open",
+    "bstp_nmix_hgpr": "high",
+    "bstp_nmix_lwpr": "low",
+}
+
+# ── 투자자 매매동향 (외국인 ka10008) ──
+INVESTOR_TREND = {
+    "dt": "date",
+    "close_pric": "close",
+    "pred_pre": "change",
+    "trde_qty": "volume",
+    "chg_qty": "foreignNetChange",
+    "poss_stkcnt": "foreignHolding",
+    "wght": "foreignOwnership",
+    "gain_pos_stkcnt": "foreignBuyableShares",
+    "frgnr_limit": "foreignLimit",
+    "limit_exh_rt": "foreignLimitRate",
+    # 한투 호환
+    "stk_cd": "code",
+    "stk_nm": "name",
+    "frgn_ntby_qty": "foreignNetBuy",
+    "frgn_ntby_tr_pbmn": "foreignNetBuyAmount",
+    "orgn_ntby_qty": "institutionNetBuy",
+    "orgn_ntby_tr_pbmn": "institutionNetBuyAmount",
+    "prsn_ntby_qty": "personalNetBuy",
+    "prsn_ntby_tr_pbmn": "personalNetBuyAmount",
+}

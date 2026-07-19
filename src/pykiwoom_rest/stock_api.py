@@ -1,0 +1,568 @@
+"""
+Stock Information API
+주식 정보 관련 API 클래스
+작성일: 2025-01-27
+"""
+
+from datetime import datetime
+from typing import Any, Dict
+
+from .kiwoom_base import KiwoomAPIBase
+class StockAPI(KiwoomAPIBase):
+    """주식 정보 관련 API"""
+
+    def _normalize_stock_code(self, stock_code: str) -> str:
+        """Normalize supported stock-code formats for API request fields."""
+        return self.convert_stock_code_param(stock_code)["stk_cd"]
+
+    # TR 코드 매핑
+    TR_CODES = {
+        "stock_basic_info": "ka10001",
+        "stock_member_info": "ka10002",
+        "execution_info": "ka10003",
+        "stock_quote": "ka10004",
+        "stock_daily_weekly_monthly": "ka10005",  # 일주월시분 통합
+        "stock_member_trading": "ka10006",
+        "stock_elapsed_time": "ka10007",
+        "foreign_investor_trading": "ka10008",  # 주식외국인종목별매매동향
+        "institutional_request": "ka10009",  # 주식기관요청
+        "stock_program_trading": "ka10009",  # 동일 TR 코드
+        "stock_trade_volume_power": "ka10010",
+        "credit_trend": "ka10013",
+        "daily_trading_detail": "ka10015",
+        "new_high_low": "ka10016",
+        "upper_lower_limit": "ka10017",
+        "high_low_approach": "ka10018",
+        "price_fluctuation": "ka10019",
+        "volume_update": "ka10024",
+        "supply_concentration": "ka10025",
+        "high_low_per": "ka10026",
+        "open_price_rate": "ka10028",
+        "member_supply_analysis": "ka10043",
+        "institutional_daily_trading": "ka10044",  # 일별기관매매동향
+        "institutional_trading_trend": "ka10045",
+        "new_previous_execution": "ka10055",
+        "investor_daily_trading": "ka10058",  # 투자자별일별매매종목요청
+        "investor_intraday_trading": "ka10063",  # 장중투자자별매매요청
+        "current_previous_execution": "ka10084",
+        "watchlist_info": "ka10095",
+        "stock_info_list": "ka10099",
+        "stock_info_inquiry": "ka10100",
+        "sector_code_list": "ka10101",  # 업종코드 리스트
+        "member_company_list": "ka10102",  # 회원사 리스트
+        "institutional_foreign_consecutive": "ka10131",  # 기관외국인연속매매현황
+        "daily_trading_journal": "ka10170",
+    }
+
+    def get_stock_basic_info(self, stock_code: str) -> Dict[str, Any]:
+        """
+        주식 기본 정보 조회 (ka10001)
+
+        Args:
+            stock_code: 종목코드 (예: '005930')
+
+        Returns:
+            주식 기본 정보
+        """
+        params = self.convert_stock_code_param(stock_code)
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["stock_basic_info"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_stock_quote(self, stock_code: str) -> Dict[str, Any]:
+        """
+        주식 현재가 호가 조회 (ka10004)
+
+        Args:
+            stock_code: 종목코드
+
+        Returns:
+            호가 정보
+        """
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["stock_quote"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_execution_info(self, stock_code: str) -> Dict[str, Any]:
+        """
+        체결 정보 조회 (ka10003)
+
+        Args:
+            stock_code: 종목코드
+
+        Returns:
+            체결 정보
+        """
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["execution_info"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_stock_member_info(self, stock_code: str) -> Dict[str, Any]:
+        """
+        종목별 투자자별 매매동향 (ka10002)
+
+        Args:
+            stock_code: 종목코드
+
+        Returns:
+            투자자별 매매동향
+        """
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["stock_member_info"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    @staticmethod
+    def _validate_yyyymmdd(value: str, field_name: str) -> str:
+        """Validate YYYYMMDD date strings before API submission."""
+        if not isinstance(value, str) or not (len(value) == 8 and value.isdigit()):
+            raise ValueError(f"{field_name} must be YYYYMMDD")
+        try:
+            datetime.strptime(value, "%Y%m%d")
+        except ValueError as exc:
+            raise ValueError(f"{field_name} must be a valid YYYYMMDD date") from exc
+        return value
+
+    def get_credit_trend(
+        self, stock_code: str, date: str = None, query_type: str = "1"
+    ) -> Dict[str, Any]:
+        """
+        신용매매동향 조회 (ka10013)
+
+        Args:
+            stock_code: 종목코드 (예: 005930)
+            date: 조회일자 (YYYYMMDD, 기본값: 오늘)
+            query_type: 조회구분 (1=융자, 2=대주, 기본값: 1)
+
+        Returns:
+            신용매매동향 정보
+        """
+        if not date:
+            date = datetime.now().strftime("%Y%m%d")
+        date = self._validate_yyyymmdd(date, "date")
+        if query_type not in {"1", "2"}:
+            raise ValueError("query_type must be one of 1, 2")
+
+        params = {"stk_cd": self._normalize_stock_code(stock_code), "dt": date, "qry_tp": query_type}
+
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["credit_trend"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_daily_trading_detail(self, start_date: str = None) -> Dict[str, Any]:
+        """
+        일별거래상세 조회 (ka10015)
+
+        Args:
+            start_date: 시작일자 (YYYYMMDD, 기본값: 오늘)
+
+        Returns:
+            일별거래상세 정보
+        """
+        if not start_date:
+            start_date = datetime.now().strftime("%Y%m%d")
+        start_date = self._validate_yyyymmdd(start_date, "start_date")
+
+        params = {"strt_dt": start_date}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["daily_trading_detail"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_new_high_low(
+        self,
+        new_high_low_type: str = "1",
+        high_low_close_type: str = "1",
+        stock_condition: str = "0",
+        trade_volume_type: str = "00000",
+        credit_condition: str = "0",
+        updown_include: str = "0",
+        period: str = "5",
+        exchange_type: str = "3",
+    ) -> Dict[str, Any]:
+        """
+        신고가/신저가 조회 (ka10016)
+
+        Args:
+            new_high_low_type: 신고저구분 (1=신고가, 2=신저가, 기본값: 1)
+            high_low_close_type: 고저종구분 (1=고저기준, 2=종가기준, 기본값: 1)
+            stock_condition: 종목조건 (0=전체조회, 1=관리종목제외, 3=우선주제외,
+                           5=증100제외, 6=증100만보기, 7=증40만보기, 8=증30만보기, 기본값: 0)
+            trade_volume_type: 거래량구분 (00000=전체조회, 00010=만주이상, 00050=5만주이상,
+                             00100=10만주이상, 00150=15만주이상, 00200=20만주이상,
+                             00300=30만주이상, 00500=50만주이상, 01000=백만주이상, 기본값: 00000)
+            credit_condition: 신용조건 (0=전체조회, 1=신용융자A군, 2=신용융자B군,
+                            3=신용융자C군, 4=신용융자D군, 7=신용융자E군, 9=신용융자전체, 기본값: 0)
+            updown_include: 상하한포함 (0=미포함, 1=포함, 기본값: 0)
+            period: 기간 (5=5일, 10=10일, 20=20일, 60=60일, 250=250일, 250일까지 입력가능, 기본값: 5)
+            exchange_type: 거래소구분 (1=KRX, 2=NXT, 3=통합, 기본값: 3)
+
+        Returns:
+            신고가/신저가 목록
+        """
+        params = {
+            "ntl_tp": new_high_low_type,
+            "high_low_close_tp": high_low_close_type,
+            "stk_cnd": stock_condition,
+            "trde_qty_tp": trade_volume_type,
+            "crd_cnd": credit_condition,
+            "updown_incls": updown_include,
+            "dt": period,
+            "stex_tp": exchange_type,
+        }
+
+        headers = {"api-id": "ka10016", "cont-yn": "N", "next-key": ""}
+        token = self._get_access_token()
+        headers["authorization"] = f"Bearer {token}"
+        headers["Content-Type"] = "application/json;charset=UTF-8"
+
+        response = self.request(
+            method="POST",
+            endpoint="/api/dostk/stkinfo",
+            json_data=params,
+            headers=headers,
+        )
+
+        return response
+
+    def get_upper_lower_limit(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        상한/하한가 조회 (ka10017)
+
+        Args:
+            market: 시장구분
+
+        Returns:
+            상한/하한가 목록
+        """
+        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
+
+        params = {"mrkt_tp": market_code}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["upper_lower_limit"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_price_fluctuation(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        등락률 상위 조회 (ka10019)
+
+        Args:
+            market: 시장구분
+
+        Returns:
+            등락률 상위 목록
+        """
+        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
+
+        params = {
+            "mrkt_tp": market_code,
+            "sort_tp": "0",
+        }
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["price_fluctuation"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_high_low_approach(self, stock_code: str) -> Dict[str, Any]:
+        """
+        고가/저가 근접 조회 (ka10018)
+
+        Args:
+            stock_code: 종목코드
+
+        Returns:
+            고가/저가 근접 정보
+        """
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["high_low_approach"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_volume_concentration(self, stock_code: str) -> Dict[str, Any]:
+        """
+        거래량 집중도 조회 (ka10025)
+
+        Args:
+            stock_code: 종목코드
+
+        Returns:
+            거래량 집중도 정보
+        """
+        params = {"stk_cd": self._normalize_stock_code(stock_code)}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["supply_concentration"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_high_low_per(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        고가/저가 PER 조회 (ka10026)
+
+        Args:
+            market: 시장구분
+
+        Returns:
+            고가/저가 PER 정보
+        """
+        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
+
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": market_code}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["high_low_per"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_current_previous_execution(self, stock_code: str) -> Dict[str, Any]:
+        """
+        당일/전일 체결 비교 (ka10084)
+
+        Args:
+            stock_code: 종목코드
+
+        Returns:
+            당일/전일 체결 비교 정보
+        """
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": self._normalize_stock_code(stock_code)}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["current_previous_execution"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_watchlist_info(self, watchlist_code: str = "1") -> Dict[str, Any]:
+        """
+        관심종목 정보 조회 (ka10095)
+
+        Args:
+            watchlist_code: 관심종목 그룹코드
+
+        Returns:
+            관심종목 정보
+        """
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": watchlist_code}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["watchlist_info"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_stock_list(self, market: str = "ALL") -> Dict[str, Any]:
+        """
+        종목 리스트 조회 (ka10099)
+
+        Args:
+            market: 시장구분
+
+        Returns:
+            종목 리스트
+        """
+        market_code = {"ALL": "0000", "KOSPI": "0001", "KOSDAQ": "1001"}.get(market, "0000")
+
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": market_code}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["stock_info_list"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_stock_info_detail(self, stock_code: str) -> Dict[str, Any]:
+        """
+        종목 상세정보 조회 (ka10100)
+
+        Args:
+            stock_code: 종목코드
+
+        Returns:
+            종목 상세정보
+        """
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": self._normalize_stock_code(stock_code)}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["stock_info_inquiry"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_stock_elapsed_time(self, stock_code: str) -> Dict[str, Any]:
+        """
+        소요시간 조회 (ka10007)
+
+        Args:
+            stock_code: 종목코드
+
+        Returns:
+            소요시간 정보
+        """
+        params = {"FID_COND_MRKT_DIV_CODE": "J", "FID_INPUT_ISCD": self._normalize_stock_code(stock_code)}
+        return self.make_tr_request(
+            tr_code=self.TR_CODES["stock_elapsed_time"],
+            endpoint="stock_info",
+            data=params,
+            method="POST",
+        )
+
+    def get_stock_price(self, stock_code: str) -> Dict[str, Any]:
+        """
+        주식 현재가 조회 (ka10001의 별칭)
+
+        Args:
+            stock_code: 종목코드 (6자리)
+
+        Returns:
+            주식 기본 정보 (현재가 포함)
+        """
+        return self.get_stock_basic_info(stock_code)
+
+    def get_stock_orderbook(self, stock_code: str) -> Dict[str, Any]:
+        """
+        주식 호가 조회 (ka10004의 별칭)
+
+        Args:
+            stock_code: 종목코드 (6자리)
+
+        Returns:
+            주식 호가 정보 (매수/매도 10호가)
+        """
+        return self.get_stock_quote(stock_code)
+
+    # ========== PyKIS 호환 메서드 (PyKIS Compatibility) ==========
+
+    def get_stock_financial(self, stock_code: str) -> Dict[str, Any]:
+        """
+        주식 재무 정보 조회 (PyKIS 호환)
+
+        키움 REST API의 ka10001 (주식기본정보)에서 재무 데이터를 추출합니다.
+        PyKIS의 get_stock_financial() 응답 형식과 호환됩니다.
+
+        Args:
+            stock_code: 종목코드 (6자리)
+
+        Returns:
+            Dict[str, Any]: 재무 정보 (PyKIS 형식 호환)
+            {
+                "rt_cd": "0",
+                "output": [
+                    {
+                        "stac_yymm": "202509",  # 결산년월
+                        "eps": "3701.00",       # 주당순이익
+                        "bps": "50000.00",      # 주당순자산
+                        "roe_val": "15.5",      # ROE
+                        "sps": "120000.00",     # 주당매출
+                        "per": "12.5",          # PER
+                        "pbr": "1.2",           # PBR
+                        ...
+                    }
+                ]
+            }
+
+        Note:
+            키움 REST API는 분기별 상세 재무제표 데이터를 제공하지 않습니다.
+            ka10001 응답에서 추출 가능한 필드만 반환합니다.
+            더 상세한 재무 데이터가 필요하면 PyKIS 또는 외부 API를 사용하세요.
+        """
+        from datetime import datetime
+
+        # 기본 정보 조회
+        basic_info = self.get_stock_basic_info(stock_code)
+
+        if not basic_info:
+            return {
+                "rt_cd": "1",
+                "msg1": "FINANCIAL_DATA_ERROR",
+                "output": [],
+            }
+
+        rt_cd = basic_info.get("rt_cd")
+        if rt_cd is not None and rt_cd != "0":
+            return basic_info
+
+        # 응답에서 재무 데이터 추출
+        # ka10001 응답 필드 매핑:
+        # - per: PER
+        # - pbr: PBR
+        # - eps: EPS
+        # - bps: BPS
+        # - stk_divi_rate: 배당수익률
+
+        output1 = basic_info.get("output1", {})
+        if not output1:
+            # 다른 응답 형식 시도
+            output1 = basic_info.get("stk_prpr_qry", {})
+            if not output1:
+                if not any(key in basic_info for key in ("eps", "stck_eps", "bps", "stck_bps", "per", "stck_per", "pbr", "stck_pbr")):
+                    return {
+                        "rt_cd": "1",
+                        "msg1": "FINANCIAL_DATA_SOURCE_MISSING",
+                        "output": [],
+                        "_source": "ka10001",
+                    }
+                output1 = basic_info
+
+        # 재무 필드 추출
+        eps = output1.get("eps", output1.get("stck_eps", "0"))
+        bps = output1.get("bps", output1.get("stck_bps", "0"))
+        per = output1.get("per", output1.get("stck_per", "0"))
+        pbr = output1.get("pbr", output1.get("stck_pbr", "0"))
+        dvd_rate = output1.get("stk_divi_rate", output1.get("dvdn_rate", "0"))
+
+        # PyKIS 형식으로 변환
+        current_quarter = datetime.now().strftime("%Y%m")
+
+        financial_data = {
+            "stac_yymm": current_quarter,
+            "eps": str(eps) if eps else "0",
+            "bps": str(bps) if bps else "0",
+            "roe_val": "",  # ka10001에서 제공하지 않음
+            "sps": "",  # ka10001에서 제공하지 않음
+            "per": str(per) if per else "0",
+            "pbr": str(pbr) if pbr else "0",
+            "dvdn_rate": str(dvd_rate) if dvd_rate else "0",
+            # 추가 필드 (있으면 포함)
+            "grs": "",  # 매출성장률
+            "bsop_prfi_inrt": "",  # 영업이익성장률
+            "ntin_inrt": "",  # 순이익성장률
+            "rsrv_rate": "",  # 유보율
+            "lblt_rate": "",  # 부채비율
+        }
+
+        return {
+            "rt_cd": "0",
+            "msg1": "FINANCIAL_FROM_BASIC_INFO",
+            "output": [financial_data],
+            "_source": "ka10001",
+            "_note": "키움 REST API는 분기별 상세 재무데이터를 제공하지 않습니다.",
+        }
